@@ -2,48 +2,36 @@
      role="img" aria-label="PixelOven">
   <title>PixelOven</title>
   <!--
-    The parent mark: a pixel grid inside a chamber, with the centre lit.
+    The parent emblem: a heavy geometric P on a dark tile, with a sparkle.
 
-    Both halves of the name in one figure. The nine squares are the pixel; the
-    rounded chamber around them is the oven; the lit centre is what an oven is
-    FOR. Nothing here is decorative — remove any part and the name stops being
-    legible in the shape.
+    This is the EXISTING PixelOven mark, kept deliberately. It is already the
+    org avatar and carries whatever recognition the brand has; replacing it to
+    match a new palette would have thrown that away to solve a problem the
+    palette had, not one the logo had.
 
-    THE HEAT IS NOT ORANGE, DELIBERATELY. The retired identity used #ff5722 to
-    mean warmth, which is the obvious move and left the parent brand sharing
-    nothing with any product it makes. The lit pixel carries the same
-    violet-to-teal gradient every other PixelOven mark uses, so heat is
-    expressed by CONTRAST against the dimmed grid rather than by hue. The family
-    reads as one brand; the parent is simply the one with the light on.
+    DRAWN AS PATHS, NOT TEXT. The old favicon set the P with `font-family:
+    system-ui`, so the letterform changed shape depending on the viewer's
+    operating system — a logo that renders differently per visitor is not a
+    logo. The outline and counter are explicit geometry here: stroke weight is
+    10 on the stem, the bowl top and the bowl side, so the letter stays even at
+    any size.
 
-    Geometry: three columns of 10 at x = 14, 27, 40, so the gaps are 3 and the
-    36-wide grid centres in the 64 box. The gaps are load-bearing — at 24px they
-    are what keep it reading as pixels instead of one filled square.
-
-    Same monoline geometric language as the Lattice trellis: flat, one gradient,
-    no gloss. Sub-brands vary the FIGURE, never the palette — see the rules.
+    IN-PALETTE, WHICH THE TILE MAKES EASY. Ground is surface.void, letter is
+    text.bright, sparkle is text.dim. Monochrome by intent — the parent does not
+    compete with its products for colour; it is the quiet one they sit inside.
+    The retired orange tile is gone with the rest of that identity.
   -->
-  <defs>
-    <linearGradient id="pxoHeat" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#7c3cff"/>
-      <stop offset="1" stop-color="#00f0d8"/>
-    </linearGradient>
-  </defs>
 
-  <!-- The chamber. -->
-  <rect x="5.5" y="5.5" width="53" height="53" rx="13"
-        fill="none" stroke="url(#pxoHeat)" stroke-width="3"/>
+  <!-- The tile. Radius is built in so the emblem reads as one on surfaces that
+       do not round it themselves; GitHub rounds avatars regardless. -->
+  <rect width="64" height="64" rx="12" fill="#04060a"/>
 
-  <!-- The grid: eight dimmed pixels, one lit. -->
-  <g fill="#7c3cff" opacity="0.34">
-    <rect x="14" y="14" width="10" height="10" rx="2.5"/>
-    <rect x="27" y="14" width="10" height="10" rx="2.5"/>
-    <rect x="40" y="14" width="10" height="10" rx="2.5"/>
-    <rect x="14" y="27" width="10" height="10" rx="2.5"/>
-    <rect x="40" y="27" width="10" height="10" rx="2.5"/>
-    <rect x="14" y="40" width="10" height="10" rx="2.5"/>
-    <rect x="27" y="40" width="10" height="10" rx="2.5"/>
-    <rect x="40" y="40" width="10" height="10" rx="2.5"/>
-  </g>
-  <rect x="27" y="27" width="10" height="10" rx="2.5" fill="url(#pxoHeat)"/>
+  <!-- The P: outer silhouette, then the counter punched out with evenodd. -->
+  <path fill="#ffffff" fill-rule="evenodd"
+        d="M15 11 H35 A15 15 0 0 1 35 41 H26 V53 H15 Z
+           M26 21 H35 A5 5 0 0 1 35 31 H26 Z"/>
+
+  <!-- The sparkle, bottom right. Small enough to be a detail, not a second mark. -->
+  <path fill="#9089ab"
+        d="M53 47 Q54 52 59 53 Q54 54 53 59 Q52 54 47 53 Q52 52 53 47 Z"/>
 </svg>

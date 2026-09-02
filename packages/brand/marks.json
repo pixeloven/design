@@ -17,7 +17,8 @@
       "name": "PixelOven",
       "tier": "parent",
       "file": "marks/pixeloven.svg",
-      "figure": "a nine-pixel grid inside a rounded chamber, centre pixel lit"
+      "figure": "a heavy geometric P on a dark tile with a sparkle — the established org emblem, redrawn as paths",
+      "note": "kept from the existing brand rather than redesigned; monochrome by intent so the parent does not compete with its products for colour"
     },
     {
       "id": "lattice",
