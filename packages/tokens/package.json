@@ -1,0 +1,20 @@
+{
+  "name": "@pixeloven/tokens",
+  "version": "0.1.0",
+  "description": "PixelOven design tokens — the source of truth for every surface colour.",
+  "license": "UNLICENSED",
+  "type": "module",
+  "main": "./dist/tokens.js",
+  "types": "./dist/tokens.d.ts",
+  "exports": {
+    ".": { "types": "./dist/tokens.d.ts", "default": "./dist/tokens.js" },
+    "./tokens.css": "./dist/tokens.css",
+    "./tokens.json": "./dist/tokens.json"
+  },
+  "files": ["dist", "src/tokens.json"],
+  "scripts": {
+    "build": "node src/build.mjs",
+    "test": "node --test",
+    "prepublishOnly": "npm run build && npm test"
+  }
+}

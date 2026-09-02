@@ -1,0 +1,10 @@
+{
+  "name": "@pixeloven/design",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "pnpm -r build",
+    "test": "pnpm -r test"
+  },
+  "packageManager": "pnpm@9.12.0"
+}

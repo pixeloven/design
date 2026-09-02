@@ -1,0 +1,34 @@
+name: ci
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  tokens:
+    name: tokens — build and invariants
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Build
+        working-directory: packages/tokens
+        run: node src/build.mjs
+
+      # The invariants are the package. They assert the elevation ladder is
+      # monotonic, that no two steps are imperceptibly close, that text clears
+      # WCAG AA on surface, and that no two tokens share a value — each verified
+      # to fail against the real historical defect it guards.
+      - name: Invariants
+        working-directory: packages/tokens
+        run: node --test
+
+      # dist/ is generated and gitignored, so there is deliberately no
+      # "dist matches source" check here: it would have nothing to compare and
+      # would pass while checking nothing. Reproducibility is guaranteed by
+      # building from tokens.json in this job rather than trusting a committed
+      # artifact.
