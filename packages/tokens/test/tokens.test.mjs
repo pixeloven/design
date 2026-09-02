@@ -205,6 +205,41 @@ test("the two schemes are perceptually equivalent", () => {
   }
 });
 
+test("scheme-pinned builds carry exactly one scheme, unconditionally", () => {
+  // The bug this guards, which shipped: a deliberately dark-only surface
+  // vendors the scheme-RESPONSIVE stylesheet, sets no data-theme, and then
+  // renders LIGHT on a light-mode device — under chrome built for dark.
+  // Harmony's Homepage and Authentik both went out that way.
+  //
+  // A pinned build must carry nothing that can resolve to the other palette:
+  // no media query, no attribute selector.
+  const dist = join(here, "..", "dist");
+  for (const scheme of SCHEMES) {
+    const file = join(dist, `tokens-${scheme}.css`);
+    let css;
+    try {
+      css = readFileSync(file, "utf8");
+    } catch {
+      assert.fail(`${file} is missing — run the build before the tests`);
+    }
+    // Comments legitimately mention @media and data-theme to explain the point.
+    const body = css.replace(/\/\*[\s\S]*?\*\//g, "");
+    assert.equal(body.match(/@media/g)?.length ?? 0, 0, `tokens-${scheme}.css has a media query`);
+    assert.equal(
+      body.match(/data-theme/g)?.length ?? 0,
+      0,
+      `tokens-${scheme}.css has a [data-theme] block`,
+    );
+    assert.match(body, new RegExp(`color-scheme:\\s*${scheme}`), "must declare color-scheme");
+    // And it must carry THIS scheme's values, not the other's.
+    const ground = v("surface", "void", scheme);
+    assert.ok(
+      body.includes(`--pxo-surface-void: ${ground}`),
+      `tokens-${scheme}.css does not carry the ${scheme} ground (${ground})`,
+    );
+  }
+});
+
 test("every token documents what it is for", () => {
   // A token nobody can place gets re-invented locally, which is the whole
   // failure mode. The `use` string is what makes adoption possible.

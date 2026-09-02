@@ -34,6 +34,22 @@ configs/custom.css                  # @import it, then your own layout rules onl
 CI diffs the vendored copy against that release. If it drifts, the build fails —
 which is the whole point. Do not hand-edit a vendored file.
 
+## Pick the right stylesheet — this one bites
+
+| Your surface | Vendor / import |
+|---|---|
+| has a theme toggle, or should follow the OS | `tokens.css` |
+| is deliberately ONE scheme | `tokens-dark.css` (or `tokens-light.css`) |
+
+**Getting this wrong is silent.** `tokens.css` follows `prefers-color-scheme`
+unless an explicit `data-theme` overrides it. A dark-only surface that vendors
+it and sets no `data-theme` renders LIGHT for a light-mode visitor — under
+chrome built for dark. Harmony's Homepage and Authentik both shipped that way
+and it took a phone screenshot to notice.
+
+The pinned builds carry no media query and no attribute selector, so there is
+nothing to remember to set.
+
 ## Two schemes
 
 `tokens.css` emits three blocks and you almost never think about them: `:root`

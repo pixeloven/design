@@ -133,6 +133,42 @@ const css = [
 ].join("\n");
 writeFileSync(join(dist, "tokens.css"), css);
 
+/**
+ * Scheme-PINNED builds, one per scheme.
+ *
+ * tokens.css follows the visitor's OS unless an explicit data-theme overrides
+ * it. That is correct for a surface with a theme toggle — and WRONG for a
+ * surface that is deliberately one scheme, because nothing in its markup says
+ * so and a light-mode visitor silently gets the other palette under a layout
+ * built for this one.
+ *
+ * That is not hypothetical: Harmony's Homepage and Authentik both vendored
+ * tokens.css, neither sets data-theme, and both render light on a light-mode
+ * device with dark-assuming chrome around it.
+ *
+ * A dark-only consumer vendors tokens-dark.css and gets exactly one palette,
+ * with no media query and no attribute to remember to set.
+ */
+for (const scheme of SCHEMES) {
+  writeFileSync(
+    join(dist, `tokens-${scheme}.css`),
+    [
+      `/* PixelOven design tokens — ${raw.meta.name}, ${scheme.toUpperCase()} ONLY.`,
+      " * GENERATED from packages/tokens/src/tokens.json. Do not edit.",
+      " *",
+      ` * Pinned to the ${scheme} scheme: no media query, no [data-theme] blocks.`,
+      " * For a surface that is deliberately one scheme. If the surface has a",
+      " * theme toggle, vendor tokens.css instead.",
+      " */",
+      ":root {",
+      `  color-scheme: ${scheme};`,
+      ...declarations(scheme),
+      "}",
+      "",
+    ].join("\n"),
+  );
+}
+
 // --- dist/tokens.js / .d.ts --------------------------------------------------
 const schemeObject = (scheme) =>
   [
