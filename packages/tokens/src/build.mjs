@@ -72,6 +72,20 @@ const banner = `/* PixelOven design tokens — ${raw.meta.name}.
  * Consumers without a bundler vendor this file at a pinned version.
  */`;
 
+/**
+ * Every colour also emits an `-rgb` companion holding space-separated channels.
+ *
+ * Not decoration: consumers that compose colours in CSS need the channels, not
+ * a hex string. Homepage builds its whole internal scale from `r g b` triplets,
+ * and `rgb(var(--x) / 0.5)` is the only way to take an alpha of a token without
+ * hardcoding a second value. Without this a consumer has to write the numbers
+ * out by hand, which is the drift this package exists to prevent.
+ */
+const channels = (hexValue) =>
+  [1, 3, 5].map((i) => parseInt(hexValue.slice(i, i + 2), 16)).join(" ");
+
+const isColour = (value) => /^#[0-9a-f]{6}$/i.test(value);
+
 const declarations = (scheme, indent = "  ") => {
   const lines = [];
   let group = null;
@@ -82,8 +96,12 @@ const declarations = (scheme, indent = "  ") => {
       group = path[0];
       lines.push(`\n${indent}/* ${kebab(group)} */`);
     }
+    const value = valueFor(entry, scheme);
     const use = scheme === DEFAULT_SCHEME && entry.use ? ` /* ${entry.use} */` : "";
-    lines.push(`${indent}${cssName(path)}: ${valueFor(entry, scheme)};${use}`);
+    lines.push(`${indent}${cssName(path)}: ${value};${use}`);
+    if (isColour(value)) {
+      lines.push(`${indent}${cssName(path)}-rgb: ${channels(value)};`);
+    }
   }
   return lines;
 };
