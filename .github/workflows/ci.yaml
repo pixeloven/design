@@ -49,3 +49,28 @@ jobs:
       - name: Marks
         working-directory: packages/brand
         run: node --test
+
+  docs:
+    name: docs — builds and covers the tokens
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      # Coverage first: it is fast, and a failing coverage test tells you WHAT
+      # is undocumented, where a failing build only tells you something broke.
+      - name: Coverage
+        working-directory: apps/docs
+        run: node --test
+
+      - name: Build
+        working-directory: apps/docs
+        run: pnpm build

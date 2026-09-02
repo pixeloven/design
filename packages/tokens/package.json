@@ -12,7 +12,8 @@
       "default": "./dist/tokens.js"
     },
     "./tokens.css": "./dist/tokens.css",
-    "./tokens.json": "./dist/tokens.json"
+    "./tokens.json": "./dist/tokens.json",
+    "./source": "./src/tokens.json"
   },
   "files": [
     "dist",

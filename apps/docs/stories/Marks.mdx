@@ -1,0 +1,59 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+import { MarkGrid, MarkRules } from "./Marks.helpers";
+
+<Meta title="Foundations/Marks" />
+
+<div className="pxo-doc">
+
+# Marks
+
+Read from `packages/brand/marks.json`. Every mark shown here is the file that
+ships — nothing on this page is a redrawn approximation.
+
+<MarkGrid />
+
+## The one rule
+
+**Sub-brands vary the figure, never the palette.**
+
+Distinctiveness comes from geometry, not from a new hue. Every mark is drawn in
+design-system tokens, so the family reads as one brand at a glance while the
+marks still differ at 24px.
+
+That rule has teeth: `packages/brand/test/marks.test.mjs` checks every mark's
+rendered output against `packages/tokens`. A mark that invents a colour fails
+CI. It was written because the parent brand had drifted to `#ff5722` while every
+product used `#7c3cff` — the company and the things it shipped looked like
+unrelated businesses.
+
+## Tiers
+
+<MarkRules />
+
+The `*-axi` family is the case to think about before inventing a scheme: eight
+repos that should read as siblings. One motif, one element varying — not eight
+unrelated drawings.
+
+## Adding a mark
+
+1. Draw it at `viewBox="0 0 64 64"`, in tokens only.
+2. Save as `packages/brand/marks/<id>.svg`.
+3. Register it in `marks.json` with `id`, `name`, `tier`, `file` and a `figure`
+   sentence saying what the shape *is*. The description is required by test — a
+   mark whose idea is not written down gets redrawn subtly differently the next
+   time somebody needs it bigger.
+4. `node --test` in `packages/brand`.
+
+## Landmines
+
+- **`--` is illegal inside an XML comment.** Writing CSS custom property names
+  (`--pxo-accent`) in a mark's comment produces a malformed file that renders as
+  a **blank icon**, with no error anywhere. This has happened once.
+- **Design for the small size.** Homepage renders marks at roughly 32px.
+  Interior detail finer than the stroke turns to mush, and gaps between elements
+  are load-bearing. Check 24px before deciding.
+- **Do not repeat token values in prose.** A comment naming a hex goes stale the
+  moment the palette is reconciled — which has also already happened. Name the
+  token, not the value.
+
+</div>

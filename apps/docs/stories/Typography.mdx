@@ -1,0 +1,64 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+<Meta title="Foundations/Typography" />
+
+<div className="pxo-doc">
+
+# Typography
+
+Two faces, and the split is not decorative.
+
+<div style={{ display: "grid", gap: "1rem", margin: "1.5rem 0" }}>
+  <div style={{ border: "1px solid var(--pxo-border)", borderRadius: 8, padding: "1.2rem" }}>
+    <div className="mono" style={{ color: "var(--pxo-text-dim)", fontSize: ".7rem", letterSpacing: ".12em", textTransform: "uppercase" }}>
+      --pxo-font-mono
+    </div>
+    <div style={{ fontFamily: "var(--pxo-font-mono)", fontSize: "1.5rem", color: "var(--pxo-text)", margin: ".5rem 0" }}>
+      IBM Plex Mono
+    </div>
+    <div style={{ color: "var(--pxo-text-secondary)", fontSize: ".9rem" }}>
+      The brand voice. Code, labels, data, eyebrows, anything numeric. This is
+      what makes a PixelOven surface recognisable before you read a word of it.
+    </div>
+    <div style={{ fontFamily: "var(--pxo-font-mono)", color: "var(--pxo-text-dim)", fontSize: ".8rem", marginTop: ".6rem", fontVariantNumeric: "tabular-nums" }}>
+      0123456789 · abcdefghijklm · ABCDEFGHIJKLM · {"{}"} [] () &lt;&gt; /\ |
+    </div>
+  </div>
+
+  <div style={{ border: "1px solid var(--pxo-border)", borderRadius: 8, padding: "1.2rem" }}>
+    <div className="mono" style={{ color: "var(--pxo-text-dim)", fontSize: ".7rem", letterSpacing: ".12em", textTransform: "uppercase" }}>
+      --pxo-font-sans
+    </div>
+    <div style={{ fontFamily: "var(--pxo-font-sans)", fontSize: "1.5rem", color: "var(--pxo-text)", margin: ".5rem 0" }}>
+      IBM Plex Sans
+    </div>
+    <div style={{ color: "var(--pxo-text-secondary)", fontSize: ".9rem" }}>
+      Prose and UI copy. Anything a person reads in sentences rather than scans
+      in columns.
+    </div>
+  </div>
+</div>
+
+## Rules
+
+- **Numbers that line up get `tabular-nums`.** Any column of figures — counts,
+  ratios, sizes. Proportional digits in a table are a bug.
+- **Uppercase labels get letter-spacing.** Around `0.1em`–`0.16em`. Uppercase
+  set at normal tracking reads as cramped.
+- **Running text stays near 65 characters.** Longer lines cost the reader the
+  start of the next one.
+- **Mono is the voice, not the default.** Setting body prose in mono is
+  fatiguing; setting a data label in sans is anonymous. The distinction carries
+  meaning, so keep it.
+
+## Fallbacks
+
+Both stacks declare real fallbacks, because a font that fails to load must
+degrade to something with the right metrics rather than to a default serif:
+
+<div className="mono" style={{ color: "var(--pxo-text-secondary)", fontSize: ".78rem", lineHeight: 1.9, marginTop: ".6rem" }}>
+  mono → IBM Plex Mono, ui-monospace, SFMono-Regular, Consolas, Liberation Mono, monospace<br />
+  sans → IBM Plex Sans, system-ui, -apple-system, sans-serif
+</div>
+
+</div>

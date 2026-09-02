@@ -1,0 +1,102 @@
+/* Chrome for the docs site itself.
+ *
+ * Every value here is a token. The reference for the design system must not be
+ * the one page that opts out of it. */
+
+body {
+  background: var(--pxo-surface-void);
+  color: var(--pxo-text);
+  font-family: var(--pxo-font-sans);
+}
+
+.pxo-doc {
+  font-family: var(--pxo-font-sans);
+  color: var(--pxo-text);
+  line-height: 1.6;
+}
+
+.pxo-doc .mono,
+.pxo-doc code {
+  font-family: var(--pxo-font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Swatch grid — used by the palette page. */
+.pxo-swatches {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+  gap: 0.75rem;
+}
+
+.pxo-swatch {
+  border: 1px solid var(--pxo-border);
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--pxo-surface);
+}
+
+.pxo-swatch .chip {
+  height: 4rem;
+}
+
+.pxo-swatch .meta {
+  padding: 0.6rem 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.pxo-swatch .name {
+  font-family: var(--pxo-font-mono);
+  font-size: 0.78rem;
+  color: var(--pxo-text);
+}
+
+.pxo-swatch .value {
+  font-family: var(--pxo-font-mono);
+  font-size: 0.72rem;
+  color: var(--pxo-text-dim);
+}
+
+.pxo-swatch .use {
+  font-size: 0.75rem;
+  color: var(--pxo-text-secondary);
+}
+
+/* The ladder — one row per elevation step, so the ramp is visible as a ramp. */
+.pxo-ladder {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--pxo-border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.pxo-ladder .step {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.55rem 0.9rem;
+  font-family: var(--pxo-font-mono);
+  font-size: 0.78rem;
+}
+
+.pxo-marks {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.pxo-mark {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  text-align: center;
+}
+
+.pxo-mark .sizes {
+  display: flex;
+  align-items: flex-end;
+  gap: 1rem;
+}

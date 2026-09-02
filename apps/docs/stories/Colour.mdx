@@ -1,0 +1,89 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+import { Swatches, Ladder, ContrastTable } from "./Colour.helpers";
+
+<Meta title="Foundations/Colour" />
+
+<div className="pxo-doc">
+
+# Colour
+
+Every value on this page is read from `packages/tokens/src/tokens.json` at build
+time. Nothing here is transcribed, so this page cannot drift from what ships.
+
+Switch the theme in the toolbar to see both schemes — the switcher writes
+`data-theme`, the same attribute `tokens.css` keys off, so you are exercising
+the real mechanism rather than a preview of it.
+
+## Why this exists
+
+The palette used to live in two places — Harmony's Homepage stylesheet and
+Lattice's `globals.css` — and they drifted. Measured before the system existed:
+
+- **35** distinct values in use, **8** agreed
+- **9** pairs visually identical but numerically different, the closest `1.4`
+  apart in RGB
+- one elevation ramp **inverted** — a "stronger" border sat darker than the
+  surface it bordered
+- one text colour **below WCAG AA**, at 4.47:1, failing by 0.03
+
+None of that was noticed by looking at it. All of it is now asserted by tests.
+
+## The elevation ladder
+
+Surfaces and borders are **one continuous scale**, not two. It ascends in
+luminance on dark and descends on light — the invariant is distance from the
+page ground, which is what the tests assert per scheme.
+
+<Ladder />
+
+## Text
+
+Each text token declares the ground it sits on, and is asserted against *that*
+ground. `on-accent` is checked against the accent fill, not a surface it never
+touches.
+
+<Swatches group="text" />
+
+## Accent
+
+The brand violet is **the same value in both schemes** — 4.59:1 on the light
+surface and the anchor of the dark one. `deep` is a fill for pressed states,
+never a foreground.
+
+<Swatches group="accent" />
+
+## Status
+
+Semantic, never decorative. The dark values are luminous and fail badly on a
+light ground — the brand teal is 1.25:1 there — so the light scheme has its own
+darkened variants at the same hue, each solved to 4.5:1 rather than picked.
+
+`success` is also the brand teal and is used as one on marks. That overload is
+deliberate; `accent-soft` is the neutral substitute if it ever confuses.
+
+<Swatches group="status" />
+
+## Status surfaces
+
+Tinted grounds for callouts. Each carries body text at AA in both schemes.
+
+<Swatches group="statusSurface" />
+
+## Contrast
+
+Computed live from the tokens, not recorded by hand.
+
+<ContrastTable />
+
+## Rules
+
+1. **No literal hex in a consumer.** Not in CSS, not in TS, not in an SVG that
+   ships as a brand asset. CI enforces this on migrated surfaces.
+2. **Semantic over literal.** Reach for `status.danger`, not "the pink one". If
+   no token fits the meaning, the vocabulary is incomplete — that is a
+   contribution, not a local override.
+3. **Never fork a value locally.** A one-off "slightly darker surface" is
+   exactly how the drift started.
+4. **Never reuse a dark value on light.** The tests reject it.
+
+</div>

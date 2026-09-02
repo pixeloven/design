@@ -1,0 +1,72 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+<Meta title="Introduction" />
+
+<div className="pxo-doc">
+
+# PixelOven Design System
+
+One source of truth for the brand: tokens, marks, and the rules that keep them
+one family.
+
+## Why it exists
+
+The palette used to live in two independently maintained copies — Harmony's
+Homepage stylesheet and Lattice's `globals.css`. Measured before any of this was
+built:
+
+| | |
+|---|---|
+| distinct colours in use | **35** |
+| values both copies agreed on | **8** |
+| near-identical-but-different pairs | **9** (closest `#101527` vs `#111526`, ΔRGB 1.4) |
+| ramps that had inverted | **1** |
+| text colours below WCAG AA | **1** (4.47:1, failing by 0.03) |
+
+None of it was noticed by looking. All of it is now asserted by tests.
+
+Meanwhile the parent brand site ran `#ff5722` while every product ran `#7c3cff`
+— the company and the things it shipped looked like unrelated businesses.
+
+## Consuming it
+
+**With a bundler:**
+
+```ts
+import tokens from "@pixeloven/tokens";
+import "@pixeloven/tokens/tokens.css";
+```
+
+**Without one** — a mounted stylesheet, a Kubernetes ConfigMap, a static page:
+vendor `dist/tokens.css` at a pinned tag. CI diffs the copy against the release,
+so drift fails the build. Harmony's Homepage does exactly this.
+
+## What is enforced, not just documented
+
+A design system that only asks nicely becomes a fourth copy. These are CI gates:
+
+- the **elevation ladder** moves monotonically away from the page ground, in
+  both schemes
+- no two adjacent steps are **imperceptibly close** (≥3 in RGB)
+- every text colour clears **4.5:1 on the ground it declares**
+- the two schemes stay **perceptually equivalent** — each step sits the same
+  distance from its own ground in both
+- every colour token **defines every scheme**
+- marks use **only design-system colours**
+- migrated consumers contain **no literal hex and no bare RGB triplet**
+
+Each guard was verified to *fail* against a real mistake before being trusted.
+A check that has never failed is not a check.
+
+## Layout
+
+```
+packages/
+  tokens/   the source of truth → CSS, TS, JSON, and rgb companions
+  brand/    marks, and the rules that keep them one family
+  ui/       React components (in progress)
+apps/
+  docs/     this site
+```
+
+</div>
