@@ -22,6 +22,7 @@
   "scripts": {
     "build": "node src/build.mjs",
     "test": "node --test",
-    "prepublishOnly": "npm run build && npm test"
+    "prepublishOnly": "npm run build && npm test",
+    "prepare": "node src/build.mjs"
   }
 }
