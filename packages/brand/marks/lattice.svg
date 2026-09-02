@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64"
+     role="img" aria-label="Lattice">
+  <title>Lattice</title>
+  <!--
+    Latticework: crossed diagonal bands clipped to a diamond. The word's other
+    sense — a trellis, a lattice-top pie — rather than the scattered
+    nodes-and-edges figure every knowledge-graph product uses.
+
+    Chosen over three alternatives for SMALL-SIZE LEGIBILITY, which is the only
+    constraint that really matters here: Homepage renders this around 32px, and
+    a mark with interior detail finer than its own stroke turns to mush there.
+    This one has no interior detail at all — it is the same figure at 96px and
+    at 24px, just coarser.
+
+    Palette is the piWebDark design system, not an invention: the pi-accent
+    token (#7c3cff) into pi-success (#00f0d8), both from configs/custom.css, on the
+    surface.void ground. Values are deliberately not repeated in prose here:
+    this comment went stale once already, citing a ground that the palette
+    reconciliation had replaced. Note the teal is defined as
+    a SUCCESS token; it is borrowed decoratively here. If that semantic overload
+    ever causes trouble, pi-purple (#b7a2ff) is the neutral substitute and
+    only this gradient needs to change.
+
+    Transparent ground, matching its neighbours on the board — those are brand
+    logos, not tiles.
+  -->
+  <defs>
+    <linearGradient id="latticeEdge" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#7c3cff"/>
+      <stop offset="1" stop-color="#00f0d8"/>
+    </linearGradient>
+    <clipPath id="latticeDiamond">
+      <path d="M32 5 L59 32 L32 59 L5 32 Z"/>
+    </clipPath>
+  </defs>
+
+  <!-- The weave. Drawn well past the viewBox and clipped, so the bands meet the
+       diamond edge cleanly instead of being hand-fitted to it. -->
+  <g clip-path="url(#latticeDiamond)" stroke="url(#latticeEdge)" stroke-width="3.2"
+     stroke-linecap="round">
+    <path d="M0 -30 L94 64"/>
+    <path d="M0 -15 L79 64"/>
+    <path d="M0 0 L64 64"/>
+    <path d="M0 15 L49 64"/>
+    <path d="M0 30 L34 64"/>
+    <path d="M0 34 L34 0"/>
+    <path d="M0 49 L49 0"/>
+    <path d="M0 64 L64 0"/>
+    <path d="M0 79 L79 0"/>
+    <path d="M0 94 L94 0"/>
+  </g>
+
+  <!-- The frame, drawn last so the clipped band ends sit under a clean edge. -->
+  <path d="M32 5 L59 32 L32 59 L5 32 Z" fill="none" stroke="url(#latticeEdge)"
+        stroke-width="2.8" stroke-linejoin="round"/>
+</svg>

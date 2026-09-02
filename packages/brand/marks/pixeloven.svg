@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64"
+     role="img" aria-label="PixelOven">
+  <title>PixelOven</title>
+  <!--
+    The parent mark: a pixel grid inside a chamber, with the centre lit.
+
+    Both halves of the name in one figure. The nine squares are the pixel; the
+    rounded chamber around them is the oven; the lit centre is what an oven is
+    FOR. Nothing here is decorative — remove any part and the name stops being
+    legible in the shape.
+
+    THE HEAT IS NOT ORANGE, DELIBERATELY. The retired identity used #ff5722 to
+    mean warmth, which is the obvious move and left the parent brand sharing
+    nothing with any product it makes. The lit pixel carries the same
+    violet-to-teal gradient every other PixelOven mark uses, so heat is
+    expressed by CONTRAST against the dimmed grid rather than by hue. The family
+    reads as one brand; the parent is simply the one with the light on.
+
+    Geometry: three columns of 10 at x = 14, 27, 40, so the gaps are 3 and the
+    36-wide grid centres in the 64 box. The gaps are load-bearing — at 24px they
+    are what keep it reading as pixels instead of one filled square.
+
+    Same monoline geometric language as the Lattice trellis: flat, one gradient,
+    no gloss. Sub-brands vary the FIGURE, never the palette — see the rules.
+  -->
+  <defs>
+    <linearGradient id="pxoHeat" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#7c3cff"/>
+      <stop offset="1" stop-color="#00f0d8"/>
+    </linearGradient>
+  </defs>
+
+  <!-- The chamber. -->
+  <rect x="5.5" y="5.5" width="53" height="53" rx="13"
+        fill="none" stroke="url(#pxoHeat)" stroke-width="3"/>
+
+  <!-- The grid: eight dimmed pixels, one lit. -->
+  <g fill="#7c3cff" opacity="0.34">
+    <rect x="14" y="14" width="10" height="10" rx="2.5"/>
+    <rect x="27" y="14" width="10" height="10" rx="2.5"/>
+    <rect x="40" y="14" width="10" height="10" rx="2.5"/>
+    <rect x="14" y="27" width="10" height="10" rx="2.5"/>
+    <rect x="40" y="27" width="10" height="10" rx="2.5"/>
+    <rect x="14" y="40" width="10" height="10" rx="2.5"/>
+    <rect x="27" y="40" width="10" height="10" rx="2.5"/>
+    <rect x="40" y="40" width="10" height="10" rx="2.5"/>
+  </g>
+  <rect x="27" y="27" width="10" height="10" rx="2.5" fill="url(#pxoHeat)"/>
+</svg>

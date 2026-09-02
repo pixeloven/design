@@ -1,0 +1,30 @@
+{
+  "$comment": [
+    "The mark registry. A mark that is not listed here is not shipped — the tests",
+    "assert the directory and this file agree in both directions, so an orphan SVG",
+    "or a dangling entry fails the build rather than quietly half-existing.",
+    "",
+    "`tier` is the brand relationship, and it is the thing that decides how much a",
+    "mark may vary:",
+    "  parent   PixelOven itself. One only.",
+    "  product  a thing we ship and name (Lattice, Warden). Own figure, shared palette.",
+    "  family   a member of a named set (the *-axi tools). Shares a figure motif with",
+    "           its siblings and differs by one element."
+  ],
+  "marks": [
+    {
+      "id": "pixeloven",
+      "name": "PixelOven",
+      "tier": "parent",
+      "file": "marks/pixeloven.svg",
+      "figure": "a nine-pixel grid inside a rounded chamber, centre pixel lit"
+    },
+    {
+      "id": "lattice",
+      "name": "Lattice",
+      "tier": "product",
+      "file": "marks/lattice.svg",
+      "figure": "crossed diagonal bands clipped to a diamond — latticework"
+    }
+  ]
+}

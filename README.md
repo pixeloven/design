@@ -41,10 +41,10 @@ The brand violet `#7c3cff` is the same value in both schemes.
 ```
 packages/
   tokens/     source of truth → CSS vars, TS consts, plain tokens.css
-  ui/         React components            (phase 2 — extracted from lattice)
-  brand/      logos, marks, favicons      (phase 3)
+  brand/      marks, and the rules that keep them one family
+  ui/         React components            (next — extracted from lattice)
 apps/
-  docs/       the documentation site      (phase 4)
+  docs/       the documentation site      (later)
 ```
 
 ## Consuming

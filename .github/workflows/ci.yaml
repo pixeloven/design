@@ -19,16 +19,33 @@ jobs:
         working-directory: packages/tokens
         run: node src/build.mjs
 
-      # The invariants are the package. They assert the elevation ladder is
-      # monotonic, that no two steps are imperceptibly close, that text clears
-      # WCAG AA on surface, and that no two tokens share a value — each verified
-      # to fail against the real historical defect it guards.
+      # The invariants ARE the package, and every one runs against both schemes.
+      # They assert the elevation ladder moves monotonically away from the
+      # ground, that no two steps are imperceptibly close, that text clears WCAG
+      # AA on the ground it declares, that the two schemes stay in
+      # correspondence, and that no two tokens share a value — each verified to
+      # fail against a real mistake before being trusted.
       - name: Invariants
         working-directory: packages/tokens
         run: node --test
 
       # dist/ is generated and gitignored, so there is deliberately no
-      # "dist matches source" check here: it would have nothing to compare and
-      # would pass while checking nothing. Reproducibility is guaranteed by
-      # building from tokens.json in this job rather than trusting a committed
-      # artifact.
+      # "dist matches source" check: it would have nothing to compare and would
+      # pass while checking nothing. Reproducibility comes from building from
+      # tokens.json in this job rather than trusting a committed artifact.
+
+  brand:
+    name: brand — marks match the palette
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      # Asserts every mark against packages/tokens: a logo that invents a colour
+      # fails here. That is precisely the rule the parent brand broke — running
+      # #ff5722 while every product ran #7c3cff — with nothing watching.
+      - name: Marks
+        working-directory: packages/brand
+        run: node --test

@@ -1,0 +1,15 @@
+{
+  "name": "@pixeloven/brand",
+  "version": "0.1.0",
+  "description": "PixelOven brand marks — logos and the rules that keep them one family.",
+  "license": "UNLICENSED",
+  "type": "module",
+  "exports": {
+    "./marks.json": "./marks.json",
+    "./marks/*": "./marks/*"
+  },
+  "files": ["marks", "marks.json"],
+  "scripts": {
+    "test": "node --test"
+  }
+}
