@@ -16,11 +16,11 @@ until measured.
 
 ## Which path you are on
 
-**Build-capable consumer** (anything with a bundler — Next.js, Vite, tsup):
+**Build-capable consumer** (anything with a bundler — Next.js, Vite, Astro):
 
 ```ts
-import tokens from "@pixeloven/tokens";       // typed consts
-import "@pixeloven/tokens/tokens.css";        // CSS custom properties
+import tokens from "@pixeloven/tokens";       // tokens.dark.accent, tokens.light.accent
+import "@pixeloven/tokens/tokens.css";        // CSS custom properties, both schemes
 ```
 
 **No build step** (a mounted stylesheet, a ConfigMap, a static page): vendor the
@@ -34,6 +34,24 @@ configs/custom.css                  # @import it, then your own layout rules onl
 CI diffs the vendored copy against that release. If it drifts, the build fails —
 which is the whole point. Do not hand-edit a vendored file.
 
+## Two schemes
+
+`tokens.css` emits three blocks and you almost never think about them: `:root`
+carries **dark** (the default, so a page with no theme wiring is already right),
+a `prefers-color-scheme` block follows the OS, and `[data-theme]` lets an
+explicit toggle win in both directions.
+
+A dark-only surface (Harmony, Lattice) just uses the variables and ignores the
+rest. A surface with a toggle (pixeloven.com) sets `data-theme` on the root.
+
+The light values were **derived, not picked**: each was solved for the same
+contrast against its own ground that the dark step has against its ground, at
+the same 227° hue. So the ladder ascends in luminance on dark and *descends* on
+light — the invariant is distance from the page ground, not raw lightness.
+
+Never reuse a dark value on light. The brand teal is 1.25:1 on a light surface;
+the tests reject it.
+
 ## The vocabulary
 
 Every token is `--pxo-<group>-<name>` in CSS, `groupName` in TS.
@@ -42,8 +60,8 @@ Every token is `--pxo-<group>-<name>` in CSS, `groupName` in TS.
 |---|---|
 | `surface` | the elevation ramp: `surface-void` → `surface-canvas` → `surface-bg` → `surface` → `surface-hover` → `surface-raised` |
 | `border` | continues that same ramp: `muted` → `border` → `strong` → `accent` |
-| `text` | `bright`, `text`, `secondary`, `dim` — all pass AA body on `surface` |
-| `accent` | `accent` (brand violet), `deep` (pressed), `soft` (accent text on dark) |
+| `text` | `bright`, `text`, `secondary`, `dim` — all pass AA body on `surface`; `on-accent` is for text sitting **on** an accent fill (white in both schemes) |
+| `accent` | `accent` (brand violet — the *same value* in both schemes), `deep` (pressed; a **fill**, never a foreground), `soft` (accent text against the ground) |
 | `status` | `success`, `warning`, `danger` — semantic, never decorative |
 | `status-surface` | tinted grounds for callouts, dark enough to carry body text |
 | `font` | `mono` (the brand voice: code, labels, data) and `sans` (prose) |
@@ -72,12 +90,21 @@ checked: a token nobody can place gets re-invented locally.
 
 `node --test` in `packages/tokens` enforces the invariants that matter:
 
-- the elevation ladder is **strictly monotonic** (a ramp that inverts is the
-  historical bug this guards)
+**Every check runs against every scheme** — a ramp that clears AA on dark can
+fail on light, so a light scheme tested on dark's assumptions ships unverified.
+
+- the elevation ladder moves **monotonically away from the ground** (a ramp that
+  inverts is the historical bug this guards)
 - no two adjacent steps are within 3 in RGB (imperceptible steps are one value
   maintained twice)
-- every text colour clears **4.5:1** on `surface`; status colours clear 3:1
-- no two tokens share a value
+- every text colour clears **4.5:1 on the ground it declares** via `on` — so
+  `on-accent` is checked against the accent fill, not a surface it never touches
+- foreground status and accent colours clear 3:1 on `surface`; accent fills are
+  checked by whether `on-accent` text sits legibly on them
+- the two schemes stay **perceptually equivalent** — each ladder step must sit
+  the same distance from its own ground in both
+- every colour token defines every scheme
+- no two tokens share a value, unless one declares `sameAs`
 
 These fail loudly on the real historical defects — verified by injecting them.
 If a change makes one fail, the change is wrong, not the test.

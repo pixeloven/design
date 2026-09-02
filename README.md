@@ -18,6 +18,20 @@ Measured before this repo was created:
 
 None of that was noticed by looking. All of it is now asserted by tests.
 
+## Two schemes, one derived from the other
+
+Every colour token carries `dark` and `light`. The light ramp was **derived, not
+picked**: each step was solved for the same contrast against its own ground that
+the corresponding dark step has against its ground, at the dark scale's own hue
+(227°, held to within 3° across all ten steps).
+
+So the ladder ascends in luminance on dark and *descends* on light — the real
+invariant is distance from the page ground, which is what the tests assert per
+scheme. A test also holds the two schemes in correspondence, so a later hand-edit
+to one cannot silently pull them apart.
+
+The brand violet `#7c3cff` is the same value in both schemes.
+
 > `pi-web` is an upstream fork kept as inspiration, not a consumer. Only 16 of the
 > 35 values in use appear in it at all — the palette is far less inherited than it
 > looks.
@@ -55,12 +69,18 @@ pnpm build          # tokens.json -> dist/
 pnpm test           # the invariants below
 ```
 
-The token tests are the point of the package, not scaffolding. They enforce that
-the elevation ladder is strictly monotonic, that no two steps are imperceptibly
-close, that every text colour clears 4.5:1 on `surface`, and that no two tokens
-share a value. Each was verified to fail against the actual historical defect it
-guards — a check that has never failed is not a check.
+The token tests are the point of the package, not scaffolding, and **every one
+runs against both schemes**. They enforce that the elevation ladder moves
+monotonically away from the ground, that no two steps are imperceptibly close,
+that every text colour clears 4.5:1 on the ground it declares, that the two
+schemes stay in correspondence, and that no two tokens share a value.
+
+Each guard was verified to fail against a real mistake before being trusted —
+the historical ramp inversion and the failing `dim`, plus the light-scheme
+traps: reusing the dark teal on light (1.25:1), inverting the light ladder, and
+dropping a scheme from a token. A check that has never failed is not a check.
 
 ## Status
 
-Phase 1. Tokens are reconciled and published; no consumer has migrated yet.
+Phase 1. Tokens are reconciled, dual-scheme and published; no consumer has
+migrated yet.
