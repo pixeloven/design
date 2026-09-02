@@ -55,9 +55,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      # No `version:` here on purpose — the root package.json declares
+      # packageManager: pnpm@9.12.0, and specifying both makes the action fail
+      # with ERR_PNPM_BAD_PM_VERSION rather than picking one.
       - uses: pnpm/action-setup@v4
-        with:
-          version: 9
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
