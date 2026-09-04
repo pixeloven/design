@@ -141,10 +141,20 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: npm publish
 
+      # Runs AFTER publish deliberately: a tag that exists for a version the
+      # registry never received is worse than a publish with no tag, because
+      # the tag is what a consumer trusts. If this step fails, the fix is to
+      # tag by hand — not to re-run, which would hit the already-published
+      # check.
       - name: Tag and release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          # GitHub runners carry no git identity, and `git tag -a` refuses to
+          # write one without it. This failed the first real release.
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
           TAG="${{ matrix.package }}-v${{ steps.version.outputs.v }}"
           git tag -a "$TAG" -m "${{ matrix.package }} ${{ steps.version.outputs.v }}"
           git push origin "$TAG"
