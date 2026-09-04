@@ -1,0 +1,8 @@
+{
+  "name": "design",
+  "description": "The PixelOven design system — brand assets and how to apply the tokens, typography and components in a consuming project.",
+  "version": "0.1.0",
+  "author": { "name": "PixelOven" },
+  "repository": "https://github.com/pixeloven/design",
+  "license": "MIT"
+}
