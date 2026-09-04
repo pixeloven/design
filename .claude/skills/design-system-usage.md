@@ -14,6 +14,38 @@ were visually identical but numerically different, one ramp had inverted, and on
 text colour had silently fallen below WCAG AA. Every one of those was invisible
 until measured.
 
+## Installing
+
+Both packages publish to **GitHub Packages**, not npmjs. That needs one line of
+registry config and a token — including for public packages, which is a GitHub
+Packages quirk and not something you have configured wrong.
+
+`.npmrc` in the consuming repo:
+
+```
+@pixeloven:registry=https://npm.pkg.github.com
+//npm.pkg.github.com/:_authToken=${NODE_AUTH_TOKEN}
+```
+
+- **In CI**, set `NODE_AUTH_TOKEN` to the workflow's `GITHUB_TOKEN`. Nothing to
+  create.
+- **Locally**, a classic PAT with `read:packages` in your shell environment.
+- **In a Dockerfile**, pass it as a build secret — never an `ARG`, which is
+  recorded in the image history.
+
+```bash
+pnpm add @pixeloven/tokens @pixeloven/brand
+```
+
+If an install fails with a 401 or 404, it is almost always the token rather than
+the version: GitHub Packages returns 404 for "exists but you cannot see it".
+
+## Releasing
+
+The version in `package.json` is the only place a version is written. Bump it,
+merge to main, and CI tags and publishes. Do not create tags by hand — a typed
+tag can disagree with the artifact it names, and once did here.
+
 ## Which path you are on
 
 **Build-capable consumer** (anything with a bundler — Next.js, Vite, Astro):

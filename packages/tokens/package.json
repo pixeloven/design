@@ -26,5 +26,12 @@
     "test": "node --test",
     "prepublishOnly": "npm run build && npm test",
     "prepare": "node src/build.mjs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pixeloven/design.git"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
   }
 }

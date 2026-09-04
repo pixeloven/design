@@ -1,0 +1,153 @@
+name: release
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "packages/*/package.json"
+      - "packages/**"
+      - ".github/workflows/release.yaml"
+  workflow_dispatch:
+    inputs:
+      package:
+        description: "Force a release of this package even if the version did not change"
+        required: true
+        type: choice
+        options: [tokens, brand]
+
+# THE VERSION LIVES IN package.json AND NOWHERE ELSE.
+#
+# Bump it, merge, and this tags and publishes. The tag is derived, never typed.
+#
+# That is not tidiness — it removes a mistake already made by hand in this repo:
+# tokens-v0.1.0 was tagged, the build output then changed, and consumers were
+# left pinned to a tag that could no longer reproduce what they had vendored.
+# A tag that is computed from the artifact cannot disagree with it.
+
+permissions:
+  contents: write # create tags and releases
+  packages: write # publish to GitHub Packages
+
+jobs:
+  changed:
+    name: which packages changed version
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.detect.outputs.matrix }}
+      any: ${{ steps.detect.outputs.any }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2 # need the previous commit to diff versions
+
+      - id: detect
+        name: Compare each package version against the previous commit
+        run: |
+          set -euo pipefail
+          FORCED="${{ inputs.package || '' }}"
+          CHANGED=()
+
+          for dir in packages/*/; do
+            # Strip the trailing slash: "packages/brand//package.json" is fine
+            # on a filesystem and INVALID as a git object path, so git show
+            # silently fails and every package looks new on every run.
+            dir="${dir%/}"
+            pkg="$(basename "$dir")"
+            NEW="$(jq -r .version "$dir/package.json")"
+
+            if [ -n "$FORCED" ]; then
+              [ "$pkg" = "$FORCED" ] && CHANGED+=("$pkg")
+              continue
+            fi
+
+            # A first commit, or a newly added package, has no previous version.
+            OLD="$(git show HEAD~1:"$dir/package.json" 2>/dev/null | jq -r .version || echo "none")"
+
+            if [ "$NEW" != "$OLD" ]; then
+              echo "  $pkg: $OLD -> $NEW  (release)"
+              CHANGED+=("$pkg")
+            else
+              echo "  $pkg: $NEW unchanged"
+            fi
+          done
+
+          # Emit the decision loudly. A release workflow that silently decides
+          # to do nothing is indistinguishable from one that is broken, and the
+          # symptom — "we merged a bump and no package appeared" — is exactly
+          # the kind of thing nobody notices for a week.
+          if [ ${#CHANGED[@]} -eq 0 ]; then
+            echo "no package version changed in this push — nothing to release"
+            echo "any=false" >> "$GITHUB_OUTPUT"
+            echo "matrix=[]" >> "$GITHUB_OUTPUT"
+          else
+            echo "releasing: ${CHANGED[*]}"
+            echo "any=true" >> "$GITHUB_OUTPUT"
+            printf 'matrix=%s\n' "$(printf '%s\n' "${CHANGED[@]}" | jq -R . | jq -sc .)" >> "$GITHUB_OUTPUT"
+          fi
+
+  publish:
+    name: publish ${{ matrix.package }}
+    needs: changed
+    if: needs.changed.outputs.any == 'true'
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        package: ${{ fromJson(needs.changed.outputs.matrix) }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          # Points the npm client at GitHub Packages and wires NODE_AUTH_TOKEN.
+          registry-url: "https://npm.pkg.github.com"
+          scope: "@pixeloven"
+
+      - run: pnpm install --frozen-lockfile
+
+      - id: version
+        run: echo "v=$(jq -r .version packages/${{ matrix.package }}/package.json)" >> "$GITHUB_OUTPUT"
+
+      # Publishing an already-published version fails the job. Checking first
+      # turns that into a clear message rather than a registry error, and makes
+      # a re-run of the same commit a no-op instead of a failure.
+      - name: This version is not already published
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          PKG="@pixeloven/${{ matrix.package }}"
+          V="${{ steps.version.outputs.v }}"
+          if npm view "${PKG}@${V}" version --registry=https://npm.pkg.github.com >/dev/null 2>&1; then
+            echo "::error::${PKG}@${V} is already published. Bump the version in package.json."
+            exit 1
+          fi
+          echo "${PKG}@${V} is new"
+
+      # prepublishOnly builds and tests, so a broken package cannot publish —
+      # but run the tests explicitly too, so a failure is attributed here rather
+      # than buried inside npm's output.
+      - name: Test
+        working-directory: packages/${{ matrix.package }}
+        run: |
+          npm run build --if-present
+          npm test
+
+      - name: Publish
+        working-directory: packages/${{ matrix.package }}
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npm publish
+
+      - name: Tag and release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          TAG="${{ matrix.package }}-v${{ steps.version.outputs.v }}"
+          git tag -a "$TAG" -m "${{ matrix.package }} ${{ steps.version.outputs.v }}"
+          git push origin "$TAG"
+          gh release create "$TAG" \
+            --title "$TAG" \
+            --notes "Published \`@pixeloven/${{ matrix.package }}@${{ steps.version.outputs.v }}\` to GitHub Packages."

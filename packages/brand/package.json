@@ -1,15 +1,26 @@
 {
   "name": "@pixeloven/brand",
   "version": "0.1.0",
-  "description": "PixelOven brand marks — logos and the rules that keep them one family.",
+  "description": "PixelOven brand marks \u2014 logos and the rules that keep them one family.",
   "license": "UNLICENSED",
   "type": "module",
   "exports": {
     "./marks.json": "./marks.json",
     "./marks/*": "./marks/*"
   },
-  "files": ["marks", "marks.json"],
+  "files": [
+    "marks",
+    "marks.json"
+  ],
   "scripts": {
-    "test": "node --test"
+    "test": "node --test",
+    "prepublishOnly": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pixeloven/design.git"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
   }
 }
