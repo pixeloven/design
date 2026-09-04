@@ -20,41 +20,48 @@ Both packages publish to **GitHub Packages**, not npmjs. That needs one line of
 registry config and a token — including for public packages, which is a GitHub
 Packages quirk and not something you have configured wrong.
 
-**pnpm does not expand `${VAR}` in an auth line.** This is the landmine, and it
-fails in the worst possible way: pnpm 10 expands the variable without complaint
-and then sends **no `Authorization` header at all**. You get a 401 whose own
-hint says the header was never set, while a valid token sits in your
-environment. npm handles the same file correctly, so every guide you find
-online — written for npm — is wrong here.
+**The token never goes in the committed `.npmrc`.** pnpm refuses to expand
+`${VAR}` in a registry credential that comes from a *project* `.npmrc` — on
+purpose, because that file is committed and a leaked secret could be sent to an
+attacker-controlled registry. It says so plainly if you try:
 
-So the committed `.npmrc` carries **only the registry mapping**, never a token:
+> environment variables are not expanded in registry credentials that come from
+> a project .npmrc … Move this credential to a trusted source that pnpm still
+> expands
+
+It is not that pnpm cannot expand env vars — it expands them fine from a
+**trusted source**. So the split is:
+
+**Committed `.npmrc` — registry mapping only:**
 
 ```
 @pixeloven:registry=https://npm.pkg.github.com
 ```
 
-The token goes in a *separate* file, written with the value **literal**, and
-pnpm is pointed at it:
+**User-level `~/.npmrc` — the credential, as a variable:**
 
-```bash
-printf '//npm.pkg.github.com/:_authToken=%s\n' "$TOKEN" > "$RUNNER_TEMP/npmrc"
-NPM_CONFIG_USERCONFIG="$RUNNER_TEMP/npmrc" pnpm install
+```
+//npm.pkg.github.com/:_authToken=${NODE_AUTH_TOKEN}
 ```
 
-- **In CI**, write it from the workflow's `GITHUB_TOKEN` and add
-  `permissions: packages: read`. Nothing to create.
-- **Locally**, a classic PAT with `read:packages`.
-- **In a Dockerfile**, `--mount=type=secret`, written and removed inside a
-  single `RUN`. Never an `ARG` — an ARG is recorded in the image history. The
-  `.npmrc` must also be COPYed alongside the manifests, or pnpm asks npmjs and
-  404s before it ever tries GitHub.
+Then inject the value per-invocation and never write it to disk:
 
 ```bash
-pnpm add @pixeloven/tokens @pixeloven/brand
+op run --env-file=op.env -- pnpm install
 ```
 
-If an install fails with a 401 or 404, it is almost always the token rather than
-the version: GitHub Packages returns 404 for "exists but you cannot see it".
+- **In CI**: nothing to do. `actions/setup-node` with `registry-url` writes a
+  user-level npmrc, which is a trusted source, so `NODE_AUTH_TOKEN` from the
+  workflow's `GITHUB_TOKEN` expands normally. Add `permissions: packages: read`.
+- **Locally**: the `~/.npmrc` line above, plus a classic PAT with
+  `read:packages` injected by `op run`.
+- **In a Dockerfile**: `--mount=type=secret`, written to the *user-level*
+  npmrc and removed inside a single `RUN`. Never an `ARG` — an ARG is recorded
+  in image history. The project `.npmrc` must also be COPYed with the
+  manifests, or pnpm asks npmjs and 404s before it reaches GitHub.
+
+If an install fails with 401/404, check the token before the version: GitHub
+Packages returns 404 for "exists but you cannot see it".
 
 ## Releasing
 
