@@ -20,18 +20,34 @@ Both packages publish to **GitHub Packages**, not npmjs. That needs one line of
 registry config and a token — including for public packages, which is a GitHub
 Packages quirk and not something you have configured wrong.
 
-`.npmrc` in the consuming repo:
+**pnpm does not expand `${VAR}` in an auth line.** This is the landmine, and it
+fails in the worst possible way: pnpm 10 expands the variable without complaint
+and then sends **no `Authorization` header at all**. You get a 401 whose own
+hint says the header was never set, while a valid token sits in your
+environment. npm handles the same file correctly, so every guide you find
+online — written for npm — is wrong here.
+
+So the committed `.npmrc` carries **only the registry mapping**, never a token:
 
 ```
 @pixeloven:registry=https://npm.pkg.github.com
-//npm.pkg.github.com/:_authToken=${NODE_AUTH_TOKEN}
 ```
 
-- **In CI**, set `NODE_AUTH_TOKEN` to the workflow's `GITHUB_TOKEN`. Nothing to
-  create.
-- **Locally**, a classic PAT with `read:packages` in your shell environment.
-- **In a Dockerfile**, pass it as a build secret — never an `ARG`, which is
-  recorded in the image history.
+The token goes in a *separate* file, written with the value **literal**, and
+pnpm is pointed at it:
+
+```bash
+printf '//npm.pkg.github.com/:_authToken=%s\n' "$TOKEN" > "$RUNNER_TEMP/npmrc"
+NPM_CONFIG_USERCONFIG="$RUNNER_TEMP/npmrc" pnpm install
+```
+
+- **In CI**, write it from the workflow's `GITHUB_TOKEN` and add
+  `permissions: packages: read`. Nothing to create.
+- **Locally**, a classic PAT with `read:packages`.
+- **In a Dockerfile**, `--mount=type=secret`, written and removed inside a
+  single `RUN`. Never an `ARG` — an ARG is recorded in the image history. The
+  `.npmrc` must also be COPYed alongside the manifests, or pnpm asks npmjs and
+  404s before it ever tries GitHub.
 
 ```bash
 pnpm add @pixeloven/tokens @pixeloven/brand
