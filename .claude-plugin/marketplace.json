@@ -1,0 +1,12 @@
+{
+  "name": "design",
+  "owner": { "name": "PixelOven" },
+  "description": "The PixelOven design system.",
+  "plugins": [
+    {
+      "name": "design",
+      "source": "./",
+      "description": "Brand assets and design-system usage: the tokens, typography and component conventions a consuming project applies."
+    }
+  ]
+}
