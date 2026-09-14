@@ -1,0 +1,125 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+import { Scale } from "./Scales.helpers";
+
+<Meta title="Foundations/Scales" />
+
+<div className="pxo-doc">
+
+# Scales
+
+The non-colour primitives: radius, type, motion, shadow and stacking order.
+
+Every value on this page is read from `packages/tokens/src/tokens.json` at build
+time, and every shape is drawn with the token itself rather than a copy of its
+number — so this page cannot show you something the package does not ship.
+
+These scales are **scheme-independent**. A radius does not change with the
+ground, so each carries one value rather than a dark and a light one. The
+theme switcher in the toolbar changes the colours around them and nothing here.
+
+## Where they came from
+
+They were not invented for this package. All of them were promoted from
+Lattice's `globals.css`, which was the only place they existed — reasoned out
+there, in production, with the reasoning written down beside the numbers.
+
+That is the same argument that made the palette a package, one layer up. A
+colour system with no radius, type or motion scale is not yet a design system:
+the second consumer hand-authors its own, the two drift, and nobody notices
+until someone measures. It had already happened once here with colour.
+
+## Radius
+
+Squarer than the set it replaced. Four of five reference systems put a
+**control** at 4px or below; a 10px radius on a 22px row curves through half the
+row height and reads as consumer-soft.
+
+`sm`/`base`/`lg` are 4/8/12 — the 4px grid, and 7px never can be. `xs` is 3px
+and deliberately is *not* on the grid: on a 16px chip a 4px corner is already a
+quarter of the height.
+
+<Scale group="radius" />
+
+## Type
+
+Seven steps, each carrying all four metrics a step actually needs. A step that
+omitted its weight would not be a smaller defect than a wrong weight — the
+consumer would silently inherit whatever the surrounding element had.
+
+**Base is 13px, not 14px.** Mono at 13px sets 38 characters in a 320px panel
+where 14px sets 35, and this family of products is overwhelmingly identifiers in
+narrow columns.
+
+**Line-heights are integer px, never unitless ratios.** A ratio produces
+sub-pixel line boxes that break the 4px rhythm and make grouped lists drift down
+the page.
+
+**Tracking rises as size falls** — `-0.02em` at display, `+0.12em` at micro.
+That is what makes small mono read as deliberate rather than cramped, and it is
+asserted rather than left to taste.
+
+<Scale group="type" />
+
+## Easing
+
+Two curves, and no more. No `ease-in` anywhere — starting slow reads as lag —
+and no overshoot, which argues with anything physically simulated behind it.
+Each curve below is drawn from its own control points.
+
+<Scale group="ease" />
+
+## Duration
+
+**Duration scales with distance travelled, not with importance.** A hover fill
+travels 0px; a tooltip 4px; a panel 320px. The bars are to scale.
+
+Two pairs live here and they behave differently on purpose. `base`/`exit` is a
+thing that enters the page: it eases in at 180ms and leaves at 100ms, because a
+slow exit is the most common way an interface comes to feel sluggish.
+
+`in`/`out` is **hover and focus**, which inverts that. Enter is 0ms — a hover
+transition is feedback about your own pointer, whose position you already know,
+and easing it in adds latency to the one interaction that must feel free. Exit
+is 140ms because the pointer has gone and nothing waits on it, and the fade is
+what stops a fast mouse crossing twenty rows from strobing.
+
+<Scale group="duration" />
+
+## Shadow
+
+Reserved for popovers and above. A shadow on a resting card competes with the
+elevation ramp, which is the real elevation signal in this system.
+
+`lip` is the odd one and the most useful: a 1px inset line along a panel's *top*
+edge. That is what the eye actually reads as "in front" — it works over a moving
+canvas where a drop shadow does not, and it is derived from the text token's
+`-rgb` companion rather than a literal, so it follows the scheme.
+
+The alphas are tuned on the **dark** ground, because that is the only ground
+with a production surface to derive them from. They are not wrong on light, but
+they are heavier than a light scheme wants. Solving that means measuring a real
+light surface rather than guessing, and guessing is what this package exists to
+stop.
+
+<Scale group="shadow" />
+
+## Stacking
+
+Four overlay families sit over the page, and an ad-hoc `z-10` sprinkled at each
+call site is precisely how they end up fighting — a tooltip under a modal, a
+toast behind a drawer. Steps of 10, so a surface can slot something between two
+layers without renumbering the scale.
+
+<Scale group="z" />
+
+## Rules
+
+1. **No literal radius, size, duration or z-index in a consumer.** The same rule
+   as colour, and for the same reason.
+2. **If no step fits, the scale is incomplete.** That is a contribution
+   upstream, not a local override. A one-off `border-radius: 6px` is exactly how
+   the colour copies drifted apart.
+3. **Do not convert a scale locally.** Wanting rem instead of px, or a spacing
+   ramp, is a change to this package — raise it here.
+
+</div>

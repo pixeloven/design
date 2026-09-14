@@ -1,12 +1,13 @@
 ---
 name: design-system-usage
-description: "How to consume PixelOven design tokens in any project — the two distribution paths (npm import vs vendored CSS), the token vocabulary, and the rule that no consumer defines its own colour. Load before adding, changing, or theming any UI surface in a PixelOven repo. Landmine: a literal hex value in a consumer is how the system decays back into copies — there is a CI gate for exactly this."
+description: "How to consume PixelOven design tokens in any project — the two distribution paths (npm import vs vendored CSS), the token vocabulary (colour, and the non-colour scales: radius, type, easing, duration, shadow, z-index), and the rule that no consumer defines its own. Load before adding, changing, or theming any UI surface in a PixelOven repo. Landmine: a literal hex value — or a literal radius, duration or z-index — in a consumer is how the system decays back into copies, and there is a CI gate for exactly this."
 ---
 
 # Using the PixelOven design system
 
-`@pixeloven/tokens` is the **source of truth for every surface colour**. A consumer
-never defines one.
+`@pixeloven/tokens` is the **source of truth for every surface colour, and for the
+scales a surface is built out of** — radius, type, easing, duration, shadow and
+stacking order. A consumer never defines one.
 
 That rule is not stylistic. This package exists because the palette was previously
 maintained in two places, and they drifted: only 8 of 35 values agreed, nine pairs
@@ -141,10 +142,48 @@ Borders continue the surface ramp rather than forming their own scale. If you fi
 yourself wanting a value "between" two steps, that is a signal the ramp needs a
 step — open an issue, do not inline one.
 
+### The non-colour scales
+
+These are **scheme-independent**: one value, no `dark`/`light`. A radius does not
+change with the ground. They come out of `:root` in every stylesheet the package
+ships, including both pinned builds.
+
+| Group | Tokens | What it is for |
+|---|---|---|
+| `radius` | `--pxo-radius-xs` 3px · `-sm` 4px · `--pxo-radius` 8px · `-lg` 12px | chips · controls · panels · modals. `sm`/`base`/`lg` are the 4px grid; `xs` is deliberately off it |
+| `type` | `--pxo-type-<step>-{size,line-height,weight,letter-spacing}` for `display` `title` `subtitle` `body` `ui` `label` `micro` | seven steps, each carrying all four metrics. Body is **13px/18px** |
+| `ease` | `--pxo-ease-out` · `--pxo-ease-in-out` | two curves and no more. No `ease-in` (reads as lag), no overshoot |
+| `duration` | `--pxo-duration-in` 0ms · `-out` 140ms · `-fast` 120ms · `--pxo-duration` 180ms · `-exit` 100ms · `-slow` 280ms | duration scales with **distance travelled** |
+| `shadow` | `--pxo-shadow-soft` · `--pxo-shadow` · `-strong` · `-lip` · `-lip-strong` | popovers and above. `lip` is the 1px inset top edge that reads as "in front" |
+| `z` | `--pxo-z-` `canvas` 0 · `chrome` 10 · `panel` 20 · `popover` 30 · `overlay` 40 · `modal` 50 · `toast` 60 · `tooltip` 70 | steps of 10, so you can slot a layer in without renumbering |
+
+Three rules that are asserted, so you can rely on them rather than re-deriving them:
+
+- **Line-heights are integer px, never unitless ratios.** A ratio makes sub-pixel
+  line boxes, which break the 4px rhythm and make grouped lists drift.
+- **Tracking rises as size falls** — `-0.02em` at `display`, `+0.12em` at `micro`.
+- **An exit is faster than the enter it reverses** (`exit` 100ms vs `base` 180ms).
+  Hover is the documented exception and inverts it: `in` is 0ms because easing in
+  feedback about your own pointer only adds latency; `out` is 140ms so a fast
+  mouse crossing twenty rows does not strobe.
+
+Shadow alphas are tuned on the **dark** ground — the only ground with a production
+surface to derive them from. They are not wrong on light, but they are heavier
+than a light scheme wants. If you are building a light-first surface, raise it
+rather than forking a lighter value locally.
+
+There is deliberately **no spacing scale**. Every consumer so far is on Tailwind
+and inherits its 4px grid, so there is no hand-authored copy to drift — which is
+not true of the six groups above, all of which were hand-authored in Lattice
+before they lived here. A non-Tailwind consumer is the trigger to add one, and it
+should be derived from a real surface rather than invented.
+
 ## The rules
 
 1. **No literal hex in a consumer.** Not in CSS, not in TS, not in an SVG that
-   ships as a brand asset. Marks live in `@pixeloven/brand`.
+   ships as a brand asset. Marks live in `@pixeloven/brand`. The same goes for a
+   literal radius, font size, duration or z-index: `border-radius: 6px` is the
+   drift that started the colour problem, wearing different units.
 2. **Semantic over literal.** Reach for `status.danger`, not "the pink one". If no
    token fits the meaning, the vocabulary is incomplete — that is a contribution,
    not a local override.
@@ -176,6 +215,20 @@ fail on light, so a light scheme tested on dark's assumptions ships unverified.
   the same distance from its own ground in both
 - every colour token defines every scheme
 - no two tokens share a value, unless one declares `sameAs`
+
+And for the non-colour scales, in `test/scales.test.mjs`:
+
+- the radius scale **ascends** in whole pixels
+- every type step carries **all four metrics**; sizes and line-heights descend
+  together, line-heights are integer px and never smaller than their own size
+- **tracking rises as the ramp falls**, and weights are real CSS weights
+- durations ascend, and **an exit is faster than the enter it reverses**
+- the stacking order is strictly ascending with **no two layers on one number**
+- no non-colour token **smuggles in a colour** — a shadow must use a token's
+  `-rgb` companion, or neutral black/white at an alpha, never a literal
+- every scale is **scheme-independent**, and no two tokens claim the same CSS
+  custom property
+- a **scheme-pinned build carries every token**, not only the colour ones
 
 These fail loudly on the real historical defects — verified by injecting them.
 If a change makes one fail, the change is wrong, not the test.
