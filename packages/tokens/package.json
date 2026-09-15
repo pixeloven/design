@@ -1,7 +1,7 @@
 {
   "name": "@pixeloven/tokens",
-  "version": "0.3.0",
-  "description": "PixelOven design tokens \u2014 the source of truth for every surface colour.",
+  "version": "0.4.0",
+  "description": "PixelOven design tokens \u2014 the source of truth for every surface colour, and for the scales a surface is built out of.",
   "license": "UNLICENSED",
   "type": "module",
   "main": "./dist/tokens.js",

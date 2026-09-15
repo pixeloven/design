@@ -81,6 +81,95 @@ body {
   font-size: 0.78rem;
 }
 
+/* The scales — radius, type, motion, shadow, stacking.
+ *
+ * Every demo shape is drawn with the token itself. Nothing here restates a
+ * token's value: a hardcoded 8px would keep looking right long after the token
+ * stopped being 8px. */
+.pxo-scale {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--pxo-border);
+  border-radius: var(--pxo-radius);
+  overflow: hidden;
+}
+
+.pxo-scale-row {
+  display: grid;
+  grid-template-columns: 10rem 1fr;
+  align-items: center;
+  gap: 1.25rem;
+  padding: 0.7rem 0.9rem;
+  border-top: 1px solid var(--pxo-border-muted);
+}
+
+.pxo-scale-row:first-child {
+  border-top: 0;
+}
+
+.pxo-scale-demo {
+  display: flex;
+  align-items: center;
+  min-height: 3.5rem;
+}
+
+.pxo-scale-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  min-width: 0;
+}
+
+.pxo-scale-meta .name {
+  font-family: var(--pxo-font-mono);
+  font-size: var(--pxo-type-ui-size);
+  line-height: var(--pxo-type-ui-line-height);
+  color: var(--pxo-text);
+}
+
+.pxo-scale-meta .value {
+  font-family: var(--pxo-font-mono);
+  font-size: var(--pxo-type-micro-size);
+  line-height: var(--pxo-type-micro-line-height);
+  color: var(--pxo-text-dim);
+  overflow-wrap: anywhere;
+}
+
+.pxo-scale-meta .use {
+  font-size: var(--pxo-type-ui-size);
+  line-height: var(--pxo-type-ui-line-height);
+  color: var(--pxo-text-secondary);
+}
+
+.pxo-radius-chip {
+  width: 3.5rem;
+  height: 3.5rem;
+  background: var(--pxo-surface-raised);
+  border: 1px solid var(--pxo-border-strong);
+}
+
+.pxo-duration-bar {
+  height: 0.5rem;
+  min-width: 2px;
+  border-radius: var(--pxo-radius-xs);
+  background: var(--pxo-accent);
+}
+
+.pxo-shadow-card {
+  width: 6rem;
+  height: 2.5rem;
+  border-radius: var(--pxo-radius);
+  background: var(--pxo-surface-raised);
+}
+
+.pxo-z-layer {
+  width: 6rem;
+  height: 1.5rem;
+  border-radius: var(--pxo-radius-sm);
+  background: var(--pxo-surface-raised);
+  border: 1px solid var(--pxo-border-strong);
+}
+
 .pxo-marks {
   display: flex;
   gap: 2rem;

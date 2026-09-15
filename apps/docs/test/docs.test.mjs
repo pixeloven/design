@@ -36,8 +36,13 @@ test("every token group is actually rendered, not just mentioned", () => {
   // page text, and a fake `elevation` group passed it because the prose happens
   // to contain the word "elevation". A check that a word appears in prose is
   // not a check.
+  //
+  // Two components take a `group`: <Swatches> for colour and <Scale> for the
+  // non-colour scales, which need a different picture each (a radius is a
+  // corner, a duration is a length of time). Both are matched here rather than
+  // recorded by hand below, so the group is still proved RENDERED.
   const rendered = new Set(
-    [...allPages.matchAll(/<Swatches\s+group="([^"]+)"/g)].map((m) => m[1]),
+    [...allPages.matchAll(/<(?:Swatches|Scale)\s+group="([^"]+)"/g)].map((m) => m[1]),
   )
 
   // Groups shown by a dedicated component rather than the generic swatch grid.
@@ -87,6 +92,43 @@ test("the colour page reads the token source rather than transcribing it", () =>
   // why only the helpers are checked.
   const literals = helpers.match(/#[0-9a-fA-F]{6}/g) ?? []
   assert.deepEqual(literals, [], `Colour helpers contain transcribed values: ${literals}`)
+})
+
+test("the scales page draws the tokens rather than transcribing them", () => {
+  // The colour page is guarded against transcribed hex. The scales page has the
+  // same failure available to it in a form that is harder to see: a demo square
+  // drawn at a hardcoded `borderRadius: 8` keeps looking right forever, long
+  // after the token stops being 8px, and the page then documents a radius the
+  // package does not ship.
+  //
+  // So every shape must be drawn with var(--pxo-…), and every number shown must
+  // be parsed out of the source.
+  const source = readFileSync(join(storiesDir, "Scales.helpers.tsx"), "utf8")
+  assert.match(source, /@pixeloven\/tokens\/source/, "Scales page must read tokens at build time")
+
+  // Comments legitimately cite a value to explain why transcribing one is the
+  // bug — the same exemption the pinned-stylesheet test makes for CSS comments.
+  // Only code is checked.
+  const helpers = source.replace(/\/\*[\s\S]*?\*\//g, "").replace(/^\s*\/\/.*$/gm, "")
+
+  // Values distinctive enough that finding one in the helpers means it was
+  // copied: anything carrying a unit or a function. Bare numbers (font weights,
+  // z-indices) are excluded — "600" is not evidence of anything.
+  const scales = ["radius", "type", "ease", "duration", "shadow"]
+  const values = []
+  const collect = (node) => {
+    for (const [key, val] of Object.entries(node)) {
+      if (key === "$comment" || !val || typeof val !== "object") continue
+      if (typeof val.value === "string") values.push(val.value)
+      else collect(val)
+    }
+  }
+  for (const group of scales) collect(tokens[group])
+
+  const transcribed = values.filter(
+    (v) => /(px|ms|em|rem|cubic-bezier|rgb)\b/.test(v) && helpers.includes(v),
+  )
+  assert.deepEqual(transcribed, [], `Scales helpers contain transcribed values: ${transcribed}`)
 })
 
 test("every page has a title", () => {

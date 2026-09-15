@@ -86,12 +86,25 @@ const channels = (hexValue) =>
 
 const isColour = (value) => /^#[0-9a-f]{6}$/i.test(value);
 
-const declarations = (scheme, indent = "  ") => {
+/**
+ * `standalone` says this block is the WHOLE stylesheet rather than one of
+ * several in a cascade.
+ *
+ * In tokens.css the scheme-independent tokens (fonts, and every non-colour
+ * scale) are declared once in `:root` and inherited by the light blocks —
+ * repeating them there would be noise. A scheme-PINNED file has no such
+ * `:root` to inherit from: it is the only block in the file, so skipping them
+ * ships a stylesheet with no --pxo-font-mono and no --pxo-radius at all.
+ *
+ * That was already true before the non-colour scales existed: tokens-light.css
+ * carried zero font tokens. It went unnoticed because every pinned consumer so
+ * far is dark, and dark IS the default scheme, so the skip never applied.
+ */
+const declarations = (scheme, indent = "  ", standalone = false) => {
   const lines = [];
   let group = null;
   for (const [path, entry] of tokens) {
-    // Scheme-independent tokens (fonts) belong only in the default block.
-    if ("value" in entry && scheme !== DEFAULT_SCHEME) continue;
+    if ("value" in entry && scheme !== DEFAULT_SCHEME && !standalone) continue;
     if (path[0] !== group) {
       group = path[0];
       lines.push(`\n${indent}/* ${kebab(group)} */`);
@@ -162,7 +175,7 @@ for (const scheme of SCHEMES) {
       " */",
       ":root {",
       `  color-scheme: ${scheme};`,
-      ...declarations(scheme),
+      ...declarations(scheme, "  ", true),
       "}",
       "",
     ].join("\n"),
