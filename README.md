@@ -47,6 +47,21 @@ apps/
   docs/       the documentation site      (later)
 ```
 
+## Installing the skills
+
+The skills ship as a Claude Code / Codex plugin, from the shared PixelOven
+catalogue rather than from this repo:
+
+```sh
+claude plugin marketplace add pixeloven/marketplace
+claude plugin install design@pixeloven
+```
+
+The catalogue at [`pixeloven/marketplace`](https://github.com/pixeloven/marketplace)
+pins this repo by commit SHA, so a change here reaches consumers when that pin
+moves. This repo carries no marketplace of its own — marketplaces are keyed by
+name, and one PixelOven catalogue can only exist in one place.
+
 ## Consuming
 
 **With a bundler:**
