@@ -38,7 +38,7 @@ const raw = JSON.parse(readFileSync(join(here, "..", "src", "tokens.json"), "utf
 const SCHEMES = raw.meta.schemes;
 
 /** The groups that carry one value rather than one per scheme. */
-const SCALE_GROUPS = ["font", "radius", "type", "ease", "duration", "shadow", "z"];
+const SCALE_GROUPS = ["font", "radius", "type", "ease", "duration", "shadow", "z", "reading", "graphPattern"];
 
 const keysOf = (group) => Object.keys(raw[group]).filter((k) => k !== "$comment");
 

@@ -62,7 +62,7 @@ const LADDER = [
   ["border", "accent"],
 ];
 
-const colourGroups = ["surface", "border", "text", "accent", "status", "statusSurface"];
+const colourGroups = ["surface", "border", "text", "accent", "status", "statusSurface", "graphOrigin", "graph", "browser", "interaction"];
 const keysOf = (group) => Object.keys(raw[group]).filter((k) => k !== "$comment");
 
 for (const scheme of SCHEMES) {

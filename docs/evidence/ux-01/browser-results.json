@@ -1,0 +1,540 @@
+{
+  "browser": "149.0.7827.55",
+  "failures": [],
+  "results": [
+    {
+      "theme": "dark",
+      "name": "desktop",
+      "width": 1440,
+      "height": 1000,
+      "scale": 1,
+      "overflow": false,
+      "body": {
+        "family": "\"IBM Plex Sans\", system-ui, -apple-system, sans-serif",
+        "size": "16px",
+        "line": "24px",
+        "weight": "400"
+      },
+      "resultHeading": {
+        "family": "\"IBM Plex Sans\", system-ui, -apple-system, sans-serif",
+        "size": "16px",
+        "line": "24px",
+        "weight": "400"
+      },
+      "control": {
+        "family": "\"IBM Plex Sans\", system-ui, -apple-system, sans-serif",
+        "size": "14px",
+        "line": "20px",
+        "weight": "500"
+      },
+      "input": {
+        "family": "\"IBM Plex Sans\", system-ui, -apple-system, sans-serif",
+        "size": "16px",
+        "line": "24px",
+        "weight": "400"
+      },
+      "code": {
+        "family": "\"IBM Plex Mono\", ui-monospace, SFMono-Regular, Consolas, \"Liberation Mono\", monospace",
+        "size": "14px",
+        "line": "22px",
+        "weight": "400"
+      },
+      "targets": [
+        {
+          "name": "specimen-search",
+          "width": 400.65625,
+          "height": 46.78125
+        },
+        {
+          "name": "A garden of connected ideasnotes/a-garden-of-connected-ideasSelected note",
+          "width": 400.65625,
+          "height": 104.78125
+        },
+        {
+          "name": "Clear search",
+          "width": 110.6875,
+          "height": 44
+        },
+        {
+          "name": "Refreshing source…",
+          "width": 157.59375,
+          "height": 44
+        },
+        {
+          "name": "source-identity",
+          "width": 400.65625,
+          "height": 46.78125
+        }
+      ],
+      "focus": "solid",
+      "canvas": "#090b15",
+      "fontFaces": [
+        "IBM Plex Sans:400",
+        "IBM Plex Sans:500",
+        "IBM Plex Sans:600",
+        "IBM Plex Mono:400"
+      ],
+      "patterns": [
+        "solid",
+        "solid",
+        "solid",
+        "solid",
+        "solid",
+        "dashed"
+      ],
+      "externalRequests": [],
+      "axe": {
+        "status": "ran",
+        "version": "4.13.0",
+        "passes": 18,
+        "incomplete": [],
+        "violations": []
+      }
+    },
+    {
+      "theme": "dark",
+      "name": "phone",
+      "width": 390,
+      "height": 844,
+      "scale": 1,
+      "overflow": false,
+      "body": {
+        "family": "\"IBM Plex Sans\", system-ui, -apple-system, sans-serif",
+        "size": "16px",
+        "line": "24px",
+        "weight": "400"
+      },
+      "resultHeading": {
+        "family": "\"IBM Plex Sans\", system-ui, -apple-system, sans-serif",
+        "size": "16px",
+        "line": "24px",
+        "weight": "400"
+      },
+      "control": {
+        "family": "\"IBM Plex Sans\", system-ui, -apple-system, sans-serif",
+        "size": "14px",
+        "line": "20px",
+        "weight": "500"
+      },
+      "input": {
+        "family": "\"IBM Plex Sans\", system-ui, -apple-system, sans-serif",
+        "size": "16px",
+        "line": "24px",
+        "weight": "400"
+      },
+      "code": {
+        "family": "\"IBM Plex Mono\", ui-monospace, SFMono-Regular, Consolas, \"Liberation Mono\", monospace",
+        "size": "14px",
+        "line": "22px",
+        "weight": "400"
+      },
+      "targets": [
+        {
+          "name": "specimen-search",
+          "width": 316,
+          "height": 46.78125
+        },
+        {
+          "name": "A garden of connected ideasnotes/a-garden-of-connected-ideasSelected note",
+          "width": 316,
+          "height": 104.78125
+        },
+        {
+          "name": "Clear search",
+          "width": 110.6875,
+          "height": 44
+        },
+        {
+          "name": "Refreshing source…",
+          "width": 157.59375,
+          "height": 44
+        },
+        {
+          "name": "source-identity",
+          "width": 316,
+          "height": 46.78125
+        }
+      ],
+      "focus": "solid",
+      "canvas": "#090b15",
+      "fontFaces": [
+        "IBM Plex Sans:400",
+        "IBM Plex Sans:500",
+        "IBM Plex Sans:600",
+        "IBM Plex Mono:400"
+      ],
+      "patterns": [
+        "solid",
+        "solid",
+        "solid",
+        "solid",
+        "solid",
+        "dashed"
+      ],
+      "externalRequests": [],
+      "axe": {
+        "status": "ran",
+        "version": "4.13.0",
+        "passes": 19,
+        "incomplete": [],
+        "violations": []
+      }
+    },
+    {
+      "theme": "dark",
+      "name": "text-200",
+      "width": 320,
+      "height": 568,
+      "scale": 2,
+      "overflow": false,
+      "body": {
+        "family": "\"IBM Plex Sans\", system-ui, -apple-system, sans-serif",
+        "size": "32px",
+        "line": "48px",
+        "weight": "400"
+      },
+      "resultHeading": {
+        "family": "\"IBM Plex Sans\", system-ui, -apple-system, sans-serif",
+        "size": "32px",
+        "line": "48px",
+        "weight": "400"
+      },
+      "control": {
+        "family": "\"IBM Plex Sans\", system-ui, -apple-system, sans-serif",
+        "size": "28px",
+        "line": "40px",
+        "weight": "500"
+      },
+      "input": {
+        "family": "\"IBM Plex Sans\", system-ui, -apple-system, sans-serif",
+        "size": "32px",
+        "line": "48px",
+        "weight": "400"
+      },
+      "code": {
+        "family": "\"IBM Plex Mono\", ui-monospace, SFMono-Regular, Consolas, \"Liberation Mono\", monospace",
+        "size": "28px",
+        "line": "44px",
+        "weight": "400"
+      },
+      "targets": [
+        {
+          "name": "specimen-search",
+          "width": 246,
+          "height": 91.59375
+        },
+        {
+          "name": "A garden of connected ideasnotes/a-garden-of-connected-ideasSelected note",
+          "width": 246,
+          "height": 435.59375
+        },
+        {
+          "name": "Clear search",
+          "width": 219.390625,
+          "height": 83.59375
+        },
+        {
+          "name": "Refreshing source…",
+          "width": 246,
+          "height": 123.59375
+        },
+        {
+          "name": "source-identity",
+          "width": 246,
+          "height": 91.59375
+        }
+      ],
+      "focus": "solid",
+      "canvas": "#090b15",
+      "fontFaces": [
+        "IBM Plex Sans:400",
+        "IBM Plex Sans:500",
+        "IBM Plex Sans:600",
+        "IBM Plex Mono:400"
+      ],
+      "patterns": [
+        "solid",
+        "solid",
+        "solid",
+        "solid",
+        "solid",
+        "dashed"
+      ],
+      "externalRequests": [],
+      "axe": {
+        "status": "ran",
+        "version": "4.13.0",
+        "passes": 19,
+        "incomplete": [],
+        "violations": []
+      }
+    },
+    {
+      "theme": "light",
+      "name": "desktop",
+      "width": 1440,
+      "height": 1000,
+      "scale": 1,
+      "overflow": false,
+      "body": {
+        "family": "\"IBM Plex Sans\", system-ui, -apple-system, sans-serif",
+        "size": "16px",
+        "line": "24px",
+        "weight": "400"
+      },
+      "resultHeading": {
+        "family": "\"IBM Plex Sans\", system-ui, -apple-system, sans-serif",
+        "size": "16px",
+        "line": "24px",
+        "weight": "400"
+      },
+      "control": {
+        "family": "\"IBM Plex Sans\", system-ui, -apple-system, sans-serif",
+        "size": "14px",
+        "line": "20px",
+        "weight": "500"
+      },
+      "input": {
+        "family": "\"IBM Plex Sans\", system-ui, -apple-system, sans-serif",
+        "size": "16px",
+        "line": "24px",
+        "weight": "400"
+      },
+      "code": {
+        "family": "\"IBM Plex Mono\", ui-monospace, SFMono-Regular, Consolas, \"Liberation Mono\", monospace",
+        "size": "14px",
+        "line": "22px",
+        "weight": "400"
+      },
+      "targets": [
+        {
+          "name": "specimen-search",
+          "width": 400.65625,
+          "height": 46.78125
+        },
+        {
+          "name": "A garden of connected ideasnotes/a-garden-of-connected-ideasSelected note",
+          "width": 400.65625,
+          "height": 104.78125
+        },
+        {
+          "name": "Clear search",
+          "width": 110.6875,
+          "height": 44
+        },
+        {
+          "name": "Refreshing source…",
+          "width": 157.59375,
+          "height": 44
+        },
+        {
+          "name": "source-identity",
+          "width": 400.65625,
+          "height": 46.78125
+        }
+      ],
+      "focus": "solid",
+      "canvas": "#f7f7f8",
+      "fontFaces": [
+        "IBM Plex Sans:400",
+        "IBM Plex Sans:500",
+        "IBM Plex Sans:600",
+        "IBM Plex Mono:400"
+      ],
+      "patterns": [
+        "solid",
+        "solid",
+        "solid",
+        "solid",
+        "solid",
+        "dashed"
+      ],
+      "externalRequests": [],
+      "axe": {
+        "status": "ran",
+        "version": "4.13.0",
+        "passes": 18,
+        "incomplete": [],
+        "violations": []
+      }
+    },
+    {
+      "theme": "light",
+      "name": "phone",
+      "width": 390,
+      "height": 844,
+      "scale": 1,
+      "overflow": false,
+      "body": {
+        "family": "\"IBM Plex Sans\", system-ui, -apple-system, sans-serif",
+        "size": "16px",
+        "line": "24px",
+        "weight": "400"
+      },
+      "resultHeading": {
+        "family": "\"IBM Plex Sans\", system-ui, -apple-system, sans-serif",
+        "size": "16px",
+        "line": "24px",
+        "weight": "400"
+      },
+      "control": {
+        "family": "\"IBM Plex Sans\", system-ui, -apple-system, sans-serif",
+        "size": "14px",
+        "line": "20px",
+        "weight": "500"
+      },
+      "input": {
+        "family": "\"IBM Plex Sans\", system-ui, -apple-system, sans-serif",
+        "size": "16px",
+        "line": "24px",
+        "weight": "400"
+      },
+      "code": {
+        "family": "\"IBM Plex Mono\", ui-monospace, SFMono-Regular, Consolas, \"Liberation Mono\", monospace",
+        "size": "14px",
+        "line": "22px",
+        "weight": "400"
+      },
+      "targets": [
+        {
+          "name": "specimen-search",
+          "width": 316,
+          "height": 46.78125
+        },
+        {
+          "name": "A garden of connected ideasnotes/a-garden-of-connected-ideasSelected note",
+          "width": 316,
+          "height": 104.78125
+        },
+        {
+          "name": "Clear search",
+          "width": 110.6875,
+          "height": 44
+        },
+        {
+          "name": "Refreshing source…",
+          "width": 157.59375,
+          "height": 44
+        },
+        {
+          "name": "source-identity",
+          "width": 316,
+          "height": 46.78125
+        }
+      ],
+      "focus": "solid",
+      "canvas": "#f7f7f8",
+      "fontFaces": [
+        "IBM Plex Sans:400",
+        "IBM Plex Sans:500",
+        "IBM Plex Sans:600",
+        "IBM Plex Mono:400"
+      ],
+      "patterns": [
+        "solid",
+        "solid",
+        "solid",
+        "solid",
+        "solid",
+        "dashed"
+      ],
+      "externalRequests": [],
+      "axe": {
+        "status": "ran",
+        "version": "4.13.0",
+        "passes": 19,
+        "incomplete": [],
+        "violations": []
+      }
+    },
+    {
+      "theme": "light",
+      "name": "text-200",
+      "width": 320,
+      "height": 568,
+      "scale": 2,
+      "overflow": false,
+      "body": {
+        "family": "\"IBM Plex Sans\", system-ui, -apple-system, sans-serif",
+        "size": "32px",
+        "line": "48px",
+        "weight": "400"
+      },
+      "resultHeading": {
+        "family": "\"IBM Plex Sans\", system-ui, -apple-system, sans-serif",
+        "size": "32px",
+        "line": "48px",
+        "weight": "400"
+      },
+      "control": {
+        "family": "\"IBM Plex Sans\", system-ui, -apple-system, sans-serif",
+        "size": "28px",
+        "line": "40px",
+        "weight": "500"
+      },
+      "input": {
+        "family": "\"IBM Plex Sans\", system-ui, -apple-system, sans-serif",
+        "size": "32px",
+        "line": "48px",
+        "weight": "400"
+      },
+      "code": {
+        "family": "\"IBM Plex Mono\", ui-monospace, SFMono-Regular, Consolas, \"Liberation Mono\", monospace",
+        "size": "28px",
+        "line": "44px",
+        "weight": "400"
+      },
+      "targets": [
+        {
+          "name": "specimen-search",
+          "width": 246,
+          "height": 91.59375
+        },
+        {
+          "name": "A garden of connected ideasnotes/a-garden-of-connected-ideasSelected note",
+          "width": 246,
+          "height": 435.59375
+        },
+        {
+          "name": "Clear search",
+          "width": 219.390625,
+          "height": 83.59375
+        },
+        {
+          "name": "Refreshing source…",
+          "width": 246,
+          "height": 123.59375
+        },
+        {
+          "name": "source-identity",
+          "width": 246,
+          "height": 91.59375
+        }
+      ],
+      "focus": "solid",
+      "canvas": "#f7f7f8",
+      "fontFaces": [
+        "IBM Plex Sans:400",
+        "IBM Plex Sans:500",
+        "IBM Plex Sans:600",
+        "IBM Plex Mono:400"
+      ],
+      "patterns": [
+        "solid",
+        "solid",
+        "solid",
+        "solid",
+        "solid",
+        "dashed"
+      ],
+      "externalRequests": [],
+      "axe": {
+        "status": "ran",
+        "version": "4.13.0",
+        "passes": 19,
+        "incomplete": [],
+        "violations": []
+      }
+    }
+  ]
+}

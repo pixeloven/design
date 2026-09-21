@@ -232,3 +232,52 @@ And for the non-colour scales, in `test/scales.test.mjs`:
 
 These fail loudly on the real historical defects — verified by injecting them.
 If a change makes one fail, the change is wrong, not the test.
+
+## Readable surfaces and graph themes (tokens 0.5.0)
+
+The seven compact `type` roles keep their existing pixel metrics. Prefer the
+additive `reading` group for human task text. Each role exports `size`,
+`lineHeight`, `weight`, `letterSpacing` and `fontFamily`:
+
+| Role | Default size/leading/weight | Family |
+|---|---|---|
+| `reading.body` | 16/24/400 | Plex Sans |
+| `reading.control` | 14/20/500 | Plex Sans |
+| `reading.input` | 16/24/400 | Plex Sans |
+| `reading.code` | 14/22/400 | Plex Mono |
+
+The new sizes and line heights use rem, so user root-font preferences scale them
+without local conversion. Use existing `type.display`/`type.title` with
+`font.sans` for headings; browser zoom also scales these existing pixel roles.
+The integer-pixel rule above applies to the compact ramp, not `reading`.
+
+CSS example: `var(--pxo-reading-body-size)`; JS example:
+`tokens.dark.readingBodySize`. Import `@pixeloven/tokens/tokens.css` for every
+CSS role; both pinned builds include them too. Consumers self-host licensed
+Plex fonts and select subsets/weights for their content; the tokens contain
+font stacks rather than font binaries. The reference docs bundle Latin Sans
+and Mono 400/500/600 from Fontsource with swap rendering.
+
+Graph origins use `--pxo-graph-origin-<origin>` / `graphOriginDataview` (the six
+origins include `frontmatter-ref` / `FrontmatterRef`). `graphPatternCanvas` is
+`dashed`; the other patterns are `solid`. Preserve this second channel in DOM
+and WebGL; map dashed to the existing curved 3D link encoding. Never replace a
+static distinction with motion alone.
+
+`graphCanvas`, `graphNode`, `graphNodeHub`, `graphNodeIsolated`,
+`graphNodeSelected`, `graphNodeHover`, `graphNodeDimmed`, `graphEdgeDimmed`,
+`graphLabelSurface`, `graphLabelText` and `graphLight{Ambient,Key,Rim}` cover the
+scene. CSS uses the corresponding kebab-case names. Isolated means no links in
+the loaded projection; dimmed roles are nonessential context only. Essential
+opaque marks have at least 3:1 canvas contrast and label text 4.5:1 on its opaque
+label surface. Origin colors are graphical marks, not prose colors.
+
+`browserTheme` supplies browser theme-color. `interactionFocus` supplies a 3:1
+focus outline against page, canvas, panel, hover and raised surfaces. Update
+DOM, WebGL and browser chrome from the same resolved dark/light scheme. Set
+`color-scheme` with `data-theme`; CSS tokens do not own preference storage.
+
+Source values are not rendered-material evidence: verify real edge opacity,
+lighting, fog, tone mapping and hover/selection in both themes. Lattice's
+previous link opacity of 0.35 is specifically not certified by the opaque
+palette tests. Scene updates must preserve positions, selection and camera.

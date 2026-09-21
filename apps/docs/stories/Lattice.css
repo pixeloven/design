@@ -1,0 +1,56 @@
+.pxo-lattice,
+.pxo-reading-roles {
+  color: var(--pxo-text);
+  font-family: var(--pxo-reading-body-font-family);
+  font-size: var(--pxo-reading-body-size);
+  line-height: var(--pxo-reading-body-line-height);
+  font-weight: var(--pxo-reading-body-weight);
+  letter-spacing: var(--pxo-reading-body-letter-spacing);
+}
+
+.pxo-lattice { padding: clamp(16px, 3vw, 32px); background: var(--pxo-surface-void); }
+.pxo-lattice * { box-sizing: border-box; min-width: 0; }
+.pxo-lattice h1,
+.pxo-lattice h2.pxo-note-title { font: var(--pxo-type-display-weight) var(--pxo-type-display-size) / var(--pxo-type-display-line-height) var(--pxo-font-sans); letter-spacing: var(--pxo-type-display-letter-spacing); }
+.pxo-lattice h2 { font: var(--pxo-type-title-weight) var(--pxo-type-title-size) / var(--pxo-type-title-line-height) var(--pxo-font-sans); letter-spacing: var(--pxo-type-title-letter-spacing); }
+.pxo-lattice h3 { font: var(--pxo-reading-control-weight) var(--pxo-reading-control-size) / var(--pxo-reading-control-line-height) var(--pxo-reading-control-font-family); }
+.pxo-lattice :is(h1, h2, h3) { margin: 0 0 1rem; overflow-wrap: anywhere; }
+.pxo-lattice p { margin: 0 0 1rem; max-width: 65ch; overflow-wrap: anywhere; }
+.pxo-specimens { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 19rem), 1fr)); gap: 1.5rem; margin: 2rem 0; align-items: start; }
+.pxo-specimens > section { padding: 20px; background: var(--pxo-surface); border: 1px solid var(--pxo-border); border-radius: var(--pxo-radius); }
+.pxo-lattice .pxo-support { color: var(--pxo-text-secondary); font: var(--pxo-reading-control-weight) var(--pxo-reading-control-size) / var(--pxo-reading-control-line-height) var(--pxo-reading-control-font-family); }
+.pxo-lattice :is(button, label) { font: var(--pxo-reading-control-weight) var(--pxo-reading-control-size) / var(--pxo-reading-control-line-height) var(--pxo-reading-control-font-family); letter-spacing: var(--pxo-reading-control-letter-spacing); }
+.pxo-lattice label { display: block; margin-bottom: .5rem; }
+.pxo-lattice input { width: 100%; min-height: 44px; padding: .65rem .75rem; color: var(--pxo-text); background: var(--pxo-surface-canvas); border: 1px solid var(--pxo-text-dim); border-radius: var(--pxo-radius-sm); font: var(--pxo-reading-input-weight) var(--pxo-reading-input-size) / var(--pxo-reading-input-line-height) var(--pxo-reading-input-font-family); letter-spacing: var(--pxo-reading-input-letter-spacing); margin-bottom: 1rem; caret-color: var(--pxo-interaction-focus); }
+.pxo-lattice input::placeholder { color: var(--pxo-text-secondary); opacity: 1; }
+.pxo-lattice button { min-height: 44px; padding: .65rem .9rem; color: var(--pxo-text); background: var(--pxo-surface); border: 1px solid var(--pxo-text-dim); border-radius: var(--pxo-radius-sm); cursor: pointer; transition: background var(--pxo-duration-out) var(--pxo-ease-out); }
+.pxo-lattice button:hover { background: var(--pxo-surface-hover); transition-duration: var(--pxo-duration-in); }
+.pxo-lattice button:disabled { color: var(--pxo-text-dim); background: var(--pxo-surface); border-style: dashed; cursor: not-allowed; }
+.pxo-lattice :focus-visible,
+.pxo-lattice .pxo-focus-example { outline: 2px solid var(--pxo-interaction-focus); outline-offset: 3px; }
+.pxo-lattice .pxo-result { width: 100%; display: flex; flex-direction: column; gap: .5rem; text-align: left; margin-bottom: 1rem; overflow-wrap: anywhere; }
+.pxo-result > span:first-child { font: var(--pxo-reading-body-weight) var(--pxo-reading-body-size) / var(--pxo-reading-body-line-height) var(--pxo-reading-body-font-family); letter-spacing: var(--pxo-reading-body-letter-spacing); }
+.pxo-lattice .pxo-result[aria-pressed="true"] { background: var(--pxo-status-surface-accent); border-color: var(--pxo-interaction-focus); }
+.pxo-lattice .pxo-focus-example { margin-bottom: .75rem; }
+.pxo-lattice .pxo-reading-code,
+.pxo-reading-code { font: var(--pxo-reading-code-weight) var(--pxo-reading-code-size) / var(--pxo-reading-code-line-height) var(--pxo-reading-code-font-family); letter-spacing: var(--pxo-reading-code-letter-spacing); overflow-wrap: anywhere; }
+.pxo-lattice pre { background: var(--pxo-surface-canvas); padding: 16px; border-radius: var(--pxo-radius-sm); white-space: pre-wrap; max-height: 26rem; overflow: auto; scrollbar-color: var(--pxo-text-dim) var(--pxo-surface-canvas); }
+.pxo-lattice .pxo-count { font: var(--pxo-type-body-weight) var(--pxo-type-body-size) / var(--pxo-type-body-line-height) var(--pxo-font-mono); font-variant-numeric: tabular-nums; }
+.pxo-finding { padding-bottom: 1.5rem; }
+.pxo-error { padding: 16px; margin-bottom: 1.5rem; background: var(--pxo-status-surface-danger); border: 1px solid var(--pxo-status-danger); border-radius: var(--pxo-radius-sm); }
+.pxo-error p:last-child { margin-bottom: 0; }
+.pxo-graph-specimen { background: var(--pxo-graph-canvas); padding: 20px; border-radius: var(--pxo-radius); }
+.pxo-origin-list { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr)); gap: 1rem; }
+.pxo-origin-list li { display: flex; align-items: center; gap: .75rem; flex-wrap: wrap; }
+.pxo-origin-line { width: 3rem; border-top-width: 3px; }
+.pxo-node-list { list-style: none; padding: 1rem 0; display: flex; flex-wrap: wrap; gap: 1rem 2rem; }
+.pxo-node-list li { display: flex; gap: .75rem; align-items: center; }
+.pxo-node { display: inline-block; width: 1rem; height: 1rem; border-radius: var(--pxo-radius); }
+.pxo-selected-node { outline: 2px solid var(--pxo-interaction-focus); outline-offset: 3px; }
+.pxo-lattice .pxo-graph-label { color: var(--pxo-graph-label-text); background: var(--pxo-graph-label-surface); padding: .75rem; border-radius: var(--pxo-radius-sm); }
+.pxo-lattice ::selection { color: var(--pxo-text-on-accent); background: var(--pxo-accent); }
+.pxo-reading-role { display: flex; flex-direction: column; gap: .5rem; padding: 1rem 0; border-bottom: 1px solid var(--pxo-border); }
+.pxo-reading-role code { overflow-wrap: anywhere; }
+.pxo-reading-control { font: var(--pxo-reading-control-weight) var(--pxo-reading-control-size) / var(--pxo-reading-control-line-height) var(--pxo-reading-control-font-family); letter-spacing: var(--pxo-reading-control-letter-spacing); }
+.pxo-reading-input { font: var(--pxo-reading-input-weight) var(--pxo-reading-input-size) / var(--pxo-reading-input-line-height) var(--pxo-reading-input-font-family); letter-spacing: var(--pxo-reading-input-letter-spacing); }
+@media (prefers-reduced-motion: reduce) { .pxo-lattice button { transition: none; } }

@@ -6,6 +6,7 @@
  * second copy, and second copies are what this design system exists to remove.
  */
 
+import React from "react"
 import raw from "@pixeloven/tokens/source"
 
 type Entry = { dark?: string; light?: string; value?: string; use?: string; on?: string }

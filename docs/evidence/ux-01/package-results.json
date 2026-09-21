@@ -1,0 +1,61 @@
+{
+  "id": "@pixeloven/tokens@0.5.0",
+  "name": "@pixeloven/tokens",
+  "version": "0.5.0",
+  "size": 17214,
+  "unpackedSize": 101054,
+  "shasum": "221b46b2c1e3b2205fbbb74d1c1d9a35d4be1d0f",
+  "integrity": "sha512-/w0kNvkToHDoN6uV9tiTHvlYOJtLO20fO2JDBlkkYXE9+9UoPkmsslYsuTRx5Bo4LVWv8aimYxN/Otuhj0v5+A==",
+  "filename": "pixeloven-tokens-0.5.0.tgz",
+  "files": [
+    {
+      "path": "CHANGELOG.md",
+      "size": 919,
+      "mode": 420
+    },
+    {
+      "path": "dist/tokens-dark.css",
+      "size": 11717,
+      "mode": 420
+    },
+    {
+      "path": "dist/tokens-light.css",
+      "size": 7481,
+      "mode": 420
+    },
+    {
+      "path": "dist/tokens.css",
+      "size": 30896,
+      "mode": 420
+    },
+    {
+      "path": "dist/tokens.d.ts",
+      "size": 3674,
+      "mode": 420
+    },
+    {
+      "path": "dist/tokens.js",
+      "size": 9220,
+      "mode": 420
+    },
+    {
+      "path": "dist/tokens.json",
+      "size": 9840,
+      "mode": 420
+    },
+    {
+      "path": "package.json",
+      "size": 1055,
+      "mode": 420
+    },
+    {
+      "path": "src/tokens.json",
+      "size": 26252,
+      "mode": 420
+    }
+  ],
+  "entryCount": 9,
+  "bundled": [],
+  "sha256": "32080e608dad44f1cb9830abd44f6f6be59d43555b5d2073a26547dab6110390",
+  "kind": "local pack only; no publication claim"
+}
