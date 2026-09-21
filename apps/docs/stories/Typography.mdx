@@ -1,4 +1,5 @@
 import { Meta } from "@storybook/addon-docs/blocks";
+import { ReadingRoles } from "./Lattice.stories";
 
 <Meta title="Foundations/Typography" />
 
@@ -50,6 +51,38 @@ Two faces, and the split is not decorative.
 - **Mono is the voice, not the default.** Setting body prose in mono is
   fatiguing; setting a data label in sans is anonymous. The distinction carries
   meaning, so keep it.
+
+## Readable task surfaces
+
+The additive `reading` group serves explanations, results, actions, search and
+literal source. Its `rem` size and line-height metrics scale with the root font
+preference. At a 16px root, body/input are 16/24, control is 14/20 and code is
+14/22. Every role includes `fontFamily`, `size`, `lineHeight`, `weight` and
+`letterSpacing`. All seven existing compact `type` roles remain unchanged.
+
+<ReadingRoles />
+
+Use Sans with existing `type.display` and `type.title` for workspace and panel
+headings. Use compact Mono `type.body` for aligned counts. Keep prose near 65ch,
+wrap ordinary identifiers, and retain browser zoom. The Lattice specimens show
+search, reader and health content under **dark and light**, including focus,
+selected, disabled and error states.
+
+```css
+.explanation {
+  font-family: var(--pxo-reading-body-font-family);
+  font-size: var(--pxo-reading-body-size);
+  line-height: var(--pxo-reading-body-line-height);
+  font-weight: var(--pxo-reading-body-weight);
+  letter-spacing: var(--pxo-reading-body-letter-spacing);
+}
+```
+
+JS consumers receive the same values as `tokens.dark.readingBodySize` and
+`tokens.light.readingCodeFontFamily`. Both pinned stylesheets carry every role.
+These docs bundle the licensed Plex Sans/Mono Latin 400, 500 and 600 faces from
+Fontsource 5.3.0 with `font-display: swap`; no external font request is needed.
+Applications own their font loading and must choose subsets for their content.
 
 ## Fallbacks
 

@@ -15,6 +15,7 @@ const config: StorybookConfig = {
     // Component stories, once packages/ui exists.
     "../../../packages/ui/**/*.stories.@(ts|tsx)",
   ],
+  staticDirs: ["../public"],
   addons: [
     "@storybook/addon-docs",
     // Contrast is already asserted in the token tests — but those check VALUES.

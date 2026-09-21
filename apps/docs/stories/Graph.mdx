@@ -1,0 +1,65 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+import { Swatches } from "./Colour.helpers";
+import { OriginPatterns } from "./Lattice.stories";
+
+<Meta title="Foundations/Graph and theme" />
+
+<div className="pxo-doc">
+
+# Graph and theme
+
+Origin hue identifies the source of a connection. Four typed origins keep their
+teal, amber, violet and rose families. Wikilink is neutral; Canvas shares its
+color and must have a static second encoding: dashed DOM strokes or curved 3D
+links. These patterns persist when motion is reduced. The dark palette is
+promoted unchanged from Lattice; light is separately measured against its ground.
+
+<OriginPatterns />
+<Swatches group="graphOrigin" />
+
+## Canvas, nodes, labels and lights
+
+<Swatches group="graph" />
+
+`graph.canvas` aliases the shared canvas ground; fog uses the same role.
+Node colors remain neutral. Selected/hovered nodes also need a visible label and
+shape cue. `nodeIsolated` means zero links in the loaded projection, never a
+claim about the full corpus. `nodeDimmed` and `edgeDimmed` carry nonessential
+context only: they cannot be the sole readable/selectable representation.
+
+Lights are **radiance**, not foreground ink. Ambient/key/rim roles preserve the
+existing physical light colors in both themes; the consumer validates the result
+after materials, lighting, fog, tone mapping and alpha composition. Source-color
+contrast does not certify that renderer. Lattice's previous 0.35 link opacity
+must be replayed before accepting theme adoption.
+
+## Browser and focus
+
+<Swatches group="browser" />
+<Swatches group="interaction" />
+
+Update browser `theme-color`, CSS `data-theme`/`color-scheme`, and WebGL materials
+from the **same resolved scheme**. `tokens.css` follows the OS unless explicitly
+overridden; a dark-default application must set its explicit initial preference.
+The package supplies values, not preference storage or scene lifecycle behavior.
+
+```ts
+import tokens from "@pixeloven/tokens";
+import "@pixeloven/tokens/tokens.css";
+
+const palette = tokens[resolvedScheme]; // "dark" | "light"
+scene.background.set(palette.graphCanvas);
+material.color.set(palette.graphOriginDataview);
+ambientLight.color.set(palette.graphLightAmbient);
+themeColorMeta.content = palette.browserTheme;
+// graphPatternCanvas === "dashed": map to your renderer's static curvature.
+```
+
+Origins and essential node states pass 3:1 on the declared canvas at full opacity.
+Label text passes 4.5:1 on its opaque label surface. Focus passes 3:1 on the page,
+canvas, panel, hover and raised grounds. Typed pairs retain at least 15 ΔE00 and
+neutral-to-typed pairs at least 12 under normal, protanopic, deuteranopic and
+tritanopic simulation, using Lattice's existing test thresholds and algorithms.
+Origin colors are graphical marks; readable label copy uses text roles.
+
+</div>

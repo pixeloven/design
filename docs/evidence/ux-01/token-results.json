@@ -1,0 +1,66 @@
+{
+  "baseline": "9e856c9f9fd2c3e9954fb8b760af52f382e41ae1",
+  "preservedTokenLeaves": 81,
+  "schemes": {
+    "dark": {
+      "originCanvasContrast": {
+        "wikilink": 6.836254621398138,
+        "embed": 11.116570892772533,
+        "tag": 10.684721702729878,
+        "dataview": 5.084482537491663,
+        "frontmatterRef": 5.8611052998437625,
+        "canvas": 6.836254621398138
+      },
+      "vision": {
+        "normal": {
+          "minimumTyped": 30.38244394476052,
+          "minimumNeutral": 17.222673259319333
+        },
+        "protanopia": {
+          "minimumTyped": 24.533504890158554,
+          "minimumNeutral": 15.154286928721126
+        },
+        "deuteranopia": {
+          "minimumTyped": 21.094637720555838,
+          "minimumNeutral": 13.090152771137468
+        },
+        "tritanopia": {
+          "minimumTyped": 18.96838028848778,
+          "minimumNeutral": 12.408984469155188
+        }
+      },
+      "focusMinimum": 7.243550869212819,
+      "labelContrast": 16.684753865400683
+    },
+    "light": {
+      "originCanvasContrast": {
+        "wikilink": 7.386529080849344,
+        "embed": 3.5656106630107276,
+        "tag": 4.5141940528392634,
+        "dataview": 5.511020607792241,
+        "frontmatterRef": 11.190826769521554,
+        "canvas": 7.386529080849344
+      },
+      "vision": {
+        "normal": {
+          "minimumTyped": 34.01500531531674,
+          "minimumNeutral": 19.0203603329671
+        },
+        "protanopia": {
+          "minimumTyped": 21.866761222133164,
+          "minimumNeutral": 18.95443511172881
+        },
+        "deuteranopia": {
+          "minimumTyped": 22.985617565313554,
+          "minimumNeutral": 19.084208340369315
+        },
+        "tritanopia": {
+          "minimumTyped": 21.988693748896253,
+          "minimumNeutral": 17.755011130229533
+        }
+      },
+      "focusMinimum": 4.000753792344944,
+      "labelContrast": 16.649051857188624
+    }
+  }
+}

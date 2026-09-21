@@ -52,6 +52,8 @@ test("every token group is actually rendered, not just mentioned", () => {
     surface: "the Ladder component on Foundations/Colour",
     border: "the Ladder component on Foundations/Colour",
     font: "Foundations/Typography",
+    reading: "ReadingRoles on Foundations/Typography",
+    graphPattern: "OriginPatterns on Foundations/Graph and theme",
   }
 
   const groups = Object.keys(tokens).filter((g) => !["meta", "$comment"].includes(g))
@@ -136,4 +138,24 @@ test("every page has a title", () => {
     const body = readFileSync(join(storiesDir, file), "utf8")
     assert.match(body, /<Meta title="[^"]+"/, `${file} has no <Meta title>`)
   }
+})
+
+test("Lattice specimens consume canonical roles and source-driven patterns", () => {
+  const source = readFileSync(join(storiesDir, "Lattice.stories.tsx"), "utf8")
+  const css = readFileSync(join(storiesDir, "Lattice.css"), "utf8")
+  assert.match(source, /@pixeloven\/tokens\/source/)
+  assert.match(source, /Object\.entries\(raw\.reading\)/)
+  assert.match(source, /Object\.entries\(raw\.graphPattern\)/)
+  assert.doesNotMatch(source + css, /#[0-9a-fA-F]{6}\b/)
+  for (const role of ["body", "control", "input", "code"]) {
+    for (const metric of ["size", "line-height", "weight", "letter-spacing", "font-family"]) {
+      assert.ok(css.includes(`var(--pxo-reading-${role}-${metric})`))
+    }
+  }
+  assert.match(css, /:focus-visible/)
+  assert.match(css, /:disabled/)
+  assert.match(css, /aria-pressed/)
+  assert.match(css, /--pxo-status-surface-danger/)
+  assert.match(allPages, /<ReadingRoles\s*\/>/)
+  assert.match(allPages, /<OriginPatterns\s*\/>/)
 })
