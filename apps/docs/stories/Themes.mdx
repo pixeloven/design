@@ -1,0 +1,64 @@
+import { Meta, Canvas } from "@storybook/addon-docs/blocks";
+import * as Themes from "./Themes.stories";
+
+<Meta title="Foundations/Brand themes" />
+
+<div className="pxo-doc">
+
+# Brand themes
+
+Cool and Warm share the same control behavior and readable type. Acid and
+electric Violet are independent accents. Appearance chooses Dark, Light, or
+System; it does not choose a visual theme or change task state.
+
+<Canvas of={Themes.SharedWorkflows} />
+
+## Opt in
+
+Existing token imports retain their values. Import the theme layer after the
+legacy stylesheet and choose a visual theme on the document root:
+
+```ts
+import "@pixeloven/tokens/tokens.css"
+import "@pixeloven/tokens/themes.css"
+```
+
+```html
+<html data-pxo-theme="cool" data-pxo-accent="violet" data-theme="dark">
+```
+
+Remove `data-theme` to follow the OS. Explicit `dark` and `light` override the OS.
+Without a valid `data-pxo-theme`, importing the theme layer changes nothing.
+
+For rendering a canvas or an isolated specimen, use the same roles through
+`resolveTheme(settings, systemScheme)` from `@pixeloven/tokens/themes`.
+The result includes the resolved `scheme` and a complete `tokens` object.
+`normalizeThemeSettings` validates untrusted saved preferences. These helpers
+are pure: the consumer owns browser storage, OS subscriptions and DOM updates.
+
+## Role boundaries
+
+Use `actionPrimary`, `actionPrimaryHover`, `actionPrimaryPressed` and
+`actionOnPrimary` together for primary controls. `accentText` is for links and
+text emphasis; a bright button fill is not necessarily legible as text.
+`borderControl` distinguishes an essential control boundary from a decorative
+divider. `interactionFocus` and the paired selection surface/text roles carry
+keyboard and selected states.
+
+Status colors retain meaning. Graph origins retain their own color and pattern
+roles. Brand marks retain their neutral ink. An accent change must not recolor
+every object in the application.
+
+## Adoption
+
+Pin the published package and update the consumer deliberately. Lattice must
+retain its existing saved appearance and Dark fallback during migration; the
+new helper's defaults are not a migration policy. Handle unavailable storage
+without preventing use, and keep active queries, notes and tasks when a setting
+changes. Production 3D graph rendering needs its own validation.
+
+The examples above use one set of native controls and sample data. They are
+reference compositions for extraction into the eventual component package,
+not a second implementation of either product.
+
+</div>

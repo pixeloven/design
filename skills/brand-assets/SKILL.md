@@ -38,6 +38,20 @@ unrelated drawings.
 
 ## Adding a mark
 
+Brand 0.2 adds approved Solid and Inset variants under each existing identity.
+The legacy `file` remains unchanged. Use `variants.solid` for primary marks and
+outlined lockups, and `variants.inset` for favicon/app/maskable assets. Every
+registry path resolves through `@pixeloven/brand/<path>`. Read the package README
+before choosing a crop or minimum size; do not recreate icon padding in a consumer.
+
+New variant masters live in `sources/`, with controlled `currentColor` geometry.
+The build produces standalone SVGs with explicit canonical ink and outlined
+lettering, plus PNG icons. Source changes go through build, palette/geometry
+tests and packed-package validation. Keep generated `dist/` out of Git. Do not
+apply the single square viewBox rule below to a registered wordmark lockup.
+
+For a new legacy-style mark, the existing procedure is:
+
 1. Draw it at `viewBox="0 0 64 64"`, in tokens only.
 2. Save as `packages/brand/marks/<id>.svg`.
 3. Register it in `marks.json` with `id`, `name`, `tier`, `file`, and a `figure`

@@ -1,19 +1,29 @@
 {
   "name": "@pixeloven/brand",
-  "version": "0.1.0",
-  "description": "PixelOven brand marks \u2014 logos and the rules that keep them one family.",
+  "version": "0.2.0",
+  "description": "PixelOven brand marks — logos and the rules that keep them one family.",
   "license": "UNLICENSED",
   "type": "module",
   "exports": {
     "./marks.json": "./marks.json",
-    "./marks/*": "./marks/*"
+    "./marks/*": "./marks/*",
+    "./sources/*": "./sources/*",
+    "./assets/*": "./dist/assets/*",
+    "./dist/assets/*": "./dist/assets/*"
   },
   "files": [
     "marks",
-    "marks.json"
+    "marks.json",
+    "sources",
+    "dist/assets",
+    "LICENSES",
+    "README.md",
+    "CHANGELOG.md"
   ],
   "scripts": {
-    "test": "node --test",
+    "build": "node src/build.mjs",
+    "test": "node src/build.mjs && node --test",
+    "prepare": "node src/build.mjs",
     "prepublishOnly": "npm test"
   },
   "repository": {
@@ -22,5 +32,11 @@
   },
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"
+  },
+  "devDependencies": {
+    "@fontsource/ibm-plex-sans": "5.3.0",
+    "@pixeloven/tokens": "workspace:*",
+    "@resvg/resvg-js": "2.6.2",
+    "fontkit": "2.0.4"
   }
 }

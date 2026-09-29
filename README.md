@@ -32,6 +32,11 @@ to one cannot silently pull them apart.
 
 The brand violet `#7c3cff` is the same value in both schemes.
 
+The approved Cool/Warm themes and Acid/electric Violet accents are an **opt-in
+layer**; the legacy palette above stays compatible. See the
+[theme package contract](packages/tokens/README.md) and
+[Solid/Inset asset guide](packages/brand/README.md) for production consumption.
+
 > `pi-web` is an upstream fork kept as inspiration, not a consumer. Only 16 of the
 > 35 values in use appear in it at all — the palette is far less inherited than it
 > looks.
@@ -44,7 +49,7 @@ packages/
   brand/      marks, and the rules that keep them one family
   ui/         React components            (next — extracted from lattice)
 apps/
-  docs/       the documentation site      (later)
+  docs/       Storybook reference and interactive product specimens
 ```
 
 ## Installing the skills
@@ -97,5 +102,8 @@ dropping a scheme from a token. A check that has never failed is not a check.
 
 ## Status
 
-Phase 1. Tokens are reconciled, dual-scheme and published; no consumer has
-migrated yet.
+Shared brand foundations are prepared in tokens 0.6 and brand 0.2: approved
+themes, explicit action/selection roles, Solid/Inset assets and interactive
+Lattice/Warden examples. See the [delivery plan](docs/brand-foundations-plan.md).
+Publication follows merge; consumers then adopt explicit package pins. A package
+upgrade alone does not opt into the new themes or replace a legacy mark.

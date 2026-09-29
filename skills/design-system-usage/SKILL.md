@@ -108,6 +108,23 @@ nothing to remember to set.
 
 ## Two schemes
 
+### Opt-in brand themes
+
+Tokens 0.6 adds `themes.css` and the typed `themes` entry point. Existing exports
+keep their values. Import `tokens.css` then `themes.css`, and set
+`data-pxo-theme="cool"` or `"warm"` on the root. Choose `data-pxo-accent="acid"`
+or `"violet"` independently. The existing `data-theme="dark"|"light"` selects
+appearance; omit it to follow the OS. No visual-theme attribute means no opt-in.
+
+Use `resolveTheme`, `normalizeThemeSettings` and `resolveAppearance` for the same
+roles in code. Consumers own persistence and OS subscriptions. Preserve existing
+saved appearance and the application's fallback during migration. New actions
+use the paired `actionPrimary`/`actionOnPrimary` roles, with explicit hover and
+pressed fills. Text uses `accentText`, not a bright fill. Essential boundaries
+use `borderControl`. See `packages/tokens/README.md` for the complete contract.
+
+The legacy vocabulary and two-scheme behavior below still apply to existing imports.
+
 `tokens.css` emits three blocks and you almost never think about them: `:root`
 carries **dark** (the default, so a page with no theme wiring is already right),
 a `prefers-color-scheme` block follows the OS, and `[data-theme]` lets an

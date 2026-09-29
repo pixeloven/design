@@ -17,6 +17,7 @@ import assert from "node:assert/strict";
 import { readFileSync, readdirSync } from "node:fs";
 import { dirname, join, basename } from "node:path";
 import { fileURLToPath } from "node:url";
+import { Resvg } from "@resvg/resvg-js";
 
 const here = dirname(fileURLToPath(import.meta.url));
 const root = join(here, "..");
@@ -66,6 +67,16 @@ for (const mark of marks) {
         `${colour} is not a design-system token — marks vary the figure, never the palette`,
       );
     }
+    // Named CSS colours, short hex, style declarations and external paint
+    // servers used to bypass the six-digit check. Accept only explicit tokens
+    // and the local paint servers used by the established Lattice figure.
+    assert.doesNotMatch(rendered, /<style\b|\bstyle=|\bhref=|<script\b|\bon\w+=/i);
+    for (const [, paint] of rendered.matchAll(/(?:fill|stroke|stop-color|color)="([^"]+)"/g)) {
+      assert.ok(
+        paint === "none" || PALETTE.has(paint.toLowerCase()) || /^url\(#[\w-]+\)$/.test(paint),
+        `${paint} is not a canonical colour or local paint server`,
+      );
+    }
   });
 
   test(`[${mark.id}] is a well-formed, accessible, scalable mark`, () => {
@@ -75,6 +86,7 @@ for (const mark of marks) {
     assert.match(mark.svg, /aria-label="/, "must carry an aria-label");
     // Raster content cannot scale and defeats the point of shipping SVG.
     assert.doesNotMatch(mark.svg, /<image\b/, "must not embed a raster image");
+    assert.doesNotThrow(() => new Resvg(mark.svg, { font: { loadSystemFonts: false } }).render(), "must parse and render as XML/SVG");
   });
 
   test(`[${mark.id}] has no XML-illegal comment content`, () => {

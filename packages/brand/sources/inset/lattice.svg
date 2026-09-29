@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Lattice — Inset">
+  <title>Lattice — Inset</title>
+  <path fill="currentColor" fill-rule="evenodd" d="M16 6H48L58 16V48L48 58H16L6 48V16ZM32 13L13 32L32 51L51 32Z"/>
+  <path fill="none" stroke="currentColor" stroke-width="5" d="M22.5 22.5L41.5 41.5M22.5 41.5L41.5 22.5"/>
+</svg>

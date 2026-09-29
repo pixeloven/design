@@ -18,14 +18,187 @@
       "tier": "parent",
       "file": "marks/pixeloven.svg",
       "figure": "a heavy geometric P on a dark tile with a sparkle — the established org emblem, redrawn as paths",
-      "note": "kept from the existing brand rather than redesigned; monochrome by intent so the parent does not compete with its products for colour"
+      "note": "kept from the existing brand rather than redesigned; monochrome by intent so the parent does not compete with its products for colour",
+      "variants": {
+        "solid": {
+          "source": "sources/solid/pixeloven.svg",
+          "figure": "a faceted P with a cutout bowl",
+          "usage": "primary headers and name lockups",
+          "clearSpace": {
+            "viewBoxUnits": 8,
+            "relativeTo": "outside the visible artwork; packaged SVG padding does not replace clear space"
+          },
+          "minimumSize": {
+            "markCssPx": 24,
+            "lockupHeightCssPx": 32
+          },
+          "assets": {
+            "light": {
+              "mark": "dist/assets/pixeloven/solid/light/mark.svg",
+              "lockup": "dist/assets/pixeloven/solid/light/lockup.svg"
+            },
+            "dark": {
+              "mark": "dist/assets/pixeloven/solid/dark/mark.svg",
+              "lockup": "dist/assets/pixeloven/solid/dark/lockup.svg"
+            }
+          }
+        },
+        "inset": {
+          "source": "sources/inset/pixeloven.svg",
+          "figure": "a faceted tile with a P cutout and a solid counter",
+          "usage": "favicons, app icons and avatars",
+          "clearSpace": {
+            "viewBoxUnits": 8,
+            "relativeTo": "outside the visible artwork; packaged SVG padding does not replace clear space"
+          },
+          "minimumSize": {
+            "markCssPx": 16,
+            "maskableCssPx": 48
+          },
+          "assets": {
+            "light": {
+              "mark": "dist/assets/pixeloven/inset/light/mark.svg",
+              "favicon": {
+                "svg": "dist/assets/pixeloven/inset/light/favicon.svg",
+                "png16": "dist/assets/pixeloven/inset/light/favicon-16.png",
+                "png32": "dist/assets/pixeloven/inset/light/favicon-32.png"
+              },
+              "app": {
+                "svg": "dist/assets/pixeloven/inset/light/app.svg",
+                "png180": "dist/assets/pixeloven/inset/light/app-180.png",
+                "png192": "dist/assets/pixeloven/inset/light/app-192.png",
+                "png512": "dist/assets/pixeloven/inset/light/app-512.png"
+              },
+              "maskable": {
+                "svg": "dist/assets/pixeloven/inset/light/maskable.svg",
+                "png192": "dist/assets/pixeloven/inset/light/maskable-192.png",
+                "png512": "dist/assets/pixeloven/inset/light/maskable-512.png"
+              }
+            },
+            "dark": {
+              "mark": "dist/assets/pixeloven/inset/dark/mark.svg",
+              "favicon": {
+                "svg": "dist/assets/pixeloven/inset/dark/favicon.svg",
+                "png16": "dist/assets/pixeloven/inset/dark/favicon-16.png",
+                "png32": "dist/assets/pixeloven/inset/dark/favicon-32.png"
+              },
+              "app": {
+                "svg": "dist/assets/pixeloven/inset/dark/app.svg",
+                "png180": "dist/assets/pixeloven/inset/dark/app-180.png",
+                "png192": "dist/assets/pixeloven/inset/dark/app-192.png",
+                "png512": "dist/assets/pixeloven/inset/dark/app-512.png"
+              },
+              "maskable": {
+                "svg": "dist/assets/pixeloven/inset/dark/maskable.svg",
+                "png192": "dist/assets/pixeloven/inset/dark/maskable-192.png",
+                "png512": "dist/assets/pixeloven/inset/dark/maskable-512.png"
+              }
+            }
+          }
+        }
+      }
     },
     {
       "id": "lattice",
       "name": "Lattice",
       "tier": "product",
       "file": "marks/lattice.svg",
-      "figure": "crossed diagonal bands clipped to a diamond — latticework"
+      "figure": "crossed diagonal bands clipped to a diamond — latticework",
+      "variants": {
+        "solid": {
+          "source": "sources/solid/lattice.svg",
+          "figure": "a solid diamond with four diamond apertures",
+          "usage": "primary headers and name lockups",
+          "clearSpace": {
+            "viewBoxUnits": 8,
+            "relativeTo": "outside the visible artwork; packaged SVG padding does not replace clear space"
+          },
+          "minimumSize": {
+            "markCssPx": 24,
+            "lockupHeightCssPx": 32
+          },
+          "assets": {
+            "light": {
+              "mark": "dist/assets/lattice/solid/light/mark.svg",
+              "lockup": "dist/assets/lattice/solid/light/lockup.svg"
+            },
+            "dark": {
+              "mark": "dist/assets/lattice/solid/dark/mark.svg",
+              "lockup": "dist/assets/lattice/solid/dark/lockup.svg"
+            }
+          }
+        },
+        "inset": {
+          "source": "sources/inset/lattice.svg",
+          "figure": "a faceted tile with a diamond cutout and crossed diagonal bands",
+          "usage": "favicons, app icons and avatars",
+          "clearSpace": {
+            "viewBoxUnits": 8,
+            "relativeTo": "outside the visible artwork; packaged SVG padding does not replace clear space"
+          },
+          "minimumSize": {
+            "markCssPx": 16,
+            "maskableCssPx": 48
+          },
+          "assets": {
+            "light": {
+              "mark": "dist/assets/lattice/inset/light/mark.svg",
+              "favicon": {
+                "svg": "dist/assets/lattice/inset/light/favicon.svg",
+                "png16": "dist/assets/lattice/inset/light/favicon-16.png",
+                "png32": "dist/assets/lattice/inset/light/favicon-32.png"
+              },
+              "app": {
+                "svg": "dist/assets/lattice/inset/light/app.svg",
+                "png180": "dist/assets/lattice/inset/light/app-180.png",
+                "png192": "dist/assets/lattice/inset/light/app-192.png",
+                "png512": "dist/assets/lattice/inset/light/app-512.png"
+              },
+              "maskable": {
+                "svg": "dist/assets/lattice/inset/light/maskable.svg",
+                "png192": "dist/assets/lattice/inset/light/maskable-192.png",
+                "png512": "dist/assets/lattice/inset/light/maskable-512.png"
+              }
+            },
+            "dark": {
+              "mark": "dist/assets/lattice/inset/dark/mark.svg",
+              "favicon": {
+                "svg": "dist/assets/lattice/inset/dark/favicon.svg",
+                "png16": "dist/assets/lattice/inset/dark/favicon-16.png",
+                "png32": "dist/assets/lattice/inset/dark/favicon-32.png"
+              },
+              "app": {
+                "svg": "dist/assets/lattice/inset/dark/app.svg",
+                "png180": "dist/assets/lattice/inset/dark/app-180.png",
+                "png192": "dist/assets/lattice/inset/dark/app-192.png",
+                "png512": "dist/assets/lattice/inset/dark/app-512.png"
+              },
+              "maskable": {
+                "svg": "dist/assets/lattice/inset/dark/maskable.svg",
+                "png192": "dist/assets/lattice/inset/dark/maskable-192.png",
+                "png512": "dist/assets/lattice/inset/dark/maskable-512.png"
+              }
+            }
+          }
+        }
+      }
     }
-  ]
+  ],
+  "assetContract": {
+    "version": 1,
+    "inkToken": "text.base",
+    "backgroundToken": "surface.bg",
+    "appearance": "light means dark ink on a light ground; dark means light ink on a dark ground",
+    "lockup": {
+      "font": "IBM Plex Sans",
+      "weight": 500,
+      "fontSize": 40,
+      "letterSpacingEm": -0.025,
+      "gap": 12
+    },
+    "maskable": {
+      "scale": 0.64,
+      "safeZoneRadius": 0.4
+    }
+  }
 }

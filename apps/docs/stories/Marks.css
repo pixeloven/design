@@ -1,0 +1,12 @@
+.approved-marks { display: grid; gap: 2.5rem; }
+.approved-grounds { display: grid; grid-template-columns: repeat(auto-fit,minmax(min(100%,19rem),1fr)); gap: 1rem; margin-block: 1rem; }
+.approved-ground { padding: 1.5rem; border: 1px solid var(--pxo-text-dim); border-radius: var(--pxo-radius); min-width: 0; }
+.approved-ground h3 { margin: 0 0 1.5rem; color: inherit; font: var(--pxo-reading-control-weight) var(--pxo-reading-control-size)/var(--pxo-reading-control-line-height) var(--pxo-reading-control-font-family); }
+.approved-lockup { display: block; height: 48px; max-width: 100%; margin-bottom: 1.5rem; }
+.approved-sizes, .approved-icon-row { display: flex; flex-wrap: wrap; gap: 1.5rem; align-items: end; margin-block: 1.5rem; }
+.approved-ground figure { display: grid; justify-items: center; gap: .5rem; margin: 0; }
+.approved-ground figcaption { font: var(--pxo-reading-control-weight) var(--pxo-reading-control-size)/var(--pxo-reading-control-line-height) var(--pxo-reading-control-font-family); }
+.approved-mask { border-radius: 50%; }
+.approved-downloads { display: flex; flex-wrap: wrap; gap: .75rem 1.5rem; }
+.approved-downloads a { display: inline-flex; align-items: center; min-height: 44px; text-underline-offset: .2em; }
+.approved-downloads a:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
