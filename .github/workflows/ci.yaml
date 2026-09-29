@@ -58,6 +58,24 @@ jobs:
         working-directory: packages/brand
         run: node --test
 
+  ui:
+    name: ui — native behavior, strict types and package exports
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm --filter @pixeloven/tokens build
+      - run: pnpm --filter @pixeloven/ui build
+      - run: pnpm --filter @pixeloven/ui lint
+      - run: pnpm --filter @pixeloven/ui typecheck
+      - run: pnpm --filter @pixeloven/ui test
+
   docs:
     name: docs — builds and covers the tokens
     runs-on: ubuntu-latest
@@ -75,7 +93,7 @@ jobs:
       - run: pnpm install --frozen-lockfile
 
       - name: Build package assets
-        run: pnpm --filter @pixeloven/tokens --filter @pixeloven/brand build
+        run: pnpm --filter @pixeloven/tokens --filter @pixeloven/brand --filter @pixeloven/ui build
 
       - name: Typecheck public API and specimens
         working-directory: apps/docs

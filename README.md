@@ -47,7 +47,7 @@ layer**; the legacy palette above stays compatible. See the
 packages/
   tokens/     source of truth → CSS vars, TS consts, plain tokens.css
   brand/      marks, and the rules that keep them one family
-  ui/         React components            (next — extracted from lattice)
+  ui/         Native React controls with typed APIs and shared states
 apps/
   docs/       Storybook reference and interactive product specimens
 ```
@@ -102,8 +102,11 @@ dropping a scheme from a token. A check that has never failed is not a check.
 
 ## Status
 
-Shared brand foundations are prepared in tokens 0.6 and brand 0.2: approved
+Shared brand foundations are published in tokens 0.6 and brand 0.2: approved
 themes, explicit action/selection roles, Solid/Inset assets and interactive
 Lattice/Warden examples. See the [delivery plan](docs/brand-foundations-plan.md).
-Publication follows merge; consumers then adopt explicit package pins. A package
+The initial UI package adds Button, Input, Select and Label with strict public
+types and native form behavior. See the [control contract](packages/ui/README.md).
+Lattice adopts the published foundations first; shared-control adoption follows
+UI publication. Consumers use explicit package pins. A package
 upgrade alone does not opt into the new themes or replace a legacy mark.

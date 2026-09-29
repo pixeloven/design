@@ -57,8 +57,22 @@ new helper's defaults are not a migration policy. Handle unavailable storage
 without preventing use, and keep active queries, notes and tasks when a setting
 changes. Production 3D graph rendering needs its own validation.
 
-The examples above use one set of native controls and sample data. They are
-reference compositions for extraction into the eventual component package,
-not a second implementation of either product.
+The examples above import `Button`, `Input`, `Select` and `Label` from
+`@pixeloven/ui`, including its shipped stylesheet. The surrounding task flows
+use sample data; the controls are the same package consumers install.
+
+```tsx
+import { Button, Input, Label, Select } from "@pixeloven/ui"
+import "@pixeloven/ui/styles.css"
+
+<Label htmlFor="query">Find a note</Label>
+<Input id="query" name="query" type="search" />
+<Button variant="primary" type="submit">Search</Button>
+```
+
+Buttons default to `type="button"`; forms opt into submission. Inputs and selects
+keep their native label, validation, keyboard and form behavior. Pass
+`aria-invalid` with `aria-describedby` for an error and its explanation. Consumers
+own labels, validation messages, application state and font loading.
 
 </div>

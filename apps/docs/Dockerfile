@@ -6,7 +6,7 @@
 # the 1 MiB ConfigMap ceiling, so that pattern was never available here.
 #
 # Two stages: the build needs the whole pnpm workspace (the docs read
-# packages/tokens and packages/brand at build time, which is what stops the
+# packages/tokens, packages/brand and packages/ui at build time, which is what stops the
 # documentation drifting from what ships), while the runtime needs nothing but
 # the static output and a web server.
 
@@ -24,6 +24,7 @@ WORKDIR /src
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 COPY packages/tokens/package.json ./packages/tokens/
 COPY packages/brand/package.json ./packages/brand/
+COPY packages/ui/package.json ./packages/ui/
 COPY apps/docs/package.json ./apps/docs/
 
 # --ignore-scripts because tokens' `prepare` script builds dist/ and its source
@@ -33,9 +34,10 @@ RUN pnpm install --frozen-lockfile --ignore-scripts
 COPY packages ./packages
 COPY apps/docs ./apps/docs
 
-# Both packages produce ignored assets that the documentation imports.
+# Packages produce ignored assets that the documentation imports.
 RUN node packages/tokens/src/build.mjs \
  && pnpm --filter @pixeloven/brand build \
+ && pnpm --filter @pixeloven/ui build \
  && pnpm --filter @pixeloven/docs typecheck \
  && pnpm --filter @pixeloven/docs build
 

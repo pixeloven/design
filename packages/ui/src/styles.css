@@ -1,0 +1,110 @@
+/* Import tokens.css and themes.css first; the consumer chooses the root theme. */
+.pxo-button,
+.pxo-input--entry,
+.pxo-select {
+  box-sizing: border-box;
+  max-inline-size: 100%;
+  min-block-size: max(44px, 2.75rem);
+  padding: 0.65rem 0.85rem;
+  border: 1px solid var(--pxo-border-control);
+  border-radius: var(--pxo-radius-sm);
+  background: var(--pxo-surface);
+  color: var(--pxo-text);
+}
+
+.pxo-button,
+.pxo-label {
+  font: var(--pxo-reading-control-weight) var(--pxo-reading-control-size) / var(--pxo-reading-control-line-height) var(--pxo-reading-control-font-family);
+  letter-spacing: var(--pxo-reading-control-letter-spacing);
+}
+
+.pxo-button {
+  min-inline-size: max(44px, 2.75rem);
+  cursor: pointer;
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+
+.pxo-button:hover:not(:disabled) {
+  background: var(--pxo-surface-hover);
+}
+
+.pxo-button:active:not(:disabled) {
+  background: var(--pxo-surface-raised);
+}
+
+.pxo-button--primary {
+  background: var(--pxo-action-primary);
+  color: var(--pxo-action-on-primary);
+}
+
+.pxo-button--primary:hover:not(:disabled) {
+  background: var(--pxo-action-primary-hover);
+}
+
+.pxo-button--primary:active:not(:disabled) {
+  background: var(--pxo-action-primary-pressed);
+}
+
+.pxo-button[aria-pressed="true"]:not(:disabled) {
+  background: var(--pxo-interaction-selection-surface);
+  color: var(--pxo-interaction-selection-text);
+  border-color: var(--pxo-interaction-focus);
+}
+
+.pxo-input--entry,
+.pxo-select {
+  inline-size: 100%;
+  min-inline-size: 0;
+  font: var(--pxo-reading-input-weight) var(--pxo-reading-input-size) / var(--pxo-reading-input-line-height) var(--pxo-reading-input-font-family);
+  letter-spacing: var(--pxo-reading-input-letter-spacing);
+}
+
+.pxo-input--entry {
+  caret-color: var(--pxo-interaction-focus);
+}
+
+.pxo-input--entry::placeholder {
+  color: var(--pxo-text-secondary);
+  opacity: 1;
+}
+
+.pxo-select {
+  cursor: pointer;
+}
+
+.pxo-label {
+  color: var(--pxo-text);
+}
+
+.pxo-label:where(:not([hidden])) {
+  display: block;
+}
+
+.pxo-button:disabled,
+.pxo-input--entry:disabled,
+.pxo-select:disabled {
+  cursor: not-allowed;
+  border-style: dashed;
+  background: var(--pxo-surface);
+  color: var(--pxo-text-dim);
+  opacity: 1;
+}
+
+.pxo-input--entry[aria-invalid]:not([aria-invalid="false"]),
+.pxo-select[aria-invalid]:not([aria-invalid="false"]) {
+  border-color: var(--pxo-status-danger);
+  border-style: dashed;
+}
+
+.pxo-button:focus-visible,
+.pxo-input:focus-visible,
+.pxo-select:focus-visible {
+  outline: 2px solid var(--pxo-interaction-focus);
+  outline-offset: 3px;
+}
+
+.pxo-input--entry::selection {
+  background: var(--pxo-interaction-selection-surface);
+  color: var(--pxo-interaction-selection-text);
+}

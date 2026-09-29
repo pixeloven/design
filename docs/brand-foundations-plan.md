@@ -1,6 +1,6 @@
 # Approved brand foundations
 
-2026-09-29 · Shared foundations prepared for review; publication and adoption pending.
+2026-09-29 · Brand/token foundations published; shared controls and Lattice adoption in progress.
 
 PixelOven is the parent; Lattice is a product. The operator approved Solid as
 the primary figure, Inset for icons, Cool/Warm themes, and Acid/electric Violet
@@ -44,7 +44,7 @@ publication, retaining existing saved appearance and stable icon URLs.
 
 ## Delivery status
 
-- **Prepared:** tokens 0.6 with typed opt-in themes and eight validated color
+- **Published:** tokens 0.6 with typed opt-in themes and eight validated color
   combinations; brand 0.2 with four masters and 52 generated exports. Original
   token artifacts and marks remain compatible. Both packages validate packed
   consumer imports; brand also checks every registry export.
@@ -55,12 +55,32 @@ publication, retaining existing saved appearance and stable icon URLs.
   changes. Browser checks covered 24 OS/appearance/theme/accent combinations,
   mobile task retention, System updates, unavailable/corrupt storage and enlarged
   text. A missing React import in the marks reference was corrected during review.
-- **After merge:** verify token/brand publication, extract the proven native
-  control patterns into the planned component package, then prepare pinned
-  consumer migrations. Lattice's first migration must preserve its existing
-  appearance and stable icon URLs; Warden adoption follows its own roadmap.
+- **Verified after merge:** both packages downloaded from GitHub Packages;
+  registry integrity, public exports and generated assets match merged commit
+  `85e6fa4`. The docs image also passed its serving smoke check. A duplicate
+  release invocation stopped at the existing already-published guard.
+- **Current parallel work:** extract native Button/Input/Select/Label into
+  `@pixeloven/ui` while Lattice adopts the already published tokens and assets.
+  The docs now consume the package instead of owning duplicate control styles.
+  Lattice preserves saved appearance, its Dark fallback, current exploration
+  and stable icon URLs. Independent review follows both implementations.
+- **Next release boundary:** publish UI 0.1 after its PR merges, then migrate
+  Lattice's matching controls. The Lattice foundation migration does not depend
+  on an unpublished UI package. Warden adoption follows its own roadmap.
 
 The new opt-in danger callout ground was adjusted to pass 4.5:1 with its existing
-status foreground. Legacy palette values are unchanged. UI examples are reference
-compositions; this tranche does not claim a published component package or a
-deployed product redesign.
+status foreground. Legacy palette values are unchanged. The surrounding example
+workflows remain reference compositions. UI publication and product deployment
+remain separate gates; neither is implied by implementation or package tests.
+
+## Shared controls acceptance
+
+- Native semantics, form submission, refs, labels, disabled fields and invalid
+  descriptions survive the wrapper. Buttons default to non-submitting actions.
+- Strict build/public types and lint cover the package; installed tarball tests
+  exercise its exports. React remains a peer rather than bundled runtime code.
+- Control styles use canonical roles, readable type, visible focus and at least
+  44px touch targets. Consumer layout and state remain outside the package.
+- Actual Storybook controls are checked on desktop/mobile across the eight
+  combinations, including keyboard focus, form errors and unavailable actions.
+- Focused local checks and independent review precede PRs; CI owns broad gates.

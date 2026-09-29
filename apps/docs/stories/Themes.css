@@ -1,5 +1,5 @@
 .theme-studio { box-sizing: border-box; padding: clamp(1rem, 4vw, 3rem); color: var(--pxo-text); background: var(--pxo-surface-bg); font: var(--pxo-reading-body-weight) var(--pxo-reading-body-size)/var(--pxo-reading-body-line-height) var(--pxo-reading-body-font-family); accent-color: var(--pxo-interaction-focus); }
-.theme-studio *, .theme-studio *::before, .theme-studio *::after { box-sizing: inherit; }
+.theme-studio *, .theme-studio *::before, .theme-studio *::after { box-sizing: border-box; }
 .theme-studio :is(h1,h2,h3,h4,p) { margin: 0; overflow-wrap: anywhere; }
 .theme-studio h1 { font-size: clamp(1.75rem, 4vw, 2.75rem); font-weight: var(--pxo-type-title-weight); line-height: 1.15; letter-spacing: -.025em; text-wrap: balance; }
 .theme-studio h2 { font-size: 1.375rem; font-weight: 500; }
@@ -11,26 +11,19 @@
 .theme-settings { display: flex; flex-wrap: wrap; align-items: end; gap: 1rem 1.5rem; padding-block: 1.5rem; border-block: 1px solid var(--pxo-border); }
 .theme-settings > label { flex: 1 1 9rem; }
 .theme-settings > p { flex: 1 1 15rem; padding-block: .5rem; }
-.theme-studio label { display: grid; gap: .5rem; font-size: .875rem; }
-.theme-studio :is(button,input,select) { font: var(--pxo-reading-control-weight) var(--pxo-reading-control-size)/var(--pxo-reading-control-line-height) var(--pxo-reading-control-font-family); color: var(--pxo-text); border: 1px solid var(--pxo-border-control); background: var(--pxo-surface); border-radius: var(--pxo-radius-sm); min-height: 44px; padding: .65rem .85rem; max-width: 100%; }
-.theme-studio :is(button,select) { cursor: pointer; }
-.theme-studio :is(input,select) { width: 100%; min-width: 0; font: var(--pxo-reading-input-weight) var(--pxo-reading-input-size)/var(--pxo-reading-input-line-height) var(--pxo-reading-input-font-family); }
-.theme-studio input { caret-color: var(--pxo-interaction-focus); }
-.theme-studio input::placeholder { color: var(--pxo-text-secondary); opacity: 1; }
-.theme-studio button:hover:not(:disabled) { background: var(--pxo-surface-hover); }
-.theme-studio button:active:not(:disabled) { background: var(--pxo-surface-raised); }
-.theme-studio button:disabled { cursor: not-allowed; border-style: dashed; color: var(--pxo-text-dim); }
-.theme-studio .theme-primary { background: var(--pxo-action-primary); color: var(--pxo-action-on-primary); font-weight: 500; }
-.theme-studio .theme-primary:hover:not(:disabled) { background: var(--pxo-action-primary-hover); }
-.theme-studio .theme-primary:active:not(:disabled) { background: var(--pxo-action-primary-pressed); }
-.theme-studio .theme-primary:disabled { background: var(--pxo-surface); color: var(--pxo-text-dim); }
-.theme-studio [aria-pressed="true"] { background: var(--pxo-interaction-selection-surface); color: var(--pxo-interaction-selection-text); border-color: var(--pxo-interaction-focus); }
+.theme-studio label { display: grid; gap: .5rem; }
 .theme-studio a { color: var(--pxo-accent-text); text-underline-offset: .2em; }
-.theme-studio :is(button,input,select,a):focus-visible { outline: 2px solid var(--pxo-interaction-focus); outline-offset: 3px; }
+.theme-studio a:focus-visible { outline: 2px solid var(--pxo-interaction-focus); outline-offset: 3px; }
 .theme-studio ::selection { background: var(--pxo-interaction-selection-surface); color: var(--pxo-interaction-selection-text); }
 .theme-controls { display: grid; gap: 1.25rem; margin-block: 2rem 3rem; }
 .theme-control-row { display: flex; flex-wrap: wrap; gap: .75rem; align-items: center; }
 .theme-control-row a { display: inline-flex; align-items: center; min-height: 44px; padding-inline: .5rem; }
+.theme-field-states { max-width: 40rem; }
+.theme-field-states summary { cursor: pointer; min-height: 44px; padding-block: .65rem; color: var(--pxo-accent-text); }
+.theme-field-states summary:focus-visible { outline: 2px solid var(--pxo-interaction-focus); outline-offset: 3px; }
+.theme-field-states :is(form,fieldset), .theme-field-states > div { display: grid; gap: .75rem; margin-block: 1rem; }
+.theme-field-states fieldset { min-width: 0; padding: 1rem; border: 1px solid var(--pxo-border); }
+.theme-field-error { color: var(--pxo-status-danger); }
 .theme-product { margin-top: 2.5rem; }
 .theme-product-heading { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem; align-items: center; margin-bottom: 1.25rem; }
 .theme-workspace { display: grid; grid-template-columns: minmax(13rem,1fr) minmax(0,2fr); border-block: 1px solid var(--pxo-border); background: var(--pxo-surface); }
