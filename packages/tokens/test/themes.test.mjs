@@ -1,7 +1,11 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
+import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { createHash } from "node:crypto";
+import { execFileSync } from "node:child_process";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
+import { fileURLToPath } from "node:url";
 import legacy from "../dist/tokens.js";
 import {
   accentNames, appearances, defaultThemeSettings, normalizeThemeSettings,
@@ -179,4 +183,63 @@ test("theme CSS is root-opt-in and scopes OS following separately from explicit 
   for (const { selector } of cssBlocks) assert.match(selector, /^:root\[data-pxo-theme="(?:cool|warm)"\]/);
   assert.equal([...css.matchAll(/@media \(prefers-color-scheme: light\)/g)].length, 4);
   assert.ok(!css.includes('data-theme="system"'), "System removes the existing appearance attribute");
+});
+
+test("packed package supports an isolated offline consumer through public exports", () => {
+  const temporary = mkdtempSync(join(tmpdir(), "pxo-tokens-consumer-"));
+  try {
+    // Do not rebuild while other test files read dist. This checks the same
+    // previously built artifact that the release would pack, with no installs.
+    // npm 10's pacote can still run prepare despite --ignore-scripts. A no-op
+    // script shell makes that lifecycle suppression explicit on supported CI.
+    const [packed] = JSON.parse(execFileSync("npm", [
+      "pack", "--ignore-scripts", "--script-shell=/bin/true", "--offline", "--json", "--pack-destination", temporary,
+    ], { cwd: fileURLToPath(new URL("..", import.meta.url)), encoding: "utf8" }));
+    const installed = join(temporary, "node_modules", "@pixeloven", "tokens");
+    mkdirSync(installed, { recursive: true });
+    execFileSync("tar", ["-xzf", join(temporary, packed.filename), "-C", installed, "--strip-components=1"]);
+    const consumer = join(temporary, "consumer.mjs");
+    writeFileSync(consumer, String.raw`
+      import assert from "node:assert/strict";
+      import { readFileSync, rmSync } from "node:fs";
+      import { createRequire } from "node:module";
+      import { dirname, join } from "node:path";
+      const require = createRequire(import.meta.url);
+      const text = name => readFileSync(require.resolve(name), "utf8");
+      const css = text("@pixeloven/tokens/themes.css");
+      const flat = JSON.parse(text("@pixeloven/tokens/themes.json"));
+      const source = JSON.parse(text("@pixeloven/tokens/themes/source"));
+      assert.match(css, /data-pxo-theme="warm"/);
+      assert.match(css, /--pxo-action-primary-pressed:/);
+      assert.equal(source.themes.warm.label, "Warm");
+      assert.equal(JSON.parse(text("@pixeloven/tokens/source")).meta.defaultScheme, "dark");
+      const root = dirname(dirname(require.resolve("@pixeloven/tokens/themes")));
+      const manifest = JSON.parse(readFileSync(join(root, "package.json"), "utf8"));
+      for (const name of [".", "./themes"]) {
+        const declarations = readFileSync(join(root, manifest.exports[name].types), "utf8");
+        assert.match(declarations, name === "." ? /interface TokenSet/ : /interface ThemeTokenSet extends TokenSet/);
+      }
+      // Source exports were present in the tarball. Removing them now proves
+      // runtime consumers depend only on shipped dist files, not build inputs.
+      rmSync(join(root, "src"), { recursive: true });
+      const { default: legacy } = await import("@pixeloven/tokens");
+      const { resolveTheme, normalizeThemeSettings } = await import("@pixeloven/tokens/themes");
+      const resolved = resolveTheme({ theme: "warm", accent: "violet", appearance: "system" }, "light");
+      assert.equal(resolved.scheme, "light");
+      assert.deepEqual(resolved.tokens, flat.warm.violet.light);
+      assert.equal(resolved.tokens.readingBodySize, legacy.light.readingBodySize);
+      assert.equal(resolved.tokens.graphOriginDataview, legacy.light.graphOriginDataview);
+      assert.notEqual(resolved.tokens.surfaceBg, legacy.light.surfaceBg);
+      assert.ok(Object.isFrozen(resolved.tokens));
+      assert.equal(resolveTheme({ appearance: "dark" }, "light").scheme, "dark");
+      assert.equal(normalizeThemeSettings({ theme: "corrupt", accent: "violet" }).accent, "violet");
+    `);
+    execFileSync(process.execPath, [consumer], {
+      cwd: temporary,
+      env: { ...process.env, NODE_PATH: "" },
+      encoding: "utf8",
+    });
+  } finally {
+    rmSync(temporary, { recursive: true, force: true });
+  }
 });
