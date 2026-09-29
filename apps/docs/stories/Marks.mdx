@@ -1,5 +1,5 @@
 import { Meta } from "@storybook/addon-docs/blocks";
-import { MarkGrid, MarkRules } from "./Marks.helpers";
+import { ApprovedMarks, MarkGrid, MarkRules } from "./Marks.helpers";
 
 <Meta title="Foundations/Marks" />
 
@@ -9,6 +9,27 @@ import { MarkGrid, MarkRules } from "./Marks.helpers";
 
 Read from `packages/brand/marks.json`. Every mark shown here is the file that
 ships — nothing on this page is a redrawn approximation.
+
+<ApprovedMarks />
+
+## Asset roles
+
+Solid is the primary figure; its wordmark lockups contain outlined IBM Plex Sans
+lettering and need no installed font. Inset is the contained variant for tabs,
+launchers and avatars. Use the provided opaque favicon files for unpredictable
+browser chrome, app icons for ordinary launchers, and maskable files where the
+platform applies its own crop. The mark itself keeps its approved geometry.
+
+Each identity's `variants` entry in the registry declares its source, usage,
+minimum sizes, clear space and files for light/dark grounds. Resolve a listed
+path through `@pixeloven/brand/` plus that path. Icon PNGs and SVGs are built from
+the same master, using canonical neutral colors.
+
+## Existing consumer assets
+
+The original `file` entries remain available. Upgrading the package alone does
+not select the new identity; consumers adopt a variant explicitly and update
+their header, favicon and metadata references together.
 
 <MarkGrid />
 

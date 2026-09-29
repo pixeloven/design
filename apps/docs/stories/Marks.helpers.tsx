@@ -6,7 +6,10 @@
  * registered without appearing here.
  */
 
+import React from "react"
 import registry from "@pixeloven/brand/marks.json"
+import tokens from "@pixeloven/tokens"
+import "./Marks.css"
 
 type Mark = {
   id: string
@@ -25,6 +28,37 @@ const sources = import.meta.glob("../../../packages/brand/marks/*.svg", {
   query: "?url",
   import: "default",
 }) as Record<string, string>
+
+const variants = import.meta.glob("../../../packages/brand/dist/assets/**/*.svg", {
+  eager: true,
+  query: "?url",
+  import: "default",
+}) as Record<string, string>
+
+function variantUrl(file: string): string {
+  const path = `../../../packages/brand/${file}`
+  const url = variants[path]
+  if (!url) throw new Error(`Registered brand asset is missing from the documentation build: ${file}`)
+  return url
+}
+
+export function ApprovedMarks() {
+  return <div className="approved-marks">{registry.marks.map(mark => <section key={mark.id}>
+    <h2>{mark.name}</h2>
+    <p>Solid for the primary identity. Inset for browser tabs and application icons.</p>
+    <div className="approved-grounds">{(["light", "dark"] as const).map(scheme => {
+      const solid = mark.variants.solid.assets[scheme]
+      const inset = mark.variants.inset.assets[scheme]
+      return <div className="approved-ground" key={scheme} style={{ color: tokens[scheme].text, background: tokens[scheme].surfaceBg }}>
+        <h3>{scheme === "light" ? "Light ground" : "Dark ground"}</h3>
+        <img className="approved-lockup" src={variantUrl(solid.lockup)} alt={mark.name} />
+        <div className="approved-sizes">{[16, 24, 32].map(size => <figure key={size}><img src={variantUrl(inset.mark)} width={size} height={size} alt={`${mark.name} Inset`} /><figcaption>{size}px</figcaption></figure>)}</div>
+        <div className="approved-icon-row"><figure><img src={variantUrl(inset.app.svg)} width={64} height={64} alt={`${mark.name} app icon`} /><figcaption>App icon</figcaption></figure><figure><img className="approved-mask" src={variantUrl(inset.maskable.svg)} width={64} height={64} alt={`${mark.name} mask-safe icon in a circular crop`} /><figcaption>Circle crop</figcaption></figure></div>
+        <div className="approved-downloads"><a style={{ color: tokens[scheme].text }} href={variantUrl(solid.mark)} download>Solid SVG</a><a style={{ color: tokens[scheme].text }} href={variantUrl(inset.favicon.svg)} download>Favicon SVG</a></div>
+      </div>
+    })}</div>
+  </section>)}</div>
+}
 
 const urlFor = (file: string) => {
   const name = file.split("/").pop()

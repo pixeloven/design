@@ -33,9 +33,10 @@ RUN pnpm install --frozen-lockfile --ignore-scripts
 COPY packages ./packages
 COPY apps/docs ./apps/docs
 
-# Tokens must be built before the docs import them; dist/ is generated and not
-# in the repo.
+# Both packages produce ignored assets that the documentation imports.
 RUN node packages/tokens/src/build.mjs \
+ && pnpm --filter @pixeloven/brand build \
+ && pnpm --filter @pixeloven/docs typecheck \
  && pnpm --filter @pixeloven/docs build
 
 # --- runtime -----------------------------------------------------------------
