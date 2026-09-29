@@ -1,7 +1,7 @@
 {
   "name": "@pixeloven/tokens",
-  "version": "0.5.0",
-  "description": "PixelOven design tokens \u2014 the source of truth for every surface colour, and for the scales a surface is built out of.",
+  "version": "0.6.0",
+  "description": "PixelOven design tokens — the source of truth for every surface colour, and for the scales a surface is built out of.",
   "license": "UNLICENSED",
   "type": "module",
   "main": "./dist/tokens.js",
@@ -15,12 +15,21 @@
     "./tokens.json": "./dist/tokens.json",
     "./source": "./src/tokens.json",
     "./tokens-dark.css": "./dist/tokens-dark.css",
-    "./tokens-light.css": "./dist/tokens-light.css"
+    "./tokens-light.css": "./dist/tokens-light.css",
+    "./themes": {
+      "types": "./dist/themes.d.ts",
+      "default": "./dist/themes.js"
+    },
+    "./themes.css": "./dist/themes.css",
+    "./themes.json": "./dist/themes.json",
+    "./themes/source": "./src/themes.json"
   },
   "files": [
     "dist",
     "src/tokens.json",
-    "CHANGELOG.md"
+    "CHANGELOG.md",
+    "src/themes.json",
+    "README.md"
   ],
   "scripts": {
     "build": "node src/build.mjs",

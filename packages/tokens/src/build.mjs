@@ -23,6 +23,7 @@
 import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { buildThemes } from "./build-themes.mjs";
 
 const here = dirname(fileURLToPath(import.meta.url));
 const dist = join(here, "..", "dist");
@@ -242,3 +243,12 @@ console.log(
   `built ${tokens.length} tokens x ${SCHEMES.length} schemes -> ` +
     `dist/{tokens.css,tokens.js,tokens.d.ts,tokens.json}`,
 );
+
+buildThemes({
+  here,
+  dist,
+  legacy: Object.fromEntries(SCHEMES.map(scheme => [scheme,
+    Object.fromEntries(tokens.map(([path, entry]) => [jsName(path), valueFor(entry, scheme)])),
+  ])),
+  names: tokens.map(([path]) => jsName(path)),
+});

@@ -1,5 +1,20 @@
 # Token releases
 
+## 0.6.0
+
+- Add opt-in Cool/Warm themes and independent Acid/electric Violet accents with
+  explicit Dark/Light/System appearance. Existing exports and generated legacy
+  values remain byte-compatible.
+- Publish canonical annotated `themes/source`, complete eight-way `themes.json`,
+  standalone root-opt-in `themes.css`, and a dependency-free `themes` runtime
+  with strict TypeScript unions, immutable full token sets and pure resolution.
+- Add verified primary default/hover/pressed ink pairs, essential control
+  boundaries, accent text, focus and selection roles. Preserve status and graph
+  origin colors; adapt graph grounds and lighten the opt-in light danger callout
+  to meet readable text contrast.
+- Document saved-setting validation, OS appearance ownership and migration that
+  preserves existing consumer defaults and saved choices.
+
 ## 0.5.0
 
 - Add `reading.body`, `reading.control`, `reading.input` and `reading.code`,

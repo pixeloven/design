@@ -1,0 +1,448 @@
+{
+  "$comment": "Canonical opt-in Cool/Warm neutral and Acid/Violet accent roles. Legacy tokens.json and its defaults remain unchanged. This source owns promoted values; direction-demo palettes are historical review evidence only.",
+  "meta": {
+    "name": "approved-foundations",
+    "defaultSettings": {
+      "theme": "cool",
+      "accent": "acid",
+      "appearance": "system"
+    },
+    "schemes": [
+      "dark",
+      "light"
+    ],
+    "appearances": [
+      "dark",
+      "light",
+      "system"
+    ],
+    "provenance": "Operator-approved 2026-09-29: linear-marathon / cursor-marathon neutral planes, Acid roles and electric Violet roles from direction-demos/palettes.css. Explicit action states are derived here and validated with their ink. Typography and radius remain the common legacy scales; theme never changes component geometry.",
+    "contract": "Theme and accent are independent from appearance. Missing data-theme means System; explicit data-theme=dark|light wins. Opt-in requires data-pxo-theme=cool|warm. Missing or invalid accent uses Acid. Invalid theme does not opt in. Consumers own DOM, OS observation and persistence. Existing consumers retain saved appearance; do not silently adopt the new default."
+  },
+  "shared": {
+    "surfaceVoid": {
+      "ref": "surfaceBg",
+      "use": "Page ground; shared with application background"
+    },
+    "surfaceCanvas": {
+      "ref": "surfaceBg",
+      "use": "Canvas ground; shared with application background"
+    },
+    "surfaceHover": {
+      "ref": "surfaceRaised",
+      "use": "Hover plane; shared with the approved raised neutral"
+    },
+    "textBright": {
+      "ref": "text",
+      "use": "High emphasis text; approved neutral ink",
+      "on": [
+        "surfaceVoid",
+        "surfaceCanvas",
+        "surfaceBg",
+        "surface",
+        "surfaceHover",
+        "surfaceRaised"
+      ],
+      "minContrast": 4.5
+    },
+    "textDim": {
+      "ref": "textSecondary",
+      "use": "De-emphasized text remains readable",
+      "on": [
+        "surfaceVoid",
+        "surfaceCanvas",
+        "surfaceBg",
+        "surface",
+        "surfaceHover",
+        "surfaceRaised"
+      ],
+      "minContrast": 4.5
+    },
+    "borderMuted": {
+      "ref": "border",
+      "use": "Decorative hairline; never the only control boundary"
+    },
+    "borderStrong": {
+      "ref": "borderControl",
+      "use": "Essential neutral boundary",
+      "on": [
+        "surfaceVoid",
+        "surfaceCanvas",
+        "surfaceBg",
+        "surface",
+        "surfaceHover",
+        "surfaceRaised"
+      ],
+      "minContrast": 3
+    },
+    "borderAccent": {
+      "ref": "borderControl",
+      "use": "Boundary for an accent-filled control against neutral ground",
+      "on": [
+        "surfaceVoid",
+        "surfaceCanvas",
+        "surfaceBg",
+        "surface",
+        "surfaceHover",
+        "surfaceRaised"
+      ],
+      "minContrast": 3
+    },
+    "actionPrimary": {
+      "ref": "accent",
+      "use": "Primary action fill; all primary states use actionOnPrimary text"
+    },
+    "actionOnPrimary": {
+      "ref": "textOnAccent",
+      "use": "Primary action label",
+      "on": [
+        "actionPrimary",
+        "actionPrimaryHover",
+        "actionPrimaryPressed"
+      ],
+      "minContrast": 4.5
+    },
+    "accentDeep": {
+      "ref": "actionPrimaryPressed",
+      "use": "Legacy pressed-fill alias; not a text foreground"
+    },
+    "accentSoft": {
+      "ref": "accentText",
+      "use": "Legacy accent foreground alias",
+      "on": [
+        "surfaceVoid",
+        "surfaceCanvas",
+        "surfaceBg",
+        "surface",
+        "surfaceHover",
+        "surfaceRaised"
+      ],
+      "minContrast": 4.5
+    },
+    "interactionFocus": {
+      "ref": "accentText",
+      "use": "Focus outline with offset against surrounding neutral or selection ground",
+      "on": [
+        "surfaceVoid",
+        "surfaceCanvas",
+        "surfaceBg",
+        "surface",
+        "surfaceHover",
+        "surfaceRaised",
+        "interactionSelectionSurface"
+      ],
+      "minContrast": 3
+    },
+    "statusSurfaceAccent": {
+      "ref": "interactionSelectionSurface",
+      "use": "Accent callout/selection ground; use interactionSelectionText"
+    },
+    "statusSurfaceDanger": {
+      "dark": "#1e0d16",
+      "light": "#fcecf0",
+      "use": "Danger callout ground; light is raised slightly so unchanged danger ink clears AA"
+    },
+    "graphCanvas": {
+      "ref": "surfaceCanvas",
+      "use": "Graph clear color and fog ground; origin hues stay unchanged"
+    },
+    "graphLabelSurface": {
+      "ref": "surface",
+      "use": "Opaque graph label ground"
+    },
+    "graphLabelText": {
+      "ref": "text",
+      "use": "Readable graph identity text",
+      "on": [
+        "graphLabelSurface"
+      ],
+      "minContrast": 4.5
+    },
+    "graphNodeHub": {
+      "ref": "text",
+      "use": "High loaded-degree node; pair with size",
+      "on": [
+        "graphCanvas"
+      ],
+      "minContrast": 3
+    },
+    "graphNodeSelected": {
+      "ref": "textBright",
+      "use": "Selected opaque node; pair with identity and selection shape",
+      "on": [
+        "graphCanvas"
+      ],
+      "minContrast": 3
+    },
+    "graphNodeHover": {
+      "ref": "textBright",
+      "use": "Hovered opaque node; preserve keyboard access",
+      "on": [
+        "graphCanvas"
+      ],
+      "minContrast": 3
+    },
+    "browserTheme": {
+      "ref": "surfaceVoid",
+      "use": "Browser theme-color; consumer updates together with the resolved DOM and graph"
+    }
+  },
+  "themes": {
+    "cool": {
+      "label": "Cool",
+      "description": "Cool neutral planes approved from Linear.",
+      "roles": {
+        "surfaceBg": {
+          "dark": "#101118",
+          "light": "#f6f7fb",
+          "use": "Page and application ground"
+        },
+        "surface": {
+          "dark": "#171921",
+          "light": "#edeff6",
+          "use": "Panel and opaque label ground"
+        },
+        "surfaceRaised": {
+          "dark": "#212430",
+          "light": "#ffffff",
+          "use": "Raised controls, menus and surface hover"
+        },
+        "text": {
+          "dark": "#edeef7",
+          "light": "#24283b",
+          "use": "Body and control text on all neutral planes",
+          "on": [
+            "surfaceVoid",
+            "surfaceCanvas",
+            "surfaceBg",
+            "surface",
+            "surfaceHover",
+            "surfaceRaised"
+          ],
+          "minContrast": 4.5
+        },
+        "textSecondary": {
+          "dark": "#aaaec4",
+          "light": "#626a82",
+          "use": "Supporting readable text on all neutral planes",
+          "on": [
+            "surfaceVoid",
+            "surfaceCanvas",
+            "surfaceBg",
+            "surface",
+            "surfaceHover",
+            "surfaceRaised"
+          ],
+          "minContrast": 4.5
+        },
+        "border": {
+          "dark": "#2e3242",
+          "light": "#d7dce9",
+          "use": "Decorative separators only; essential boundaries use borderControl"
+        },
+        "borderControl": {
+          "dark": "#6d7592",
+          "light": "#7b839e",
+          "use": "Essential control boundary against adjacent neutral ground",
+          "on": [
+            "surfaceVoid",
+            "surfaceCanvas",
+            "surfaceBg",
+            "surface",
+            "surfaceHover",
+            "surfaceRaised"
+          ],
+          "minContrast": 3
+        }
+      }
+    },
+    "warm": {
+      "label": "Warm",
+      "description": "Warm neutral planes approved from Cursor.",
+      "roles": {
+        "surfaceBg": {
+          "dark": "#171716",
+          "light": "#f7f7f4",
+          "use": "Page and application ground"
+        },
+        "surface": {
+          "dark": "#1e1e1b",
+          "light": "#f2f1ed",
+          "use": "Panel and opaque label ground"
+        },
+        "surfaceRaised": {
+          "dark": "#282825",
+          "light": "#ffffff",
+          "use": "Raised controls, menus and surface hover"
+        },
+        "text": {
+          "dark": "#f0eee6",
+          "light": "#26251e",
+          "use": "Body and control text on all neutral planes",
+          "on": [
+            "surfaceVoid",
+            "surfaceCanvas",
+            "surfaceBg",
+            "surface",
+            "surfaceHover",
+            "surfaceRaised"
+          ],
+          "minContrast": 4.5
+        },
+        "textSecondary": {
+          "dark": "#b3b0a5",
+          "light": "#68675f",
+          "use": "Supporting readable text on all neutral planes",
+          "on": [
+            "surfaceVoid",
+            "surfaceCanvas",
+            "surfaceBg",
+            "surface",
+            "surfaceHover",
+            "surfaceRaised"
+          ],
+          "minContrast": 4.5
+        },
+        "border": {
+          "dark": "#35352f",
+          "light": "#d6d5cc",
+          "use": "Decorative separators only; essential boundaries use borderControl"
+        },
+        "borderControl": {
+          "dark": "#78776e",
+          "light": "#86867e",
+          "use": "Essential control boundary against adjacent neutral ground",
+          "on": [
+            "surfaceVoid",
+            "surfaceCanvas",
+            "surfaceBg",
+            "surface",
+            "surfaceHover",
+            "surfaceRaised"
+          ],
+          "minContrast": 3
+        }
+      }
+    }
+  },
+  "accents": {
+    "acid": {
+      "label": "Acid",
+      "roles": {
+        "accent": {
+          "dark": "#d0ff34",
+          "light": "#d0ff34",
+          "use": "Vivid primary action fill; use actionOnPrimary text and borderControl boundary"
+        },
+        "actionPrimaryHover": {
+          "dark": "#dfff6b",
+          "light": "#dfff6b",
+          "use": "Primary action hover fill; preserve border and actionOnPrimary text"
+        },
+        "actionPrimaryPressed": {
+          "dark": "#b8e52d",
+          "light": "#b8e52d",
+          "use": "Primary action pressed fill; preserve border and actionOnPrimary text"
+        },
+        "textOnAccent": {
+          "dark": "#152001",
+          "light": "#152001",
+          "use": "Text on primary default, hover and pressed fills",
+          "on": [
+            "actionPrimary",
+            "actionPrimaryHover",
+            "actionPrimaryPressed"
+          ],
+          "minContrast": 4.5
+        },
+        "accentText": {
+          "dark": "#d0ff34",
+          "light": "#36500b",
+          "use": "Accent foreground text on all neutral planes",
+          "on": [
+            "surfaceVoid",
+            "surfaceCanvas",
+            "surfaceBg",
+            "surface",
+            "surfaceHover",
+            "surfaceRaised"
+          ],
+          "minContrast": 4.5
+        },
+        "interactionSelectionSurface": {
+          "dark": "#2b3d12",
+          "light": "#d6f28f",
+          "use": "Text selection and selected-item background; pair with interactionSelectionText"
+        },
+        "interactionSelectionText": {
+          "dark": "#d0ff34",
+          "light": "#25390b",
+          "use": "Text on the selection background",
+          "on": [
+            "interactionSelectionSurface"
+          ],
+          "minContrast": 4.5
+        }
+      }
+    },
+    "violet": {
+      "label": "Violet",
+      "roles": {
+        "accent": {
+          "dark": "#bf4dff",
+          "light": "#bf4dff",
+          "use": "Vivid primary action fill; use actionOnPrimary text and borderControl boundary"
+        },
+        "actionPrimaryHover": {
+          "dark": "#cf76ff",
+          "light": "#cf76ff",
+          "use": "Primary action hover fill; preserve border and actionOnPrimary text"
+        },
+        "actionPrimaryPressed": {
+          "dark": "#b747f2",
+          "light": "#b747f2",
+          "use": "Primary action pressed fill; preserve border and actionOnPrimary text"
+        },
+        "textOnAccent": {
+          "dark": "#1d082b",
+          "light": "#1d082b",
+          "use": "Text on primary default, hover and pressed fills",
+          "on": [
+            "actionPrimary",
+            "actionPrimaryHover",
+            "actionPrimaryPressed"
+          ],
+          "minContrast": 4.5
+        },
+        "accentText": {
+          "dark": "#c967ff",
+          "light": "#8b1ac1",
+          "use": "Accent foreground text on all neutral planes",
+          "on": [
+            "surfaceVoid",
+            "surfaceCanvas",
+            "surfaceBg",
+            "surface",
+            "surfaceHover",
+            "surfaceRaised"
+          ],
+          "minContrast": 4.5
+        },
+        "interactionSelectionSurface": {
+          "dark": "#351243",
+          "light": "#edceff",
+          "use": "Text selection and selected-item background; pair with interactionSelectionText"
+        },
+        "interactionSelectionText": {
+          "dark": "#c967ff",
+          "light": "#6b168e",
+          "use": "Text on the selection background",
+          "on": [
+            "interactionSelectionSurface"
+          ],
+          "minContrast": 4.5
+        }
+      }
+    }
+  }
+}
