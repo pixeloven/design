@@ -7,8 +7,10 @@ on:
       - "apps/docs/**"
       - "packages/tokens/**"
       - "packages/brand/**"
+      - "packages/ui/**"
+      - "pnpm-lock.yaml"
       - ".github/workflows/docs-image.yaml"
-  # The docs read the token and brand packages at BUILD time, so a palette or
+  # The docs read the token, brand and UI packages at BUILD time, so a palette or
   # mark change must produce a new image even though apps/docs did not change —
   # hence those paths above, not just apps/docs.
   workflow_dispatch:

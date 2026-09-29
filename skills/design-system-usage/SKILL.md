@@ -17,7 +17,7 @@ until measured.
 
 ## Installing
 
-Both packages publish to **GitHub Packages**, not npmjs. That needs one line of
+The packages publish to **GitHub Packages**, not npmjs. That needs one line of
 registry config and a token — including for public packages, which is a GitHub
 Packages quirk and not something you have configured wrong.
 
@@ -107,6 +107,21 @@ The pinned builds carry no media query and no attribute selector, so there is
 nothing to remember to set.
 
 ## Two schemes
+
+### Shared React controls
+
+`@pixeloven/ui` provides native `Button`, `Input`, `Select` and `Label` controls
+for React 19 and tokens 0.6. Import `@pixeloven/ui/styles.css` after the token
+stylesheets and opt into a brand theme on the root as shown below. The package
+does not load fonts, choose a theme, persist preferences or own application
+state. Pin a published version before adopting it in a consumer.
+
+Use `variant="primary"` for the main action; secondary is the default. Buttons
+default to `type="button"`; form submission requires `type="submit"`. Keep
+labels and error explanations in the consumer, associate them with `htmlFor`,
+`id` and `aria-describedby`, and pass native `disabled` / `aria-invalid` states.
+Do not copy the package's control CSS into a product. The
+[package guide](../../packages/ui/README.md) defines the complete API and limits.
 
 ### Opt-in brand themes
 
