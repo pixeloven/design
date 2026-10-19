@@ -44,9 +44,9 @@ built Warden review study. Warden's composition is study-specific, not a templat
 for every product. Its synthetic local state does not establish production
 capabilities or approve a Warden mark.
 
-The operator supports this visual direction but rejected the study's
-queue-centered work model. Layout details below record the current build, not
-the target product structure. The revised brief calls for a complete
+The operator supports this visual direction but found the October study's
+queue-centered work model inadequate. Layout details below record the current
+build, not the target product structure. The revised brief calls for a complete
 project/task journey and supersedes that interaction model.
 
 **Key Characteristics:**

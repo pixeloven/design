@@ -38,12 +38,12 @@ work with local state only; they perform no API, MCP or vault writes.
 Warden serves humans managing projects/epics and tasks/issues; agents use MCP.
 Its current source has six fixed workflow states and six browser mutations.
 Source capabilities and proposed interaction improvements are detailed in
-`../../docs/warden-design-brief.md`. The operator supported the first study's
+`../../docs/warden-design-brief.md`. The operator supported the October study's
 visual direction but rejected its queue-centered project/task model. The target
 is now a complete Project → Task journey, including contextual creation,
 editing, ordering, decisions and completed-work retrieval. The built prototype
-still demonstrates the first model; existing API gaps are delivery work, not
-limits on the proposed experience. Personal assignment, agent dispatch and
+still demonstrates the October queue-centered model; existing API gaps are
+delivery work, not limits on the proposed experience. Personal assignment, agent dispatch and
 automatic structured history are not established capabilities.
 
 ## Brand Commitments
@@ -58,8 +58,10 @@ a new visual-world selection.
 ## Evidence on Hand
 
 Published token, brand and UI package sources; accepted Lattice implementation;
-October 19 independent Warden live/source reviews; historical local direction
-demos and audit material. Private live captures and command logs stay outside
+October 19 independent Warden live/source reviews; recovered September
+project-first prototype, product direction and journeys. The Warden brief
+reconciles them with Lattice's later visual and interaction lessons. Historical
+demos remain references. Private live captures and command logs stay outside
 Git. Review content is authored synthetic material and carries no real delivery
 or test-result claims.
 

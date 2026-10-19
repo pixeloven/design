@@ -5,9 +5,9 @@
 
 ## Review status and recommendation
 
-The operator supports the visual direction but found the first study's
+The operator supports the visual direction but found the October study's
 project/task management wrong. Its queue-centered work model is superseded by
-this brief. The current Storybook and portable demo still show that first model;
+this brief. The current Storybook and portable demo still show that October model;
 their visual/accessibility checks do not establish product acceptance.
 
 **Build a project workspace where a human can shape an outcome, organize its
@@ -32,6 +32,48 @@ The visual authority is the approved [PixelOven family](brand-family.md):
 Cool/Warm, Acid/electric Violet, Plex Sans/Mono and Solid/Inset. Lattice is the
 production reference for craft and continuity. Warden's composition follows
 project context, ordered work and clear decisions. Its mark remains unselected.
+
+## Reconciliation: September intent and Lattice's design evolution
+
+The recovered September 17 product direction already described humans managing
+projects/epics and tasks/issues, with agents using MCP. Journey WJ-4 required
+understanding a project's work and returning without losing context. Review-pack
+decision D-02 recommended a project-first board with Needs you filtering. The
+September prototype demonstrated that structure. The October queue-centered
+study departed from it; this brief restores the original product intent while
+applying the family's later design decisions.
+
+Use this brief as the current Warden product direction and the
+[family guide](brand-family.md) as visual authority. Historical studies remain
+reference material; neither their illustrative fields nor their palettes become
+production contracts. Preserve dated audits as baselines and retest findings
+before turning them into current defects. Update this brief in place as decisions
+settle, rather than adding competing plans.
+
+| Source to carry forward | Reconciled Warden decision | Disposition |
+| --- | --- | --- |
+| September's project → task → decision → return journey | Projects have an outcome and an actionable board/list. Capture, refinement, organization and completion belong to the core experience. Attention supports that lifecycle. | Keep the product intent; replace the October navigation. |
+| Approved Lattice/PixelOven identity and theme choices | Use canonical Cool/Warm, Acid/electric Violet, independent appearance, Plex roles and Solid/Inset assets. Give Warden its own selected figure and work-oriented composition. | Reuse published foundations; Warden figure selection remains open. |
+| Lattice's exploration continuity | Retain project, filters, selected task, useful scroll and focus through detail, search, layout changes and return. Direct links and Browser Back are part of the interaction contract. | Adapt the behavior to project/task navigation. |
+| Lattice's focused and expanded reading direction | Let people read substantial intent, plans and results comfortably, with expanded desktop reading and full-screen phone tasks. Keep the originating project recoverable. | Adapt reading patterns; do not copy the graph or require Obsidian-specific syntax. |
+| Lattice's mobile corrections | Keep navigation compact and the active task usable. Use a readable list or chosen stage, accessible controls and reachable actions with a phone keyboard. | Carry forward the working-space principle; verify Warden's actual layouts. |
+| September's ownership and next-actor goal | Distinguish responsibility for work, the person needed for a decision, and observed execution activity. Preserve the product need for clear responsibility while specifying its data source. | Keep the goal; replace invented owner/activity claims with explicit contracts. |
+| Shared truthful-state and accessibility rules | Distinguish no work, partial data, failure and confirmed success. Retain drafts and reasons; recovery never repeats a write. Keyboard, text enlargement, themes and focus are journey requirements. | Required acceptance behavior. |
+| Shared component ambitions | Reuse published controls now. Compare navigation, task surfaces, reading, feedback and return behavior before extracting additional shared components. | Share proven behavior; keep board and graph domain logic with their products. |
+
+The Lattice comparison used source
+[`cff7de3`](https://github.com/pixeloven/lattice/tree/cff7de3d8fd438462f37cb9237d239e1bd5f221f).
+Its roadmap records the approved application shipped in v0.21.1; later reader
+refinements provide implemented interaction evidence. This comparison does not
+claim a new deployment or physical-device/assistive-technology acceptance pass.
+
+Lattice helps people explore and understand knowledge. Warden helps them turn
+intent into organized work and inspect its outcome. A Warden task should be able
+to reference relevant knowledge or evidence with a useful label and predictable
+return. Begin by specifying ordinary source links and provenance. Automatic note
+creation, bidirectional synchronization and a shared storage model are separate
+product decisions, not prerequisites for this design. Lattice lifecycle work
+continues in its own session.
 
 ## Proposed experience
 
@@ -102,6 +144,10 @@ Improved cards around the old queue navigation would not satisfy the brief.
   mean an agent is running. Display execution activity only from explicit
   evidence; otherwise show the last recorded update. Review/Verify alone must
   not be described as a required human gate when policy says otherwise.
+- Responsibility and required next actor must be understandable. Define whether
+  an owner represents a human, agent or another accountable role, and how that
+  fact is authored and updated. Missing responsibility stays explicit. An owner
+  label is not evidence of a running agent or a dispatch operation.
 - Present authored Log and Decisions faithfully. A structured action history
   would require its own event/provenance contract; do not manufacture it from
   current state. Read retries never repeat writes, and confirmed mutation facts
@@ -109,8 +155,9 @@ Improved cards around the old queue navigation would not satisfy the brief.
 
 Exercise empty and completed projects, unparented tasks, long titles, many
 projects, dense task lists, unavailable dependencies, missing references and
-incomplete reads. Prototype fixtures should include a small three-task project
-and a larger project with at least 50 tasks across stages. Test keyboard,
+incomplete reads. Prototype fixtures should include two projects for contextual
+creation and transfer, standalone work, a completed project, a small three-task
+journey and a larger project with at least 50 tasks across stages. Test keyboard,
 enlarged text, phone keyboards, themes and recovery as part of the journeys.
 
 ## Relevant patterns and our judgment
@@ -192,6 +239,7 @@ quietly redefining these predicates in browser code.
 | Completed-work retrieval | Active excludes done; completed ordinary tasks have no dedicated saved view | Provide scoped open/completed/all retrieval and cross-project search, stable links and honest completeness. Show recorded results/dates only when available. |
 | Finish a project intentionally | Epics use the issue workflow; no established child-completion policy | Define project completion, unfinished-task disposition and reopening without silently changing children. |
 | Trustworthy attention | Needs You includes all review/verify records | Define explicit reasons from gate/blocker evidence; distinguish a pending decision from ordinary stage membership. |
+| Clear responsibility and next actor | No browser assignee or execution-activity contract | Define responsibility, decision actor and provenance separately. Add authoritative fields/operations where required; never infer live activity from ownership or stage. |
 | Dependable navigation and recovery | Existing mutations and authored content | Specify URL/Back/focus/scroll behavior, draft lifetime, conflict/refusal handling and index-lag reconciliation. |
 
 ## Decisions and boundaries
@@ -201,7 +249,9 @@ explicit project completion decision. Validate those choices through the full
 journey, rather than asking the operator to design individual controls. Review
 real records to resolve the legacy project/parent mapping before a migration
 specification. Order scope, concurrent edits and query completeness also need
-precise contracts in that specification.
+precise contracts in that specification. Responsibility semantics and evidence
+links belong in the same contract work; a missing current API is not a reason
+to remove an established product need.
 
 Keep Warden's mark selection as a separate review within the approved family.
 New team permissions, scheduling, agent dispatch, configurable workflow builders,
@@ -213,8 +263,10 @@ remains the last closeout step.
 
 | Slice | Outcome and acceptance |
 | --- | --- |
-| Revised interaction prototype | Replace queue-centered navigation with the complete project/task journey above. Use synthetic fixtures; keep approved visuals and clearly identify proposed capabilities. Independent product/UX review must assess managing work, not just appearance. |
-| Execution specification | Map each accepted interaction to components, data contracts, UI/MCP behavior, migration needs, accessible controls and recovery expectations. Identify shared patterns with Lattice without forcing shared product structure. |
+| Reconciled direction | Lead consolidates the recovered September goals, accepted family decisions and Lattice interaction lessons in this brief. Distinguish retained decisions, new recommendations and unresolved contracts. Historical artifacts remain reference material. |
+| One revised interaction prototype | A design/implementation worker rebuilds the project/task journey; an engineering worker can map source/data gaps in parallel. Both return to the lead before review. Show the complete journey in one study with two projects, standalone/completed work and a dense fixture. Use approved visuals, label proposed capabilities and keep mark comparison separate. |
+| Journey review | Independent product/UX and accessibility reviews assess whether a person can explain the outcome, organize work, identify responsibility and the next action, make a decision, and retrieve completed work. Review desktop, phone, keyboard and recovery together; operator feedback resolves product choices. |
+| Execution specification | After journey review, map accepted interactions to components, data contracts, UI/MCP behavior, migration needs, accessible controls and recovery expectations. Name shared-system versus Warden-owned work and bounded vertical delivery slices. |
 | Project workspace and task management | Deliver scoped retrieval, contextual creation, editing, relationships and durable order as coherent journeys. Retain completed work, source context and drafts on desktop and phone. |
 | Attention, completion and records | Deliver truthful attention reasons, decision consequences, explicit project completion and faithful authored history with refusal/index-lag recovery. |
 | Product acceptance and release | Replay the full journey with owned fixtures and actual write contracts. Run focused local/static checks and independent reviews; CI owns broad suites. Verify package and paired product artifacts before consumer rollout. |
@@ -224,6 +276,12 @@ Warden #59/#60 and deployed API/frontend/vault versions before that cutover.
 
 ## Source anchors
 
+- September originals: `docs/brand-review/product-direction.md` (Warden),
+  `customers-and-journeys.md` (WJ-4), `review-pack.md` (D-02 and walkthrough),
+  and `prototype/` in the retained local brand-review archive. These are
+  historical references; the current decisions are consolidated above.
+- [Lattice reading and return contract](https://github.com/pixeloven/lattice/blob/cff7de3d8fd438462f37cb9237d239e1bd5f221f/docs/markdown-reader.md)
+- [Lattice delivered-roadmap status](https://github.com/pixeloven/lattice/blob/cff7de3d8fd438462f37cb9237d239e1bd5f221f/docs/roadmap.md)
 - [Schema and current fields](https://github.com/pixeloven/warden/blob/1bdb4b0280d887134a5a0f0be3e028fd8368c085/frontend/schema.graphql)
 - [Saved views](https://github.com/pixeloven/warden/blob/1bdb4b0280d887134a5a0f0be3e028fd8368c085/src/warden/views.py)
 - [Product context](https://github.com/pixeloven/warden/blob/1bdb4b0280d887134a5a0f0be3e028fd8368c085/PRODUCT.md) — usage/version and mutation-count statements need reconciliation with later source.

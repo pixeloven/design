@@ -29,13 +29,20 @@ not another source of production values.
 | Product | Primary human job | Expression |
 | --- | --- | --- |
 | Lattice | Explore, read and understand connected knowledge. | Spatial relationships, legible evidence and recoverable exploration. |
-| Warden | Direct work, inspect progress, make decisions and understand its history. | Clear hierarchy, readable intent, visible consequences and dependable return. |
+| Warden | Plan and organize projects/tasks, direct progress, make decisions and inspect outcomes. | Clear project hierarchy, readable intent, visible responsibility and consequences, and dependable return. |
 
 Use the established “A PixelOven project” endorsement on appropriate product
 identity surfaces, with the product name leading. Keep ordinary task controls
 focused on the person's work. This usage follows the accepted Lattice shell;
 it is not a new corporate positioning claim or a requirement to repeat the
 parent name on every screen.
+
+Lattice's exploration and reading patterns inform Warden's navigation and
+evidence reading; Warden retains its own board/list workflow. The
+[Warden brief](warden-design-brief.md#reconciliation-september-intent-and-lattices-design-evolution)
+reconciles the original project/task goals with the later family decisions.
+Cross-product evidence links should preserve provenance and clear destinations;
+shared branding does not imply a shared data model or automatic synchronization.
 
 ## Language and interaction
 

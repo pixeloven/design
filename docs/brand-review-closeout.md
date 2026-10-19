@@ -22,7 +22,7 @@ for PixelOven or Lattice.
 
 ## Current review status
 
-The operator supports the first Warden study's visual direction but found its
+The operator supports the October Warden study's visual direction but found its
 project/task management wrong. Its queue-centered work model is superseded by
 the [revised Warden brief](warden-design-brief.md). The current demo has not yet
 been rebuilt around that brief; visual polish and accessibility checks do not
@@ -33,13 +33,20 @@ create and organize work in context, direct progress, finish deliberately and
 retrieve completed work. Treat missing API support as named implementation
 work. Projects are working destinations; cross-project attention supports them.
 
+The recovered September prototype already demonstrated the project-first model.
+The brief now reconciles those original goals with Lattice's later visual and
+interaction decisions. It is the current Warden direction; the historical demos
+and audits remain dated references. The immediate deliverable is one revised
+prototype, followed by journey review and an execution specification.
+
 ## Delivery sequence
 
-1. **Refresh Warden's baseline and prepare the design.** Independently assess the
-   current interface and source capabilities. Reconcile the September review
-   with implemented work. Revise the prototype around the project/task journey
-   and review its usefulness independently of visual craft. Review Warden
-   identity options separately. Demonstrations use synthetic content;
+1. **Reconcile and prove Warden's design.** Carry the October live/source
+   assessment and recovered September project goals into the current brief.
+   Apply the accepted family and relevant Lattice interaction lessons. Build
+   one complete project/task prototype while mapping contract gaps in parallel,
+   then converge for product/UX, accessibility and operator review. Review
+   Warden identity options separately. Demonstrations use synthetic content;
    unsupported capabilities must be explicit.
 2. **Implement the accepted Warden direction.** Turn the selected experience
    into bounded product slices with owned fixtures, actual API contracts,
@@ -61,8 +68,9 @@ work. Projects are working destinations; cross-project attention supports them.
 
 - Warden supports contextual creation, editing, task ordering, project navigation,
   decisions, explicit completion and completed-work retrieval on desktop and
-  phone. Failed and refused actions preserve useful state. UI and MCP operate
-  on the same work model, with any required contract changes delivered.
+  phone. Responsibility and the actual next action are understandable. Failed
+  and refused actions preserve useful state. UI and MCP operate on the same
+  work model, with any required contract changes delivered.
 - Its selected identity is registered, published and adopted across header,
   favicon and app-icon placements using the established family contracts.
 - Shared patterns have an explicit owner and actual consumer examples; no
