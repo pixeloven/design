@@ -41,10 +41,12 @@ Source capabilities and proposed interaction improvements are detailed in
 `../../docs/warden-design-brief.md`. The operator supported the October study's
 visual direction but rejected its queue-centered project/task model. The target
 is now a complete Project → Task journey, including contextual creation,
-editing, ordering, decisions and completed-work retrieval. The built prototype
-still demonstrates the October queue-centered model; existing API gaps are
-delivery work, not limits on the proposed experience. Personal assignment, agent dispatch and
-automatic structured history are not established capabilities.
+editing, ordering, decisions and completed-work retrieval. The revised prototype
+demonstrates that journey with browser-session projects, tasks and drafts.
+Responsibility and the required next actor are authored sample fields, not live
+execution telemetry. Existing API gaps are delivery work, not limits on the
+proposed experience. Agent dispatch and automatic structured history are not
+established capabilities.
 
 ## Brand Commitments
 

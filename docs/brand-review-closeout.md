@@ -24,11 +24,12 @@ for PixelOven or Lattice.
 
 The operator supports the October Warden study's visual direction but found its
 project/task management wrong. Its queue-centered work model is superseded by
-the [revised Warden brief](warden-design-brief.md). The current demo has not yet
-been rebuilt around that brief; visual polish and accessibility checks do not
-constitute acceptance of the product experience.
+the [revised Warden brief](warden-design-brief.md). The revised demo now follows
+that brief with complete project/task interactions and synthetic local records.
+Visual polish and accessibility checks do not constitute operator acceptance
+of the product experience.
 
-Next, demonstrate the complete Project → Task journey: define an outcome,
+Next, review the complete Project → Task journey: define an outcome,
 create and organize work in context, direct progress, finish deliberately and
 retrieve completed work. Treat missing API support as named implementation
 work. Projects are working destinations; cross-project attention supports them.
@@ -36,8 +37,8 @@ work. Projects are working destinations; cross-project attention supports them.
 The recovered September prototype already demonstrated the project-first model.
 The brief now reconciles those original goals with Lattice's later visual and
 interaction decisions. It is the current Warden direction; the historical demos
-and audits remain dated references. The immediate deliverable is one revised
-prototype, followed by journey review and an execution specification.
+and audits remain dated references. The revised prototype is the review artifact;
+operator journey review precedes an execution specification and production work.
 
 ## Delivery sequence
 

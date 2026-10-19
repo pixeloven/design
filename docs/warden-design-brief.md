@@ -7,8 +7,9 @@
 
 The operator supports the visual direction but found the October study's
 project/task management wrong. Its queue-centered work model is superseded by
-this brief. The current Storybook and portable demo still show that October model;
-their visual/accessibility checks do not establish product acceptance.
+this brief. The revised Storybook and portable demo now follow the complete
+project/task journey below. They are synthetic interaction studies; operator
+journey review and the production execution specification remain ahead.
 
 **Build a project workspace where a human can shape an outcome, organize its
 tasks, direct progress and inspect the result. Agents use MCP to contribute to
@@ -123,9 +124,16 @@ content, not a claim about unfinished Lattice delivery.
    outcome decision; show unfinished work and require a deliberate disposition
    before confirming. Never cascade completion or reopening to child tasks.
 
-The next prototype must demonstrate this journey end to end, including adding
+The revised prototype demonstrates this journey end to end, including adding
 and editing work, ordering it, changing its project, completion and retrieval.
-Improved cards around the old queue navigation would not satisfy the brief.
+Its fixtures include Improve note reading, Release preparation, a 50-task Library
+maintenance project, a completed Reading foundation project and standalone work.
+The review guide names capabilities that still need production contracts.
+
+For this study, completing a project requires its unfinished tasks to be finished
+or transferred first. The action never changes child stages. Reopening a child
+in a completed project requires explicitly reopening that project. This is a
+proposed interaction policy for review, not a claim about current Warden policy.
 
 ### Interaction, trust and accessibility
 
@@ -235,9 +243,9 @@ quietly redefining these predicates in browser code.
 | --- | --- | --- |
 | Persistent project workspace | Epic issues, parent references and a separate project string | Establish identity/mapping, project-scoped queries, accurate counts and unresolved-reference behavior. Preserve legacy data; do not invent a third tier. |
 | Contextual task creation | Create accepts parent/project and starts in Todo | Resolve the mapping, inherit the correct project explicitly and remain in its workspace after save. |
-| Refine and organize work | No general browser edit/reparent or rank API | Add editing, relationship/dependency updates and persisted planning order with conflict behavior. UI and MCP must share the same authoritative record. |
-| Completed-work retrieval | Active excludes done; completed ordinary tasks have no dedicated saved view | Provide scoped open/completed/all retrieval and cross-project search, stable links and honest completeness. Show recorded results/dates only when available. |
-| Finish a project intentionally | Epics use the issue workflow; no established child-completion policy | Define project completion, unfinished-task disposition and reopening without silently changing children. |
+| Refine and organize work | No general browser edit/reparent or rank API; creation leaves Done when empty and ticking only changes existing checkbox states | Add authored-content and criteria editing, relationship/dependency updates and persisted planning order with conflict behavior. UI and MCP must share the same authoritative record. |
+| Completed-work retrieval | The `issues` query returns all issues, including done. Active excludes done; completed ordinary tasks have no dedicated saved view | Define scoped open/completed/all retrieval and cross-project search, stable links and honest completeness. Show recorded results/dates only when available. |
+| Finish a project intentionally | Epics use the issue workflow. SPEC §3.1 derives completeness from children through Lattice's inverted parent index; there is no explicit browser project-completion/disposition operation | Reconcile derived child completeness with an explicit project outcome decision. Define unfinished-task disposition and reopening without silently changing children. |
 | Trustworthy attention | Needs You includes all review/verify records | Define explicit reasons from gate/blocker evidence; distinguish a pending decision from ordinary stage membership. |
 | Clear responsibility and next actor | No browser assignee or execution-activity contract | Define responsibility, decision actor and provenance separately. Add authoritative fields/operations where required; never infer live activity from ownership or stage. |
 | Dependable navigation and recovery | Existing mutations and authored content | Specify URL/Back/focus/scroll behavior, draft lifetime, conflict/refusal handling and index-lag reconciliation. |
@@ -273,6 +281,29 @@ remains the last closeout step.
 
 The study does not authorize a production card-to-issue migration. Reconcile
 Warden #59/#60 and deployed API/frontend/vault versions before that cutover.
+
+### Prototype review evidence
+
+The October 19 revised build passed strict docs typechecking, the seven existing
+documentation checks, and Storybook/portable builds. Browser journeys exercised
+contextual capture, same-tab draft recovery, editing, order and transfer,
+completion/reopening, decision refusal and read-only recovery, Browser Back,
+expanded reading and native phone modal focus. Independent source and designer
+reviews found and corrected stale next-actor text, inconsistent drag behavior,
+completed-view defaults, ambiguous draft reuse and narrow action-label wrapping.
+
+Automated accessibility scans found no violations in the exercised desktop,
+phone, dialog and eight theme combinations, with a final check of the corrected
+phone surfaces. At 320 CSS pixels with token text sizes doubled (32px body),
+labels remained readable and the page had no horizontal overflow. The portable
+file rendered without external requests; blocked browser storage produced an
+explicit in-memory fallback. Captures and command logs remain outside Git.
+
+These are synthetic Chromium checks, not physical iPhone, software-keyboard or
+screen-reader acceptance. Navigation URLs carry context, not locally authored
+records to another browser. Same-session close restores useful scroll/focus;
+scroll offsets do not persist across reloads. Operator journey review, Warden
+identity selection and the production contracts remain open.
 
 ## Source anchors
 

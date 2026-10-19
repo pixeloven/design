@@ -45,9 +45,10 @@ for every product. Its synthetic local state does not establish production
 capabilities or approve a Warden mark.
 
 The operator supports this visual direction but found the October study's
-queue-centered work model inadequate. Layout details below record the current
-build, not the target product structure. The revised brief calls for a complete
-project/task journey and supersedes that interaction model.
+queue-centered work model inadequate. The revised build restores Projects as
+working destinations, with All tasks and Needs attention alongside them. It
+demonstrates a complete project/task journey for review; production contracts
+and operator acceptance remain separate from this local study.
 
 **Key Characteristics:**
 
@@ -82,24 +83,28 @@ metadata roles.
 
 ## Layout
 
-Warden's wide layout has a (12rem) navigator, a flexible board/list and an adjacent
-task. Board columns retain a (13rem) minimum and scroll horizontally. At
-(761–1100px), saved views become a horizontal row. At (760px) and below, native
-Saved view/Stage selects and wrapping Board/List controls lead readable work;
-the board shows one stage. Detail and creation fill the phone viewport with
-scrolling content and safe-area padding. Enlarged text stacks controls while
-preserving complete labels. Review chrome remains distinct from product navigation.
+Warden's wide layout has a (12.5rem) navigator, a flexible project board/list and
+an adjacent task. Projects use outcome-led rows with compact task counts.
+Board columns retain a (15rem) minimum and scroll horizontally. At
+(761–1200px), navigation moves above the workspace. At (760px) and below, native
+Workspace/Stage selects and wrapping Board/List controls lead readable work;
+the board shows one stage. A phone project keeps its title and progress visible,
+with its outcome and administration in a native disclosure. Detail and creation fill the phone viewport with
+scrolling content and safe-area padding. Desktop reading can expand into a
+protected, viewport-centered surface with a (48rem) content limit. Enlarged text
+stacks controls while preserving complete labels. Review chrome and simulation
+controls remain distinct from product navigation.
 
 The identity study is bounded to (76rem); drawing/copy and appearance settings
 stack at (700px). These are observed study breakpoints, not shared scale tokens.
-See the [revised Warden brief](../../docs/warden-design-brief.md) for the target
-experience; the current layout has not yet been rebuilt around it.
+See the [revised Warden brief](../../docs/warden-design-brief.md) for the intended
+journey, proposed policies and production capability gaps.
 
 ## Elevation & Depth
 
 Neutral planes and borders convey depth; resting cards have no shadow. The
 desktop composer uses shadow-strong and a surface-void-derived backdrop.
-Issue-card color transitions use duration-out/ease-out and disappear under
+Task-card color transitions use duration-out/ease-out and disappear under
 reduced motion. Shared native controls introduce no motion themselves.
 
 ## Shapes
@@ -118,12 +123,15 @@ outside its asset registry.
 - **Entry:** shared Input, Select and Label; native semantics and reading roles.
   Invalid entry uses a dashed danger boundary with consumer-owned explanations.
   Warden's textarea is local, not a fifth published control.
-- **Navigation and issues:** saved views pair labels/counts; cards lead with the
-  title and support it with IDs, project and blockers. Selected states pair ink
-  and surface. Phone list rows reflow metadata above titles.
-- **Task:** Intent leads; Decisions & Log and technical details use disclosure.
-  Decision controls state their consequence. Focus enters the panel and returns
-  on close; draft copy states its actual storage lifetime.
+- **Navigation and tasks:** project outcomes lead; cards support titles with
+  IDs, responsibility and actual attention reasons. Open/Completed/All filters
+  and search keep finished work findable. Board and List share project planning
+  order. Explicit ordering and transfer controls supplement desktop dragging.
+- **Task:** Intent, Plan, Result and Done when lead; organization, authored
+  records and technical details use disclosure. Approve, Send back and Move
+  explain their different consequences. Focus enters the task and returns on
+  close; browser-session state retains drafts and decision reasons. Desktop
+  expansion and phone modal reading protect concentration and return context.
 - **Identity:** compare Solid/Inset and small-size specimens alongside the
   approved family. Preview selection does not approve or publish a mark.
 

@@ -4,10 +4,11 @@ This is the standalone entry for the same typed workspace and identity study
 shown in Storybook under **Studies / Warden**. All work is synthetic; no API or
 vault writes occur. The identity candidates are unapproved sources.
 
-**Review status:** the operator supports the visuals but found project/task
-management wrong. This build still shows the October queue-centered model. The
-[revised brief](../../../docs/warden-design-brief.md) supersedes that model with
-a complete project/task journey; it is not yet implemented in this preview.
+**Review status:** the revised build follows the
+[project/task brief](../../../docs/warden-design-brief.md). Projects are working
+destinations; All tasks and Needs attention provide cross-project views. The
+previous queue-centered model is superseded. The full journey and Warden mark
+still need operator review; a working demo does not establish production support.
 
 From the repository root:
 
@@ -29,11 +30,19 @@ and licensed fonts, and can also open directly as a local file. Generated
 artifacts and screenshots stay outside Git. The editable `index.html` is a
 Vite entry, not the portable file to distribute.
 
-The draft belongs to this browser tab's session storage. If storage is blocked,
-the prototype keeps it in memory and reports the limitation. Appearance
-preferences are separate and do not submit a product preference or identity
-approval.
+The versioned workspace, drafts and decision reasons belong to this browser
+tab's session storage. Reloads retain them; Reset demo clears the sample work.
+If storage is blocked, the prototype keeps it in memory and reports the
+limitation. Appearance preferences are separate and do not submit a product
+preference or identity approval. URL fragments describe navigation; they do not
+carry locally created records to another browser.
 
-Useful review paths: start a draft and close/reopen it; open a Review or Verify
-issue and inspect consequences; compare board/list at phone widths; try error
-and refusal scenarios; switch appearances; compare marks at actual icon sizes.
+Start with **Improve note reading**: create a contextual task, refine its intent
+and criteria, change its planning order, and transfer it to **Release preparation**.
+Inspect a plan from Needs attention and compare Approve, Send back and Move.
+Complete and retrieve a task; try completing a project with unfinished children.
+Use **Library maintenance** for the 50-task case and **Reading foundation** for
+a completed project. Compare Board/List, expanded reading, phone return and
+enlarged text. Demo scenarios exercise incomplete reads and refusal without
+changing any real records. The on-page review guide identifies the production
+contract gaps. Identity comparisons remain a separate review.
