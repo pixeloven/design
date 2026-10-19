@@ -107,6 +107,13 @@ themes, explicit action/selection roles, Solid/Inset assets and interactive
 Lattice/Warden examples. See the [delivery plan](docs/brand-foundations-plan.md).
 The initial UI package adds Button, Input, Select and Label with strict public
 types and native form behavior. See the [control contract](packages/ui/README.md).
-Lattice adopts the published foundations first; shared-control adoption follows
-UI publication. Consumers use explicit package pins. A package
-upgrade alone does not opt into the new themes or replace a legacy mark.
+Lattice has adopted these foundations and shared controls; its accepted redesign
+is complete under [Lattice #383](https://github.com/pixeloven/lattice/issues/383).
+Warden's adoption and product redesign are the next application of the system.
+Consumers use explicit package pins and opt into themes and mark variants.
+
+The [brand-family guide](docs/brand-family.md) records the established visual and
+interaction direction. The [closeout plan](docs/brand-review-closeout.md) and
+[Warden design brief](docs/warden-design-brief.md) track the remaining work.
+Storybook's **Studies / Warden** presents a synthetic workspace and unapproved
+identity options; these studies do not change deployed products.

@@ -15,17 +15,20 @@ The palette used to live in two independently maintained copies — Harmony's
 Homepage stylesheet and Lattice's `globals.css`. Measured before any of this was
 built:
 
-| | |
-|---|---|
-| distinct colours in use | **35** |
-| values both copies agreed on | **8** |
-| near-identical-but-different pairs | **9** (closest `#101527` vs `#111526`, ΔRGB 1.4) |
-| ramps that had inverted | **1** |
-| text colours below WCAG AA | **1** (4.47:1, failing by 0.03) |
+<table>
+  <caption>Findings from the original palette audit</caption>
+  <tbody>
+    <tr><th scope="row">Distinct colours in use</th><td><strong>35</strong></td></tr>
+    <tr><th scope="row">Values both copies agreed on</th><td><strong>8</strong></td></tr>
+    <tr><th scope="row">Near-identical-but-different pairs</th><td><strong>9</strong> (closest <code>#101527</code> vs <code>#111526</code>, ΔRGB 1.4)</td></tr>
+    <tr><th scope="row">Ramps that had inverted</th><td><strong>1</strong></td></tr>
+    <tr><th scope="row">Text colours below WCAG AA</th><td><strong>1</strong> (4.47:1, failing by 0.03)</td></tr>
+  </tbody>
+</table>
 
 None of it was noticed by looking. All of it is now asserted by tests.
 
-Meanwhile the parent brand site ran `#ff5722` while every product ran `#7c3cff`
+At the initial audit, the parent brand site ran `#ff5722` while every product ran `#7c3cff`
 — the company and the things it shipped looked like unrelated businesses.
 
 ## Consuming it
@@ -64,9 +67,25 @@ A check that has never failed is not a check.
 packages/
   tokens/   the source of truth → CSS, TS, JSON, and rgb companions
   brand/    marks, and the rules that keep them one family
-  ui/       React components (in progress)
+  ui/       Native React Button, Input, Select and Label
 apps/
   docs/     this site
 ```
+
+## Current direction
+
+Published foundations include Cool/Warm themes, Acid/electric Violet accents,
+independent light/dark/system appearance, readable typography and the approved
+Solid/Inset identities. The Themes and Marks pages use these production sources.
+
+Lattice's accepted redesign uses the shared foundations and controls. Warden
+is the next product adoption. **Studies / Warden** contains an interactive,
+synthetic workspace proposal and unapproved identity concepts. These studies
+are clearly separate from published components and product capabilities.
+
+See the [brand-family guide](https://github.com/pixeloven/design/blob/main/docs/brand-family.md)
+for the agreed direction and [design #8](https://github.com/pixeloven/design/issues/8)
+for the closeout sequence. Harmony's Homepage link update follows design delivery
+and verification of the deployed documentation.
 
 </div>

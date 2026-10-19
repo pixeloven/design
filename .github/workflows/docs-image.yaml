@@ -5,13 +5,14 @@ on:
     branches: [main]
     paths:
       - "apps/docs/**"
+      - "docs/studies/warden-identity/**"
       - "packages/tokens/**"
       - "packages/brand/**"
       - "packages/ui/**"
       - "pnpm-lock.yaml"
       - ".github/workflows/docs-image.yaml"
-  # The docs read the token, brand and UI packages at BUILD time, so a palette or
-  # mark change must produce a new image even though apps/docs did not change —
+  # The docs read package assets and identity studies at BUILD time, so a palette
+  # or mark change must produce a new image even though apps/docs did not change —
   # hence those paths above, not just apps/docs.
   workflow_dispatch:
 
@@ -63,7 +64,7 @@ jobs:
         run: |
           docker run -d --rm --name docs-check -p 18080:8080 \
             "${IMAGE}:sha-${GITHUB_SHA}"
-          for i in $(seq 1 15); do
+          for _ in $(seq 1 15); do
             sleep 1
             curl -fsS -o /dev/null http://localhost:18080/ && break
           done

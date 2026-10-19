@@ -1,0 +1,38 @@
+.warden-review { min-height: 100dvh; background: var(--pxo-surface-bg); color: var(--pxo-text); font: var(--pxo-reading-body-weight) var(--pxo-reading-body-size)/var(--pxo-reading-body-line-height) var(--pxo-reading-body-font-family); accent-color: var(--pxo-accent-text); scrollbar-color: var(--pxo-border-control) var(--pxo-surface-bg); }
+.warden-review *, .warden-review *::before, .warden-review *::after { box-sizing: border-box; }
+.warden-review :is(h1,h2,h3,h4,p) { margin: 0; overflow-wrap: anywhere; }
+.warden-review [hidden] { display: none !important; }
+.warden-review :focus-visible { outline: 2px solid var(--pxo-interaction-focus); outline-offset: 3px; }
+.warden-review ::selection { background: var(--pxo-interaction-selection-surface); color: var(--pxo-interaction-selection-text); }
+.warden-review :is(input,textarea) { caret-color: var(--pxo-accent-text); }
+.wr-mark { display: inline-flex; flex: none; color: inherit; }
+.wr-mark svg { width: 100%; height: 100%; }
+.wr-reviewbar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; padding: .85rem 1.5rem; border-bottom: 1px solid var(--pxo-border); background: var(--pxo-surface); }
+.wr-reviewbar h1 { font: var(--pxo-type-subtitle-weight) var(--pxo-type-subtitle-size)/var(--pxo-type-subtitle-line-height) var(--pxo-font-sans); }
+.wr-reviewbar p, .wr-secondary { color: var(--pxo-text-secondary); }
+.wr-reviewbar p { font-size: var(--pxo-reading-control-size); }
+.wr-reviewbar nav, .wr-concept-actions { display: flex; flex-wrap: wrap; gap: .5rem; }
+.wr-appearance { position: relative; }
+.wr-appearance summary { cursor: pointer; min-height: 44px; display: flex; align-items: center; padding: .5rem .75rem; border: 1px solid var(--pxo-border-control); border-radius: var(--pxo-radius-sm); }
+.wr-appearance[open] { flex: 1 1 100%; }
+.wr-appearance > div { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 1rem; padding-block: 1rem; }
+.wr-appearance label { display: grid; gap: .4rem; }
+.wr-appearance p { grid-column: 1/-1; }
+.wr-identity { max-width: 76rem; margin: 0 auto; padding: 3.5rem 2rem; }
+.wr-identity-intro { max-width: 47rem; }
+.wr-identity h2 { font: var(--pxo-type-display-weight) var(--pxo-type-display-size)/var(--pxo-type-display-line-height) var(--pxo-font-sans); letter-spacing: var(--pxo-type-display-letter-spacing); margin-bottom: 1rem; text-wrap: balance; }
+.wr-identity h3 { font: var(--pxo-type-title-weight) var(--pxo-type-title-size)/var(--pxo-type-title-line-height) var(--pxo-font-sans); margin-bottom: .8rem; }
+.wr-family { display: flex; flex-wrap: wrap; gap: 2rem 4rem; padding-block: 2.5rem; margin-top: 1rem; }
+.wr-family > div { display: grid; grid-template-columns: auto 1fr; column-gap: .9rem; align-items: center; }
+.wr-family .wr-mark { grid-row: span 2; }
+.wr-family small { color: var(--pxo-text-secondary); font-size: var(--pxo-reading-control-size); }
+.wr-concept { display: grid; grid-template-columns: minmax(15rem,1fr) minmax(0,1.5fr); gap: 3rem; padding-block: 2.75rem; border-top: 1px solid var(--pxo-border); }
+.wr-concept-drawing { display: flex; gap: 2rem; align-items: center; justify-content: center; background: var(--pxo-surface); padding: 2rem 1rem; }
+.wr-concept-drawing > div { display: grid; justify-items: center; gap: 1.25rem; }
+.wr-concept-drawing span:not(.wr-mark) { color: var(--pxo-text-secondary); }
+.wr-concept-copy p + p { margin-top: .7rem; }
+.wr-size-specimens { display: flex; align-items: end; gap: 2rem; margin-block: 1.5rem; }
+.wr-size-specimens > div { display: flex; align-items: center; gap: .5rem; flex-wrap: wrap; width: 5rem; }
+.wr-size-specimens > div > span:last-child { flex: 1 1 100%; color: var(--pxo-text-secondary); font: var(--pxo-reading-code-weight) var(--pxo-reading-code-size)/var(--pxo-reading-code-line-height) var(--pxo-font-mono); }
+.wr-study-note { padding-top: 1.5rem; border-top: 1px solid var(--pxo-border); color: var(--pxo-text-secondary); max-width: 70ch; }
+@media (max-width: 700px) { .wr-reviewbar { padding: .75rem 1rem; gap: .75rem; } .wr-reviewbar > div:first-child { flex: 1 1 100%; } .wr-reviewbar nav { flex: 1; } .wr-appearance > div { grid-template-columns: 1fr; } .wr-identity { padding: 2rem 1rem; } .wr-concept { grid-template-columns: minmax(0,1fr); gap: 1.5rem; padding-block: 2rem; } .wr-family { gap: 1.5rem; } .wr-family > div { flex: 1 1 13rem; } }

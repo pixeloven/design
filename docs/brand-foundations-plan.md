@@ -1,6 +1,9 @@
 # Approved brand foundations
 
-2026-09-29 · Brand/token foundations published; shared controls and Lattice adoption in progress.
+2026-09-29 foundations · Status reconciled 2026-10-19: brand/token foundations
+and native shared controls are published; Lattice adoption and its accepted
+redesign are complete. Warden adoption follows the
+[brand-review closeout](brand-review-closeout.md).
 
 PixelOven is the parent; Lattice is a product. The operator approved Solid as
 the primary figure, Inset for icons, Cool/Warm themes, and Acid/electric Violet
@@ -59,14 +62,15 @@ publication, retaining existing saved appearance and stable icon URLs.
   registry integrity, public exports and generated assets match merged commit
   `85e6fa4`. The docs image also passed its serving smoke check. A duplicate
   release invocation stopped at the existing already-published guard.
-- **Current parallel work:** extract native Button/Input/Select/Label into
-  `@pixeloven/ui` while Lattice adopts the already published tokens and assets.
-  The docs now consume the package instead of owning duplicate control styles.
-  Lattice preserves saved appearance, its Dark fallback, current exploration
-  and stable icon URLs. Independent review follows both implementations.
-- **Next release boundary:** publish UI 0.1 after its PR merges, then migrate
-  Lattice's matching controls. The Lattice foundation migration does not depend
-  on an unpublished UI package. Warden adoption follows its own roadmap.
+- **Shared controls published:** `@pixeloven/ui` 0.1 supplies native
+  Button/Input/Select/Label after design #7. The docs consume the package instead
+  of owning duplicate control styles. Lattice adopted it in the workspace
+  rebuild, preserving saved appearance and exploration.
+- **Consumer delivery:** Lattice's accepted redesign is complete under
+  [#383](https://github.com/pixeloven/lattice/issues/383). Warden remains the next
+  adoption; its current main still uses tokens 0.3. The review study prepares its
+  experience and identity, without publishing a new canonical mark or deploying
+  a product change.
 
 The new opt-in danger callout ground was adjusted to pass 4.5:1 with its existing
 status foreground. Legacy palette values are unchanged. The surrounding example
