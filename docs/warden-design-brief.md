@@ -1,19 +1,134 @@
-# Warden: directing work
+# Warden: projects people can direct
 
 2026-10-19 · Design proposal, before product implementation. Part of
 [design #8](https://github.com/pixeloven/design/issues/8).
 
-## Job and authority
+## Review status and recommendation
 
-One operator directs work at a desk and makes individual decisions on a phone.
-Agents use MCP. Directing is primary; triage and history are also valid reasons
-to visit. Success is filing intent, understanding its progress, inspecting the
-evidence for a decision, and returning without reconstructing the context.
+The operator supports the visual direction but found the first study's
+project/task management wrong. Its queue-centered work model is superseded by
+this brief. The current Storybook and portable demo still show that first model;
+their visual/accessibility checks do not establish product acceptance.
+
+**Build a project workspace where a human can shape an outcome, organize its
+tasks, direct progress and inspect the result. Agents use MCP to contribute to
+the same work records.** Human work includes planning and organization as well
+as approving agent output. The design defines the intended experience; missing
+API capabilities become explicit delivery work.
+
+Recommend two levels: **Project → Task**, matching the operator's original
+projects/epics and tasks/issues framing. A project is a meaningful outcome;
+a task is an actionable piece of work. Standalone tasks remain valid. Do not
+add a third Project → Epic → Task hierarchy. Mapping the existing `project`
+string and `parent` reference requires a data review before implementation;
+the interface must not silently reinterpret or discard either.
+
+One operator works at a desk and makes shorter visits on a phone. Success means
+they can answer: What are we trying to achieve? What should happen next? What
+needs my input? What actually finished? They should not have to reconstruct the
+project by browsing global queues.
 
 The visual authority is the approved [PixelOven family](brand-family.md):
 Cool/Warm, Acid/electric Violet, Plex Sans/Mono and Solid/Inset. Lattice is the
-production reference for craft and continuity. Warden's working composition
-follows tasks, dependencies and decisions.
+production reference for craft and continuity. Warden's composition follows
+project context, ordered work and clear decisions. Its mark remains unselected.
+
+## Proposed experience
+
+### Three places, each with a distinct job
+
+| Destination | What the person does there |
+| --- | --- |
+| **Projects** | Find active or completed projects. Open one to see its outcome, completed/total task counts, blockers and decisions alongside its Board/List. Recent projects remain directly reachable in navigation. |
+| **All tasks** | Capture standalone work, search across projects and find open or completed tasks. Every result retains its project context when one exists. |
+| **Needs attention** | Resolve an actual decision or problem across projects. Each entry explains why it is here and what action is needed; it links back to its project. |
+
+Recommend Projects as the initial destination and restoration of the last
+workspace on a return visit. Needs attention remains one action away with a
+truthful count. Blocked, recurring and completed are useful filters, not peer
+organizational entities competing with projects. Recurring work keeps its
+existing meaning until its contract is explicitly changed.
+
+Within a project, its outcome and compact progress summary stay above the work.
+Open, Completed and All filters make scope explicit. Board and List show the
+same tasks and planning order. Preserve the six task stages initially, with
+readable cards rather than shrinking everything to fit. Counts describe tasks,
+not an invented percentage of the outcome achieved. Loading or partial data
+must not masquerade as a complete project summary.
+
+### One complete journey is the design test
+
+Use a synthetic project, **Improve note reading**, with tasks for the focused
+reader, internal-note navigation and phone validation. This is demonstration
+content, not a claim about unfinished Lattice delivery.
+
+1. **Start with an outcome.** Create the project and describe what success means.
+   Arrive in its workspace with a clear Add task action, not a global empty queue.
+2. **Break it into work.** Add tasks without re-entering the project. Quick
+   capture needs a title; intent and completion conditions can be refined in
+   place. Creation defaults to Todo and shows the inherited project before save.
+3. **Organize what happens next.** Edit tasks, put phone validation after the
+   reader, and link the real dependency. Planning order and workflow stage are
+   separate. Moving a task between projects is explicit and preserves its record.
+4. **Direct progress.** Open the reader task, inspect its plan, and make a
+   decision with the consequence visible. Return to the same project, filter,
+   scroll position and useful focus. A refused or failed action retains input.
+5. **Check an interruption on a phone.** Enter from Needs attention, read the
+   result in a full-screen task, act, then return to that queue or its project.
+   The human can distinguish an awaiting decision from a dependency blocker.
+6. **Finish and find it again.** Completing a task reduces active clutter while
+   keeping it in Completed and search. Project completion is a separate, explicit
+   outcome decision; show unfinished work and require a deliberate disposition
+   before confirming. Never cascade completion or reopening to child tasks.
+
+The next prototype must demonstrate this journey end to end, including adding
+and editing work, ordering it, changing its project, completion and retrieval.
+Improved cards around the old queue navigation would not satisfy the brief.
+
+### Interaction, trust and accessibility
+
+- Contextual creation inherits the project; changing the project is visible.
+  Close/reopen and recoverable failures retain drafts, with explicit discard
+  and a declared storage lifetime. No success message precedes a confirmed write.
+- Desktop supports an adjacent task and expanded reading. Phone uses one
+  full-screen task, with the project and dependable Back behavior visible.
+  The workspace offers a readable list or one chosen board stage. Browser Back,
+  direct links and view changes preserve context, not just appearance.
+- Direct board movement and reordering have keyboard and touch alternatives.
+  Explain the new stage and order after an action; focus returns logically.
+  Intent, Plan, Result and completion conditions lead; metadata and raw source
+  stay available without dominating the task.
+- Stage, blocker and need for human input are separate facts. Build does not
+  mean an agent is running. Display execution activity only from explicit
+  evidence; otherwise show the last recorded update. Review/Verify alone must
+  not be described as a required human gate when policy says otherwise.
+- Present authored Log and Decisions faithfully. A structured action history
+  would require its own event/provenance contract; do not manufacture it from
+  current state. Read retries never repeat writes, and confirmed mutation facts
+  take precedence over a temporarily older index response.
+
+Exercise empty and completed projects, unparented tasks, long titles, many
+projects, dense task lists, unavailable dependencies, missing references and
+incomplete reads. Prototype fixtures should include a small three-task project
+and a larger project with at least 50 tasks across stages. Test keyboard,
+enlarged text, phone keyboards, themes and recovery as part of the journeys.
+
+## Relevant patterns and our judgment
+
+Linear gives a project its own outcome, overview and issue views, and supports
+creation within that context. GitHub also carries filtered context into newly
+added items. These support our recommendation for contextual task creation and
+a persistent project workspace. They do not determine Warden's data model.
+[Linear Projects](https://linear.app/docs/projects),
+[GitHub filtering](https://docs.github.com/en/issues/planning-and-tracking-with-projects/customizing-views-in-your-project/filtering-projects).
+
+GitHub distinguishes manual order from sorting; Linear's focused issue view
+includes blockers, active work and completed work. Our inference is to separate
+planning order from workflow stage, preserve completed work, and aggregate
+attention without replacing the project workspace. We do not need their full
+configuration systems or a human-assignee model to deliver those benefits.
+[GitHub table layout](https://docs.github.com/en/issues/planning-and-tracking-with-projects/customizing-views-in-your-project/customizing-the-table-layout),
+[Linear My issues](https://linear.app/docs/my-issues).
 
 ## Current evidence
 
@@ -27,7 +142,7 @@ release. The September audit is historical evidence, not a current defect count.
 
 | Finding | Observation | Design requirement |
 | --- | --- | --- |
-| Entry and structure | Live entry opened an empty Needs You queue; active work was elsewhere. Project context was buried in metadata. | Start with useful active work. Keep Needs You immediately reachable and show project/epic context where it helps direct work. |
+| Entry and structure | Live entry opened an empty Needs You queue; active work was elsewhere. Project context was buried in metadata. | Make projects working destinations. Keep cross-project attention directly reachable and preserve project context. |
 | Phone working space | Detail and composer began 321px down a 390×844 viewport, leaving 523px for the task before the software keyboard. Metadata preceded Intent. | Give a phone task the usable viewport, with reachable actions, meaningful content first and a dependable return. |
 | Draft continuity | A typed unsaved title disappeared after Escape and reopen. | Preserve drafts through supported dismissal and failures; use an explicit discard action and disclose the actual storage lifetime. |
 | Focus and controls | Opening detail left focus on its board control. Phone close measured 22×22px and New card 35×27px; navigation and inputs were 34px high. | Focus enters the active task and returns logically. Use the shared 44px controls; protect phone modal focus and background interaction. These dimensions alone are not a complete WCAG target-spacing assessment. |
@@ -43,47 +158,12 @@ phone keyboards and named screen readers were not verified in the live pass.
 Owned fixtures must cover those before implementation acceptance. Private live
 captures remain outside this repository.
 
-## First working proposal
+## Implementation evidence and required changes
 
-### Direction contract
-
-- **Mode:** Operate for the workspace; Read/compare for the identity study.
-- **Authority:** Extend the approved PixelOven family and task-focused Warden
-  direction. No replacement visual world or raster composition is proposed.
-- **Form:** A persistent work navigator, readable board/list and adjacent desktop
-  task. Phone tasks become a full-viewport working surface; the board shows one
-  chosen stage. This composition follows the job and actual workflow states.
-- **First viewport:** Visible active issues and New issue establish the next
-  action immediately. Review chrome labels the synthetic proposal separately
-  from the product's own navigation.
-- **Signature interaction:** Open work, inspect its intent/evidence and decision
-  consequence, then return to the originating control. A dismissed creation
-  draft resumes in the same tab, including after reload when storage works.
-- **Material and motion:** Canonical neutral grounds, restrained accent selection,
-  Plex text and angular Solid/Inset artwork. Short shared hover transitions
-  clarify interaction; no decorative entrance or continuous motion is required.
-
-### Experience
-
-- **Work:** active issues in a comfortable board or list. Keep the five existing
-  saved views available; strengthen project/epic context and clear creation.
-- **A task:** title, state and related work establish context; Intent leads.
-  Plan is prominent for review, Result and Done when for verification. Existing
-  Decisions and Log are readable and traceable to their authored content.
-- **A decision:** show the action and consequence before committing it. Preserve
-  the task and entered reason on refusal/failure. Successful mutation facts take
-  precedence over a temporarily older index response.
-- **A phone:** one full working task at a time. Selection of a workflow state or
-  a readable list replaces several narrow board columns. Close/Back returns to
-  the same view, useful scroll position and focus.
-- **An interruption:** preserve the creation draft on close. Explicit discard
-  clears it; failures retain it. Appearance and view changes preserve the task.
-
-The interactive study uses synthetic data and no network writes. It demonstrates
-proposed presentation and continuity, not production API integration or automatic
-agent execution. Warden mark choices are review-only until selected.
-
-## Product constraints the implementation must respect
+The following describes the pinned source, not a ceiling on the design. A
+production delivery must implement and version new contracts before relying on
+them. Synthetic demonstrations can explore the target behavior but must label
+the capability gaps; they perform no network writes.
 
 Current states are `todo`, `plan`, `review`, `build`, `verify`, `done`. Humans may
 move directly to any known state. Approve and Send back are distinct policy
@@ -98,49 +178,49 @@ issue-edit or structured history-event API. Do not invent one through UI copy.
 Current source does not automatically add Log or Decisions entries for ordinary
 transitions.
 
-The server owns saved-view predicates and order. Active excludes done and epics;
+The server currently owns saved-view predicates and order. Active excludes done and epics;
 Needs You includes review/verify regardless of whether the gate holds; Blocked
 excludes done; Recurring currently selects audit; Epics includes completed epics.
-Browser code must not quietly redefine these meanings.
+The revised experience requires an explicit query/policy change rather than
+quietly redefining these predicates in browser code.
 
-## Choices to settle through the proposal
+| Required experience | Current basis | Work to specify and deliver |
+| --- | --- | --- |
+| Persistent project workspace | Epic issues, parent references and a separate project string | Establish identity/mapping, project-scoped queries, accurate counts and unresolved-reference behavior. Preserve legacy data; do not invent a third tier. |
+| Contextual task creation | Create accepts parent/project and starts in Todo | Resolve the mapping, inherit the correct project explicitly and remain in its workspace after save. |
+| Refine and organize work | No general browser edit/reparent or rank API | Add editing, relationship/dependency updates and persisted planning order with conflict behavior. UI and MCP must share the same authoritative record. |
+| Completed-work retrieval | Active excludes done; completed ordinary tasks have no dedicated saved view | Provide scoped open/completed/all retrieval and cross-project search, stable links and honest completeness. Show recorded results/dates only when available. |
+| Finish a project intentionally | Epics use the issue workflow; no established child-completion policy | Define project completion, unfinished-task disposition and reopening without silently changing children. |
+| Trustworthy attention | Needs You includes all review/verify records | Define explicit reasons from gate/blocker evidence; distinguish a pending decision from ordinary stage membership. |
+| Dependable navigation and recovery | Existing mutations and authored content | Specify URL/Back/focus/scroll behavior, draft lifetime, conflict/refusal handling and index-lag reconciliation. |
 
-1. Select a Warden figure within the existing Solid/Inset family.
-2. Confirm the Work-first composition and phone task model by trying the demo.
-3. Define project/epic browsing against actual data and server-owned filtering.
-   A richer project overview may need an additive query contract.
-4. Keep authored issue history readable in the first delivery. A cross-issue
-   searchable timeline needs an explicit event/source model before it is promised.
+## Decisions and boundaries
 
-The designer recommends a stronger project overview and a History destination.
-These remain desired outcomes to specify, with the above API boundaries visible.
-They must not be imitated with an apparently complete client-generated activity log.
+The recommendation is Project/Task terminology, Projects-first entry and an
+explicit project completion decision. Validate those choices through the full
+journey, rather than asking the operator to design individual controls. Review
+real records to resolve the legacy project/parent mapping before a migration
+specification. Order scope, concurrent edits and query completeness also need
+precise contracts in that specification.
 
-## Proposed implementation slices
+Keep Warden's mark selection as a separate review within the approved family.
+New team permissions, scheduling, agent dispatch, configurable workflow builders,
+a third organizational tier and a fabricated activity feed are not part of this
+proposal. Lattice lifecycle work remains in its own session. Harmony Homepage
+remains the last closeout step.
+
+## Delivery and acceptance
 
 | Slice | Outcome and acceptance |
 | --- | --- |
-| Foundations and continuity | Adopt published tokens/UI and selected assets; readable focus/controls; draft close/reopen/discard/failure behavior with a declared lifetime. Preserve existing appearance preferences. |
-| Workspace and task | Work-first entry, board/list and phone state view, readable detail, focus/history/scroll return. Define URL and Browser Back behavior before coding. |
-| Project and epic navigation | Agree grouping, totals, completion meaning, unparented work and unresolved references; keep predicates/order server-owned. Add queries only where required by the agreed experience. |
-| Decisions and authored history | Review/verify evidence and action consequences, faithful Log/Decisions presentation, explicit refusal/error retry and index-lag reconciliation. No repeated writes during recovery. |
-| Acceptance and release | Replay complete journeys with owned fixtures, strict/static checks and independent reviews; CI owns broad suites. Validate package publication and paired product artifacts before consumer rollout. |
+| Revised interaction prototype | Replace queue-centered navigation with the complete project/task journey above. Use synthetic fixtures; keep approved visuals and clearly identify proposed capabilities. Independent product/UX review must assess managing work, not just appearance. |
+| Execution specification | Map each accepted interaction to components, data contracts, UI/MCP behavior, migration needs, accessible controls and recovery expectations. Identify shared patterns with Lattice without forcing shared product structure. |
+| Project workspace and task management | Deliver scoped retrieval, contextual creation, editing, relationships and durable order as coherent journeys. Retain completed work, source context and drafts on desktop and phone. |
+| Attention, completion and records | Deliver truthful attention reasons, decision consequences, explicit project completion and faithful authored history with refusal/index-lag recovery. |
+| Product acceptance and release | Replay the full journey with owned fixtures and actual write contracts. Run focused local/static checks and independent reviews; CI owns broad suites. Verify package and paired product artifacts before consumer rollout. |
 
-For each slice, the product execution spec must name the actual components,
-queries/mutations, state transitions, fixtures and recovery expectations.
 The study does not authorize a production card-to-issue migration. Reconcile
 Warden #59/#60 and deployed API/frontend/vault versions before that cutover.
-
-## Review journeys
-
-1. Understand active work, open an issue and follow its parent/blocker context.
-2. Start a draft, close it, change appearance, reopen, and explicitly discard.
-3. Read a plan or result, understand the consequence, simulate refusal/failure,
-   and recover with the task and reason retained.
-4. On phone and keyboard, enter a task, reach its last content/action, close and
-   return to the originating work without losing focus or context.
-5. Compare Warden marks alongside the approved parent/product pair, at actual
-   icon sizes and in both appearances.
 
 ## Source anchors
 

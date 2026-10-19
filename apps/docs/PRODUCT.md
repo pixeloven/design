@@ -38,7 +38,12 @@ work with local state only; they perform no API, MCP or vault writes.
 Warden serves humans managing projects/epics and tasks/issues; agents use MCP.
 Its current source has six fixed workflow states and six browser mutations.
 Source capabilities and proposed interaction improvements are detailed in
-`../../docs/warden-design-brief.md`. Personal assignment, agent dispatch and
+`../../docs/warden-design-brief.md`. The operator supported the first study's
+visual direction but rejected its queue-centered project/task model. The target
+is now a complete Project → Task journey, including contextual creation,
+editing, ordering, decisions and completed-work retrieval. The built prototype
+still demonstrates the first model; existing API gaps are delivery work, not
+limits on the proposed experience. Personal assignment, agent dispatch and
 automatic structured history are not established capabilities.
 
 ## Brand Commitments

@@ -20,13 +20,27 @@ The [brand-family guide](brand-family.md) consolidates the decisions that carry
 forward. Neither new identity exploration nor a new palette selection is needed
 for PixelOven or Lattice.
 
+## Current review status
+
+The operator supports the first Warden study's visual direction but found its
+project/task management wrong. Its queue-centered work model is superseded by
+the [revised Warden brief](warden-design-brief.md). The current demo has not yet
+been rebuilt around that brief; visual polish and accessibility checks do not
+constitute acceptance of the product experience.
+
+Next, demonstrate the complete Project → Task journey: define an outcome,
+create and organize work in context, direct progress, finish deliberately and
+retrieve completed work. Treat missing API support as named implementation
+work. Projects are working destinations; cross-project attention supports them.
+
 ## Delivery sequence
 
 1. **Refresh Warden's baseline and prepare the design.** Independently assess the
    current interface and source capabilities. Reconcile the September review
-   with implemented work. Develop a task-focused workspace proposal and Warden
-   identity options in parallel, then review them together. Demonstrations use
-   synthetic content; unsupported capabilities must be explicit.
+   with implemented work. Revise the prototype around the project/task journey
+   and review its usefulness independently of visual craft. Review Warden
+   identity options separately. Demonstrations use synthetic content;
+   unsupported capabilities must be explicit.
 2. **Implement the accepted Warden direction.** Turn the selected experience
    into bounded product slices with owned fixtures, actual API contracts,
    state/focus/draft/history behavior, and independent reviews. Adopt published
@@ -45,8 +59,10 @@ for PixelOven or Lattice.
 
 ## Completion criteria
 
-- Warden's directing, triage and history journeys work with its actual product
-  model on desktop and phone; failed and refused actions preserve useful state.
+- Warden supports contextual creation, editing, task ordering, project navigation,
+  decisions, explicit completion and completed-work retrieval on desktop and
+  phone. Failed and refused actions preserve useful state. UI and MCP operate
+  on the same work model, with any required contract changes delivered.
 - Its selected identity is registered, published and adopted across header,
   favicon and app-icon placements using the established family contracts.
 - Shared patterns have an explicit owner and actual consumer examples; no

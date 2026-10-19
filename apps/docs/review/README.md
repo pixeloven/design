@@ -4,6 +4,11 @@ This is the standalone entry for the same typed workspace and identity study
 shown in Storybook under **Studies / Warden**. All work is synthetic; no API or
 vault writes occur. The identity candidates are unapproved sources.
 
+**Review status:** the operator supports the visuals but found project/task
+management wrong. This build still shows the first queue-centered model. The
+[revised brief](../../../docs/warden-design-brief.md) supersedes that model with
+a complete project/task journey; it is not yet implemented in this preview.
+
 From the repository root:
 
 ```sh

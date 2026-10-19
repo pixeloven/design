@@ -44,6 +44,11 @@ built Warden review study. Warden's composition is study-specific, not a templat
 for every product. Its synthetic local state does not establish production
 capabilities or approve a Warden mark.
 
+The operator supports this visual direction but rejected the study's
+queue-centered work model. Layout details below record the current build, not
+the target product structure. The revised brief calls for a complete
+project/task journey and supersedes that interaction model.
+
 **Key Characteristics:**
 
 - Cool/Warm neutrals and independent Acid/electric Violet accents.
@@ -87,7 +92,8 @@ preserving complete labels. Review chrome remains distinct from product navigati
 
 The identity study is bounded to (76rem); drawing/copy and appearance settings
 stack at (700px). These are observed study breakpoints, not shared scale tokens.
-See the [Warden direction contract](../../docs/warden-design-brief.md) for its job.
+See the [revised Warden brief](../../docs/warden-design-brief.md) for the target
+experience; the current layout has not yet been rebuilt around it.
 
 ## Elevation & Depth
 
