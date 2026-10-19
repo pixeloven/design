@@ -181,13 +181,20 @@ proposed interaction policy for review, not a claim about current Warden policy.
   an owner represents a human, agent or another accountable role, and how that
   fact is authored and updated. Missing responsibility stays explicit. An owner
   label is not evidence of a running agent or a dispatch operation.
-- Present authored Log and Decisions faithfully in one visible **Comments**
-  section with Add a comment and Post comment. Preserve the distinction of a
-  decision note without making the person navigate separate disclosures. Show
+- Present authored Log and Decisions faithfully in one visible **Activity**
+  area, with **Comments** selected by default, Add a comment and Post comment.
+  Comments includes decision explanations; **Decisions** narrows the same feed
+  to decision notes. Keep the composer available in either filter; successful
+  posting returns to Comments and feedback stays beside the composer. Switching
+  filters preserves drafts. Preserve the distinction of a decision note without
+  making the person navigate separate disclosures. Show
   authors, dates and ordering only where recorded; legacy text remains intact.
   A decision comment stays beside its action and retains its draft on refusal.
   A structured comment/event history would require its own provenance contract;
-  do not manufacture it from current state. Read retries never repeat writes,
+  add History, Transitions and an All activity view when such events are
+  recorded, with event identity, actor, timestamp, action and consequence.
+  Do not manufacture them from current state or duplicate Comments with an
+  empty All view. Read retries never repeat writes,
   and confirmed mutation facts take precedence over a temporarily older index
   response.
 

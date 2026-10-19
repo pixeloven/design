@@ -55,6 +55,9 @@
 .ww-task-dependencies .pxo-button > span:last-child { flex: none; }
 .ww-task-reading > .ww-section:first-child { margin-top: 1.5rem; }
 .ww-comments { border-top: 1px solid var(--pxo-border); padding-top: 1.5rem; }
+.ww-activity-filters { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: .75rem; }
+.ww-activity-filters .pxo-button[aria-pressed="true"] .ww-count { color: inherit; }
+.ww-activity-count { font-size: var(--pxo-reading-control-size); padding-bottom: .5rem; }
 .ww-comment-form { display: grid; gap: .75rem; margin-top: 1rem; }
 .ww-comment-form > .pxo-label { display: grid; gap: .5rem; }
 .ww-comment-submit { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: .75rem; }
@@ -67,7 +70,6 @@
   letter-spacing: var(--pxo-reading-control-letter-spacing);
 }
 .ww-detail .ww-comment .ww-comment-text { margin-top: .4rem; white-space: pre-wrap; overflow-wrap: anywhere; }
-.ww-comment-empty { margin-top: 1.25rem !important; }
 @media (max-width: 760px) {
   .ww-task-actions { gap: .65rem; }
   .ww-task-utility-actions > .pxo-button { flex: 1 1 auto; }

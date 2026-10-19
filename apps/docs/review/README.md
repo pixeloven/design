@@ -43,7 +43,9 @@ Use the project's Decisions/Blocked filters and Next in your plan row. Drag by
 the handle and inspect the source, destination and insertion marker before
 releasing; click the handle or use the keyboard for explicit placement. Cancel
 and verify nothing moved. Inspect a plan from Needs attention and compare
-Approve, Request changes and Manage task's direct Move. Add a comment; close
+Approve, Request changes and Manage task's direct Move. In Activity, compare
+Comments (including decision reasons) with Decisions. Add a comment from either
+filter and check that it appears in Comments. Close
 and reopen with an unfinished comment or decision reason to check draft recovery.
 Complete and retrieve a task; try completing a project with unfinished children.
 Use **Library maintenance** for the 50-task case and **Reading foundation** for

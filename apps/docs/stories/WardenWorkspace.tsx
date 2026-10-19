@@ -234,14 +234,14 @@ export function WardenWorkspace({ mark }: { mark: ReactNode }) {
     chooseScope(project.completed ? "open" : "completed")
     setNotice(`${project.title} ${project.completed ? "reopened" : "completed"}. Task stages are unchanged.`)
   }
-  function appendNote(event: FormEvent) {
+  function appendNote(event: FormEvent): Outcome | null {
     event.preventDefault()
-    if (!task) return
+    if (!task) return null
     const note = (demo.notes[task.id] ?? "").trim()
-    if (!note) return
-    if (/^\s*##\s/m.test(note)) { setOutcome({ kind: "refusal", message: "Use plain text for a comment; a section heading would change its structure. Your comment draft is kept." }); return }
+    if (!note) return null
+    if (/^\s*##\s/m.test(note)) return { kind: "refusal", message: "Use plain text for a comment; a section heading would change its structure. Your comment draft is kept." }
     setDemo(current => ({ ...current, tasks: current.tasks.map(item => item.id === task.id ? { ...item, log: [...item.log, `You · ${note}`], updated: "Just now · comment added in this demo" } : item), notes: { ...current.notes, [task.id]: "" } }))
-    setOutcome({ kind: "success", message: "Your comment was posted." })
+    return { kind: "success", message: "Your comment was posted." }
   }
   function resetDemo() {
     const fresh = initialDemo(); setDemo(fresh); navRef.current = fresh.navigation

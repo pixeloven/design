@@ -81,7 +81,7 @@ type DetailProps = {
   onClose: () => void; onExpand: () => void; onOpen: (id: string) => void; onProject: (id: string) => void
   onUpdate: (change: Partial<Task>) => void; onMove: (stage: Stage) => void; onDecision: (action: "approve" | "sendBack") => void; onRead?: () => void
   onEdit: (draft: TaskDraft | null) => void; onSaveEdit: () => boolean; onTransfer: (projectId: string) => void
-  onReorder: (beforeId: string | null) => void; onReason: (value: string) => void; onNote: (value: string) => void; onAppend: (event: FormEvent) => void
+  onReorder: (beforeId: string | null) => void; onReason: (value: string) => void; onNote: (value: string) => void; onAppend: (event: FormEvent) => Outcome | null
 }
 export function TaskDetail(props: DetailProps) {
   const { prefix, task, demo, mobile, expanded, returnLabel, outcome } = props
@@ -90,6 +90,8 @@ export function TaskDetail(props: DetailProps) {
   const [stage, setStage] = useState(task.status)
   const [destination, setDestination] = useState(task.projectId)
   const [placement, setPlacement] = useState("")
+  const [activityFilter, setActivityFilter] = useState<"comments" | "decisions">("comments")
+  const [commentOutcome, setCommentOutcome] = useState<Outcome | null>(null)
   const editForm = useRef<HTMLFormElement>(null)
   const project = demo.projects.find(item => item.id === task.projectId)
   const siblings = ordered(demo.tasks.filter(item => item.projectId === task.projectId))
@@ -141,9 +143,10 @@ export function TaskDetail(props: DetailProps) {
     })}</div>
   }
   const comments = [
-    ...task.decisions.map((text, index) => ({ key: `decision-${index}`, kind: "Decision note", text })),
-    ...task.log.map((text, index) => ({ key: `comment-${index}`, kind: "Comment", text })),
+    ...task.decisions.map((text, index) => ({ key: `decision-${index}`, kind: "Decision note", decision: true, text })),
+    ...task.log.map((text, index) => ({ key: `comment-${index}`, kind: "Comment", decision: false, text })),
   ]
+  const activity = activityFilter === "decisions" ? comments.filter(entry => entry.decision) : comments
   return <Panel label={`${prefix}-task-heading`} modal={mobile || expanded} className={`ww-detail${expanded ? " ww-detail--expanded" : ""}`} onClose={props.onClose}>
     <header className="ww-panel-header">
       <Button onClick={props.onClose}><Icon name="back" />Back to {returnLabel}</Button>
@@ -196,13 +199,21 @@ export function TaskDetail(props: DetailProps) {
         {task.status === "review" ? <>{plan}{criteria}{intent}{result}</> : task.status === "verify" || task.status === "done" ? <>{result}{criteria}{intent}{plan}</> : <>{intent}{plan}{result}{criteria}</>}
       </div>}
       {task.dependsOn.some(id => !blocked.includes(id)) && <section className="ww-section"><h3>Other dependencies</h3>{dependencies(task.dependsOn.filter(id => !blocked.includes(id)))}</section>}
-      <section className="ww-section ww-comments" aria-labelledby={`${prefix}-comments-heading`}>
-        <h3 id={`${prefix}-comments-heading`}>Comments<span className="ww-secondary">{comments.length}</span></h3>
-        <form className="ww-comment-form" onSubmit={props.onAppend}>
-          <Label htmlFor={`${prefix}-comment`}>Add a comment<textarea id={`${prefix}-comment`} rows={3} value={demo.notes[task.id] ?? ""} onChange={event => props.onNote(event.target.value)} placeholder="Add context, a question, or an update…" /></Label>
+      <section className="ww-section ww-comments" aria-labelledby={`${prefix}-activity-heading`}>
+        <h3 id={`${prefix}-activity-heading`}>Activity</h3>
+        <div className="ww-activity-filters" role="group" aria-label="Activity filters">
+          <Button aria-pressed={activityFilter === "comments"} aria-controls={`${prefix}-activity-feed`} onClick={() => setActivityFilter("comments")}>Comments <span className="ww-count">{comments.length}</span></Button>
+          <Button aria-pressed={activityFilter === "decisions"} aria-controls={`${prefix}-activity-feed`} onClick={() => setActivityFilter("decisions")}>Decisions <span className="ww-count">{task.decisions.length}</span></Button>
+        </div>
+        <form className="ww-comment-form" onSubmit={event => { const result = props.onAppend(event); setCommentOutcome(result); if (result?.kind === "success") setActivityFilter("comments") }}>
+          <Label htmlFor={`${prefix}-comment`}>Add a comment<textarea id={`${prefix}-comment`} rows={3} value={demo.notes[task.id] ?? ""} onChange={event => { props.onNote(event.target.value); setCommentOutcome(null) }} placeholder="Add context, a question, or an update…" /></Label>
+          <Feedback outcome={commentOutcome} />
           <div className="ww-comment-submit"><p className="ww-hint">Your draft is kept when you close this task.</p><Button type="submit" disabled={!(demo.notes[task.id] ?? "").trim()}>Post comment</Button></div>
         </form>
-        {comments.length ? <div className="ww-comment-feed">{comments.map(entry => <article className="ww-comment" key={entry.key}><p className="ww-comment-kind">{entry.kind}</p><p className="ww-comment-text">{entry.text}</p></article>)}</div> : <p className="ww-secondary ww-comment-empty">No comments yet.</p>}
+        <div id={`${prefix}-activity-feed`} className="ww-comment-feed">
+          <p className="ww-activity-count ww-secondary" role="status">{activity.length ? `${activity.length} ${activityFilter === "decisions" ? activity.length === 1 ? "decision note" : "decision notes" : activity.length === 1 ? "comment" : "comments"}` : activityFilter === "decisions" ? "No decision notes yet." : "No comments yet."}</p>
+          {activity.map(entry => <article className="ww-comment" key={entry.key}><p className="ww-comment-kind">{entry.kind}</p><p className="ww-comment-text">{entry.text}</p></article>)}
+        </div>
       </section>
       <details className="ww-record"><summary>Record details</summary><dl className="ww-metadata"><div><dt>Task</dt><dd className="ww-code">{task.id}</dd></div><div><dt>Last update</dt><dd>{task.updated}</dd></div><div><dt>Sent back</dt><dd>{task.reviews} times</dd></div><div><dt>Gate policy</dt><dd>{task.gateRequired ? "Human decision required in Review and Verify" : "No required human gate"}</dd></div><div><dt>Blocking references</dt><dd>{blocked.join(", ") || "None"}</dd></div></dl></details>
     </div>

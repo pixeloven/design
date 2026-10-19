@@ -133,8 +133,10 @@ outside its asset registry.
   feedback. Explicit transfer stays separate from ordering.
 - **Task:** a specific request leads, with decisions, editing, completion and
   Manage task together. Review leads with Plan; Verify leads with Result and
-  Done when. Comments stays visible with a composer; legacy Decision and Log
-  text retains its source label without invented author/time metadata. Approve,
+  Done when. Activity defaults to Comments, including authored decision reasons;
+  a Decisions filter narrows the same feed. The composer stays visible across
+  filters, with feedback beside it. Legacy Decision and Log text retains its
+  source label without invented author/time metadata. Approve,
   Request changes and Move explain their different consequences. Focus enters the task and returns on
   close; browser-session state retains drafts and decision reasons. Desktop
   expansion and phone modal reading protect concentration and return context.
