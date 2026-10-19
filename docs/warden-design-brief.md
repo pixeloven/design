@@ -99,6 +99,16 @@ readable cards rather than shrinking everything to fit. Counts describe tasks,
 not an invented percentage of the outcome achieved. Loading or partial data
 must not masquerade as a complete project summary.
 
+A project also needs to help direct its work. Its completion, decision and
+blocker counts open the corresponding scoped tasks. All work, Decisions and
+Blocked filters remain within the project; Decisions requires an actual gate.
+One compact **Next in your plan** row exposes the first unfinished task in
+authored planning order, its recorded next action and any blockers. It does not
+infer live agent activity or invent a priority score. List exposes that planning
+order and a direct way to organize tasks. Contextual Add task belongs beside the
+project title; project administration stays in Project settings. Phone keeps the
+outcome independently accessible from those settings.
+
 ### One complete journey is the design test
 
 Use a synthetic project, **Improve note reading**, with tasks for the focused
@@ -148,18 +158,38 @@ proposed interaction policy for review, not a claim about current Warden policy.
   Explain the new stage and order after an action; focus returns logically.
   Intent, Plan, Result and completion conditions lead; metadata and raw source
   stay available without dominating the task.
+- During a drag, keep the source identifiable and highlight only the active
+  destination. Show the insertion position and describe the proposed stage/order
+  change before drop. Cover empty columns, the end of a sequence and off-screen
+  stages. Cancel and rejected drops leave records unchanged. If a successful
+  move leaves the current filter, explain that and provide Show task. Validation
+  must exercise the actual pointer path and inspect feedback before release;
+  checking only a final state change is insufficient.
 - Stage, blocker and need for human input are separate facts. Build does not
   mean an agent is running. Display execution activity only from explicit
   evidence; otherwise show the last recorded update. Review/Verify alone must
   not be described as a required human gate when policy says otherwise.
+- Needs attention must name the requested action before opening a task: review
+  a plan, verify a result, inspect a dependency or locate an unavailable record.
+  The task repeats that ask near its title, explains the consequences and keeps
+  its relevant actions together. Review leads with Plan; Verify leads with Result
+  and Done when. General editing, completion, stage changes, order and transfer
+  belong to one task action area, rather than disconnected sections below the
+  reading. In the proposed UI, Request changes expresses the existing Send back
+  operation; direct Move remains distinct from approval.
 - Responsibility and required next actor must be understandable. Define whether
   an owner represents a human, agent or another accountable role, and how that
   fact is authored and updated. Missing responsibility stays explicit. An owner
   label is not evidence of a running agent or a dispatch operation.
-- Present authored Log and Decisions faithfully. A structured action history
-  would require its own event/provenance contract; do not manufacture it from
-  current state. Read retries never repeat writes, and confirmed mutation facts
-  take precedence over a temporarily older index response.
+- Present authored Log and Decisions faithfully in one visible **Comments**
+  section with Add a comment and Post comment. Preserve the distinction of a
+  decision note without making the person navigate separate disclosures. Show
+  authors, dates and ordering only where recorded; legacy text remains intact.
+  A decision comment stays beside its action and retains its draft on refusal.
+  A structured comment/event history would require its own provenance contract;
+  do not manufacture it from current state. Read retries never repeat writes,
+  and confirmed mutation facts take precedence over a temporarily older index
+  response.
 
 Exercise empty and completed projects, unparented tasks, long titles, many
 projects, dense task lists, unavailable dependencies, missing references and
@@ -289,15 +319,30 @@ documentation checks, and Storybook/portable builds. Browser journeys exercised
 contextual capture, same-tab draft recovery, editing, order and transfer,
 completion/reopening, decision refusal and read-only recovery, Browser Back,
 expanded reading and native phone modal focus. Independent source and designer
-reviews found and corrected stale next-actor text, inconsistent drag behavior,
+reviews found and corrected stale next-actor text, move/order state handling,
 completed-view defaults, ambiguous draft reuse and narrow action-label wrapping.
+
+Subsequent operator review exposed a gap in that first validation: checking a
+move's final state did not prove usable drag interaction. Actual pointer input
+reproduced a source-card layout shift that canceled native dragging. The revised
+handle-based interaction keeps the source stable and shows the destination and
+before/after/end placement before release. Independent Chromium mouse/touch
+checks cover placement, empty stages, both scroll axes, cancellation, invalid
+project targets, keyboard placement and recovery when a move leaves a filter.
+The review also replaced scattered task controls with a specific ask/action
+area and visible Comments, and condensed the project header after inspecting
+the phone layout. Fresh phone navigation starts with List; an explicitly chosen
+Board layout survives navigation and reload.
 
 Automated accessibility scans found no violations in the exercised desktop,
 phone, dialog and eight theme combinations, with a final check of the corrected
-phone surfaces. At 320 CSS pixels with token text sizes doubled (32px body),
+phone surfaces. Comment and decision drafts remain separate through closing,
+reloads, posting and refusal/re-read. Required gates, optional inspection and
+missing dependencies have distinct requests. At 320 CSS pixels with token text sizes doubled (32px body),
 labels remained readable and the page had no horizontal overflow. The portable
 file rendered without external requests; blocked browser storage produced an
 explicit in-memory fallback. Captures and command logs remain outside Git.
+The final Impeccable source scan reported no findings and required no ignores.
 
 These are synthetic Chromium checks, not physical iPhone, software-keyboard or
 screen-reader acceptance. Navigation URLs carry context, not locally authored

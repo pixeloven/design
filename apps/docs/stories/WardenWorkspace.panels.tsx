@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState, type FormEvent, type ReactNode } from "react"
 import { Button, Input, Label, Select } from "@pixeloven/ui"
-import { STAGES, attentionReasons, blockers, label, ordered, type Demo, type ProjectDraft, type Stage, type Task, type TaskDraft } from "./WardenWorkspace.model"
+import { STAGES, blockers, label, ordered, type Demo, type ProjectDraft, type Stage, type Task, type TaskDraft } from "./WardenWorkspace.model"
+import "./WardenWorkspace.panel-actions.css"
 
 export type Outcome = { kind: "success" | "refusal" | "info"; message: string }
 export function Icon({ name }: { name: "plus" | "back" | "board" | "list" }) {
@@ -85,22 +86,64 @@ type DetailProps = {
 export function TaskDetail(props: DetailProps) {
   const { prefix, task, demo, mobile, expanded, returnLabel, outcome } = props
   const [editing, setEditing] = useState(Boolean(demo.edits[task.id]))
+  const [editField, setEditField] = useState<"title" | "dependencies">("title")
   const [stage, setStage] = useState(task.status)
   const [destination, setDestination] = useState(task.projectId)
   const [placement, setPlacement] = useState("")
+  const editForm = useRef<HTMLFormElement>(null)
   const project = demo.projects.find(item => item.id === task.projectId)
   const siblings = ordered(demo.tasks.filter(item => item.projectId === task.projectId))
   const position = siblings.findIndex(item => item.id === task.id)
   const draft = demo.edits[task.id]
   const reason = demo.reasons[task.id] ?? ""
-  const gated = task.status === "review" || task.status === "verify"
-  const attention = attentionReasons(task, demo.tasks)
+  const decisionStage = task.status === "review" || task.status === "verify"
+  const blocked = blockers(task, demo.tasks)
+  const missing = blocked.filter(id => !demo.tasks.some(item => item.id === id))
+  const checked = task.criteria.filter(item => item.done).length
+  const ask = decisionStage
+    ? `${task.gateRequired ? "" : "Optional: "}${task.status === "review" ? "Review this plan" : "Verify this result"}`
+    : task.status === "done" ? "Task completed"
+      : missing.length ? `Locate ${missing.length === 1 ? `missing reference ${missing[0]}` : "the missing references"}`
+        : blocked.length ? "Inspect the dependencies" : "Next step"
+  const request = task.status === "review" ? "Is the proposed approach ready to build?"
+    : task.status === "verify" ? "Does this result meet the completion conditions?"
+      : task.status === "done" ? "The recorded result and comments remain available. Reopening returns the task to Todo."
+        : missing.length ? "A supporting record is unavailable. Locate it, then correct the dependency if needed."
+          : blocked.length ? "This work depends on unfinished tasks. Open their records to see what is needed."
+            : task.nextActor || "No next step is recorded. Edit the task to describe what should happen next."
   useEffect(() => { setStage(task.status) }, [task.status])
   useEffect(() => { setDestination(task.projectId) }, [task.projectId])
-  function startEditing() {
+  useEffect(() => {
+    if (!editing) return
+    const field = editField === "dependencies" ? document.getElementById(`${prefix}-edit-dependencies`) : editForm.current?.querySelector<HTMLInputElement>("[data-edit-title]")
+    field?.focus()
+  }, [editing, editField, prefix])
+  function startEditing(field: "title" | "dependencies" = "title") {
     props.onEdit(draft ?? { title: task.title, intent: task.intent, projectId: task.projectId, responsibility: task.responsibility, nextActor: task.nextActor, criteria: task.criteria.map(item => item.text).join("\n"), dependsOn: task.dependsOn.join(", ") })
+    setEditField(field)
     setEditing(true)
+    if (editing) requestAnimationFrame(() => {
+      const input = field === "dependencies" ? document.getElementById(`${prefix}-edit-dependencies`) : editForm.current?.querySelector<HTMLInputElement>("[data-edit-title]")
+      input?.focus()
+    })
   }
+  const intent = <section className="ww-section"><h3>Intent</h3><p>{task.intent || "Intent has not been written yet."}</p></section>
+  const plan = (task.plan || task.status === "review") && <section className="ww-section" id={`${prefix}-task-plan`}><h3>Plan</h3>{task.plan ? task.plan.split("\n\n").map((paragraph, index) => <p key={index}>{paragraph}</p>) : <p className="ww-secondary">No plan has been recorded.</p>}</section>
+  const result = (task.result || task.status === "verify" || task.status === "done") && <section className="ww-section" id={`${prefix}-task-result`}><h3>Result</h3><p>{task.result || "No result has been recorded."}</p></section>
+  const criteria = <section className="ww-section"><h3>Done when<span className="ww-secondary">{checked}/{task.criteria.length}</span></h3>
+    {task.criteria.length ? <div className="ww-checklist">{task.criteria.map((item, index) => <Label key={`${index}-${item.text}`}><Input type="checkbox" checked={item.done} onChange={() => props.onUpdate({ criteria: task.criteria.map((criterion, number) => number === index ? { ...criterion, done: !criterion.done } : criterion) })} /><span>{item.text}</span></Label>)}</div> : <p className="ww-secondary">No completion conditions recorded.</p>}
+  </section>
+  function dependencies(ids: string[]) {
+    return <div className="ww-related ww-task-dependencies">{ids.map(id => {
+      const dependency = demo.tasks.find(item => item.id === id)
+      return dependency ? <Button key={id} onClick={() => props.onOpen(id)}><span><span className="ww-code">{id}</span> {dependency.title}</span><span>{label(dependency.status)}</span></Button>
+        : <p key={id}><span className="ww-code">{id}</span> · Reference unavailable</p>
+    })}</div>
+  }
+  const comments = [
+    ...task.decisions.map((text, index) => ({ key: `decision-${index}`, kind: "Decision note", text })),
+    ...task.log.map((text, index) => ({ key: `comment-${index}`, kind: "Comment", text })),
+  ]
   return <Panel label={`${prefix}-task-heading`} modal={mobile || expanded} className={`ww-detail${expanded ? " ww-detail--expanded" : ""}`} onClose={props.onClose}>
     <header className="ww-panel-header">
       <Button onClick={props.onClose}><Icon name="back" />Back to {returnLabel}</Button>
@@ -113,61 +156,55 @@ export function TaskDetail(props: DetailProps) {
         <div className="ww-project-link">{project ? <Button onClick={() => props.onProject(project.id)}>{project.title}</Button> : <span className="ww-secondary">Standalone task</span>}</div>
       </div>
       <Feedback outcome={outcome} onRead={props.onRead} />
-      {editing && draft ? <form className="ww-edit-form" onSubmit={event => { event.preventDefault(); if (props.onSaveEdit()) setEditing(false) }}>
+      <section className="ww-task-actions" aria-labelledby={`${prefix}-task-ask`}>
+        <div className="ww-task-ask"><h3 id={`${prefix}-task-ask`}>{ask}</h3><p>{request}</p></div>
+        <p className="ww-task-actors"><span>Responsible: <strong>{task.responsibility || "Unassigned"}</strong></span>{task.status !== "done" && task.nextActor && (decisionStage || blocked.length > 0) && <span>Needed next: <strong>{task.nextActor}</strong></span>}</p>
+        {blocked.length > 0 && <div className="ww-task-blockers">{decisionStage && <p className="ww-hint">This task also has unresolved dependencies.</p>}{dependencies(blocked)}</div>}
+        {decisionStage && <>
+          <p className="ww-task-consequence">{task.status === "review" ? "Approve moves this task to Build. Request changes returns it to Plan." : "Approve completes this task. Request changes returns it to Build."} Request changes increases the review count.</p>
+          {!task.gateRequired && <p className="ww-hint">No required human gate is configured for this task.</p>}
+          {checked < task.criteria.length && <p className="ww-hint">{checked} of {task.criteria.length} completion conditions checked. Unchecked conditions do not prevent approval.</p>}
+          <details className="ww-decision-comment-entry" open={Boolean(reason) || undefined}><summary>{reason ? "Decision comment · draft kept" : "Comment with this decision (optional)"}</summary><Label className="ww-decision-comment" htmlFor={`${prefix}-decision-comment`}>Decision comment<textarea id={`${prefix}-decision-comment`} rows={2} value={reason} onChange={event => props.onReason(event.target.value)} placeholder="Explain the approval or what needs to change…" /></Label></details>
+          <div className="ww-task-primary-actions"><Button onClick={() => props.onDecision("sendBack")}>Request changes</Button><Button variant="primary" onClick={() => props.onDecision("approve")}>{task.status === "review" ? "Approve plan" : "Approve & complete"}</Button></div>
+        </>}
+        <div className="ww-task-utility-actions">
+          {missing.length > 0 && <Button variant={decisionStage ? "secondary" : "primary"} onClick={() => startEditing("dependencies")}>Edit {missing.length === 1 ? "dependency" : "dependencies"}</Button>}
+          <Button onClick={() => startEditing()} disabled={editing}>{editing ? "Editing task" : "Edit task"}</Button>
+          {!decisionStage && <Button disabled={task.status === "done" && Boolean(project?.completed)} onClick={() => props.onMove(task.status === "done" ? "todo" : "done")}>{task.status === "done" ? "Reopen task" : "Complete task"}</Button>}
+        </div>
+        {!decisionStage && task.status !== "done" && <p className="ww-hint">Complete moves directly to Done. The task remains in Completed and All.</p>}
+        {task.status === "done" && project?.completed && <p className="ww-hint">Reopen {project.title} before reopening this task. Completed child tasks stay unchanged.</p>}
+        <details className="ww-task-manage"><summary>Manage task</summary><div className="ww-fields">
+          <div><h3>Change workflow stage</h3><p className="ww-hint">Move changes the stage directly. It does not approve the work or increase the review count.</p></div>
+          <div className="ww-inline-form"><Label>Move to<Select value={stage} onChange={event => setStage(event.target.value as Stage)}>{STAGES.map(value => <option key={value} value={value} disabled={Boolean(project?.completed && value !== "done")}>{label(value)}</option>)}</Select></Label><Button disabled={stage === task.status} onClick={() => props.onMove(stage)}>Move task</Button></div>
+          {project?.completed && <p className="ww-hint">Reopen the project before reopening its tasks.</p>}
+          <div><h3>Planning order</h3><p className="ww-hint">Position {position + 1} of {siblings.length} in {project?.title ?? "standalone work"}. Shared by Board and List, independently of stage.</p></div>
+          <div className="ww-actions"><Button disabled={position === 0} onClick={() => props.onReorder(siblings[position - 1]?.id ?? null)}>Move up</Button><Button disabled={position === siblings.length - 1} onClick={() => props.onReorder(siblings[position + 2]?.id ?? null)}>Move down</Button></div>
+          <div className="ww-inline-form"><Label>Place before<Select value={placement} onChange={event => setPlacement(event.target.value)}><option value="">End of project</option>{siblings.filter(item => item.id !== task.id).map(item => <option key={item.id} value={item.id}>{item.id} · {item.title}</option>)}</Select></Label><Button onClick={() => props.onReorder(placement || null)}>Set position</Button></div>
+          <div><h3>Move to project</h3><p className="ww-hint">The task keeps {task.id}, its stage, comments, and dependencies. It joins the end of the destination’s planning order.</p></div>
+          <div className="ww-inline-form"><Label>Destination<Select value={destination} onChange={event => setDestination(event.target.value)}><option value="">Standalone task</option>{demo.projects.map(item => <option key={item.id} value={item.id} disabled={item.completed && task.status !== "done"}>{item.title}{item.completed ? " · completed" : ""}</option>)}</Select></Label><Button disabled={destination === task.projectId} onClick={() => props.onTransfer(destination)}>Move to project</Button></div>
+          <p className="ww-hint">Open tasks can move only into open projects. Reopen a completed destination first.</p>
+        </div></details>
+      </section>
+      {editing && draft ? <form ref={editForm} className="ww-edit-form" onSubmit={event => { event.preventDefault(); if (props.onSaveEdit()) setEditing(false) }}>
         <h3>Edit task</h3>
-        <Label>Title<Input required value={draft.title} onChange={event => props.onEdit({ ...draft, title: event.target.value })} /></Label>
+        <Label>Title<Input data-edit-title required value={draft.title} onChange={event => props.onEdit({ ...draft, title: event.target.value })} /></Label>
         <TaskFields prefix={`${prefix}-edit`} draft={draft} onChange={props.onEdit} />
-        <p className="ww-hint">Use Move to project below for an explicit transfer. Closing keeps this edit draft.</p>
+        <p className="ww-hint">Use Manage task for an explicit project transfer. Closing keeps this edit draft.</p>
         <div className="ww-actions"><Button onClick={() => { props.onEdit(null); setEditing(false) }}>Discard edits</Button><Button type="submit" variant="primary" disabled={!draft.title.trim()}>Save changes</Button></div>
-      </form> : <>
-        <section className="ww-section"><h3>Intent</h3><p>{task.intent || "Intent has not been written yet."}</p></section>
-        {task.plan && <section className="ww-section"><h3>Plan</h3>{task.plan.split("\n\n").map((paragraph, index) => <p key={index}>{paragraph}</p>)}</section>}
-        {task.result && <section className="ww-section"><h3>Result</h3><p>{task.result}</p></section>}
-        <section className="ww-section"><h3>Done when<span className="ww-secondary">{task.criteria.filter(item => item.done).length}/{task.criteria.length}</span></h3>
-          {task.criteria.length ? <div className="ww-checklist">{task.criteria.map((item, index) => <Label key={`${index}-${item.text}`}><Input type="checkbox" checked={item.done} onChange={() => props.onUpdate({ criteria: task.criteria.map((criterion, number) => number === index ? { ...criterion, done: !criterion.done } : criterion) })} /><span>{item.text}</span></Label>)}</div> : <p className="ww-secondary">No completion conditions recorded.</p>}
-        </section>
-        <Button className="ww-edit-button" onClick={startEditing}>Edit task</Button>
-      </>}
-      <section className="ww-section ww-responsibility"><h3>Responsibility &amp; next step</h3>
-        <dl className="ww-metadata"><div><dt>Responsible</dt><dd>{task.responsibility || "Unassigned"}</dd></div><div><dt>Needed next</dt><dd>{task.status === "done" ? "No next action · completed" : task.nextActor || "Not specified"}</dd></div></dl>
-        {attention.length > 0 && <p className="ww-attention-reason">{attention.join(". ")}.</p>}
-        <p className="ww-hint">Last recorded update: {task.updated}.</p>
+      </form> : <div className="ww-task-reading">
+        {task.status === "review" ? <>{plan}{criteria}{intent}{result}</> : task.status === "verify" || task.status === "done" ? <>{result}{criteria}{intent}{plan}</> : <>{intent}{plan}{result}{criteria}</>}
+      </div>}
+      {task.dependsOn.some(id => !blocked.includes(id)) && <section className="ww-section"><h3>Other dependencies</h3>{dependencies(task.dependsOn.filter(id => !blocked.includes(id)))}</section>}
+      <section className="ww-section ww-comments" aria-labelledby={`${prefix}-comments-heading`}>
+        <h3 id={`${prefix}-comments-heading`}>Comments<span className="ww-secondary">{comments.length}</span></h3>
+        <form className="ww-comment-form" onSubmit={props.onAppend}>
+          <Label htmlFor={`${prefix}-comment`}>Add a comment<textarea id={`${prefix}-comment`} rows={3} value={demo.notes[task.id] ?? ""} onChange={event => props.onNote(event.target.value)} placeholder="Add context, a question, or an update…" /></Label>
+          <div className="ww-comment-submit"><p className="ww-hint">Your draft is kept when you close this task.</p><Button type="submit" disabled={!(demo.notes[task.id] ?? "").trim()}>Post comment</Button></div>
+        </form>
+        {comments.length ? <div className="ww-comment-feed">{comments.map(entry => <article className="ww-comment" key={entry.key}><p className="ww-comment-kind">{entry.kind}</p><p className="ww-comment-text">{entry.text}</p></article>)}</div> : <p className="ww-secondary ww-comment-empty">No comments yet.</p>}
       </section>
-      {task.dependsOn.length > 0 && <section className="ww-section"><h3>Dependencies</h3><div className="ww-related">{task.dependsOn.map(id => {
-        const dependency = demo.tasks.find(item => item.id === id)
-        return dependency ? <Button key={id} onClick={() => props.onOpen(id)}><span><span className="ww-code">{id}</span> {dependency.title}</span><span>{label(dependency.status)}</span></Button>
-          : <p key={id}><span className="ww-code">{id}</span> · Reference unavailable. Edit the dependency after locating the record.</p>
-      })}</div></section>}
-      {gated && <section className="ww-section ww-decision"><h3>{task.status === "review" ? "Decide on this plan" : "Decide on this result"}</h3>
-        <p>{task.gateRequired ? "A human decision is required here." : "No required human gate is configured. A decision is optional."}</p>
-        <p>{task.status === "review" ? "Approve moves this task to Build. Send back returns it to Plan." : "Approve completes this task. Send back returns it to Build."} Send back also increases the review count.</p>
-        {task.criteria.some(item => !item.done) && <p>Unchecked completion conditions remain visible and do not prevent approval.</p>}
-        <Label>Decision reason (optional)<textarea rows={2} value={reason} onChange={event => props.onReason(event.target.value)} placeholder="What should the next person know?" /></Label>
-        <div className="ww-actions"><Button onClick={() => props.onDecision("sendBack")}>Send back to {task.status === "review" ? "Plan" : "Build"}</Button><Button variant="primary" onClick={() => props.onDecision("approve")}>Approve to {task.status === "review" ? "Build" : "Done"}</Button></div>
-      </section>}
-      <details className="ww-record"><summary>Organize task</summary><div className="ww-fields">
-        <div><h3>Workflow stage</h3><p className="ww-hint">Move changes the stage directly. It does not approve a plan or increase the review count.</p></div>
-        <div className="ww-inline-form"><Label>Move to<Select value={stage} onChange={event => setStage(event.target.value as Stage)}>{STAGES.map(value => <option key={value} value={value} disabled={Boolean(project?.completed && value !== "done")}>{label(value)}</option>)}</Select></Label><Button disabled={stage === task.status} onClick={() => props.onMove(stage)}>Move task</Button></div>
-        {project?.completed && <p className="ww-hint">Reopen the project before reopening its tasks. Child stages stay unchanged until you change them.</p>}
-        <div><h3>Planning order</h3><p className="ww-hint">Position {position + 1} of {siblings.length} in {project?.title ?? "standalone work"}. Shared by Board and List, independently of stage.</p></div>
-        <div className="ww-actions"><Button disabled={position === 0} onClick={() => props.onReorder(siblings[position - 1]?.id ?? null)}>Move up</Button><Button disabled={position === siblings.length - 1} onClick={() => props.onReorder(siblings[position + 2]?.id ?? null)}>Move down</Button></div>
-        <div className="ww-inline-form"><Label>Place before<Select value={placement} onChange={event => setPlacement(event.target.value)}><option value="">End of project</option>{siblings.filter(item => item.id !== task.id).map(item => <option key={item.id} value={item.id}>{item.id} · {item.title}</option>)}</Select></Label><Button onClick={() => props.onReorder(placement || null)}>Set position</Button></div>
-        <div><h3>Move to project</h3><p className="ww-hint">The task keeps {task.id}, its stage, notes, and dependencies. It joins the end of the destination’s planning order.</p></div>
-        <div className="ww-inline-form"><Label>Destination<Select value={destination} onChange={event => setDestination(event.target.value)}><option value="">Standalone task</option>{demo.projects.map(item => <option key={item.id} value={item.id} disabled={item.completed && task.status !== "done"}>{item.title}{item.completed ? " · completed" : ""}</option>)}</Select></Label><Button disabled={destination === task.projectId} onClick={() => props.onTransfer(destination)}>Move to project</Button></div>
-        <p className="ww-hint">Open tasks can move only into open projects. Reopen a completed destination first.</p>
-      </div></details>
-      <details className="ww-record"><summary>Authored decisions &amp; notes</summary>
-        <section className="ww-section"><h3>Decisions</h3>{task.decisions.length ? task.decisions.map((entry, index) => <p key={index}>{entry}</p>) : <p className="ww-secondary">No authored decisions.</p>}</section>
-        <section className="ww-section"><h3>Notes</h3>{task.log.length ? <ol className="ww-log">{task.log.map((entry, index) => <li key={index}>{entry}</li>)}</ol> : <p className="ww-secondary">No authored notes.</p>}
-          <form className="ww-log-form" onSubmit={props.onAppend}><Label>Add a note<textarea rows={3} value={demo.notes[task.id] ?? ""} onChange={event => props.onNote(event.target.value)} /></Label><Button type="submit" disabled={!(demo.notes[task.id] ?? "").trim()}>Append note</Button></form>
-        </section>
-      </details>
-      <details className="ww-record"><summary>Record details</summary><dl className="ww-metadata"><div><dt>Task</dt><dd className="ww-code">{task.id}</dd></div><div><dt>Sent back</dt><dd>{task.reviews} times</dd></div><div><dt>Gate policy</dt><dd>{task.gateRequired ? "Human decision required in Review and Verify" : "No required human gate"}</dd></div><div><dt>Blocking references</dt><dd>{blockers(task, demo.tasks).join(", ") || "None"}</dd></div></dl></details>
-      <section className="ww-section ww-completion"><h3>{task.status === "done" ? "Completed task" : "Complete this task"}</h3>
-        <p className="ww-hint">{task.status === "done" ? "Reopening returns this task to Todo and keeps its recorded result." : "Complete moves directly to Done. Find the task again with Completed or All, including in search."}</p>
-        <Button disabled={task.status === "done" && Boolean(project?.completed)} onClick={() => props.onMove(task.status === "done" ? "todo" : "done")}>{task.status === "done" ? "Reopen task" : "Complete task"}</Button>
-        {task.status === "done" && project?.completed && <p className="ww-hint">Open {project.title} and explicitly reopen the project first.</p>}
-      </section>
+      <details className="ww-record"><summary>Record details</summary><dl className="ww-metadata"><div><dt>Task</dt><dd className="ww-code">{task.id}</dd></div><div><dt>Last update</dt><dd>{task.updated}</dd></div><div><dt>Sent back</dt><dd>{task.reviews} times</dd></div><div><dt>Gate policy</dt><dd>{task.gateRequired ? "Human decision required in Review and Verify" : "No required human gate"}</dd></div><div><dt>Blocking references</dt><dd>{blocked.join(", ") || "None"}</dd></div></dl></details>
     </div>
   </Panel>
 }

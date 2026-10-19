@@ -89,14 +89,14 @@ export function WardenReview({ initialPage = "workspace" }: { initialPage?: Page
           <ol>
             <li>Open <strong>Improve note reading</strong>. Compare Board and List, then add a task in that project.</li>
             <li>Refine its intent, completion conditions and responsibility. Change its planning order and transfer it to another project.</li>
-            <li>Open <strong>Needs attention</strong>. Read a plan or result, expand the task, and try Approve or Send back. Return to the originating workspace.</li>
+            <li>Open <strong>Needs attention</strong>. Identify what is being asked, read the plan or result, and approve it or request changes. Add a comment, then return to the originating workspace.</li>
             <li>Find completed work and reopen it. Try completing a project with unfinished tasks, then inspect a completed project.</li>
             <li>Use the demo scenarios to check a refused action or incomplete read. Confirm that drafts and decision reasons survive recovery.</li>
           </ol>
           <h3>What this proposal demonstrates</h3>
           <p>This is a local interaction study with synthetic projects and tasks. It does not connect to Warden, dispatch agents or change a vault. Responsibility identifies who is accountable; it does not imply anyone is currently running.</p>
           <p>Project workspaces, general task editing, responsibility, transfer, dependencies, persistent planning order and explicit project completion need production contracts. Warden already retrieves completed issues and documents child-derived epic completeness; this study proposes how people find that work and decide when a project outcome is complete.</p>
-          <p>Approve, Send back and Move remain distinct actions. The production specification must reconcile their existing policies with these proposed journeys. The Warden mark is still a separate identity decision.</p>
+          <p>Approval, Request changes (the existing Send back operation) and direct Move have distinct consequences. The production specification must reconcile their existing policies with these proposed journeys. The Warden mark is still a separate identity decision.</p>
         </div>
       </details>
     </div>

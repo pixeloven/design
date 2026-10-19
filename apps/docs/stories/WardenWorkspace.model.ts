@@ -2,6 +2,7 @@
 export const STAGES = ["todo", "plan", "review", "build", "verify", "done"] as const
 export type Stage = typeof STAGES[number]
 export type Scope = "open" | "completed" | "all"
+export type Focus = "all" | "decisions" | "blocked"
 export type Destination = "projects" | "project" | "all" | "attention"
 export type Scenario = "normal" | "read-failure" | "gate-refusal"
 export type Project = { id: string; title: string; outcome: string; completed: boolean }
@@ -15,8 +16,8 @@ export type Task = {
 export type TaskDraft = { title: string; intent: string; projectId: string; responsibility: string; nextActor: string; criteria: string; dependsOn: string }
 export type ProjectDraft = { title: string; outcome: string }
 export type Navigation = {
-  view: Destination; projectId: string; selected: string; layout: "board" | "list"
-  scope: Scope; query: string; stage: Stage; expanded: boolean; composer: "" | "task" | "project"
+  view: Destination; projectId: string; selected: string; layout: "board" | "list"; layoutChosen?: boolean
+  scope: Scope; focus: Focus; query: string; stage: Stage; expanded: boolean; composer: "" | "task" | "project"
 }
 export type Demo = {
   version: 2; projects: Project[]; tasks: Task[]; draft: TaskDraft | null
@@ -24,7 +25,7 @@ export type Demo = {
   reasons: Record<string, string>; notes: Record<string, string>; navigation: Navigation
 }
 export const STORAGE_KEY = "pixeloven.warden-review.workspace.v2"
-export const DEFAULT_NAV: Navigation = { view: "projects", projectId: "", selected: "", layout: "board", scope: "open", query: "", stage: "todo", expanded: false, composer: "" }
+export const DEFAULT_NAV: Navigation = { view: "projects", projectId: "", selected: "", layout: "board", layoutChosen: false, scope: "open", focus: "all", query: "", stage: "todo", expanded: false, composer: "" }
 export const label = (value: string) => value.charAt(0).toUpperCase() + value.slice(1)
 export const emptyDraft = (projectId = ""): TaskDraft => ({ title: "", intent: "", projectId, responsibility: "", nextActor: "", criteria: "", dependsOn: "" })
 export function taskDraft(task: Task): TaskDraft {
@@ -84,7 +85,7 @@ export function initialDemo(): Demo {
 export function readDemo(): Demo {
   try {
     const value = JSON.parse(sessionStorage.getItem(STORAGE_KEY) ?? "null") as Demo | null
-    if (value?.version === 2 && Array.isArray(value.tasks) && Array.isArray(value.projects) && value.navigation && value.edits && value.projectDrafts && value.reasons && value.notes) return value
+    if (value?.version === 2 && Array.isArray(value.tasks) && Array.isArray(value.projects) && value.navigation && value.edits && value.projectDrafts && value.reasons && value.notes) return { ...value, navigation: { ...DEFAULT_NAV, ...value.navigation } }
   } catch { /* A fresh model keeps references and drafts consistent. */ }
   return initialDemo()
 }
@@ -96,7 +97,7 @@ export function attentionReasons(task: Task, tasks: Task[]): string[] {
   const reasons: string[] = []
   if (task.gateRequired && (task.status === "review" || task.status === "verify")) reasons.push(task.status === "review" ? "Plan needs your approval" : "Result needs your approval")
   const blocked = blockers(task, tasks)
-  if (blocked.length) reasons.push(blocked.map(id => tasks.some(item => item.id === id) ? `Waiting for ${id}` : `Missing reference ${id}`).join(" · "))
+  if (blocked.length) reasons.push(blocked.map(id => tasks.some(item => item.id === id) ? `Waiting for ${id} · ${tasks.find(item => item.id === id)?.title}` : `Missing reference ${id}`).join(" · "))
   return reasons
 }
 export function ordered(tasks: Task[]): Task[] { return [...tasks].sort((a, b) => a.order - b.order || a.id.localeCompare(b.id)) }
@@ -106,6 +107,8 @@ export function scopedTasks(demo: Demo, nav: Navigation): Task[] {
     (nav.view !== "project" || task.projectId === nav.projectId) &&
     (nav.view !== "attention" || attentionReasons(task, demo.tasks).length > 0) &&
     (nav.scope === "all" || (nav.scope === "completed") === (task.status === "done")) &&
+    (nav.focus !== "decisions" || task.gateRequired && (task.status === "review" || task.status === "verify")) &&
+    (nav.focus !== "blocked" || blockers(task, demo.tasks).length > 0) &&
     (!query || [task.id, task.title, task.intent, demo.projects.find(project => project.id === task.projectId)?.title ?? "Standalone"].join(" ").toLowerCase().includes(query))
   ))
 }
@@ -129,11 +132,11 @@ export function navigationFromUrl(fallback: Navigation): Navigation {
   const view = params.get("wardenView")
   const scope = params.get("wardenScope")
   const stage = params.get("wardenStage")
-  return { ...DEFAULT_NAV, view: ["projects", "project", "all", "attention"].includes(view ?? "") ? view as Destination : "projects", projectId: params.get("wardenProject") ?? "", selected: params.get("wardenTask") ?? "", layout: params.get("wardenLayout") === "list" ? "list" : "board", scope: scope === "all" || scope === "completed" ? scope : "open", query: params.get("wardenQuery") ?? "", stage: STAGES.includes(stage as Stage) ? stage as Stage : "todo", expanded: params.get("wardenExpanded") === "1", composer: params.get("wardenComposer") === "task" ? "task" : params.get("wardenComposer") === "project" ? "project" : "" }
+  return { ...DEFAULT_NAV, view: ["projects", "project", "all", "attention"].includes(view ?? "") ? view as Destination : "projects", projectId: params.get("wardenProject") ?? "", selected: params.get("wardenTask") ?? "", layout: params.get("wardenLayout") === "list" ? "list" : "board", layoutChosen: params.get("wardenLayoutChosen") === "1", scope: scope === "all" || scope === "completed" ? scope : "open", focus: params.get("wardenFocus") === "decisions" ? "decisions" : params.get("wardenFocus") === "blocked" ? "blocked" : "all", query: params.get("wardenQuery") ?? "", stage: STAGES.includes(stage as Stage) ? stage as Stage : "todo", expanded: params.get("wardenExpanded") === "1", composer: params.get("wardenComposer") === "task" ? "task" : params.get("wardenComposer") === "project" ? "project" : "" }
 }
 export function writeNavigation(nav: Navigation, replace: boolean, overlay = false) {
   const params = new URLSearchParams(window.location.hash.slice(1))
-  const fields = { wardenView: nav.view, wardenProject: nav.projectId, wardenTask: nav.selected, wardenLayout: nav.layout, wardenScope: nav.scope, wardenQuery: nav.query, wardenStage: nav.stage, wardenExpanded: nav.expanded ? "1" : "", wardenComposer: nav.composer }
+  const fields = { wardenView: nav.view, wardenProject: nav.projectId, wardenTask: nav.selected, wardenLayout: nav.layout, wardenLayoutChosen: nav.layoutChosen ? "1" : "", wardenScope: nav.scope, wardenFocus: nav.focus, wardenQuery: nav.query, wardenStage: nav.stage, wardenExpanded: nav.expanded ? "1" : "", wardenComposer: nav.composer }
   Object.entries(fields).forEach(([key, value]) => { if (value) params.set(key, value); else params.delete(key) })
   const state = { ...window.history.state, wardenOverlay: overlay }
   window.history[replace ? "replaceState" : "pushState"](state, "", `${window.location.pathname}${window.location.search}#${params}`)

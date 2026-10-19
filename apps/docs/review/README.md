@@ -39,7 +39,12 @@ carry locally created records to another browser.
 
 Start with **Improve note reading**: create a contextual task, refine its intent
 and criteria, change its planning order, and transfer it to **Release preparation**.
-Inspect a plan from Needs attention and compare Approve, Send back and Move.
+Use the project's Decisions/Blocked filters and Next in your plan row. Drag by
+the handle and inspect the source, destination and insertion marker before
+releasing; click the handle or use the keyboard for explicit placement. Cancel
+and verify nothing moved. Inspect a plan from Needs attention and compare
+Approve, Request changes and Manage task's direct Move. Add a comment; close
+and reopen with an unfinished comment or decision reason to check draft recovery.
 Complete and retrieve a task; try completing a project with unfinished children.
 Use **Library maintenance** for the 50-task case and **Reading foundation** for
 a completed project. Compare Board/List, expanded reading, phone return and

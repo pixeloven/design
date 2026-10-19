@@ -2,10 +2,12 @@ import React, { useEffect, useId, useRef, useState, type FormEvent, type ReactNo
 import { Button, Input, Label, Select } from "@pixeloven/ui"
 import {
   DEFAULT_NAV, STAGES, STORAGE_KEY, attentionReasons, blockers, editedTask, emptyDraft, initialDemo,
-  label, navigationFromUrl, readDemo, reorder, scopedTasks, writeNavigation,
-  type Demo, type Destination, type Navigation, type Project, type Scenario, type Scope, type Stage, type Task,
+  label, navigationFromUrl, ordered, readDemo, reorder, scopedTasks, writeNavigation,
+  type Demo, type Destination, type Focus, type Navigation, type Project, type Scenario, type Scope, type Stage, type Task,
 } from "./WardenWorkspace.model"
 import { Icon, Panel, ProjectComposer, TaskComposer, TaskDetail, type Outcome } from "./WardenWorkspace.panels"
+import { destinationText, placementBefore, useTaskDrag, type DropTarget } from "./WardenWorkspace.drag"
+import { DragControls } from "./WardenWorkspace.drag-controls"
 import "./WardenWorkspace.css"
 
 const DESTINATIONS: { value: Destination; title: string }[] = [
@@ -28,7 +30,8 @@ export function WardenWorkspace({ mark }: { mark: ReactNode }) {
   const [draftConflict, setDraftConflict] = useState(false)
   const [projectCompletion, setProjectCompletion] = useState(false)
   const [resetting, setResetting] = useState(false)
-  const [dragging, setDragging] = useState("")
+  const [moveResult, setMoveResult] = useState<{ id: string; message: string } | null>(null)
+  const workArea = useRef<HTMLDivElement>(null)
   const opener = useRef<HTMLElement | null>(null)
   const heading = useRef<HTMLHeadingElement>(null)
   const main = useRef<HTMLElement>(null)
@@ -44,6 +47,12 @@ export function WardenWorkspace({ mark }: { mark: ReactNode }) {
   const title = nav.view === "project" ? project?.title ?? "Project unavailable" : DESTINATIONS.find(item => item.value === nav.view)?.title ?? "Projects"
   const projectTasks = project ? demo.tasks.filter(item => item.projectId === project.id) : []
   const openTasks = projectTasks.filter(item => item.status !== "done")
+  const nextPlanned = ordered(openTasks)[0]
+  const scopedProjectWork = scopedTasks(demo, { ...nav, focus: "all", query: "" })
+  const drag = useTaskDrag({ demo, board: nav.layout === "board", root: workArea, scroll: main,
+    context: JSON.stringify([nav.view, nav.projectId, nav.layout, nav.scope, nav.focus, nav.query]),
+    onDrop: commitDrop, onCancel: id => setNotice(`${id} was not moved. Its stage and planning order are unchanged.`),
+  })
   const projectDraftKey = nav.view === "project" && project ? project.id : "new"
   const projectDraft = demo.projectDrafts[projectDraftKey] ?? { title: projectDraftKey === "new" ? "" : project?.title ?? "", outcome: projectDraftKey === "new" ? "" : project?.outcome ?? "" }
 
@@ -63,7 +72,7 @@ export function WardenWorkspace({ mark }: { mark: ReactNode }) {
       const previous = navRef.current
       let next = navigationFromUrl({ ...DEFAULT_NAV })
       if (previous.selected && !next.selected && previous.view === next.view && previous.projectId === next.projectId) {
-        next = { ...next, scope: previous.scope, query: previous.query, layout: previous.layout, stage: previous.stage }
+        next = { ...next, scope: previous.scope, focus: previous.focus, query: previous.query, layout: previous.layout, stage: previous.stage }
         writeNavigation(next, true)
       }
       navRef.current = next
@@ -97,9 +106,9 @@ export function WardenWorkspace({ mark }: { mark: ReactNode }) {
   }
   function chooseDestination(view: Destination, projectId = "") {
     const scope: Scope = view === "project" && demo.projects.find(item => item.id === projectId)?.completed ? "completed" : "open"
-    const candidates = scopedTasks(demo, { ...navRef.current, view, projectId, scope, query: "" })
+    const candidates = scopedTasks(demo, { ...navRef.current, view, projectId, scope, focus: "all", query: "" })
     const stage = scope === "completed" ? "done" : STAGES.find(value => candidates.some(item => item.status === value)) ?? "todo"
-    navigate({ view, projectId, selected: "", composer: "", scope, stage, query: "", expanded: false })
+    navigate({ view, projectId, selected: "", composer: "", scope, focus: "all", stage, layout: !nav.layoutChosen && (mobile || view === "attention") ? "list" : nav.layout, query: "", expanded: false })
     setOutcome(null); setNotice(""); setProjectCompletion(false)
     if (main.current) main.current.scrollTop = 0
     requestAnimationFrame(() => heading.current?.focus({ preventScroll: true }))
@@ -107,7 +116,17 @@ export function WardenWorkspace({ mark }: { mark: ReactNode }) {
   function chooseScope(scope: Scope) {
     const candidates = scopedTasks(demo, { ...navRef.current, scope })
     const stage = scope === "completed" ? "done" : candidates.some(item => item.status === nav.stage) ? nav.stage : STAGES.find(value => candidates.some(item => item.status === value)) ?? "todo"
-    navigate({ scope, stage }, true)
+    navigate({ scope, stage, focus: scope === "completed" ? "all" : nav.focus }, true)
+  }
+  function chooseFocus(focus: Focus) {
+    const scope = focus === "all" ? nav.scope : "open"
+    const candidates = scopedTasks(demo, { ...navRef.current, focus, scope })
+    const stage = candidates.some(item => item.status === nav.stage) ? nav.stage : STAGES.find(value => candidates.some(item => item.status === value)) ?? "todo"
+    navigate({ focus, scope, stage }, true)
+  }
+  function clearFilters() {
+    const candidates = scopedTasks(demo, { ...nav, focus: "all", scope: "open", query: "" })
+    navigate({ focus: "all", scope: "open", query: "", stage: STAGES.find(value => candidates.some(item => item.status === value)) ?? "todo" }, true)
   }
   function closePanel() {
     if (window.history.state?.wardenOverlay) window.history.back()
@@ -145,11 +164,11 @@ export function WardenWorkspace({ mark }: { mark: ReactNode }) {
       : action && item.responsibility ? `${item.responsibility} · ${to === "plan" ? "revise the plan" : "carry out the work"}` : ""
     setDemo(current => {
       const tasks = current.tasks.map(record => record.id === id ? { ...record, status: to, reviews: record.reviews + (action === "sendBack" ? 1 : 0), nextActor,
-        decisions: action && reason ? [...record.decisions, `You · ${action === "approve" ? "Approval" : "Send-back"} reason: ${reason}`] : record.decisions,
+        decisions: action && reason ? [...record.decisions, `You · ${action === "approve" ? "Approval" : "Request changes"} comment: ${reason}`] : record.decisions,
         updated: "Just now · changed in this demo" } : record)
       return { ...current, tasks: beforeId ? reorder(tasks, id, beforeId) : tasks, reasons: action ? { ...current.reasons, [id]: "" } : current.reasons }
     })
-    const message = `${id} ${action === "approve" ? "approved" : action === "sendBack" ? "sent back" : "moved"}: ${label(item.status)} to ${label(to)}.${beforeId ? ` Placed before ${beforeId} in the project’s planning order.` : ""}${action === "sendBack" ? ` Review count: ${item.reviews + 1}.` : ""}${to === "done" ? " Find it in Completed or All." : !nextActor ? " The previous next-actor instruction was cleared; record the new next step in Edit task." : ""}${scenario === "read-failure" ? " The saved change is retained while the read is unavailable." : ""}`
+    const message = `${id} ${action === "approve" ? "approved" : action === "sendBack" ? "returned for changes" : "moved"}: ${label(item.status)} to ${label(to)}.${beforeId ? ` Placed before ${beforeId} in the project’s planning order.` : ""}${action === "sendBack" ? ` Review count: ${item.reviews + 1}.` : ""}${to === "done" ? " Find it in Completed or All." : !nextActor ? " The previous next-actor instruction was cleared; record the new next step in Edit task." : ""}${scenario === "read-failure" ? " The saved change is retained while the read is unavailable." : ""}`
     setOutcome({ kind: "success", message }); setNotice(message)
   }
   function orderTask(id: string, before: string | null) {
@@ -220,50 +239,72 @@ export function WardenWorkspace({ mark }: { mark: ReactNode }) {
     if (!task) return
     const note = (demo.notes[task.id] ?? "").trim()
     if (!note) return
-    if (/^\s*##\s/m.test(note)) { setOutcome({ kind: "refusal", message: "Use plain text for a note; a section heading would change its structure. Your text is kept." }); return }
-    setDemo(current => ({ ...current, tasks: current.tasks.map(item => item.id === task.id ? { ...item, log: [...item.log, `You · ${note}`], updated: "Just now · note added in this demo" } : item), notes: { ...current.notes, [task.id]: "" } }))
-    setOutcome({ kind: "success", message: "Your authored note was appended." })
+    if (/^\s*##\s/m.test(note)) { setOutcome({ kind: "refusal", message: "Use plain text for a comment; a section heading would change its structure. Your comment draft is kept." }); return }
+    setDemo(current => ({ ...current, tasks: current.tasks.map(item => item.id === task.id ? { ...item, log: [...item.log, `You · ${note}`], updated: "Just now · comment added in this demo" } : item), notes: { ...current.notes, [task.id]: "" } }))
+    setOutcome({ kind: "success", message: "Your comment was posted." })
   }
   function resetDemo() {
     const fresh = initialDemo(); setDemo(fresh); navRef.current = fresh.navigation
     writeNavigation(fresh.navigation, true); setResetting(false); setScenario("normal"); setOutcome(null); setNotice("Demo reset. The original projects and tasks are restored; saved drafts and reasons are cleared.")
     requestAnimationFrame(() => heading.current?.focus({ preventScroll: true }))
   }
-  function dropTask(event: React.DragEvent, before?: Task, stage?: Stage) {
-    event.preventDefault(); event.stopPropagation()
-    const id = event.dataTransfer.getData("text/warden-task") || dragging
-    const moving = demo.tasks.find(item => item.id === id)
-    setDragging("")
-    if (!moving) return
-    if (before) {
-      if (moving.projectId !== before.projectId) { setNotice("Planning order belongs to a project. Open the task and use Move to project for a transfer."); return }
-      if (nav.layout === "board" && moving.status !== before.status) moveTask(id, before.status, undefined, before.id)
-      else orderTask(id, before.id)
-    } else if (stage) moveTask(id, stage)
+  function commitDrop(id: string, target: DropTarget) {
+    const source = demo.tasks.find(item => item.id === id)
+    if (!source || !target.valid) return
+    const anchor = demo.tasks.find(item => item.id === target.anchorId)
+    if (anchor && anchor.projectId !== source.projectId) { setNotice("Task not moved. Use Move to project for an explicit transfer."); return }
+    const stage = nav.layout === "board" ? target.stage : source.status
+    if (demo.projects.find(item => item.id === source.projectId)?.completed && stage !== "done") { setNotice("Task not moved. Reopen its project first."); return }
+    const before = placementBefore(demo.tasks, source, target, nav.layout === "board")
+    const nextActor = source.gateRequired && (stage === "review" || stage === "verify") ? `You · ${stage === "review" ? "review the plan" : "inspect the result"}` : ""
+    const changed = demo.tasks.map(item => item.id === id && stage !== item.status ? { ...item, status: stage, nextActor, updated: "Just now · moved in this demo" } : item)
+    const tasks = reorder(changed, id, before)
+    const visible = scopedTasks({ ...demo, tasks }, nav).some(item => item.id === id)
+    setDemo(current => ({ ...current, tasks }))
+    const message = `${destinationText(id, target, nav.layout === "board")}. Saved.${source.status !== stage ? " Direct move; no approval was recorded." : ""}${visible ? "" : " This task is now outside your current filters."}`
+    setNotice(""); setMoveResult({ id, message }); setOutcome({ kind: "success", message })
+    requestAnimationFrame(() => {
+      if (!workArea.current?.querySelector(`[data-move-handle="${id}"]`)) document.querySelector<HTMLElement>("[data-move-result]")?.focus({ preventScroll: true })
+    })
+  }
+  function taskAsk(item: Task) {
+    if (item.gateRequired && item.status === "review") return "Review plan"
+    if (item.gateRequired && item.status === "verify") return "Verify result"
+    const blocked = blockers(item, demo.tasks)
+    const missing = blocked.find(id => !demo.tasks.some(record => record.id === id))
+    return missing ? `Locate missing reference ${missing}` : blocked.length ? "Inspect dependencies" : "Open task"
   }
   function taskCard(item: Task) {
     const reasons = attentionReasons(item, demo.tasks)
     const context = demo.projects.find(record => record.id === item.projectId)?.title ?? "Standalone task"
-    return <Button className="ww-task" aria-pressed={nav.selected === item.id} data-task-id={item.id} draggable={!mobile}
-      onDragStart={event => { event.dataTransfer.setData("text/warden-task", item.id); event.dataTransfer.effectAllowed = "move"; setDragging(item.id) }}
-      onDragEnd={() => setDragging("")} onDragOver={event => { if (dragging && dragging !== item.id) event.preventDefault() }}
-      onDrop={event => dropTask(event, item)} onClick={event => openTask(item.id, event.currentTarget)}>
-      <span className="ww-task-meta"><span className="ww-code">{item.id}</span><span>{label(item.status)}</span></span>
-      <span className="ww-task-title">{item.title}</span>
-      <span className="ww-task-project">{context}</span>
-      <span className="ww-task-responsible">{item.responsibility || "Unassigned"}</span>
-      {reasons.length > 0 && <span className="ww-task-reason">{reasons.join(" · ")}</span>}
-    </Button>
+    const target = drag.session?.target
+    const marker = target?.anchorId === item.id && target.valid ? target.placement : null
+    const position = ordered(demo.tasks.filter(record => record.projectId === item.projectId)).findIndex(record => record.id === item.id) + 1
+    return <div className={`ww-task-shell${drag.session?.taskId === item.id ? " ww-task-shell--moving" : ""}`} data-drop-task={item.id}>
+      {marker && <div className={`ww-drop-marker ww-drop-marker--${marker}`} aria-hidden="true"><span>{label(marker)} {item.id}</span></div>}
+      <Button className="ww-task" aria-pressed={nav.selected === item.id} data-task-id={item.id} onClick={event => openTask(item.id, event.currentTarget)}>
+        <span className="ww-task-meta"><span className="ww-code">{nav.layout === "list" ? `${position}. ` : ""}{item.id}</span><span>{label(item.status)}</span></span>
+        <span className="ww-task-title">{item.title}</span>
+        {nav.view !== "project" && <span className="ww-task-project">{context}</span>}
+        <span className="ww-task-responsible">{item.responsibility || "Unassigned"}</span>
+        {reasons.length > 0 && <><span className="ww-task-reason">{reasons.join(" · ")}</span><span className="ww-task-action">{taskAsk(item)}</span></>}
+      </Button>
+      <Button className="ww-drag-handle" data-move-handle={item.id} aria-label={`Move ${item.id}`} title="Drag to move, or activate for placement controls" onPointerDown={event => { setMoveResult(null); drag.pointerDown(event, item.id) }} onClick={event => { if (event.detail === 0) setMoveResult(null); drag.activate(item.id, event.detail === 0) }}>
+        <svg aria-hidden="true" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M5 3h.01M11 3h.01M5 8h.01M11 8h.01M5 13h.01M11 13h.01" strokeLinecap="round" /></svg><span>Move</span>
+      </Button>
+      {drag.session?.taskId === item.id && <span className="ww-drag-source-label">Moving {item.id}</span>}
+    </div>
   }
   function projectRow(item: Project) {
     const tasks = demo.tasks.filter(record => record.projectId === item.id)
+    const next = ordered(tasks.filter(record => record.status !== "done"))[0]
     const completed = tasks.filter(record => record.status === "done").length
     const blocked = tasks.filter(record => blockers(record, demo.tasks).length > 0).length
     const decisions = tasks.filter(record => record.status !== "done" && record.gateRequired && (record.status === "review" || record.status === "verify")).length
     return <li key={item.id}><Button className="ww-project-row" onClick={() => chooseDestination("project", item.id)}>
       <span className="ww-project-description"><span className="ww-project-title">{item.title}</span><span className="ww-project-outcome">{item.outcome || "Outcome not yet described."}</span></span>
       <span className="ww-project-progress"><span>{item.completed ? "Completed project" : `${completed} of ${tasks.length} tasks completed`}</span>{item.completed && <span>{completed} of {tasks.length} tasks completed</span>}{blocked > 0 && <span>{blocked} blocked</span>}{decisions > 0 && <span>{decisions} {decisions === 1 ? "decision" : "decisions"} waiting</span>}{!tasks.length && <span>Ready for its first task</span>}</span>
-    </Button></li>
+    </Button>{next && <Button className="ww-project-next" onClick={event => openTask(next.id, event.currentTarget)}>Next in plan: {next.id} · {next.title}<span>{taskAsk(next)}</span></Button>}</li>
   }
   const projectAdministration = project ? <>
     <div className="ww-project-actions"><Button onClick={event => openComposer("project", event.currentTarget)}>{demo.projectDrafts[project.id] ? "Resume project edit" : "Edit project"}</Button><Button aria-expanded={projectCompletion} onClick={() => setProjectCompletion(!projectCompletion)}>{project.completed ? "Reopen project" : "Complete project"}</Button></div>
@@ -279,7 +320,7 @@ export function WardenWorkspace({ mark }: { mark: ReactNode }) {
     <section className="ww-workspace" aria-label="Warden project workspace">
       <header className="ww-brandbar"><div className="ww-brand">{mark}<span>Warden<small>A PixelOven project</small></span></div><span className="ww-workspace-name">Projects &amp; tasks</span>
         {demo.draft && <Button onClick={event => openComposer("task", event.currentTarget, true)}>Resume task draft</Button>}
-        <Button variant="primary" disabled={Boolean(nav.view === "project" && project?.completed)} onClick={event => openComposer("task", event.currentTarget)}><Icon name="plus" />Add task</Button>
+        {nav.view !== "project" && <Button variant="primary" onClick={event => openComposer("task", event.currentTarget)}><Icon name="plus" />Add task</Button>}
       </header>
       {mobile && <nav className="ww-mobile-nav" aria-label="Workspace navigation"><Label>Workspace<Select value={nav.view === "project" ? `project:${nav.projectId}` : nav.view} onChange={event => {
         const value = event.target.value
@@ -290,39 +331,51 @@ export function WardenWorkspace({ mark }: { mark: ReactNode }) {
           {DESTINATIONS.map(item => <Button key={item.value} className="ww-navitem" aria-current={nav.view === item.value ? "page" : undefined} onClick={() => chooseDestination(item.value)}><span>{item.title}</span>{item.value === "attention" && <span className="ww-count">{attentionCount}</span>}</Button>)}
           <div className="ww-nav-projects"><p>Projects</p>{demo.projects.filter(item => !item.completed).map(item => <Button key={item.id} className="ww-navitem" aria-current={nav.view === "project" && nav.projectId === item.id ? "page" : undefined} onClick={() => chooseDestination("project", item.id)}>{item.title}</Button>)}</div>
         </nav>}
-        <main ref={main} className="ww-main" aria-label={title}>
+        <main ref={main} className={`ww-main${nav.view === "project" ? " ww-main--project" : ""}`} aria-label={title}>
           <header className="ww-view-heading"><div><h2 ref={heading} tabIndex={-1}>{title}</h2>
             {!(mobile && nav.view === "project" && project) && <p>{isProjects ? "Choose an outcome. Shape the work that gets it there." : nav.view === "all" ? "Work across projects, including standalone tasks." : nav.view === "attention" ? "Required decisions and unresolved dependencies, with a reason for each." : project?.outcome || "Describe the outcome this project should achieve."}</p>}
-          </div>{isProjects && <Button variant="primary" onClick={event => openComposer("project", event.currentTarget)}><Icon name="plus" />{demo.projectDrafts.new ? "Resume project draft" : "New project"}</Button>}</header>
+          </div>{nav.view === "project" && project && <Button variant="primary" disabled={project.completed} onClick={event => openComposer("task", event.currentTarget)}><Icon name="plus" />Add task</Button>}{isProjects && <Button variant="primary" onClick={event => openComposer("project", event.currentTarget)}><Icon name="plus" />{demo.projectDrafts.new ? "Resume project draft" : "New project"}</Button>}</header>
           {nav.view === "project" && project && <>
-            <div className="ww-project-summary"><span>{projectTasks.filter(item => item.status === "done").length} of {projectTasks.length} tasks completed</span><span>{projectTasks.filter(item => blockers(item, demo.tasks).length).length} blocked</span><span>{projectTasks.filter(item => item.gateRequired && (item.status === "review" || item.status === "verify")).length} decisions waiting</span>{project.completed && <strong>Completed project</strong>}</div>
-            {mobile ? <details className="ww-project-settings" key={project.id}>
-              <summary>Outcome &amp; project settings</summary>
-              <p>{project.outcome || "Describe the outcome this project should achieve."}</p>
-              {projectAdministration}
-            </details> : projectAdministration}
+            {mobile && <details className="ww-project-outcome-disclosure"><summary>Outcome: {(project.outcome || "Describe the intended outcome.").slice(0, 36)}{project.outcome.length > 36 ? "…" : ""}</summary><p>{project.outcome || "Describe the outcome this project should achieve."}</p></details>}
+            <div className="ww-project-meta">
+              <div className="ww-project-summary" aria-label="Project work counts">
+                <Button onClick={() => { navigate({ scope: "all", focus: "all", query: "" }, true) }}>{projectTasks.length} tasks</Button>
+                <Button onClick={() => { navigate({ query: "" }, true); chooseScope("completed") }}>{projectTasks.filter(item => item.status === "done").length} completed</Button>
+                {project.completed && <strong>Completed project</strong>}
+              </div>
+              <details className="ww-project-settings" key={project.id}><summary>Project settings</summary>{projectAdministration}</details>
+            </div>
+            {nextPlanned && <section className="ww-next-plan" aria-label="Next in your plan">
+              <div><h3>Next in your plan</h3><Button className="ww-next-task" onClick={event => openTask(nextPlanned.id, event.currentTarget)}>{nextPlanned.id} · {nextPlanned.title}</Button><p>{label(nextPlanned.status)} · {nextPlanned.nextActor || "Next actor not recorded"}</p>
+              {blockers(nextPlanned, demo.tasks).length > 0 && <p>{attentionReasons(nextPlanned, demo.tasks).join(". ")}</p>}</div>
+              <Button className="ww-plan-order" aria-label="View planning order" title="View planning order" onClick={() => navigate({ layout: "list", layoutChosen: true, scope: "open", focus: "all", query: "" }, true)}>Order</Button>
+            </section>}
           </>}
           {scenario === "read-failure" && <div className="ww-read-error" role="alert"><div><strong>The workspace couldn’t refresh.</strong><p>Showing the last saved records; counts may be out of date. Your confirmed changes and drafts remain here.</p></div><Button onClick={() => { setScenario("normal"); setNotice("Read restored. Saved changes are retained; no action was repeated.") }}>Retry read</Button></div>}
           {notice && <p className="ww-notice" role="status">{notice}</p>}
+          <div ref={workArea} className="ww-work-area">
+          <DragControls drag={drag} demo={demo} board={nav.layout === "board"} />
           <div className="ww-toolbar">
-            <div className="ww-scope" role="group" aria-label={isProjects ? "Project status" : "Task status"}>{(["open", "completed", "all"] as const).map(scope => <Button key={scope} aria-pressed={nav.scope === scope} onClick={() => chooseScope(scope)}>{label(scope)}</Button>)}</div>
-            {!isProjects && <div className="ww-layout-switch" role="group" aria-label="Task layout"><Button aria-pressed={nav.layout === "board"} onClick={() => navigate({ layout: "board" }, true)}><Icon name="board" />Board</Button><Button aria-pressed={nav.layout === "list"} onClick={() => navigate({ layout: "list" }, true)}><Icon name="list" />List</Button></div>}
-            <Label className="ww-search">Search {isProjects ? "projects" : "tasks"}<Input type="search" value={nav.query} onChange={event => navigate({ query: event.target.value }, true)} placeholder={isProjects ? "Name or outcome" : "Title, ID, intent, or project"} /></Label>
+            {nav.view === "project" && <div className="ww-focus" role="group" aria-label="Project work focus">{(["all", "decisions", "blocked"] as const).map(focus => <Button key={focus} aria-pressed={nav.focus === focus} onClick={() => chooseFocus(focus)}>{focus === "all" ? "All work" : label(focus)} <span className="ww-count">{scopedProjectWork.filter(item => focus === "all" || (focus === "decisions" ? item.gateRequired && (item.status === "review" || item.status === "verify") : blockers(item, demo.tasks).length > 0)).length}</span></Button>)}</div>}
+            {nav.view === "project" ? <Label className="ww-status-select"><span>Status</span><Select value={nav.scope} onChange={event => chooseScope(event.target.value as Scope)}>{(["open", "completed", "all"] as const).map(scope => <option key={scope} value={scope}>{label(scope)}</option>)}</Select></Label> : <div className="ww-scope" role="group" aria-label={isProjects ? "Project status" : "Task status"}>{(["open", "completed", "all"] as const).map(scope => <Button key={scope} aria-pressed={nav.scope === scope} onClick={() => chooseScope(scope)}>{label(scope)}</Button>)}</div>}
+            {!isProjects && <div className="ww-layout-switch" role="group" aria-label="Task layout"><Button aria-pressed={nav.layout === "board"} onClick={() => navigate({ layout: "board", layoutChosen: true }, true)}><Icon name="board" />Board</Button><Button aria-pressed={nav.layout === "list"} onClick={() => navigate({ layout: "list", layoutChosen: true }, true)}><Icon name="list" />List</Button></div>}
+            <Label className="ww-search"><span>Search {isProjects ? "projects" : "tasks"}</span><Input type="search" value={nav.query} onChange={event => navigate({ query: event.target.value }, true)} placeholder={isProjects ? "Name or outcome" : "Title, ID, intent, or project"} /></Label>
           </div>
+          {(nav.query || nav.focus !== "all" || nav.scope !== "open") && <div className="ww-filter-context"><p>{nav.scope === "completed" ? "Completed work" : nav.scope === "all" ? "Open and completed work" : "Open work"}{nav.focus === "decisions" ? " · required decisions only" : nav.focus === "blocked" ? " · unresolved dependencies only" : ""}{nav.query ? ` · matching “${nav.query}”` : ""}</p><Button onClick={clearFilters}>Clear filters</Button></div>}
           {isProjects ? <>
             <p className="ww-view-count">{visibleProjects.length} {visibleProjects.length === 1 ? "project" : "projects"}</p>
             {visibleProjects.length ? <ul className="ww-project-list">{visibleProjects.map(projectRow)}</ul> : <div className="ww-empty"><h3>{nav.query ? "No matching projects" : "No projects here yet"}</h3><p>{nav.query ? "Try a different search or choose All to include completed projects." : "Create a project to describe an outcome and start shaping its work."}</p><Button onClick={event => openComposer("project", event.currentTarget)}>New project</Button></div>}
           </> : nav.view === "project" && !project ? <div className="ww-empty"><h3>This project is unavailable</h3><p>The link may belong to a different demo session. Your existing projects are still available.</p><Button onClick={() => chooseDestination("projects")}>Open Projects</Button></div> : <>
-            {dragging && <p className="ww-notice" role="status">Drop on a task to place before it in the same project. Drop in a board column to change stage.</p>}
             <div className="ww-view-context"><span>{shown.length} {shown.length === 1 ? "task" : "tasks"}{nav.query ? " matching search" : ""}</span><span>Planning order within each project</span></div>
             {mobile && nav.layout === "board" && <Label className="ww-phone-stage">Stage<Select value={nav.stage} onChange={event => navigate({ stage: event.target.value as Stage }, true)}>{STAGES.map(stage => <option key={stage} value={stage}>{label(stage)} · {shown.filter(item => item.status === stage).length}</option>)}</Select></Label>}
             {!shown.length ? <div className="ww-empty"><h3>{nav.view === "attention" ? "No tasks need attention in this view" : nav.query ? "No matching tasks" : nav.scope === "completed" ? "No completed tasks yet" : "Room for the next task"}</h3><p>{nav.query ? "Try another search, or choose All to include completed work." : nav.view === "attention" ? "Required gates and unresolved dependencies appear here. Ordinary Review and Verify tasks stay in their projects." : nav.scope === "completed" ? "Completed tasks stay here with their result and notes." : "Capture a task with a title. Refine its intent and completion conditions as the work takes shape."}</p>{nav.scope === "open" && nav.view !== "attention" && !project?.completed && <Button onClick={event => openComposer("task", event.currentTarget)}>Add task</Button>}</div>
-              : nav.layout === "list" ? <ul className="ww-list" aria-label={`${title} tasks`}>{shown.map(item => <li key={item.id}>{taskCard(item)}</li>)}</ul>
-              : <div className="ww-board" role="region" aria-label={`${title} board`} tabIndex={0}>{(mobile ? [nav.stage] : STAGES).map(stage => <section className={`ww-column${dragging ? " ww-column--droppable" : ""}`} key={stage} aria-label={`${label(stage)} tasks`} onDragOver={event => { if (dragging) event.preventDefault() }} onDrop={event => dropTask(event, undefined, stage)}>
+              : nav.layout === "list" ? <ul className="ww-list" data-drop-zone="list" aria-label={`${title} tasks`}>{shown.map(item => <li key={item.id}>{taskCard(item)}</li>)}{drag.session && <li className={`ww-drop-end${drag.session.target?.valid && !drag.session.target.anchorId ? " ww-drop-end--active" : ""}`}>Drop at end of this project’s planning order</li>}</ul>
+              : <div className="ww-board" role="region" aria-label={`${title} board`} tabIndex={0}>{(mobile ? [nav.stage] : STAGES).map(stage => <section className={`ww-column${drag.session?.target?.valid && drag.session.target.stage === stage ? " ww-column--active" : ""}`} data-drop-zone={stage} key={stage} aria-label={`${label(stage)} tasks`}>
                 <header><h3><span className="ww-stage-mark" data-state={stage} aria-hidden="true" />{label(stage)}</h3><span className="ww-count">{shown.filter(item => item.status === stage).length}</span></header><p className="ww-column-description">{STAGE_COPY[stage]}</p>
-                <div className="ww-column-tasks">{shown.filter(item => item.status === stage).map(item => <React.Fragment key={item.id}>{taskCard(item)}</React.Fragment>)}{!shown.some(item => item.status === stage) && <p className="ww-stage-empty">No {label(stage).toLowerCase()} tasks in this view.</p>}</div>
+                <div className="ww-column-tasks">{shown.filter(item => item.status === stage).map(item => <React.Fragment key={item.id}>{taskCard(item)}</React.Fragment>)}{drag.session ? <div className={`ww-drop-end${drag.session.target?.valid && drag.session.target.stage === stage && !drag.session.target.anchorId ? " ww-drop-end--active" : ""}`}>Drop at end of {label(stage)}</div> : !shown.some(item => item.status === stage) && <p className="ww-stage-empty">No {label(stage).toLowerCase()} tasks in this view.</p>}</div>
               </section>)}</div>}
           </>}
+          </div>
           {nav.selected && !task && <div className="ww-read-error" role="alert"><p>Task {nav.selected} is unavailable in this demo session. The surrounding workspace is still available.</p><Button onClick={closePanel}>Return to workspace</Button></div>}
         </main>
         {task && <TaskDetail key={task.id} prefix={prefix} task={task} demo={demo} mobile={mobile} expanded={nav.expanded} returnLabel={title}
@@ -347,6 +400,11 @@ export function WardenWorkspace({ mark }: { mark: ReactNode }) {
       {nav.composer === "task" && !draftConflict && <TaskComposer prefix={prefix} demo={demo} draft={demo.draft ?? emptyDraft()} onChange={draft => setDemo(current => ({ ...current, draft }))} onClose={closePanel} onCreate={createTask} stored={stored} error={formError} onDiscard={() => { setDemo(current => ({ ...current, draft: null })); closePanel(); setNotice("Task draft discarded.") }} />}
       {nav.composer === "project" && <ProjectComposer prefix={prefix} editing={projectDraftKey !== "new"} draft={projectDraft} onChange={draft => setDemo(current => ({ ...current, projectDrafts: { ...current.projectDrafts, [projectDraftKey]: draft } }))} onClose={closePanel} onSave={saveProject} onDiscard={() => { setDemo(current => { const projectDrafts = { ...current.projectDrafts }; delete projectDrafts[projectDraftKey]; return { ...current, projectDrafts } }); closePanel(); setNotice("Project draft discarded.") }} />}
     </section>
+    {moveResult && <aside className="ww-move-confirmation" aria-label="Move saved"><p role="status">{moveResult.message}</p><div className="ww-actions">
+      <Button data-move-result onClick={event => { openTask(moveResult.id, event.currentTarget); setMoveResult(null) }}>Open {moveResult.id}</Button>
+      <Button onClick={() => { const moved = demo.tasks.find(item => item.id === moveResult.id); if (moved) { chooseDestination(moved.projectId ? "project" : "all", moved.projectId); navigate({ scope: moved.status === "done" ? "completed" : "open", focus: "all", stage: moved.status, query: "" }, true) } setMoveResult(null) }}>Show in work</Button>
+      <Button onClick={() => setMoveResult(null)}>Dismiss</Button>
+    </div></aside>}
     <aside className="ww-demo" aria-label="Prototype controls">
       <p><strong>Demo storage.</strong> {stored ? "Workspace, drafts, and reasons stay in this tab through reloads. Reset clears this demo’s session data." : "Browser storage is unavailable. Changes last only while this page is open."}</p>
       <Label>Demo state<Select value={scenario} onChange={event => { setScenario(event.target.value as Scenario); setOutcome(null) }}><option value="normal">Working normally</option><option value="read-failure">Workspace read fails</option><option value="gate-refusal">Gate action is refused</option></Select></Label>

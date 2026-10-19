@@ -209,3 +209,120 @@
   .ww-demo > .pxo-label { max-width: none; flex-basis: 100%; }
 }
 @media (prefers-reduced-motion: reduce) { .ww-workspace .ww-task { transition: none; } }
+/* Work context stays alongside the tasks it directs. */
+.ww-project-summary { align-items: center; gap: .25rem .75rem; margin-top: .75rem; }
+.ww-project-summary > .pxo-button { padding: .45rem .25rem; border-color: transparent; background: transparent; color: var(--pxo-accent-text); text-decoration: underline; text-underline-offset: .2em; }
+.ww-project-settings { margin-top: .5rem; border-block: 1px solid var(--pxo-border); }
+.ww-project-settings > summary, .ww-project-outcome-disclosure > summary { min-height: 2.75rem; padding-block: .7rem; cursor: pointer; font: var(--pxo-reading-control-weight) var(--pxo-reading-control-size)/var(--pxo-reading-control-line-height) var(--pxo-reading-control-font-family); }
+.ww-project-settings[open] { padding-bottom: 1rem; }
+.ww-next-plan { display: flex; align-items: center; flex-wrap: wrap; gap: .75rem 1.5rem; margin-top: 1.25rem; padding-bottom: 1.25rem; border-bottom: 1px solid var(--pxo-border); }
+.ww-next-plan > div { flex: 1 1 20rem; min-width: 0; }
+.ww-next-plan h3 { font: var(--pxo-reading-control-weight) var(--pxo-reading-control-size)/var(--pxo-reading-control-line-height) var(--pxo-reading-control-font-family); }
+.ww-next-plan .ww-next-task { justify-content: start; padding-inline: 0; text-align: left; border-color: transparent; background: transparent; color: var(--pxo-accent-text); }
+.ww-next-plan p { color: var(--pxo-text-secondary); font-size: var(--pxo-reading-control-size); }
+.ww-workspace .ww-project-next { display: flex; width: 100%; justify-content: space-between; flex-wrap: wrap; gap: .5rem 1rem; padding: .75rem .5rem; text-align: left; border: 0; border-bottom: 1px solid var(--pxo-border); border-radius: var(--pxo-radius-xs); background: transparent; color: var(--pxo-text-secondary); }
+.ww-project-next > span { color: var(--pxo-accent-text); }
+.ww-focus { display: flex; flex-wrap: wrap; flex-basis: 100%; gap: .25rem; }
+.ww-focus .pxo-button[aria-pressed="true"] .ww-count { color: inherit; }
+.ww-status-select { display: grid !important; gap: .35rem; flex: 0 1 10rem; }
+.ww-filter-context { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem 1rem; margin-block: -.5rem 1rem; font-size: var(--pxo-reading-control-size); color: var(--pxo-text-secondary); }
+.ww-filter-context > p { flex: 1; }
+.ww-task-action { color: var(--pxo-accent-text); }
+.ww-task[aria-pressed="true"] .ww-task-action { color: var(--pxo-interaction-selection-text); }
+.ww-list .ww-task-action { grid-column: 2/-1; grid-row: 5; }
+/* A separate handle owns pointer capture. Card text retains native tap and scroll. */
+.ww-task-shell { position: relative; min-width: 0; }
+.ww-task-shell .ww-task-meta { padding-right: 4.5rem; }
+.ww-workspace .ww-drag-handle { position: absolute; top: .45rem; right: .4rem; padding: .4rem; min-width: 2.75rem; touch-action: none; cursor: grab; border-color: transparent; background: transparent; color: var(--pxo-text-secondary); }
+.ww-drag-handle:active { cursor: grabbing; }
+.ww-task-shell--moving .ww-task { border-style: dashed; background: var(--pxo-surface-raised); }
+.ww-drag-source-label { position: absolute; inset: auto .5rem .5rem auto; padding: .25rem .4rem; color: var(--pxo-text); background: var(--pxo-surface-raised); border: 1px dashed var(--pxo-border-control); border-radius: var(--pxo-radius-xs); font-size: var(--pxo-reading-control-size); pointer-events: none; }
+.ww-column--active { outline: 2px solid var(--pxo-interaction-focus); outline-offset: .25rem; background: var(--pxo-surface-raised); border-radius: var(--pxo-radius-sm); }
+.ww-drop-marker { position: absolute; left: 0; right: 0; border-top: 2px solid var(--pxo-interaction-focus); z-index: var(--pxo-z-panel); pointer-events: none; }
+.ww-drop-marker--before { top: -.4rem; }
+.ww-drop-marker--after { bottom: -.4rem; }
+.ww-drop-marker > span { position: absolute; right: .5rem; bottom: 0; padding: .2rem .5rem; background: var(--pxo-interaction-selection-surface); color: var(--pxo-interaction-selection-text); border: 1px solid var(--pxo-interaction-focus); border-radius: var(--pxo-radius-xs); font-size: var(--pxo-reading-control-size); }
+.ww-drop-end { display: flex; align-items: center; justify-content: center; text-align: center; min-height: 4rem; padding: .75rem; border: 1px dashed var(--pxo-border-control); border-radius: var(--pxo-radius-sm); color: var(--pxo-text-secondary); font-size: var(--pxo-reading-control-size); }
+.ww-drop-end--active { color: var(--pxo-interaction-selection-text); background: var(--pxo-interaction-selection-surface); border-color: var(--pxo-interaction-focus); border-style: solid; }
+.ww-drag-controls { position: sticky; top: 0; z-index: var(--pxo-z-panel); padding: .75rem; margin-block: .75rem; border: 1px solid var(--pxo-border-control); border-radius: var(--pxo-radius); background: var(--pxo-surface-raised); box-shadow: var(--pxo-shadow-soft); }
+.ww-drag-announcement { display: flex; align-items: center; justify-content: space-between; gap: .75rem; }
+.ww-drag-announcement > p { min-width: 0; font-size: var(--pxo-reading-control-size); }
+.ww-drag-announcement > .pxo-button { flex: none; }
+.ww-drag-controls .ww-hint { margin-top: .4rem; }
+.ww-drag-stage-targets { display: grid; grid-template-columns: repeat(6,minmax(0,1fr)); gap: .4rem; margin-top: .75rem; }
+.ww-drag-stage-targets > div { display: grid; gap: .15rem; min-height: 3rem; align-content: center; text-align: center; padding: .4rem; border: 1px dashed var(--pxo-border-control); border-radius: var(--pxo-radius-sm); font-size: var(--pxo-reading-control-size); }
+.ww-drag-stage-targets small { font: inherit; color: var(--pxo-text-secondary); }
+.ww-drag-stage-targets > div[data-active="true"] { background: var(--pxo-interaction-selection-surface); color: var(--pxo-interaction-selection-text); border: 2px solid var(--pxo-interaction-focus); }
+.ww-drag-stage-targets > div[data-active="true"] small { color: inherit; }
+.ww-drag-preview { position: fixed; z-index: var(--pxo-z-tooltip); display: grid; gap: .3rem; width: 14rem; padding: .7rem; border: 1px solid var(--pxo-interaction-focus); border-radius: var(--pxo-radius); color: var(--pxo-text); background: var(--pxo-surface-raised); box-shadow: var(--pxo-shadow); pointer-events: none; font-size: var(--pxo-reading-control-size); }
+.ww-placement-form { display: flex; align-items: end; flex-wrap: wrap; gap: .75rem; margin-top: .75rem; }
+.ww-placement-form > .pxo-label { display: grid; gap: .4rem; flex: 1 1 12rem; min-width: 0; }
+.ww-notice .ww-actions { justify-content: start; margin-top: .5rem; }
+.ww-notice .ww-actions > .pxo-button { flex: 0 1 auto; }
+.ww-list .ww-task-shell .ww-task { padding-right: 5.5rem; }
+.ww-list .ww-task-shell .ww-task-meta { padding-right: 0; }
+@media (max-width: 760px) {
+  .ww-project-outcome-disclosure { margin-top: .5rem; }
+  .ww-project-outcome-disclosure > summary { color: var(--pxo-text-secondary); }
+  .ww-project-outcome-disclosure > p { margin-block: .5rem .75rem; }
+  .ww-next-plan { margin-top: .75rem; padding-bottom: .75rem; gap: .25rem; }
+  .ww-next-plan > div { flex-basis: 100%; }
+  .ww-next-plan > .pxo-button { padding-inline: 0; border-color: transparent; background: transparent; color: var(--pxo-accent-text); }
+  .ww-focus { gap: .25rem; }
+  .ww-focus > .pxo-button { flex: 1 1 auto; min-inline-size: min-content; padding-inline: .45rem; }
+  .ww-status-select { flex: 1 1 8rem; }
+  .ww-drag-stage-targets { grid-template-columns: repeat(3,minmax(0,1fr)); }
+  .ww-drag-stage-targets small { display: none; }
+  .ww-drag-stage-targets > div { min-height: 2.75rem; }
+  .ww-drag-controls { top: .25rem; }
+  .ww-drag-controls .ww-hint { display: none; }
+  .ww-drag-announcement { gap: .5rem; }
+  .ww-drag-preview { width: 12rem; }
+  .ww-list .ww-task-action { grid-column: 1; grid-row: 6; }
+  .ww-list .ww-task-shell .ww-task { padding-right: .25rem; }
+  .ww-list .ww-task-shell .ww-task-meta { padding-right: 4.75rem; }
+}
+/* Pointer feedback floats without changing any source or target geometry. */
+.ww-drag-controls--pointer, .ww-move-confirmation { position: fixed; left: 50%; right: auto; top: auto; bottom: 1rem; transform: translateX(-50%); width: min(54rem,calc(100vw - 2rem)); margin: 0; z-index: var(--pxo-z-popover); }
+.ww-move-confirmation { padding: 1rem; color: var(--pxo-text); background: var(--pxo-surface-raised); border: 1px solid var(--pxo-border-control); border-radius: var(--pxo-radius); box-shadow: var(--pxo-shadow); font: var(--pxo-reading-control-weight) var(--pxo-reading-control-size)/var(--pxo-reading-control-line-height) var(--pxo-reading-control-font-family); }
+.ww-move-confirmation > p { margin: 0 0 .75rem; }
+.ww-move-confirmation .ww-actions { justify-content: end; }
+.ww-move-confirmation .ww-actions > .pxo-button { flex: 0 1 auto; }
+@media (max-width: 760px) {
+  .ww-drag-controls--pointer, .ww-move-confirmation { bottom: max(.5rem,env(safe-area-inset-bottom)); width: calc(100vw - 1rem); }
+  .ww-drag-controls .ww-hint { display: block; }
+  .ww-drag-controls--pointer .ww-hint { margin-top: .25rem; }
+}
+/* Compact project context: each fact and control has one place. */
+.ww-project-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 0 1rem; border-bottom: 1px solid var(--pxo-border); }
+.ww-project-meta .ww-project-summary { margin: 0; gap: .5rem; }
+.ww-project-meta .ww-project-settings { margin: 0; border: 0; }
+.ww-project-meta .ww-project-settings[open] { flex-basis: 100%; }
+.ww-next-plan { align-items: end; flex-wrap: nowrap; gap: .75rem; margin-top: .75rem; padding-bottom: .75rem; }
+.ww-next-plan > div { flex: 1 1 auto; }
+.ww-next-plan .ww-next-task { padding-block: .2rem; }
+.ww-next-plan .ww-plan-order { flex: none; padding-inline: .4rem; border-color: transparent; background: transparent; color: var(--pxo-accent-text); }
+.ww-main--project .ww-toolbar { margin-block: .75rem; gap: .5rem .75rem; }
+.ww-main--project .ww-view-context { margin-bottom: .5rem; }
+@media (max-width: 760px) {
+  .ww-main--project { padding-top: .5rem; }
+  .ww-main--project .ww-view-heading { flex-wrap: nowrap; align-items: center; gap: .75rem; }
+  .ww-main--project .ww-view-heading > div { flex: 1 1 auto; min-width: 0; }
+  .ww-main--project .ww-view-heading > .pxo-button { flex: none; width: auto; padding-inline: .65rem; }
+  .ww-project-outcome-disclosure { margin-top: 0; }
+  .ww-project-outcome-disclosure > summary { padding-block: .35rem; }
+  .ww-project-meta { gap: 0 .5rem; }
+  .ww-project-meta .ww-project-summary { gap: .3rem; }
+  .ww-project-meta .ww-project-settings > summary { padding-block: .35rem; }
+  .ww-next-plan { margin-top: .5rem; padding-bottom: .5rem; }
+  .ww-next-plan > div { flex-basis: auto; }
+  .ww-next-plan h3 { display: none; }
+  .ww-next-plan .ww-next-task::before { content: "Next:"; color: var(--pxo-text-secondary); flex: none; align-self: start; }
+  .ww-next-plan .ww-next-task { align-items: start; }
+  .ww-next-plan .ww-plan-order { align-self: center; }
+  .ww-main--project .ww-toolbar { margin-block: .5rem .25rem; gap: .5rem; }
+  .ww-main--project .ww-status-select > span, .ww-main--project .ww-search > span { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  .ww-main--project .ww-status-select, .ww-main--project .ww-search { gap: 0; }
+  .ww-main--project .ww-view-context { font-size: var(--pxo-reading-control-size); gap: .25rem; }
+}
+.ww-drag-list-end { margin-top: .65rem; min-height: 2.75rem; }

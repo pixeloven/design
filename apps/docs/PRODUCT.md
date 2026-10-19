@@ -43,6 +43,10 @@ visual direction but rejected its queue-centered project/task model. The target
 is now a complete Project → Task journey, including contextual creation,
 editing, ordering, decisions and completed-work retrieval. The revised prototype
 demonstrates that journey with browser-session projects, tasks and drafts.
+The subsequent operator review identified unclear attention requests, scattered
+task actions and missing drag feedback. The revised interaction puts the exact
+ask and actions together, keeps Comments visible, makes project counts actionable
+and previews a drag's destination and insertion before committing it.
 Responsibility and the required next actor are authored sample fields, not live
 execution telemetry. Existing API gaps are delivery work, not limits on the
 proposed experience. Agent dispatch and automatic structured history are not

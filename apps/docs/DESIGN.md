@@ -88,8 +88,9 @@ an adjacent task. Projects use outcome-led rows with compact task counts.
 Board columns retain a (15rem) minimum and scroll horizontally. At
 (761–1200px), navigation moves above the workspace. At (760px) and below, native
 Workspace/Stage selects and wrapping Board/List controls lead readable work;
-the board shows one stage. A phone project keeps its title and progress visible,
-with its outcome and administration in a native disclosure. Detail and creation fill the phone viewport with
+the board shows one stage. A phone project keeps its title, actionable counts
+and a short outcome visible; the full outcome and project settings have separate
+disclosures. A compact next-work row follows authored planning order. Detail and creation fill the phone viewport with
 scrolling content and safe-area padding. Desktop reading can expand into a
 protected, viewport-centered surface with a (48rem) content limit. Enlarged text
 stacks controls while preserving complete labels. Review chrome and simulation
@@ -126,10 +127,15 @@ outside its asset registry.
 - **Navigation and tasks:** project outcomes lead; cards support titles with
   IDs, responsibility and actual attention reasons. Open/Completed/All filters
   and search keep finished work findable. Board and List share project planning
-  order. Explicit ordering and transfer controls supplement desktop dragging.
-- **Task:** Intent, Plan, Result and Done when lead; organization, authored
-  records and technical details use disclosure. Approve, Send back and Move
-  explain their different consequences. Focus enters the task and returns on
+  order. All work, Decisions and Blocked focus remain project-scoped. Drag
+  handles support pointer/touch movement and keyboard placement, with a stable
+  source footprint, traveling preview, active destination and exact insertion
+  feedback. Explicit transfer stays separate from ordering.
+- **Task:** a specific request leads, with decisions, editing, completion and
+  Manage task together. Review leads with Plan; Verify leads with Result and
+  Done when. Comments stays visible with a composer; legacy Decision and Log
+  text retains its source label without invented author/time metadata. Approve,
+  Request changes and Move explain their different consequences. Focus enters the task and returns on
   close; browser-session state retains drafts and decision reasons. Desktop
   expansion and phone modal reading protect concentration and return context.
 - **Identity:** compare Solid/Inset and small-size specimens alongside the
