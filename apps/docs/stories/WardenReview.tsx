@@ -85,17 +85,17 @@ export function WardenReview({ initialPage = "workspace" }: { initialPage?: Page
       <details className="wr-walkthrough">
         <summary>Review scope and walkthrough</summary>
         <div>
-          <h2>Follow a project from intent to completion</h2>
+          <h2>Take an idea to an accepted outcome</h2>
           <ol>
-            <li>Open <strong>Improve note reading</strong>. Compare Board and List, then add a task in that project.</li>
-            <li>Refine its intent, completion conditions and responsibility. Change its planning order and transfer it to another project.</li>
+            <li>Choose <strong>Start with an idea</strong>. Write a brief or use the authored reading example. Review its outcome, finish line and typed proposed issues before creating the Epic.</li>
+            <li>Open a child issue. Refine its intent, Plan, Result and completion conditions. Change its planning order or transfer it to another Epic.</li>
             <li>Open <strong>Needs attention</strong>. Identify what is being asked, read the plan or result, and approve it or request changes. Add a comment, then return to the originating workspace.</li>
-            <li>Find completed work and reopen it. Try completing a project with unfinished tasks, then inspect a completed project.</li>
+            <li>Find completed work and reopen it. Finish or transfer remaining children, then explicitly accept the Epic outcome against its finish line.</li>
             <li>Use the demo scenarios to check a refused action or incomplete read. Confirm that drafts and decision reasons survive recovery.</li>
           </ol>
           <h3>What this proposal demonstrates</h3>
-          <p>This is a local interaction study with synthetic projects and tasks. It does not connect to Warden, dispatch agents or change a vault. Responsibility identifies who is accountable; it does not imply anyone is currently running.</p>
-          <p>Project workspaces, general task editing, responsibility, transfer, dependencies, persistent planning order and explicit project completion need production contracts. Warden already retrieves completed issues and documents child-derived epic completeness; this study proposes how people find that work and decide when a project outcome is complete.</p>
+          <p>This is a local interaction study with synthetic issues. Epics, Stories, Tasks and Bugs are types of the same work record. The study does not connect to Warden, generate plans with AI, dispatch agents or change a vault. Responsibility identifies accountability, not current execution.</p>
+          <p>The production MVP needs shared UI/MCP authoring, a discovery skill, durable relationships and order, and explicit Epic acceptance. Creating proposed work in Todo does not approve a plan or start execution. The lead will verify the real journey on an owned test vault before handoff.</p>
           <p>Approval, Request changes (the existing Send back operation) and direct Move have distinct consequences. The production specification must reconcile their existing policies with these proposed journeys. The Warden mark is still a separate identity decision.</p>
         </div>
       </details>

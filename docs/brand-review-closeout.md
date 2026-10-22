@@ -1,6 +1,6 @@
 # Brand review closeout
 
-2026-10-19. The operator approved completing the remaining brand/design work,
+Updated 2026-10-22. The operator approved completing the remaining brand/design work,
 then updating Harmony's Homepage links to the verified current design system.
 Harmony is the final closeout phase. Lattice's knowledge-lifecycle discovery
 has moved to a separate session.
@@ -22,32 +22,34 @@ for PixelOven or Lattice.
 
 ## Current review status
 
-The operator supports the October Warden study's visual direction but found its
-project/task management wrong. Its queue-centered work model is superseded by
-the [revised Warden brief](warden-design-brief.md). The revised demo now follows
-that brief with complete project/task interactions and synthetic local records.
-Visual polish and accessibility checks do not constitute operator acceptance
-of the product experience.
+The operator supports the visual direction and has now accepted the typed Issue
+model: Epic is a project outcome with a finish line; Story, Task and Bug describe
+its work, with standalone issues also valid. The primary journey starts with an
+idea that needs shaping. The [Warden brief](warden-design-brief.md) owns the
+current decision and phased MVP plan. The lead is authorized to drive through a
+working MVP before handoff, with Crew implementation and independent reviews.
 
-Next, review the complete Project → Task journey: define an outcome,
-create and organize work in context, direct progress, finish deliberately and
-retrieve completed work. Treat missing API support as named implementation
-work. Projects are working destinations; cross-project attention supports them.
+The next delivery is the complete idea → Epic/Issue → accepted outcome journey.
+The editable local study establishes the experience; Warden service, MCP, skill
+and UI changes establish the product. A handoff requires shared authoritative
+records and the full journey on an owned test vault, including restart, conflict
+and refusal recovery. Browser-local state and visual polish cannot satisfy it.
 
 The recovered September prototype already demonstrated the project-first model.
 The brief now reconciles those original goals with Lattice's later visual and
 interaction decisions. It is the current Warden direction; the historical demos
 and audits remain dated references. The revised prototype is the review artifact;
-operator journey review precedes an execution specification and production work.
+the accepted model now directs production slices alongside the revised study.
 
 ## Delivery sequence
 
 1. **Reconcile and prove Warden's design.** Carry the October live/source
    assessment and recovered September project goals into the current brief.
    Apply the accepted family and relevant Lattice interaction lessons. Build
-   one complete project/task prototype while mapping contract gaps in parallel,
-   then converge for product/UX, accessibility and operator review. Review
-   Warden identity options separately. Demonstrations use synthetic content;
+   the idea-to-Issue study while mapping contract gaps in parallel, then converge
+   for independent product/UX, accessibility and engineering review. The lead
+   advances the accepted plan; operator input is reserved for unresolved material
+   product choices. Review Warden identity options separately. Studies use synthetic content;
    unsupported capabilities must be explicit.
 2. **Implement the accepted Warden direction.** Turn the selected experience
    into bounded product slices with owned fixtures, actual API contracts,

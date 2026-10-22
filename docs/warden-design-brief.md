@@ -1,28 +1,47 @@
-# Warden: projects people can direct
+# Warden: turn an idea into work with a finish line
 
-2026-10-19 · Design proposal, before product implementation. Part of
+2026-10-22 · Accepted product model and MVP execution plan. Part of
 [design #8](https://github.com/pixeloven/design/issues/8).
 
-## Review status and recommendation
+## Product decision and ownership
 
-The operator supports the visual direction but found the October study's
-project/task management wrong. Its queue-centered work model is superseded by
-this brief. The revised Storybook and portable demo now follow the complete
-project/task journey below. They are synthetic interaction studies; operator
-journey review and the production execution specification remain ahead.
+The operator accepted the issue model below and asked the lead to drive the
+work through a working MVP, then prepare the implementation handoff. Crew
+provides bounded implementation, research and independent review; the lead owns
+scope, convergence and acceptance. Further discovery is needed only when a
+material product choice cannot be resolved from this direction.
 
-**Build a project workspace where a human can shape an outcome, organize its
-tasks, direct progress and inspect the result. Agents use MCP to contribute to
-the same work records.** Human work includes planning and organization as well
-as approving agent output. The design defines the intended experience; missing
-API capabilities become explicit delivery work.
+**Bring an idea; leave with a clear outcome and actionable work. Follow that
+work through to an explicitly accepted result.** The human UI and agent MCP
+operate on the same Warden records. A discovery skill guides the conversation
+in the existing agent host; Warden is the persistent workspace for the result.
 
-Recommend two levels: **Project → Task**, matching the operator's original
-projects/epics and tasks/issues framing. A project is a meaningful outcome;
-a task is an actionable piece of work. Standalone tasks remain valid. Do not
-add a third Project → Epic → Task hierarchy. Mapping the existing `project`
-string and `parent` reference requires a data review before implementation;
-the interface must not silently reinterpret or discard either.
+Everything is an **Issue**. Type gives it purpose; status describes progress.
+
+| Type | Purpose |
+| --- | --- |
+| Epic | A bounded project with a meaningful outcome and observable finish line. |
+| Story | A capability or benefit for a user. |
+| Task | A concrete piece of work. |
+| Bug | A correction of expected versus actual behavior. |
+
+The initial hierarchy is **Epic → Story / Task / Bug**. Standalone issues are
+valid. An Epic is the project-level issue, not a separate Project entity above
+it. There is no required Story → Task tier. The existing `project` string is
+legacy context: retain it until a reviewed mapping exists, rather than turning
+each distinct string into a new Epic or silently dropping it.
+
+Keep the six workflow states: Todo, Plan, Review, Build, Verify and Done.
+An idea/proposal draft is not a seventh status. Creating proposed work in Todo
+does not approve its plan, dispatch an agent or begin execution. Finishing all
+children does not accept the Epic's outcome; accepting an Epic never silently
+changes its children.
+
+The design repository's interactive study uses synthetic browser-local records.
+It proves an experience, not production persistence or MCP integration. MVP
+acceptance requires the real Warden journey and an owned test vault; the lead
+retains ownership until that gate passes. Harmony rollout and the Homepage
+update follow separately.
 
 One operator works at a desk and makes shorter visits on a phone. Success means
 they can answer: What are we trying to achieve? What should happen next? What
@@ -72,21 +91,61 @@ Lattice helps people explore and understand knowledge. Warden helps them turn
 intent into organized work and inspect its outcome. A Warden task should be able
 to reference relevant knowledge or evidence with a useful label and predictable
 return. Begin by specifying ordinary source links and provenance. Automatic note
-creation, bidirectional synchronization and a shared storage model are separate
-product decisions, not prerequisites for this design. Lattice lifecycle work
+creation and bidirectional knowledge synchronization are separate product
+decisions. Warden already uses Lattice as its storage substrate; that does not
+move Warden's workflow rules into the discovery skill. Lattice lifecycle work
 continues in its own session.
 
 ## Proposed experience
+
+### Start with an idea
+
+The primary entry is **Start with an idea**. Direct issue creation remains a
+secondary shortcut for someone who already knows the work. The discovery skill
+uses the existing agent conversation, reuses supplied context and asks only
+questions that would change the proposal. It can research through Crew and use
+Lattice for relevant knowledge. It does not need an embedded chat or a new
+dispatch service.
+
+For a substantial effort, its output is a reviewable Epic brief: original idea and context, intended
+beneficiary/problem, desired outcome, observable finish line, scope and explicit
+exclusions, relevant sources, assumptions or unresolved questions, and a small
+ordered set of proposed issues. Each proposed issue has a type, intent and
+checkable completion conditions. Dependencies are explicit; ordering alone does
+not imply a dependency. Keep later work proportionate to what is known. When an
+idea resolves to one bounded Story, Task or Bug, propose a standalone issue;
+discovery must not require an empty Epic as an administrative container.
+
+The person can revise that proposal before creating records. Publication names
+the actual IDs and reports partial success honestly; a retry must reconcile
+already-created records before creating more. Capture, agreement and execution
+are separate actions. Existing authorization can cover publication or execution;
+the skill must not ask repeatedly for authority the operator already gave.
+
+The local study supports an editable brief and issue proposal, an explicitly
+authored example, review before creation, and a draft that survives closing and
+reloading in the same browser tab. It makes no AI-generation claim. Copying a
+brief is a manual transfer to an agent conversation, not a dispatch operation.
+
+### Clear surface ownership
+
+| Surface | Responsibility |
+| --- | --- |
+| Warden discovery skill | Turn intent into a reviewable brief and proposed work; use the actual installed Warden capabilities and report missing capabilities. |
+| Warden service, MCP and browser API | Own issue identity, validated authoring, relationships, workflow decisions and refusal/conflict outcomes. UI and MCP share the service rules. |
+| Warden UI | Inspect and revise the same work; make the outcome, evidence and next action legible; preserve context and drafts. |
+| Lattice | Supply linked knowledge and Warden's existing persistence substrate. New workflow authoring goes through Warden's contract. |
+| Crew | Coordinate research, refinement, implementation and review. Stage and owner labels are not execution telemetry. |
 
 ### Three places, each with a distinct job
 
 | Destination | What the person does there |
 | --- | --- |
-| **Projects** | Find active or completed projects. Open one to see its outcome, completed/total task counts, blockers and decisions alongside its Board/List. Recent projects remain directly reachable in navigation. |
-| **All tasks** | Capture standalone work, search across projects and find open or completed tasks. Every result retains its project context when one exists. |
+| **Epics** | Find active or completed outcomes. Open an Epic to see its brief, finish line, ordered child issues and next action. |
+| **All issues** | Capture standalone work, search by identity/type and find open or completed issues, including Epics. Every child retains its Epic context. |
 | **Needs attention** | Resolve an actual decision or problem across projects. Each entry explains why it is here and what action is needed; it links back to its project. |
 
-Recommend Projects as the initial destination and restoration of the last
+Use Epics as the initial destination and restore the last
 workspace on a return visit. Needs attention remains one action away with a
 truthful count. Blocked, recurring and completed are useful filters, not peer
 organizational entities competing with projects. Recurring work keeps its
@@ -94,7 +153,8 @@ existing meaning until its contract is explicitly changed.
 
 Within a project, its outcome and compact progress summary stay above the work.
 Open, Completed and All filters make scope explicit. Board and List show the
-same tasks and planning order. Preserve the six task stages initially, with
+same child issues and planning order. List is the default; Board remains an
+optional way to direct stages. Preserve the six issue stages initially, with
 readable cards rather than shrinking everything to fit. Counts describe tasks,
 not an invented percentage of the outcome achieved. Loading or partial data
 must not masquerade as a complete project summary.
@@ -106,20 +166,21 @@ One compact **Next in your plan** row exposes the first unfinished task in
 authored planning order, its recorded next action and any blockers. It does not
 infer live agent activity or invent a priority score. List exposes that planning
 order and a direct way to organize tasks. Contextual Add task belongs beside the
-project title; project administration stays in Project settings. Phone keeps the
-outcome independently accessible from those settings.
+Epic title; outcome editing and completion stay with the Epic brief. Phone keeps
+the outcome and finish line accessible without opening administrative controls.
 
 ### One complete journey is the design test
 
-Use a synthetic project, **Improve note reading**, with tasks for the focused
+Use a synthetic Epic, **Improve note reading**, with issues for the focused
 reader, internal-note navigation and phone validation. This is demonstration
 content, not a claim about unfinished Lattice delivery.
 
-1. **Start with an outcome.** Create the project and describe what success means.
-   Arrive in its workspace with a clear Add task action, not a global empty queue.
-2. **Break it into work.** Add tasks without re-entering the project. Quick
-   capture needs a title; intent and completion conditions can be refined in
-   place. Creation defaults to Todo and shows the inherited project before save.
+1. **Start with an idea.** Describe a reading problem. Review the proposed Epic
+   outcome, finish line and scope alongside a few typed child issues. Revise the
+   proposal, then create the records in Todo. Nothing has started executing.
+2. **Make the first issue actionable.** Read its intent, write or revise its
+   Plan and completion conditions, and identify the next action. Add later work
+   in the same Epic context. Direct standalone capture remains available.
 3. **Organize what happens next.** Edit tasks, put phone validation after the
    reader, and link the real dependency. Planning order and workflow stage are
    separate. Moving a task between projects is explicit and preserves its record.
@@ -129,21 +190,23 @@ content, not a claim about unfinished Lattice delivery.
 5. **Check an interruption on a phone.** Enter from Needs attention, read the
    result in a full-screen task, act, then return to that queue or its project.
    The human can distinguish an awaiting decision from a dependency blocker.
-6. **Finish and find it again.** Completing a task reduces active clutter while
+6. **Finish and find it again.** Record the result and evidence. Completing an issue reduces active clutter while
    keeping it in Completed and search. Project completion is a separate, explicit
    outcome decision; show unfinished work and require a deliberate disposition
    before confirming. Never cascade completion or reopening to child tasks.
 
-The revised prototype demonstrates this journey end to end, including adding
-and editing work, ordering it, changing its project, completion and retrieval.
-Its fixtures include Improve note reading, Release preparation, a 50-task Library
-maintenance project, a completed Reading foundation project and standalone work.
-The review guide names capabilities that still need production contracts.
+The study's fixture families include Improve note reading, Release preparation,
+a 50-issue Library maintenance Epic, a completed Reading foundation Epic and
+standalone work. They exercise the interaction; the real UI/MCP journey remains
+an explicit implementation gate below.
 
 For this study, completing a project requires its unfinished tasks to be finished
 or transferred first. The action never changes child stages. Reopening a child
 in a completed project requires explicitly reopening that project. This is a
-proposed interaction policy for review, not a claim about current Warden policy.
+proposed service policy to implement, not a claim about current Warden policy.
+Acceptance requires a recorded outcome note against the finish line. The
+production service must apply that rule to every path that can close an Epic,
+including direct moves and approvals, and preserve acceptance history on reopen.
 
 ### Interaction, trust and accessibility
 
@@ -245,10 +308,12 @@ Retain the readable Plex base, explicit human-gate labels, and blocker identity
 with its state. The source review independently confirmed component-local draft
 state, constrained phone panels, missing read Retry, and technical detail order.
 
-Review/verify data, actual write outcomes, alternate-theme contrast, physical
-phone keyboards and named screen readers were not verified in the live pass.
-Owned fixtures must cover those before implementation acceptance. Private live
-captures remain outside this repository.
+Review/verify data, actual write outcomes and alternate-theme contrast were not
+verified in the live pass; owned fixtures must cover these before MVP acceptance.
+Physical phone keyboards and named screen readers were also not verified.
+Browser/automated accessibility checks are required for this MVP; the handoff
+must name the outstanding device and assistive-technology checks as follow-ups
+without claiming them. Private live captures remain outside this repository.
 
 ## Implementation evidence and required changes
 
@@ -266,7 +331,10 @@ The six browser mutations are create, approve, send back, move, append to Log,
 and tick Done when. Create accepts title, configured issue type, intent, project,
 parent and dependencies. It creates `todo`; project is a string and parent is
 an issue reference. There is no assignee, dispatch, project entity, general
-issue-edit or structured history-event API. Do not invent one through UI copy.
+issue-edit or structured history-event API. Story is not in the default type
+vocabulary. The MCP's current `task_show` omits title, body and parent context;
+`task_create` drops the node identity the shared service already returns. These
+are implementation gaps, not reasons to design around incomplete information.
 Current source does not automatically add Log or Decisions entries for ordinary
 transitions.
 
@@ -287,16 +355,37 @@ quietly redefining these predicates in browser code.
 | Clear responsibility and next actor | No browser assignee or execution-activity contract | Define responsibility, decision actor and provenance separately. Add authoritative fields/operations where required; never infer live activity from ownership or stage. |
 | Dependable navigation and recovery | Existing mutations and authored content | Specify URL/Back/focus/scroll behavior, draft lifetime, conflict/refusal handling and index-lag reconciliation. |
 
+The October 22 source review also established three consequential limits:
+
+- Existing body CAS protects the service's read/write interval, not a draft
+  opened earlier by a person or agent. Refinement needs a revision-bearing read
+  and caller-supplied expected revision. Result currently involves separate body
+  and frontmatter writes; a combined editor must define atomicity or report
+  partial outcomes precisely.
+- `parent` currently accepts an unvalidated reference. New writes must validate
+  a real Epic parent and the two-level hierarchy. Existing anomalies stay visible
+  and repairable; they are not dropped from queries.
+- Human direct moves bypass policy checks, including Epic closure. An outcome
+  acceptance button alone is insufficient. Every close/reopen path must obey
+  the central rule, with defined behavior if children change concurrently.
+
+Gates retain their existing advisory human/agent handshake (ADR-0024). The MVP
+supplies and uses a complete Warden workflow path; it does not narrow agents'
+general Lattice permissions or claim that a gate is a security boundary.
+
 ## Decisions and boundaries
 
-The recommendation is Project/Task terminology, Projects-first entry and an
-explicit project completion decision. Validate those choices through the full
-journey, rather than asking the operator to design individual controls. Review
-real records to resolve the legacy project/parent mapping before a migration
-specification. Order scope, concurrent edits and query completeness also need
-precise contracts in that specification. Responsibility semantics and evidence
-links belong in the same contract work; a missing current API is not a reason
-to remove an established product need.
+The accepted model is typed Issues with Epic as the outcome. The primary entry
+is idea discovery, followed by a reviewable proposal and explicit publication.
+Validate it through a complete journey without asking the operator to design
+individual controls. Preserve legacy types and project labels. Add Story to the
+API, MCP and fixture vocabulary consistently, initially with Task's review and
+verify gates; deployment-specific type files must be reconciled explicitly.
+
+Define responsibility as authored accountability, not execution activity. Its
+minimal persisted contract, ordering scope, concurrent edits, query completeness
+and evidence links belong in the Warden implementation specification. A missing
+current API is delivery work, not permission to display an invented fact.
 
 Keep Warden's mark selection as a separate review within the approved family.
 New team permissions, scheduling, agent dispatch, configurable workflow builders,
@@ -306,20 +395,65 @@ remains the last closeout step.
 
 ## Delivery and acceptance
 
-| Slice | Outcome and acceptance |
-| --- | --- |
-| Reconciled direction | Lead consolidates the recovered September goals, accepted family decisions and Lattice interaction lessons in this brief. Distinguish retained decisions, new recommendations and unresolved contracts. Historical artifacts remain reference material. |
-| One revised interaction prototype | A design/implementation worker rebuilds the project/task journey; an engineering worker can map source/data gaps in parallel. Both return to the lead before review. Show the complete journey in one study with two projects, standalone/completed work and a dense fixture. Use approved visuals, label proposed capabilities and keep mark comparison separate. |
-| Journey review | Independent product/UX and accessibility reviews assess whether a person can explain the outcome, organize work, identify responsibility and the next action, make a decision, and retrieve completed work. Review desktop, phone, keyboard and recovery together; operator feedback resolves product choices. |
-| Execution specification | After journey review, map accepted interactions to components, data contracts, UI/MCP behavior, migration needs, accessible controls and recovery expectations. Name shared-system versus Warden-owned work and bounded vertical delivery slices. |
-| Project workspace and task management | Deliver scoped retrieval, contextual creation, editing, relationships and durable order as coherent journeys. Retain completed work, source context and drafts on desktop and phone. |
-| Attention, completion and records | Deliver truthful attention reasons, decision consequences, explicit project completion and faithful authored history with refusal/index-lag recovery. |
-| Product acceptance and release | Replay the full journey with owned fixtures and actual write contracts. Run focused local/static checks and independent reviews; CI owns broad suites. Verify package and paired product artifacts before consumer rollout. |
+The lead continues through these bounded slices. Design work stays in this
+repository; production service, skill, UI and fixture changes belong in Warden.
+Independent writers use separate worktrees or exclusive file ownership. Parallel
+results reconverge before review. A PR is a review boundary, not a handoff.
 
-The study does not authorize a production card-to-issue migration. Reconcile
-Warden #59/#60 and deployed API/frontend/vault versions before that cutover.
+| Slice | Acceptance and dependency | State |
+| --- | --- | --- |
+| 1. Idea and issue experience | One issue model, editable Epic brief and typed proposed children, explicit publication to Todo, useful issue Plan/Result authoring, outcome acceptance and recovery. Default List; preserve optional Board and working drag behavior. Independent product and source reviews converge with a desktop/phone interaction pass. | Design implementation in this PR; browser-local study only. |
+| 2. Complete Warden reads | Additive MCP responses expose the full issue and stable identity already available to the service. Missing, malformed and unavailable records remain distinct. Focused cross-surface tests; no unrelated policy or migration change. Can run in parallel with slice 1. | Implemented in [Warden #66](https://github.com/pixeloven/warden/pull/66); review/CI before merge, not deployed. |
+| 3. Authoritative discovery and refinement | Shared revision-aware content authoring, Story policy, validated parent relationships and persisted Epic brief. Discovery skill publishes a small proposal through actual Warden tools and reconciles partial creation. Browser edits the same issue; MCP reads it back. Begins after read contract and reviewed interaction converge. | Pending. |
+| 4. Durable workspace and direction | Epic/child/standalone queries, open/completed/all scope, truthful counts, ordered work, explicit transfer and responsibility. Real comments, decisions, result editing and recovery; no fabricated activity. Port the accepted UI against these contracts. | Pending slice 3. |
+| 5. Accepted outcome | Central explicit Epic acceptance/reopen rules cover all transition paths and concurrent child changes. Children remain unchanged; remaining work has an explicit disposition. Completed outcomes stay searchable. | Pending slices 3–4. |
+| 6. Working MVP and handoff | Real production frontend, API and MCP exercise the journey on an owned Lattice fixture. Fresh browser and process restart retain work; conflicts/refusals/index delay recover without false success or duplicate writes. Independent engineering/design reviews pass, artifacts are versioned, and remaining limitations are named. | Pending; not satisfied by the study. |
 
-### Prototype review evidence
+The MVP handoff includes runnable setup, exact revisions, paired API/MCP type
+configuration, migration inventory/preview, the accepted journey, focused test
+commands, recovery instructions and remaining work. It does not require a live
+customer vault. Use a disposable copy of Warden's owned fixture with a tested
+Lattice version; do not inherit the compose file's old version without checking
+compatibility. Prove at least one MCP-created Epic and child edited in the real
+UI and read back through MCP, including persistence after restart. Network/tool
+traces must show product workflow writes using Warden. Keep raw evidence outside
+Git and report results in the review.
+
+Focused local tests protect the changed contract and critical journey. CI owns
+the broad suite and coverage gate. Browser acceptance includes keyboard, phone
+layout, enlarged text, themes, drafts, conflicts and real pointer feedback where
+dragging is included. Physical-device and assistive-technology checks remain
+explicitly named when not performed.
+
+This work does not authorize a production card-to-issue migration. As checked
+October 22, Warden #59 is open/draft/conflicted and #60 is open. Reconcile both
+and deployed API/frontend/vault versions before cutover. Inventory existing
+parent/project relationships read-only; do not synthesize Epics from strings,
+merge by title or run the aggregate phase-2 migration as part of UI adoption.
+
+### October 22 interaction validation
+
+The revised study uses one typed Issue collection and preserves existing v2
+records, drafts, comments, decisions and navigation during migration. Nine domain
+regressions cover migration, proposal validation/creation, type-aware editing,
+scoping/order and explicit outcome acceptance/reopening. All sixteen docs and
+domain tests pass, alongside strict typechecking and Storybook/portable builds.
+
+Chromium checks at 1440px and 390px exercise editable proposal rows, draft
+close/reload, typed Epic/child creation, Plan/Result editing and completed child
+retrieval without automatically completing the Epic. A further phone journey
+checks open-child refusal, recorded outcome acceptance, reload and explicit
+reopening without changing child states, plus the standalone-idea shortcut.
+At 320 CSS pixels with text tokens doubled, the page has no horizontal overflow.
+Automated accessibility
+checks found no violations in the exercised proposal and workspace states.
+Five actual pointer/keyboard/touch scenarios confirm placement feedback,
+empty-stage movement, persistence, touch cancellation and ordinary card scrolling.
+Independent product/engineering reviews passed for this slice. The Impeccable
+source detector reported no findings; no suppressions were added. These are
+local study results, not real API/MCP integration or physical-device acceptance.
+
+### Historical prototype review evidence (October 19–21)
 
 The October 19 revised build passed strict docs typechecking, the seven existing
 documentation checks, and Storybook/portable builds. Browser journeys exercised
@@ -354,8 +488,11 @@ The final Impeccable source scan reported no findings and required no ignores.
 These are synthetic Chromium checks, not physical iPhone, software-keyboard or
 screen-reader acceptance. Navigation URLs carry context, not locally authored
 records to another browser. Same-session close restores useful scroll/focus;
-scroll offsets do not persist across reloads. Operator journey review, Warden
-identity selection and the production contracts remain open.
+scroll offsets do not persist across reloads. At that review, operator journey
+acceptance, Warden identity selection and the production contracts remained
+open. The October 22 product decisions above now authorize the lead to advance
+implementation with independent reviews. The mark and production acceptance
+remain separate outstanding decisions/gates.
 
 ## Source anchors
 

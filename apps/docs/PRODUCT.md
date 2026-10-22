@@ -35,14 +35,18 @@ The existing React/Vite/Storybook application reads canonical token and brand
 sources and consumes shared native controls. Warden studies contain synthetic
 work with local state only; they perform no API, MCP or vault writes.
 
-Warden serves humans managing projects/epics and tasks/issues; agents use MCP.
+Warden serves humans turning ideas into actionable work; agents use MCP.
 Its current source has six fixed workflow states and six browser mutations.
 Source capabilities and proposed interaction improvements are detailed in
 `../../docs/warden-design-brief.md`. The operator supported the October study's
 visual direction but rejected its queue-centered project/task model. The target
-is now a complete Project → Task journey, including contextual creation,
-editing, ordering, decisions and completed-work retrieval. The revised prototype
-demonstrates that journey with browser-session projects, tasks and drafts.
+is now an idea → Epic → typed child Issue journey. Everything is an Issue;
+Epic is a bounded project outcome with a finish line, alongside Story, Task and
+Bug types. Standalone work remains valid. Type is separate from workflow status.
+The study demonstrates editable discovery briefs, proposed work, explicit
+creation, refinement, direction and outcome acceptance using browser-local
+records. The lead owns implementation through a working UI/MCP MVP before
+handoff; production persistence and integration require separate proof.
 The subsequent operator review identified unclear attention requests, scattered
 task actions and missing drag feedback. The revised interaction puts the exact
 ask and actions together, defaults Activity to Comments, makes project counts actionable

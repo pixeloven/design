@@ -45,10 +45,11 @@ for every product. Its synthetic local state does not establish production
 capabilities or approve a Warden mark.
 
 The operator supports this visual direction but found the October study's
-queue-centered work model inadequate. The revised build restores Projects as
-working destinations, with All tasks and Needs attention alongside them. It
-demonstrates a complete project/task journey for review; production contracts
-and operator acceptance remain separate from this local study.
+queue-centered work model inadequate. The accepted model makes an Epic the
+project-level Issue, with direct Story/Task/Bug children. Start with an idea leads
+to an editable brief and proposed work. Epics, All issues and Needs attention
+provide working destinations. List is the default, Board optional. The local
+study and production UI/MCP acceptance remain distinct delivery gates.
 
 **Key Characteristics:**
 

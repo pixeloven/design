@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, type PointerEvent as ReactPointerEvent, type RefObject } from "react"
-import { label, ordered, type Demo, type Stage, type Task } from "./WardenWorkspace.model"
+import { epics, workIssues, label, ordered, type Demo, type Stage, type Task } from "./WardenWorkspace.model"
 
 export type Placement = "before" | "after" | "end"
 export type DropTarget = { stage: Stage; anchorId: string | null; placement: Placement; valid: boolean; reason: string }
@@ -7,10 +7,10 @@ export type DragSession = { taskId: string; mode: "pointer" | "placement"; x: nu
 export function destinationText(id: string, target: DropTarget | null, board: boolean): string {
   if (!target) return `Move ${id} · choose a destination`
   if (!target.valid) return target.reason
-  return `${board ? `Move ${id} to ${label(target.stage)}` : `Reorder ${id}`} · ${target.anchorId ? `${target.placement} ${target.anchorId}` : board ? `end of ${label(target.stage)}` : "end of project"}`
+  return `${board ? `Move ${id} to ${label(target.stage)}` : `Reorder ${id}`} · ${target.anchorId ? `${target.placement} ${target.anchorId}` : board ? `end of ${label(target.stage)}` : "end of Epic"}`
 }
 export function placementBefore(tasks: Task[], task: Task, target: DropTarget, board: boolean): string | null {
-  const siblings = ordered(tasks.filter(item => item.projectId === task.projectId && item.id !== task.id))
+  const siblings = ordered(tasks.filter(item => item.epicId === task.epicId && item.id !== task.id))
   if (target.anchorId && target.placement === "before") return target.anchorId
   if (target.anchorId) return siblings[siblings.findIndex(item => item.id === target.anchorId) + 1]?.id ?? null
   if (!board) return null
@@ -31,14 +31,14 @@ export function useTaskDrag({ demo, board, context, root, scroll, onDrop, onCanc
   latest.current = { demo, board, onDrop, onCancel }
   function publish(next: DragSession | null) { active.current = next; setSession(next) }
   function targetFor(taskId: string, stage: Stage, anchorId: string | null = null, placement: Placement = "end"): DropTarget {
-    const source = latest.current.demo.tasks.find(item => item.id === taskId)
-    const anchor = latest.current.demo.tasks.find(item => item.id === anchorId)
-    if (source && anchor && source.projectId !== anchor.projectId) return { stage, anchorId, placement, valid: false, reason: "Another project: use Move to project for an explicit transfer." }
-    if (source && latest.current.demo.projects.find(item => item.id === source.projectId)?.completed && stage !== "done") return { stage, anchorId, placement, valid: false, reason: "Reopen the project before moving this task into open work." }
+    const source = workIssues(latest.current.demo).find(item => item.id === taskId)
+    const anchor = workIssues(latest.current.demo).find(item => item.id === anchorId)
+    if (source && anchor && source.epicId !== anchor.epicId) return { stage, anchorId, placement, valid: false, reason: "Another Epic: use Move to Epic for an explicit transfer." }
+    if (source && epics(latest.current.demo).find(item => item.id === source.epicId)?.status === "done" && stage !== "done") return { stage, anchorId, placement, valid: false, reason: "Reopen the Epic before moving this issue into open work." }
     return { stage, anchorId, placement, valid: Boolean(source), reason: "" }
   }
   function hitTest(id: string, x: number, y: number): DropTarget | null {
-    const source = latest.current.demo.tasks.find(item => item.id === id)
+    const source = workIssues(latest.current.demo).find(item => item.id === id)
     const host = root.current
     if (!source || !host || x < 0 || y < 0 || x > window.innerWidth || y > window.innerHeight) return null
     const hit = document.elementFromPoint(x, y)
@@ -46,7 +46,7 @@ export function useTaskDrag({ demo, board, context, root, scroll, onDrop, onCanc
     if (rail && host.contains(rail)) return targetFor(id, rail.dataset.dropRail as Stage)
     const card = hit?.closest<HTMLElement>("[data-drop-task]")
     if (card && host.contains(card) && card.dataset.dropTask !== id) {
-      const anchor = latest.current.demo.tasks.find(item => item.id === card.dataset.dropTask)
+      const anchor = workIssues(latest.current.demo).find(item => item.id === card.dataset.dropTask)
       if (!anchor) return null
       const bounds = card.getBoundingClientRect()
       return targetFor(id, latest.current.board ? anchor.status : source.status, anchor.id, y < bounds.top + bounds.height / 2 ? "before" : "after")
@@ -84,7 +84,7 @@ export function useTaskDrag({ demo, board, context, root, scroll, onDrop, onCanc
   function activate(taskId: string, keyboard = false) {
     if (!keyboard && suppressClick.current) { suppressClick.current = false; return }
     suppressClick.current = false
-    const source = latest.current.demo.tasks.find(item => item.id === taskId)
+    const source = workIssues(latest.current.demo).find(item => item.id === taskId)
     if (!source) return
     publish({ taskId, mode: "placement", x: 0, y: 0, target: targetFor(taskId, source.status) })
     requestAnimationFrame(() => root.current?.querySelector<HTMLElement>("[data-placement-focus]")?.focus())

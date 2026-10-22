@@ -5,10 +5,12 @@ shown in Storybook under **Studies / Warden**. All work is synthetic; no API or
 vault writes occur. The identity candidates are unapproved sources.
 
 **Review status:** the revised build follows the
-[project/task brief](../../../docs/warden-design-brief.md). Projects are working
-destinations; All tasks and Needs attention provide cross-project views. The
-previous queue-centered model is superseded. The full journey and Warden mark
-still need operator review; a working demo does not establish production support.
+[Epic/Issue brief](../../../docs/warden-design-brief.md). The operator accepted
+Epic as the project outcome, with Story, Task and Bug child issues. Start with an
+idea leads to a reviewable brief and work proposal. Epics, All issues and Needs
+attention provide working destinations. The lead owns delivery through the real
+UI/MCP MVP before handoff; this local study is a design milestone. Warden's mark
+remains a separate review decision.
 
 From the repository root:
 
@@ -37,19 +39,28 @@ limitation. Appearance preferences are separate and do not submit a product
 preference or identity approval. URL fragments describe navigation; they do not
 carry locally created records to another browser.
 
-Start with **Improve note reading**: create a contextual task, refine its intent
-and criteria, change its planning order, and transfer it to **Release preparation**.
-Use the project's Decisions/Blocked filters and Next in your plan row. Drag by
+Choose **Start with an idea**. Write a brief or load the explicitly authored
+reading example. Revise the outcome, finish line, scope and typed proposed
+issues, then review before creating them. Creation starts the records in Todo;
+it does not approve a plan or start execution. Close/reload before creation to
+check draft recovery. Small standalone work remains available through issue
+creation without an Epic.
+
+Open **Improve note reading**: create a child issue, refine its intent, Plan,
+Result and criteria, change its planning order, and transfer it to **Release
+preparation**. Use the Epic's Decisions/Blocked filters and Next in your plan row. Drag by
 the handle and inspect the source, destination and insertion marker before
 releasing; click the handle or use the keyboard for explicit placement. Cancel
 and verify nothing moved. Inspect a plan from Needs attention and compare
-Approve, Request changes and Manage task's direct Move. In Activity, compare
+Approve, Request changes and direct Move. In Activity, compare
 Comments (including decision reasons) with Decisions. Add a comment from either
 filter and check that it appears in Comments. Close
 and reopen with an unfinished comment or decision reason to check draft recovery.
-Complete and retrieve a task; try completing a project with unfinished children.
-Use **Library maintenance** for the 50-task case and **Reading foundation** for
-a completed project. Compare Board/List, expanded reading, phone return and
+Complete and retrieve an issue; try accepting an Epic with unfinished children.
+After finishing or transferring the children, explicitly accept the outcome
+against its finish line. Child completion alone never accepts the Epic.
+Use **Library maintenance** for the 50-issue case and **Reading foundation** for
+a completed Epic. Compare Board/List, expanded reading, phone return and
 enlarged text. Demo scenarios exercise incomplete reads and refusal without
 changing any real records. The on-page review guide identifies the production
 contract gaps. Identity comparisons remain a separate review.
