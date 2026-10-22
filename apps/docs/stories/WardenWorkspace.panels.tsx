@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState, type FormEvent, type ReactNode } from "react"
 import { Button, Input, Label, Select } from "@pixeloven/ui"
-import { epics, workIssues, taskDraft, WORK_TYPES, STAGES, blockers, label, ordered, type Demo, type EpicDraft, type Stage, type Task, type TaskDraft } from "./WardenWorkspace.model"
+import { epics, workIssues, legacyDraftText, taskDraft, WORK_TYPES, STAGES, blockers, label, ordered, type Demo, type EpicDraft, type IdeaDraft, type Stage, type Task, type TaskDraft } from "./WardenWorkspace.model"
 import "./WardenWorkspace.panel-actions.css"
 
 export type Outcome = { kind: "success" | "refusal" | "info"; message: string }
@@ -34,10 +34,11 @@ function TaskFields({ prefix, draft, onChange, includeType = true }: { prefix: s
   function field(key: keyof TaskDraft, value: string) { onChange({ ...draft, [key]: value }) }
   return <>
     {includeType && <Label>Issue type<Select value={draft.type} onChange={event => field("type", event.target.value)}>{WORK_TYPES.map(type => <option key={type} value={type}>{label(type)}</option>)}</Select></Label>}
-    <Label htmlFor={`${prefix}-intent`}>Intent<textarea id={`${prefix}-intent`} rows={4} value={draft.intent} onChange={event => field("intent", event.target.value)} placeholder="Why does this work matter?" /></Label>
-    <Label htmlFor={`${prefix}-criteria`}>Done when<textarea id={`${prefix}-criteria`} rows={3} value={draft.criteria} onChange={event => field("criteria", event.target.value)} placeholder="One completion condition per line" /></Label>
+    <Label htmlFor={`${prefix}-intent`}>Context<textarea id={`${prefix}-intent`} rows={4} value={draft.intent} onChange={event => field("intent", event.target.value)} placeholder={draft.type === "spike" ? "What question or uncertainty needs investigation?" : "Why does this work matter?"} /></Label>
+    <Label htmlFor={`${prefix}-criteria`}>Requirements &amp; done when<textarea id={`${prefix}-criteria`} rows={3} value={draft.criteria} onChange={event => field("criteria", event.target.value)} placeholder="One requirement or completion condition per line" /></Label>
     <Label htmlFor={`${prefix}-plan`}>Plan<textarea id={`${prefix}-plan`} rows={4} value={draft.plan} onChange={event => field("plan", event.target.value)} placeholder="Describe the approach and what needs review." /></Label>
-    <Label htmlFor={`${prefix}-result`}>Result<textarea id={`${prefix}-result`} rows={4} value={draft.result} onChange={event => field("result", event.target.value)} placeholder="Record what happened and the evidence for completion." /></Label>
+    <Label htmlFor={`${prefix}-result`}>Result<textarea id={`${prefix}-result`} rows={4} value={draft.result} onChange={event => field("result", event.target.value)} placeholder={draft.type === "spike" ? "Record findings, evidence, and the decision or recommendation." : "Record what happened and the evidence for completion."} /></Label>
+    {draft.type === "spike" && <p className="ww-hint">For a Spike, the result is your findings and decision. Keep that investigation as a record; create a linked follow-up when there is more work to do.</p>}
     <Label htmlFor={`${prefix}-responsibility`}>Responsible for this work<Input id={`${prefix}-responsibility`} value={draft.responsibility} onChange={event => field("responsibility", event.target.value)} placeholder="Person, agent, or accountable role" /></Label>
     <Label htmlFor={`${prefix}-next`}>Required next actor<Input id={`${prefix}-next`} value={draft.nextActor} onChange={event => field("nextActor", event.target.value)} placeholder="Who is needed next, and for what?" /></Label>
     <Label htmlFor={`${prefix}-dependencies`}>Depends on<Input id={`${prefix}-dependencies`} value={draft.dependsOn} onChange={event => field("dependsOn", event.target.value)} placeholder="W-101, W-102" aria-describedby={`${prefix}-dependency-help`} /></Label>
@@ -48,45 +49,64 @@ export function TaskComposer({ prefix, demo, draft, onChange, onClose, onCreate,
   prefix: string; demo: Demo; draft: TaskDraft; onChange: (draft: TaskDraft) => void; onClose: () => void
   onCreate: (event: FormEvent) => void; onDiscard: () => void; stored: boolean; error: string
 }) {
+  const source = demo.issues.find(issue => issue.id === draft.sourceIssueId)
   return <Panel label={`${prefix}-compose-heading`} modal className="ww-composer" onClose={onClose}>
     <header className="ww-panel-header"><Button onClick={onClose}><Icon name="back" />Back to work</Button><span>Draft kept on close</span></header>
     <form className="ww-compose-form" onSubmit={onCreate}>
-      <div><h2 id={`${prefix}-compose-heading`}>Add an issue</h2><p className="ww-secondary">Start with a title. Shape the details when you’re ready.</p></div>
+      <div><h2 id={`${prefix}-compose-heading`}>{draft.sourceIssueId ? "New follow-up issue" : "New issue"}</h2><p className="ww-secondary">Start with a title. Refine context, requirements, and the plan as you learn.</p></div>
+      {draft.sourceIssueId && <p className="ww-hint">Follow-up to <strong>{draft.sourceIssueId} · {source?.title ?? "Source unavailable"}</strong>. The original issue remains in place. This link does not create a dependency.</p>}
       <Label htmlFor={`${prefix}-new-title`}>Title<Input data-panel-focus id={`${prefix}-new-title`} required value={draft.title} onChange={event => onChange({ ...draft, title: event.target.value })} placeholder="What needs to happen?" /></Label>
       <Label>Issue type<Select value={draft.type} onChange={event => onChange({ ...draft, type: event.target.value as TaskDraft["type"] })}>{WORK_TYPES.map(type => <option key={type} value={type}>{label(type)}</option>)}</Select></Label>
+      {draft.type === "spike" && <p className="ww-hint">A Spike investigates a design or implementation question and records findings and a decision.</p>}
       <Label>Epic<Select value={draft.epicId} onChange={event => onChange({ ...draft, epicId: event.target.value })}>
         <option value="">Standalone issue</option>{epics(demo).map(project => <option key={project.id} value={project.id} disabled={project.status === "done"}>{project.title}{project.status === "done" ? " · completed" : ""}</option>)}
       </Select></Label>
-      <p className="ww-hint">Starts in Todo, at the end of this Epic’s planning order. Reopen a completed Epic before adding work.</p>
-      <details className="ww-form-details"><summary>Add intent and details</summary><div className="ww-fields"><TaskFields includeType={false} prefix={`${prefix}-new`} draft={draft} onChange={onChange} /></div></details>
+      <p className="ww-hint">Starts in Todo. You can add or revise details after capture.</p>
+      <details className="ww-form-details"><summary>Add context and requirements (optional)</summary><div className="ww-fields">
+        <Label>Context<textarea rows={3} value={draft.intent} onChange={event => onChange({ ...draft, intent: event.target.value })} placeholder="What do you know so far?" /></Label>
+        <Label>Requirements &amp; done when<textarea rows={3} value={draft.criteria} onChange={event => onChange({ ...draft, criteria: event.target.value })} placeholder="One requirement or completion condition per line" /></Label>
+      </div></details>
+      {(draft.plan || draft.result || draft.responsibility || draft.nextActor || draft.dependsOn) && <p className="ww-hint">Additional details from your saved draft are kept. You can edit them after creating the issue.</p>}
       {error && <p className="ww-form-error" role="alert">{error}</p>}
       <p className="ww-hint">{stored ? "Draft and workspace stay in this tab through reloads, until Reset demo or the tab’s session ends." : "Storage is unavailable. Keep this page open to retain the draft and workspace."}</p>
       <footer className="ww-compose-actions"><Button onClick={onDiscard}>Discard draft</Button><Button type="submit" variant="primary" disabled={!draft.title.trim()}>Create issue</Button></footer>
     </form>
   </Panel>
 }
-export function ProjectComposer({ prefix, draft, onChange, onClose, onSave, onDiscard }: {
+export function ProjectComposer({ prefix, editing, draft, onChange, onClose, onSave, onDiscard }: {
   prefix: string; editing: boolean; draft: EpicDraft; onChange: (draft: EpicDraft) => void; onClose: () => void; onSave: (event: FormEvent) => void; onDiscard: () => void
 }) {
   return <Panel label={`${prefix}-project-heading`} modal className="ww-composer" onClose={onClose}>
     <header className="ww-panel-header"><Button onClick={onClose}><Icon name="back" />Back to work</Button><span>Draft kept on close</span></header>
     <form className="ww-compose-form" onSubmit={onSave}>
-      <h2 id={`${prefix}-project-heading`}>Edit Epic</h2>
+      <div><h2 id={`${prefix}-project-heading`}>{editing ? "Edit Epic" : "New Epic"}</h2>{!editing && <p className="ww-secondary">Name a bounded outcome. Refine its brief and finish line as the work becomes clearer.</p>}</div>
       <Label>Epic title<Input data-panel-focus required value={draft.title} onChange={event => onChange({ ...draft, title: event.target.value })} /></Label>
-      <Label>Original idea and context<textarea rows={3} value={draft.originalIdea} onChange={event => onChange({ ...draft, originalIdea: event.target.value })} /></Label>
+      <details className="ww-form-details" open={editing || undefined}><summary>Outcome and scope (optional at capture)</summary><div className="ww-fields">
+      <Label>Context<textarea rows={3} value={draft.originalIdea} onChange={event => onChange({ ...draft, originalIdea: event.target.value })} /></Label>
       <Label>Desired outcome<textarea rows={3} value={draft.outcome} onChange={event => onChange({ ...draft, outcome: event.target.value })} /></Label>
       <Label>Observable finish line<textarea rows={3} value={draft.finishLine} onChange={event => onChange({ ...draft, finishLine: event.target.value })} placeholder="What can someone observe or check to accept this outcome?" /></Label>
       <Label>In scope<textarea rows={2} value={draft.scope} onChange={event => onChange({ ...draft, scope: event.target.value })} /></Label>
       <Label>Out of scope<textarea rows={2} value={draft.outOfScope} onChange={event => onChange({ ...draft, outOfScope: event.target.value })} /></Label>
-      <p className="ww-hint">The Epic is the outcome. Its child issues, comments, and statuses stay in place.</p>
-      <footer className="ww-compose-actions"><Button onClick={onDiscard}>Discard edits</Button><Button type="submit" variant="primary" disabled={!draft.title.trim()}>Save Epic</Button></footer>
+      </div></details>
+      <p className="ww-hint">An observable finish line is required when you accept the outcome and complete the Epic.</p>
+      <footer className="ww-compose-actions"><Button onClick={onDiscard}>{editing ? "Discard edits" : "Discard draft"}</Button><Button type="submit" variant="primary" disabled={!draft.title.trim()}>{editing ? "Save Epic" : "Create Epic"}</Button></footer>
     </form>
+  </Panel>
+}
+
+export function LegacyDraftRecovery({ prefix, draft, onClose }: { prefix: string; draft: IdeaDraft | null; onClose: () => void }) {
+  return <Panel label={`${prefix}-recovery-heading`} modal className="ww-composer" onClose={onClose}>
+    <header className="ww-panel-header"><Button onClick={onClose}><Icon name="back" />Back to work</Button></header>
+    <div className="ww-compose-form"><h2 id={`${prefix}-recovery-heading`} tabIndex={-1} data-panel-focus>Earlier draft</h2>
+      {draft ? <><p>The text from the earlier preview is kept here. Select and copy anything useful into an issue or Epic when you need it.</p><Label>Saved draft text<textarea rows={15} readOnly value={legacyDraftText(draft)} /></Label><p className="ww-hint">This recovery view leaves your existing issue and Epic drafts unchanged.</p></> : <p>No earlier draft is saved in this tab.</p>}
+    </div>
   </Panel>
 }
 
 type DetailProps = {
   prefix: string; task: Task; demo: Demo; mobile: boolean; expanded: boolean; returnLabel: string; outcome: Outcome | null
   onClose: () => void; onExpand: () => void; onOpen: (id: string) => void; onProject: (id: string) => void
+  onFollowUp: (source: HTMLElement) => void
   onUpdate: (change: Partial<Task>) => void; onMove: (stage: Stage) => void; onDecision: (action: "approve" | "sendBack") => void; onRead?: () => void
   onEdit: (draft: TaskDraft | null) => void; onSaveEdit: () => boolean; onTransfer: (epicId: string) => void
   onReorder: (beforeId: string | null) => void; onReason: (value: string) => void; onNote: (value: string) => void; onAppend: (event: FormEvent) => Outcome | null
@@ -102,6 +122,8 @@ export function TaskDetail(props: DetailProps) {
   const [commentOutcome, setCommentOutcome] = useState<Outcome | null>(null)
   const editForm = useRef<HTMLFormElement>(null)
   const project = epics(demo).find(item => item.id === task.epicId)
+  const sourceIssue = demo.issues.find(item => item.id === task.sourceIssueId)
+  const followUps = demo.issues.filter(item => item.sourceIssueId === task.id)
   const siblings = ordered(workIssues(demo).filter(item => item.epicId === task.epicId))
   const position = siblings.findIndex(item => item.id === task.id)
   const draft = demo.edits[task.id]
@@ -114,9 +136,9 @@ export function TaskDetail(props: DetailProps) {
     ? `${task.gateRequired ? "" : "Optional: "}${task.status === "review" ? "Review this plan" : "Verify this result"}`
     : task.status === "done" ? "Issue completed"
       : missing.length ? `Locate ${missing.length === 1 ? `missing reference ${missing[0]}` : "the missing references"}`
-        : blocked.length ? "Inspect the dependencies" : "Next step"
-  const request = task.status === "review" ? "Is the proposed approach ready to build?"
-    : task.status === "verify" ? "Does this result meet the completion conditions?"
+        : blocked.length ? "Inspect the dependencies" : task.type === "spike" && task.status === "build" ? "Investigate the question" : "Next step"
+  const request = task.status === "review" ? task.type === "spike" ? "Is the investigation approach ready to carry out?" : "Is the proposed approach ready to build?"
+    : task.status === "verify" ? task.type === "spike" ? "Do the findings answer the question and support a decision?" : "Does this result meet the completion conditions?"
       : task.status === "done" ? "The recorded result and comments remain available. Reopening returns the issue to Todo."
         : missing.length ? "A supporting record is unavailable. Locate it, then correct the dependency if needed."
           : blocked.length ? "This work depends on unfinished issues. Open their records to see what is needed."
@@ -137,10 +159,10 @@ export function TaskDetail(props: DetailProps) {
       input?.focus()
     })
   }
-  const intent = <section className="ww-section"><h3>Intent</h3><p>{task.intent || "Intent has not been written yet."}</p></section>
+  const intent = <section className="ww-section"><h3>Context</h3><p>{task.intent || "Context has not been written yet. Add what you know in Edit issue."}</p></section>
   const plan = (task.plan || task.status === "review") && <section className="ww-section" id={`${prefix}-task-plan`}><h3>Plan</h3>{task.plan ? task.plan.split("\n\n").map((paragraph, index) => <p key={index}>{paragraph}</p>) : <p className="ww-secondary">No plan has been recorded.</p>}</section>
-  const result = (task.result || task.status === "verify" || task.status === "done") && <section className="ww-section" id={`${prefix}-task-result`}><h3>Result</h3><p>{task.result || "No result has been recorded."}</p></section>
-  const criteria = <section className="ww-section"><h3>Done when<span className="ww-secondary">{checked}/{task.criteria.length}</span></h3>
+  const result = (task.result || task.type === "spike" || task.status === "verify" || task.status === "done") && <section className="ww-section" id={`${prefix}-task-result`}><h3>{task.type === "spike" ? "Findings & decision" : "Result"}</h3><p>{task.result || (task.type === "spike" ? "Record what you learn in Result, including the evidence and recommendation. The Spike remains the investigation record." : "No result has been recorded.")}</p></section>
+  const criteria = <section className="ww-section"><h3>Requirements &amp; done when<span className="ww-secondary">{checked}/{task.criteria.length}</span></h3>
     {task.criteria.length ? <div className="ww-checklist">{task.criteria.map((item, index) => <Label key={`${index}-${item.text}`}><Input type="checkbox" checked={item.done} onChange={() => props.onUpdate({ criteria: task.criteria.map((criterion, number) => number === index ? { ...criterion, done: !criterion.done } : criterion) })} /><span>{item.text}</span></Label>)}</div> : <p className="ww-secondary">No completion conditions recorded.</p>}
   </section>
   function dependencies(ids: string[]) {
@@ -165,6 +187,7 @@ export function TaskDetail(props: DetailProps) {
         <div className="ww-task-context"><span className="ww-code">{task.id}</span><span>{label(task.type)}</span><span className="ww-stage"><span className="ww-stage-mark" data-state={task.status} aria-hidden="true" />{label(task.status)}</span></div>
         <h2 id={`${prefix}-task-heading`} tabIndex={-1} data-panel-focus>{task.title}</h2>
         <div className="ww-project-link">{project ? <Button onClick={() => props.onProject(project.id)}>{project.title}</Button> : <span className="ww-secondary">Standalone issue</span>}</div>
+        {task.sourceIssueId && <div className="ww-source-link"><span>Follow-up to</span>{sourceIssue ? <Button onClick={() => props.onOpen(sourceIssue.id)}>{sourceIssue.id} · {sourceIssue.title}</Button> : <span>{task.sourceIssueId} · Source unavailable</span>}</div>}
       </div>
       <Feedback outcome={outcome} onRead={props.onRead} />
       {editing && draft ? <form ref={editForm} className="ww-edit-form" onSubmit={event => { event.preventDefault(); if (props.onSaveEdit()) setEditing(false) }}>
@@ -191,6 +214,7 @@ export function TaskDetail(props: DetailProps) {
         <div className="ww-task-utility-actions">
           {missing.length > 0 && <Button variant={decisionStage ? "secondary" : "primary"} onClick={() => startEditing("dependencies")}>Edit {missing.length === 1 ? "dependency" : "dependencies"}</Button>}
           <Button onClick={() => startEditing()} disabled={editing}>{editing ? "Editing issue" : "Edit issue"}</Button>
+          <Button onClick={event => props.onFollowUp(event.currentTarget)}>{demo.followUpDrafts[task.id] ? "Resume follow-up draft" : "Create follow-up issue"}</Button>
           {!decisionStage && <Button disabled={task.status === "done" && Boolean(project?.status === "done")} onClick={() => props.onMove(task.status === "done" ? "todo" : "done")}>{task.status === "done" ? "Reopen issue" : "Complete issue"}</Button>}
         </div>
         {!decisionStage && task.status !== "done" && <p className="ww-hint">Complete moves directly to Done. The issue remains in Completed and All.</p>}
@@ -208,6 +232,7 @@ export function TaskDetail(props: DetailProps) {
         </div></details>
       </section>
       {task.dependsOn.some(id => !blocked.includes(id)) && <section className="ww-section"><h3>Other dependencies</h3>{dependencies(task.dependsOn.filter(id => !blocked.includes(id)))}</section>}
+      {followUps.length > 0 && <section className="ww-section"><h3>Follow-up issues</h3><div className="ww-related">{followUps.map(issue => <Button key={issue.id} onClick={() => props.onOpen(issue.id)}><span>{issue.id} · {issue.title}</span><span>{label(issue.type)} · {label(issue.status)}</span></Button>)}</div></section>}
       <section className="ww-section ww-comments" aria-labelledby={`${prefix}-activity-heading`}>
         <h3 id={`${prefix}-activity-heading`}>Activity</h3>
         <div className="ww-activity-filters" role="group" aria-label="Activity filters">

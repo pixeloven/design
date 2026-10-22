@@ -1,8 +1,8 @@
 import { test } from "node:test"
 import assert from "node:assert/strict"
 import {
-  DEFAULT_NAV, acceptEpicOutcome, createIdeaProposal, editedTask, emptyIdeaDraft,
-  initialDemo, migrateDemo, reopenEpic, reorder, scopedTasks, taskDraft,
+  DEFAULT_NAV, WORK_TYPES, acceptEpicOutcome, createEpic, createIssue, editedTask, emptyDraft, emptyEpicDraft, emptyIdeaDraft,
+  followUpDraft, initialDemo, legacyDraftText, migrateDemo, navigationFromUrl, reopenEpic, reorder, scopedTasks, taskDraft,
 } from "../stories/WardenWorkspace.model.ts"
 
 // The previous public preview persisted this shape. Keep the fixture independent
@@ -46,7 +46,7 @@ test("saved v2 work and all draft channels survive normalization to Issues", () 
   assert.equal(migrated.edits[child.id].plan, child.plan, "old edit drafts must not erase an existing plan")
   assert.equal(migrated.edits[child.id].result, child.result, "old edit drafts must not erase result evidence")
   assert.equal(migrated.epicDrafts[epic.id].outcome, "Preserve this edit")
-  assert.equal(migrated.ideaDraft.title, "New idea draft")
+  assert.equal(migrated.epicDrafts.new.title, "New idea draft")
   assert.deepEqual(migrated.notes, previous.notes)
   assert.deepEqual(migrated.reasons, previous.reasons)
   assert.equal(migrated.navigation.epicId, epic.id)
@@ -57,49 +57,133 @@ test("saved v2 work and all draft channels survive normalization to Issues", () 
   assert.deepEqual(migrateDemo(migrated), migrated, "reading v3 is idempotent")
 })
 
-function proposal() {
+function oldIdeaDraft() {
   return { ...emptyIdeaDraft(), step: "review", originalIdea: "I lose my place while reading", title: "Continuous reading", outcome: "Return comfortably to the original note", finishLine: "Follow a reference and return to the same paragraph", proposals: [
     { key: "one", type: "story", title: "Follow a reference", intent: "Read related context", criteria: "Reference opens\nOriginal position is retained" },
     { key: "two", type: "bug", title: "Recover a missing reference", intent: "Keep the original note available", criteria: "The original note remains open" },
   ] }
 }
 
-test("reviewed proposal creates one Epic and typed children together without starting work", () => {
+test("saved v3 idea text is recoverable without overwriting existing drafts or records", () => {
+  const previous = initialDemo()
+  delete previous.followUpDrafts
+  previous.ideaDraft = { ...oldIdeaDraft(), scope: "Keep this scope", outOfScope: "Keep this exclusion" }
+  previous.draft = { ...emptyDraft(), title: "Already writing an issue", intent: "Do not replace this" }
+  previous.edits["W-101"] = { ...taskDraft(previous.issues.find(issue => issue.id === "W-101")), plan: "Unsaved plan refinement" }
+  previous.epicDrafts.new = { ...emptyEpicDraft(), title: "Existing Epic draft" }
+  previous.navigation.composer = "idea"
+  const original = structuredClone(previous)
+  const migrated = migrateDemo(previous)
+  assert.ok(migrated)
+  for (const key of ["issues", "draft", "ideaDraft", "epicDrafts", "edits", "notes", "reasons"]) assert.deepEqual(migrated[key], previous[key])
+  assert.equal(migrated.navigation.composer, "recovery")
+  const recovered = legacyDraftText(migrated.ideaDraft)
+  for (const field of ["title", "originalIdea", "outcome", "finishLine", "scope", "outOfScope"]) assert.ok(recovered.includes(previous.ideaDraft[field]))
+  for (const proposed of previous.ideaDraft.proposals) for (const field of ["title", "intent", "criteria"]) assert.ok(recovered.includes(proposed[field]))
+  assert.deepEqual(migrateDemo(JSON.parse(JSON.stringify(migrated))), migrated)
+  assert.deepEqual(previous, original)
+})
+
+test("old idea bookmarks open text recovery while direct Epic and follow-up routes remain available", () => {
+  const previousWindow = globalThis.window
+  try {
+    globalThis.window = { location: { hash: "#wardenView=projects&wardenComposer=idea" } }
+    assert.equal(navigationFromUrl(DEFAULT_NAV).composer, "recovery")
+    window.location.hash = "#wardenView=projects&wardenComposer=project"
+    assert.equal(navigationFromUrl(DEFAULT_NAV).composer, "project")
+    window.location.hash = "#wardenView=all&wardenTask=W-111&wardenComposer=followup"
+    const navigation = navigationFromUrl(DEFAULT_NAV)
+    assert.equal(navigation.composer, "followup")
+    assert.equal(navigation.selected, "W-111")
+  } finally { if (previousWindow === undefined) delete globalThis.window; else globalThis.window = previousWindow }
+})
+
+test("a title is enough to capture every work type as a standalone issue", () => {
   const before = initialDemo()
   const original = structuredClone(before)
-  const result = createIdeaProposal({ ...before, ideaDraft: proposal() }, proposal())
-  assert.equal(result.error, "")
-  assert.equal(result.demo.ideaDraft, null)
-  assert.equal(result.demo.issues.length, before.issues.length + 3)
-  const added = result.demo.issues.slice(before.issues.length)
-  assert.deepEqual(added.map(issue => issue.type), ["epic", "story", "bug"])
-  assert.ok(added.every(issue => issue.status === "todo"))
-  assert.ok(added.every(issue => !issue.decisions.length))
-  assert.ok(added.slice(1).every(issue => issue.epicId === result.epicId))
-  assert.deepEqual(added.slice(1).map(issue => issue.id), result.issueIds)
-  assert.equal(new Set(result.demo.issues.map(issue => issue.id)).size, result.demo.issues.length)
-  assert.deepEqual(added[1].criteria.map(item => item.done), [false, false])
+  for (const type of WORK_TYPES) {
+    const draft = { ...emptyDraft(), title: " A useful next step ", type }
+    const result = createIssue({ ...before, draft }, draft)
+    assert.equal(result.error, "")
+    assert.equal(result.demo.draft, null)
+    const added = result.demo.issues.at(-1)
+    assert.equal(result.demo.issues.length, before.issues.length + 1)
+    assert.equal(added.title, "A useful next step")
+    assert.equal(added.type, type)
+    assert.equal(added.status, "todo")
+    assert.equal(added.epicId, "")
+    assert.deepEqual(added.decisions, [])
+    assert.deepEqual(added.criteria, [])
+    assert.ok(!before.issues.some(issue => issue.id === added.id))
+  }
   assert.deepEqual(before, original)
 })
 
-test("an unreviewed or incomplete proposal cannot create partial work or consume the draft", () => {
+test("invalid capture preserves the issue and draft collections", () => {
   for (const draft of [
-    { ...proposal(), step: "shape" },
-    { ...proposal(), finishLine: " " },
-    { ...proposal(), proposals: [] },
-    { ...proposal(), proposals: [...proposal().proposals, { key: "bad", type: "task", title: " ", intent: "", criteria: "" }] },
+    { ...emptyDraft(), title: " " },
+    { ...emptyDraft("missing"), title: "Keep me" },
+    { ...emptyDraft("foundation"), title: "Keep me" },
+    { ...emptyDraft(), title: "Keep me", sourceIssueId: "missing" },
   ]) {
-    const before = { ...initialDemo(), ideaDraft: draft }
-    const result = createIdeaProposal(before, draft)
+    const before = { ...initialDemo(), draft }
+    const result = createIssue(before, draft)
     assert.ok(result.error)
     assert.equal(result.demo, before)
-    assert.equal(result.epicId, "")
-    assert.deepEqual(result.issueIds, [])
+    assert.equal(result.issueId, "")
   }
 })
 
+test("direct Epic capture needs only a title; the finish line is required at acceptance", () => {
+  const before = initialDemo()
+  const draft = { ...emptyEpicDraft(), title: "An outcome to refine" }
+  before.epicDrafts.new = draft
+  before.draft = { ...emptyDraft(), title: "Unrelated draft" }
+  const created = createEpic(before, draft)
+  assert.equal(created.error, "")
+  assert.equal(created.demo.epicDrafts.new, undefined)
+  assert.deepEqual(created.demo.draft, before.draft)
+  const epic = created.demo.issues.at(-1)
+  assert.equal(epic.type, "epic")
+  assert.equal(epic.epicId, "")
+  assert.equal(epic.finishLine, "")
+  assert.match(acceptEpicOutcome(created.demo, epic.id, "Accepted", true).error, /finish line/)
+  assert.equal(createEpic(before, { ...draft, title: " " }).demo, before)
+})
+
+test("follow-up creation preserves its Spike, ordinary draft and other follow-up drafts", () => {
+  const before = initialDemo()
+  const source = before.issues.find(issue => issue.id === "W-111")
+  source.status = "done"
+  source.result = "The full-screen reference preserved position. Use it on phones."
+  before.draft = { ...emptyDraft(), title: "An unrelated saved issue" }
+  before.ideaDraft = oldIdeaDraft()
+  before.followUpDrafts["W-101"] = { ...emptyDraft("reading"), title: "Another follow-up", sourceIssueId: "W-101" }
+  const draft = { ...followUpDraft(before, source), title: "Implement the chosen return behavior", type: "story" }
+  before.followUpDrafts[source.id] = draft
+  const original = structuredClone(before)
+  const result = createIssue(before, draft)
+  assert.equal(result.error, "")
+  const added = result.demo.issues.at(-1)
+  assert.equal(added.sourceIssueId, source.id)
+  assert.equal(added.epicId, "reading")
+  assert.equal(added.status, "todo")
+  assert.deepEqual(added.dependsOn, [], "provenance must not invent blocking dependencies")
+  assert.ok(added.log.some(text => text.includes(`[[${source.id}]]`)))
+  assert.deepEqual(result.demo.issues.find(issue => issue.id === source.id), source)
+  assert.deepEqual(result.demo.draft, before.draft)
+  assert.deepEqual(result.demo.ideaDraft, before.ideaDraft)
+  assert.deepEqual(result.demo.followUpDrafts["W-101"], before.followUpDrafts["W-101"])
+  assert.equal(result.demo.followUpDrafts[source.id], undefined)
+  assert.deepEqual(before, original)
+  assert.deepEqual(migrateDemo(JSON.parse(JSON.stringify(result.demo))), result.demo)
+  const closedEpic = { ...before, issues: before.issues.map(issue => issue.id === "reading" ? { ...issue, status: "done" } : issue), followUpDrafts: {} }
+  assert.equal(followUpDraft(closedEpic, source).epicId, "", "new follow-up work must not reopen a completed Epic")
+})
+
 test("Epic acceptance requires the finish line, human confirmation and all child dispositions", () => {
-  const created = createIdeaProposal(initialDemo(), proposal())
+  const epic = createEpic(initialDemo(), { ...emptyEpicDraft(), title: "Continuous reading", finishLine: "Return to the same paragraph" })
+  const created = { ...createIssue(epic.demo, { ...emptyDraft(epic.epicId), title: "Preserve reading position" }), epicId: epic.epicId }
   assert.match(acceptEpicOutcome(created.demo, created.epicId, "Accepted", true).error, /open child/)
   const finished = { ...created.demo, issues: created.demo.issues.map(issue => issue.epicId === created.epicId ? { ...issue, status: "done" } : issue) }
   assert.equal(finished.issues.find(issue => issue.id === created.epicId).status, "todo")
@@ -109,18 +193,18 @@ test("Epic acceptance requires the finish line, human confirmation and all child
   assert.ok(acceptEpicOutcome(withoutFinish, created.epicId, "Accepted", true).error)
   const accepted = acceptEpicOutcome(finished, created.epicId, "The return path meets the finish line", true)
   assert.equal(accepted.error, "")
-  const epic = accepted.demo.issues.find(issue => issue.id === created.epicId)
-  assert.equal(epic.status, "done")
-  assert.equal(epic.acceptanceNote, "The return path meets the finish line")
-  assert.ok(epic.decisions[0].includes(epic.finishLine))
-  for (const child of finished.issues.filter(issue => issue.id !== epic.id)) assert.deepEqual(accepted.demo.issues.find(issue => issue.id === child.id), child)
-  const reopened = reopenEpic(accepted.demo, epic.id)
+  const acceptedEpic = accepted.demo.issues.find(issue => issue.id === created.epicId)
+  assert.equal(acceptedEpic.status, "done")
+  assert.equal(acceptedEpic.acceptanceNote, "The return path meets the finish line")
+  assert.ok(acceptedEpic.decisions[0].includes(acceptedEpic.finishLine))
+  for (const child of finished.issues.filter(issue => issue.id !== acceptedEpic.id)) assert.deepEqual(accepted.demo.issues.find(issue => issue.id === child.id), child)
+  const reopened = reopenEpic(accepted.demo, acceptedEpic.id)
   assert.equal(reopened.error, "")
-  const reopenedEpic = reopened.demo.issues.find(issue => issue.id === epic.id)
+  const reopenedEpic = reopened.demo.issues.find(issue => issue.id === acceptedEpic.id)
   assert.equal(reopenedEpic.status, "todo")
-  assert.equal(reopenedEpic.acceptanceNote, epic.acceptanceNote)
-  assert.deepEqual(reopenedEpic.decisions.slice(0, -1), epic.decisions)
-  for (const child of accepted.demo.issues.filter(issue => issue.epicId === epic.id)) assert.deepEqual(reopened.demo.issues.find(issue => issue.id === child.id), child)
+  assert.equal(reopenedEpic.acceptanceNote, acceptedEpic.acceptanceNote)
+  assert.deepEqual(reopenedEpic.decisions.slice(0, -1), acceptedEpic.decisions)
+  for (const child of accepted.demo.issues.filter(issue => issue.epicId === acceptedEpic.id)) assert.deepEqual(reopened.demo.issues.find(issue => issue.id === child.id), child)
 })
 
 test("malformed stored v3 records are rejected before rendering", () => {
@@ -135,8 +219,8 @@ test("old unchosen Board defaults to List while a new-project draft stays reacha
   previous.navigation = { ...previous.navigation, view: "projects", projectId: "", selected: "", composer: "project", layoutChosen: false }
   const migrated = migrateDemo(previous)
   assert.equal(migrated.navigation.layout, "list")
-  assert.equal(migrated.navigation.composer, "idea")
-  assert.equal(migrated.ideaDraft.outcome, "Preserve new work too")
+  assert.equal(migrated.navigation.composer, "project")
+  assert.equal(migrated.epicDrafts.new.outcome, "Preserve new work too")
 })
 
 test("All issues includes Epics; Epic scope returns its own children only", () => {
@@ -146,8 +230,9 @@ test("All issues includes Epics; Epic scope returns its own children only", () =
   assert.ok(all.some(issue => issue.type === "epic"))
   assert.ok(all.some(issue => issue.type !== "epic" && !issue.epicId))
   const children = scopedTasks(demo, { ...DEFAULT_NAV, view: "project", epicId: "reading", scope: "all" })
-  assert.deepEqual(children.map(issue => issue.id), ["W-101", "W-102", "W-103"])
+  assert.deepEqual(children.map(issue => issue.id), ["W-101", "W-102", "W-103", "W-111"])
   assert.ok(children.every(issue => issue.type !== "epic"))
+  assert.deepEqual(scopedTasks(demo, { ...DEFAULT_NAV, view: "all", query: "spike" }).map(issue => issue.id), ["W-111"])
 })
 
 test("refining type, plan and result preserves workflow, comments and checked criteria", () => {

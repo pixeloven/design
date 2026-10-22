@@ -46,8 +46,9 @@ capabilities or approve a Warden mark.
 
 The operator supports this visual direction but found the October study's
 queue-centered work model inadequate. The accepted model makes an Epic the
-project-level Issue, with direct Story/Task/Bug children. Start with an idea leads
-to an editable brief and proposed work. Epics, All issues and Needs attention
+project-level Issue, with direct Story/Task/Bug/Spike children. New issue captures
+work with what is known; findings refine requirements and produce related work.
+An Epic is optional, and no intake wizard is required. Epics, All issues and Needs attention
 provide working destinations. List is the default, Board optional. The local
 study and production UI/MCP acceptance remain distinct delivery gates.
 

@@ -85,17 +85,18 @@ export function WardenReview({ initialPage = "workspace" }: { initialPage?: Page
       <details className="wr-walkthrough">
         <summary>Review scope and walkthrough</summary>
         <div>
-          <h2>Take an idea to an accepted outcome</h2>
+          <h2>Develop clearer work through issues</h2>
           <ol>
-            <li>Choose <strong>Start with an idea</strong>. Write a brief or use the authored reading example. Review its outcome, finish line and typed proposed issues before creating the Epic.</li>
-            <li>Open a child issue. Refine its intent, Plan, Result and completion conditions. Change its planning order or transfer it to another Epic.</li>
+            <li>Choose <strong>New issue</strong>. Capture a Task, Bug, Story or Spike with whatever is known. A title is enough; an Epic is optional.</li>
+            <li>Use a Spike to explore a design or implementation question. Record its findings in Result and comments, then refine existing requirements or create a linked follow-up. Keep the investigation available.</li>
+            <li>Create an Epic when a shared outcome is useful. Refine its outcome and finish line as you learn. Organize related work, change planning order or transfer issues between Epics.</li>
             <li>Open <strong>Needs attention</strong>. Identify what is being asked, read the plan or result, and approve it or request changes. Add a comment, then return to the originating workspace.</li>
             <li>Find completed work and reopen it. Finish or transfer remaining children, then explicitly accept the Epic outcome against its finish line.</li>
             <li>Use the demo scenarios to check a refused action or incomplete read. Confirm that drafts and decision reasons survive recovery.</li>
           </ol>
           <h3>What this proposal demonstrates</h3>
-          <p>This is a local interaction study with synthetic issues. Epics, Stories, Tasks and Bugs are types of the same work record. The study does not connect to Warden, generate plans with AI, dispatch agents or change a vault. Responsibility identifies accountability, not current execution.</p>
-          <p>The production MVP needs shared UI/MCP authoring, a discovery skill, durable relationships and order, and explicit Epic acceptance. Creating proposed work in Todo does not approve a plan or start execution. The lead will verify the real journey on an owned test vault before handoff.</p>
+          <p>This is a local interaction study with synthetic issues. Epics, Stories, Tasks, Bugs and Spikes are types of the same work record. The study does not connect to Warden, generate plans with AI, dispatch agents or change a vault. Responsibility identifies accountability, not current execution.</p>
+          <p>The production MVP needs shared UI/MCP authoring, refinement skills, durable relationships and order, and explicit Epic acceptance. Creating work in Todo does not approve a plan or start execution. The lead will verify the real journey on an owned test vault before handoff.</p>
           <p>Approval, Request changes (the existing Send back operation) and direct Move have distinct consequences. The production specification must reconcile their existing policies with these proposed journeys. The Warden mark is still a separate identity decision.</p>
         </div>
       </details>

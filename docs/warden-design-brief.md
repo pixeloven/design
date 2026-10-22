@@ -1,4 +1,4 @@
-# Warden: turn an idea into work with a finish line
+# Warden: develop clear work through issues
 
 2026-10-22 · Accepted product model and MVP execution plan. Part of
 [design #8](https://github.com/pixeloven/design/issues/8).
@@ -11,10 +11,11 @@ provides bounded implementation, research and independent review; the lead owns
 scope, convergence and acceptance. Further discovery is needed only when a
 material product choice cannot be resolved from this direction.
 
-**Bring an idea; leave with a clear outcome and actionable work. Follow that
-work through to an explicitly accepted result.** The human UI and agent MCP
-operate on the same Warden records. A discovery skill guides the conversation
-in the existing agent host; Warden is the persistent workspace for the result.
+**Capture what is known, investigate what is uncertain, and refine the work as
+you learn. Follow it through to an explicitly accepted result.** The human UI
+and agent MCP operate on the same Warden issues. Research, design exploration
+and implementation spikes are work in that system, not prerequisites for
+entering it. Agent skills help refine those records in the existing agent host.
 
 Everything is an **Issue**. Type gives it purpose; status describes progress.
 
@@ -24,16 +25,18 @@ Everything is an **Issue**. Type gives it purpose; status describes progress.
 | Story | A capability or benefit for a user. |
 | Task | A concrete piece of work. |
 | Bug | A correction of expected versus actual behavior. |
+| Spike | A bounded investigation that produces findings, a decision or clearer requirements. It can explore design, implementation or another uncertainty. |
 
-The initial hierarchy is **Epic → Story / Task / Bug**. Standalone issues are
+The initial hierarchy is **Epic → Story / Task / Bug / Spike**. Standalone issues are
 valid. An Epic is the project-level issue, not a separate Project entity above
 it. There is no required Story → Task tier. The existing `project` string is
 legacy context: retain it until a reviewed mapping exists, rather than turning
 each distinct string into a new Epic or silently dropping it.
 
 Keep the six workflow states: Todo, Plan, Review, Build, Verify and Done.
-An idea/proposal draft is not a seventh status. Creating proposed work in Todo
-does not approve its plan, dispatch an agent or begin execution. Finishing all
+An uncertain issue is still an issue; it does not need a separate Idea entity or
+discovery status. Creating work in Todo does not approve its plan, dispatch an
+agent or begin execution. Finishing all
 children does not accept the Epic's outcome; accepting an Epic never silently
 changes its children.
 
@@ -93,45 +96,76 @@ to reference relevant knowledge or evidence with a useful label and predictable
 return. Begin by specifying ordinary source links and provenance. Automatic note
 creation and bidirectional knowledge synchronization are separate product
 decisions. Warden already uses Lattice as its storage substrate; that does not
-move Warden's workflow rules into the discovery skill. Lattice lifecycle work
+move Warden's workflow rules into an agent skill. Lattice lifecycle work
 continues in its own session.
 
 ## Proposed experience
 
-### Start with an idea
+### Create an issue; refine it through work
 
-The primary entry is **Start with an idea**. Direct issue creation remains a
-secondary shortcut for someone who already knows the work. The discovery skill
-uses the existing agent conversation, reuses supplied context and asks only
-questions that would change the proposal. It can research through Crew and use
-Lattice for relevant knowledge. It does not need an embedded chat or a new
-dispatch service.
+The primary entry is **New issue**. A title is enough to capture work. Type,
+context and an optional Epic can be chosen immediately; requirements, scope and
+Plan can develop as more becomes known. A known Bug or Task can go straight to
+refinement. An uncertain question can be captured as a Spike. Neither route
+requires an intake interview, an Epic, a complete plan or a batch of children.
 
-For a substantial effort, its output is a reviewable Epic brief: original idea and context, intended
-beneficiary/problem, desired outcome, observable finish line, scope and explicit
-exclusions, relevant sources, assumptions or unresolved questions, and a small
-ordered set of proposed issues. Each proposed issue has a type, intent and
-checkable completion conditions. Dependencies are explicit; ordering alone does
-not imply a dependency. Keep later work proportionate to what is known. When an
-idea resolves to one bounded Story, Task or Bug, propose a standalone issue;
-discovery must not require an empty Epic as an administrative container.
+A Spike uses the same issue detail, comments, Plan, Result and workflow as other
+work. Its intent describes the question; its Plan describes the investigation;
+its completion conditions describe what would resolve enough uncertainty to
+decide what comes next. Findings, source evidence, alternatives and remaining
+unknowns belong in its Result and comments. This can conclude that no delivery
+work is warranted. Do not imply that every completed investigation ships code.
+Capture may be rough; a useful investigation should have a bounded question
+before someone undertakes it. That is refinement guidance, not another form gate.
+In the existing workflow, Build means carrying out that investigation and Verify
+means assessing its findings. The issue type does not require new stage names.
 
-The person can revise that proposal before creating records. Publication names
-the actual IDs and reports partial success honestly; a retry must reconcile
-already-created records before creating more. Capture, agreement and execution
-are separate actions. Existing authorization can cover publication or execution;
-the skill must not ask repeatedly for authority the operator already gave.
+Learning can improve an existing issue's requirements, yield a follow-up Story,
+Task, Bug or Spike, or make a larger outcome clear enough to organize in an Epic.
+Keep the investigation and its findings available after follow-up work is
+created. A source link records where work came from; it is not a dependency and
+does not imply that the source approved the follow-up. Do not require converting
+the Spike into delivery work and losing its original purpose. Follow-ups may
+remain standalone or join the same Epic. Ordering, source links, dependencies
+and Epic membership have distinct meanings.
 
-The local study supports an editable brief and issue proposal, an explicitly
-authored example, review before creation, and a draft that survives closing and
-reloading in the same browser tab. It makes no AI-generation claim. Copying a
-brief is a manual transfer to an agent conversation, not a dispatch operation.
+Use ordinary body links for the source investigation and related work, consistent
+with Warden's existing specification. `parent` owns Epic membership and
+`depends_on` owns blocking. A dedicated provenance relationship API is not
+required to demonstrate this journey.
+
+An Epic can be created directly whenever a bounded outcome is useful, including
+before investigation starts. Its title is enough at capture; outcome, scope,
+finish line and child work mature alongside the issues. An observable finish
+line is required for explicit outcome acceptance, not for saving an early Epic.
+There is no compulsory issue → Spike → Epic sequence.
+
+For example: capture **Explore focused note reading** as a Spike; compare reader
+layouts and record why one works better; refine **Give the focused reader room
+to breathe** with the findings; create a linked Bug for the lost reading position.
+Group the work under **Improve note reading** when that outcome is clear. Finish
+the investigation on its own terms, then direct and verify the delivery issues.
+The reverse starting point is equally valid: capture a Task to preserve reading
+position, discover uncertainty while refining it, and create a separate Spike
+only if comparing implementation approaches deserves its own tracked work.
+
+Agent assistance uses the existing conversation and Warden's refinement skills,
+reusing supplied context and asking only questions that affect the work. Crew
+can coordinate research and Lattice can supply relevant knowledge. The skill
+reads the complete issue, writes findings and revised requirements through
+Warden, and creates related work only when useful and authorized. Existing
+authorization persists. No embedded chat, separate idea store or new dispatch
+service is needed. Each write reports the actual saved record; retries reconcile
+uncertain outcomes rather than creating duplicates.
+
+The local study demonstrates these interactions with authored synthetic records
+and same-tab draft recovery. It makes no AI-generation or agent-dispatch claim.
 
 ### Clear surface ownership
 
 | Surface | Responsibility |
 | --- | --- |
-| Warden discovery skill | Turn intent into a reviewable brief and proposed work; use the actual installed Warden capabilities and report missing capabilities. |
+| Warden refinement skills | Help investigate, record findings and refine issues through the installed Warden tools; preserve evidence and report missing capabilities. Evolve the existing task-refine pattern before adding a separate skill. |
 | Warden service, MCP and browser API | Own issue identity, validated authoring, relationships, workflow decisions and refusal/conflict outcomes. UI and MCP share the service rules. |
 | Warden UI | Inspect and revise the same work; make the outcome, evidence and next action legible; preserve context and drafts. |
 | Lattice | Supply linked knowledge and Warden's existing persistence substrate. New workflow authoring goes through Warden's contract. |
@@ -165,7 +199,7 @@ Blocked filters remain within the project; Decisions requires an actual gate.
 One compact **Next in your plan** row exposes the first unfinished task in
 authored planning order, its recorded next action and any blockers. It does not
 infer live agent activity or invent a priority score. List exposes that planning
-order and a direct way to organize tasks. Contextual Add task belongs beside the
+order and a direct way to organize tasks. Contextual New issue belongs beside the
 Epic title; outcome editing and completion stay with the Epic brief. Phone keeps
 the outcome and finish line accessible without opening administrative controls.
 
@@ -175,14 +209,16 @@ Use a synthetic Epic, **Improve note reading**, with issues for the focused
 reader, internal-note navigation and phone validation. This is demonstration
 content, not a claim about unfinished Lattice delivery.
 
-1. **Start with an idea.** Describe a reading problem. Review the proposed Epic
-   outcome, finish line and scope alongside a few typed child issues. Revise the
-   proposal, then create the records in Todo. Nothing has started executing.
-2. **Make the first issue actionable.** Read its intent, write or revise its
-   Plan and completion conditions, and identify the next action. Add later work
-   in the same Epic context. Direct standalone capture remains available.
+1. **Capture work.** Create a standalone Spike to explore focused reading, with
+   only a title if that is all that is known. Close/reopen an unfinished draft.
+   Add the question, investigation Plan and completion conditions as they become
+   useful. Creation puts the record in Todo; execution has not started.
+2. **Learn and refine.** Record findings in the Spike's Result and comments.
+   Refine an existing delivery issue or create a linked follow-up. Keep the
+   source investigation accessible. Create an Epic when a shared outcome is
+   useful and associate the work; outcome and finish line can be refined later.
 3. **Organize what happens next.** Edit tasks, put phone validation after the
-   reader, and link the real dependency. Planning order and workflow stage are
+   reader, and link the real dependency. Provenance, planning order and workflow stage are
    separate. Moving a task between projects is explicit and preserves its record.
 4. **Direct progress.** Open the reader task, inspect its plan, and make a
    decision with the consequence visible. Return to the same project, filter,
@@ -332,9 +368,10 @@ and tick Done when. Create accepts title, configured issue type, intent, project
 parent and dependencies. It creates `todo`; project is a string and parent is
 an issue reference. There is no assignee, dispatch, project entity, general
 issue-edit or structured history-event API. Story is not in the default type
-vocabulary. The MCP's current `task_show` omits title, body and parent context;
-`task_create` drops the node identity the shared service already returns. These
-are implementation gaps, not reasons to design around incomplete information.
+vocabulary; Spike is already configured. At the pinned main revision, the MCP's
+`task_show` omits title, body and parent context and `task_create` drops node
+identity. [Warden #66](https://github.com/pixeloven/warden/pull/66) implements
+those additive reads; they are not yet established as deployed capabilities.
 Current source does not automatically add Log or Decisions entries for ordinary
 transitions.
 
@@ -376,11 +413,14 @@ general Lattice permissions or claim that a gate is a security boundary.
 ## Decisions and boundaries
 
 The accepted model is typed Issues with Epic as the outcome. The primary entry
-is idea discovery, followed by a reviewable proposal and explicit publication.
+is ordinary issue creation and progressive refinement, including design and
+implementation spikes. No idea intake or proposal publication step is required.
 Validate it through a complete journey without asking the operator to design
 individual controls. Preserve legacy types and project labels. Add Story to the
 API, MCP and fixture vocabulary consistently, initially with Task's review and
 verify gates; deployment-specific type files must be reconciled explicitly.
+Spike already exists in Warden's default policy. Preserve its current policy
+while presenting an investigation's findings and decision as its result.
 
 Define responsibility as authored accountability, not execution activity. Its
 minimal persisted contract, ordering scope, concurrent edits, query completeness
@@ -402,9 +442,9 @@ results reconverge before review. A PR is a review boundary, not a handoff.
 
 | Slice | Acceptance and dependency | State |
 | --- | --- | --- |
-| 1. Idea and issue experience | One issue model, editable Epic brief and typed proposed children, explicit publication to Todo, useful issue Plan/Result authoring, outcome acceptance and recovery. Default List; preserve optional Board and working drag behavior. Independent product and source reviews converge with a desktop/phone interaction pass. | Design implementation in this PR; browser-local study only. |
+| 1. Issue creation and refinement experience | Ordinary title-only capture, Spike investigations, useful Plan/Result authoring and linked follow-ups. Epic organization and explicit outcome acceptance when relevant; recovery preserves older drafts. Default List; preserve optional Board and working drag behavior. Independent product/source reviews converge with a desktop/phone interaction pass. | Revised design implementation in this PR; browser-local study only. |
 | 2. Complete Warden reads | Additive MCP responses expose the full issue and stable identity already available to the service. Missing, malformed and unavailable records remain distinct. Focused cross-surface tests; no unrelated policy or migration change. Can run in parallel with slice 1. | Implemented in [Warden #66](https://github.com/pixeloven/warden/pull/66); review/CI before merge, not deployed. |
-| 3. Authoritative discovery and refinement | Shared revision-aware content authoring, Story policy, validated parent relationships and persisted Epic brief. Discovery skill publishes a small proposal through actual Warden tools and reconciles partial creation. Browser edits the same issue; MCP reads it back. Begins after read contract and reviewed interaction converge. | Pending. |
+| 3. Authoritative issue refinement | Shared revision-aware content authoring, Story policy, existing Spike support, validated Epic parents and persisted Epic content. Retain source evidence as ordinary body links. Evolve refinement skills to investigate, record findings, revise requirements and create useful follow-ups through actual Warden tools. Browser edits the same issue; MCP reads it back. Begins after read contract and reviewed interaction converge. | Pending. |
 | 4. Durable workspace and direction | Epic/child/standalone queries, open/completed/all scope, truthful counts, ordered work, explicit transfer and responsibility. Real comments, decisions, result editing and recovery; no fabricated activity. Port the accepted UI against these contracts. | Pending slice 3. |
 | 5. Accepted outcome | Central explicit Epic acceptance/reopen rules cover all transition paths and concurrent child changes. Children remain unchanged; remaining work has an explicit disposition. Completed outcomes stay searchable. | Pending slices 3–4. |
 | 6. Working MVP and handoff | Real production frontend, API and MCP exercise the journey on an owned Lattice fixture. Fresh browser and process restart retain work; conflicts/refusals/index delay recover without false success or duplicate writes. Independent engineering/design reviews pass, artifacts are versioned, and remaining limitations are named. | Pending; not satisfied by the study. |
@@ -414,8 +454,11 @@ configuration, migration inventory/preview, the accepted journey, focused test
 commands, recovery instructions and remaining work. It does not require a live
 customer vault. Use a disposable copy of Warden's owned fixture with a tested
 Lattice version; do not inherit the compose file's old version without checking
-compatibility. Prove at least one MCP-created Epic and child edited in the real
-UI and read back through MCP, including persistence after restart. Network/tool
+compatibility. Prove an MCP-created standalone Spike edited in the real UI,
+findings read back through MCP, a linked follow-up and refinement of existing
+requirements, then Epic organization and explicit outcome acceptance. Include
+title-only capture, a Spike that concludes without follow-up work and persistence
+after restart. Network/tool
 traces must show product workflow writes using Warden. Keep raw evidence outside
 Git and report results in the review.
 
@@ -431,7 +474,36 @@ and deployed API/frontend/vault versions before cutover. Inventory existing
 parent/project relationships read-only; do not synthesize Epics from strings,
 merge by title or run the aggregate phase-2 migration as part of UI adoption.
 
-### October 22 interaction validation
+### October 22 validation: issue refinement
+
+The current study replaces the intake wizard with title-only Issue/Epic capture,
+adds Spike investigations and source-linked follow-ups, and keeps earlier drafts
+recoverable. Thirteen model regressions cover creation, separate draft channels,
+v2/v3 migration and old bookmarks, refinement, ordering and explicit Epic
+acceptance. All twenty docs/model tests and strict typechecking pass; the
+portable preview builds successfully.
+
+Chromium journeys at 1440px and 390px verify Spike capture, draft close/reload,
+Plan/Result editing, comments, linked Bug creation, and return to the source.
+Completing the Spike leaves the delivery Bug open and preserves the findings.
+The source link adds no dependency. A separate desktop check verifies ordinary
+capture from an open issue returns to that issue, including after reload.
+Legacy idea text and an unrelated issue draft survive together; direct Epic
+creation needs no finish line at capture. The 320px doubled-text check has no
+page overflow. Automated accessibility scans report no violations in the
+exercised desktop/phone follow-up states. Three actual pointer/keyboard checks
+pass for before-placement, empty-stage movement and keyboard placement.
+
+Independent product and source reviews passed after correcting the Back label
+for creation from an open issue. The Impeccable scan reported no findings and
+no suppressions were added. These are synthetic study checks; they do not
+establish real API/MCP integration, physical-device or screen-reader acceptance.
+
+### Earlier October 22 validation: superseded intake flow
+
+The following results describe the earlier idea/proposal build. The operator
+subsequently clarified that ordinary issues and spikes should drive refinement.
+The intake flow is superseded; these results do not validate its replacement.
 
 The revised study uses one typed Issue collection and preserves existing v2
 records, drafts, comments, decisions and navigation during migration. Nine domain
@@ -503,5 +575,8 @@ remain separate outstanding decisions/gates.
 - [Lattice reading and return contract](https://github.com/pixeloven/lattice/blob/cff7de3d8fd438462f37cb9237d239e1bd5f221f/docs/markdown-reader.md)
 - [Lattice delivered-roadmap status](https://github.com/pixeloven/lattice/blob/cff7de3d8fd438462f37cb9237d239e1bd5f221f/docs/roadmap.md)
 - [Schema and current fields](https://github.com/pixeloven/warden/blob/1bdb4b0280d887134a5a0f0be3e028fd8368c085/frontend/schema.graphql)
+- [Existing Spike policy](https://github.com/pixeloven/warden/blob/1bdb4b0280d887134a5a0f0be3e028fd8368c085/src/warden/policy.py)
+- [Issue content and relationship semantics](https://github.com/pixeloven/warden/blob/1bdb4b0280d887134a5a0f0be3e028fd8368c085/SPEC.md)
+- [Existing refinement skill](https://github.com/pixeloven/warden/blob/1bdb4b0280d887134a5a0f0be3e028fd8368c085/skills/task-refine/SKILL.md)
 - [Saved views](https://github.com/pixeloven/warden/blob/1bdb4b0280d887134a5a0f0be3e028fd8368c085/src/warden/views.py)
 - [Product context](https://github.com/pixeloven/warden/blob/1bdb4b0280d887134a5a0f0be3e028fd8368c085/PRODUCT.md) — usage/version and mutation-count statements need reconciliation with later source.

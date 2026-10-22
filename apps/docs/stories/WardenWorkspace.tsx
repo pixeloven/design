@@ -1,14 +1,13 @@
 import React, { useEffect, useId, useRef, useState, type FormEvent, type ReactNode } from "react"
 import { Button, Input, Label, Select } from "@pixeloven/ui"
 import {
-  createIdeaProposal, acceptEpicOutcome, reopenEpic, epics, workIssues, isEpic, makeWorkIssue, nextIssueNumber, emptyIdeaDraft, emptyEpicDraft, DEFAULT_NAV, STAGES, STORAGE_KEY, attentionReasons, blockers, editedTask, emptyDraft, initialDemo,
+  createIssue, createEpic, followUpDraft, acceptEpicOutcome, reopenEpic, epics, workIssues, isEpic, emptyEpicDraft, DEFAULT_NAV, STAGES, STORAGE_KEY, attentionReasons, blockers, editedTask, emptyDraft, initialDemo,
   label, navigationFromUrl, ordered, readDemo, reorder, scopedTasks, writeNavigation,
-  type Demo, type Destination, type Focus, type Navigation, type EpicIssue as Project, type Issue, type Scenario, type Scope, type Stage, type Task, type TaskDraft,
+  type Demo, type Destination, type Focus, type Navigation, type EpicIssue as Project, type Issue, type Scenario, type Scope, type Stage, type Task,
 } from "./WardenWorkspace.model"
-import { Icon, Panel, ProjectComposer, TaskComposer, TaskDetail, type Outcome } from "./WardenWorkspace.panels"
+import { Icon, Panel, LegacyDraftRecovery, ProjectComposer, TaskComposer, TaskDetail, type Outcome } from "./WardenWorkspace.panels"
 import { destinationText, placementBefore, useTaskDrag, type DropTarget } from "./WardenWorkspace.drag"
 import { DragControls } from "./WardenWorkspace.drag-controls"
-import { IdeaComposer } from "./WardenIdea"
 import "./WardenWorkspace.css"
 
 const DESTINATIONS: { value: Destination; title: string }[] = [
@@ -29,7 +28,6 @@ export function WardenWorkspace({ mark }: { mark: ReactNode }) {
   const [notice, setNotice] = useState("")
   const [formError, setFormError] = useState("")
   const [draftConflict, setDraftConflict] = useState(false)
-  const [pendingIssueDraft, setPendingIssueDraft] = useState<TaskDraft | null>(null)
   const [projectCompletion, setProjectCompletion] = useState(false)
   const [acceptOutcome, setAcceptOutcome] = useState(false)
   const [resetting, setResetting] = useState(false)
@@ -44,6 +42,7 @@ export function WardenWorkspace({ mark }: { mark: ReactNode }) {
   navRef.current = nav
   const project = epics(demo).find(item => item.id === nav.epicId)
   const task = workIssues(demo).find(item => item.id === nav.selected)
+  const returnIssueId = window.history.state?.wardenReturnIssueId as string | undefined
   const shown = scopedTasks(demo, nav)
   const attentionCount = workIssues(demo).filter(item => attentionReasons(item, demo.issues).length > 0).length
   const isProjects = nav.view === "projects"
@@ -101,11 +100,11 @@ export function WardenWorkspace({ mark }: { mark: ReactNode }) {
       source?.focus({ preventScroll: true })
     })
   }
-  function navigate(change: Partial<Navigation>, replace = false, overlay = false) {
+  function navigate(change: Partial<Navigation>, replace = false, overlay = false, returnToIssue?: string) {
     const next = { ...navRef.current, ...change }
     navRef.current = next
     setDemo(current => ({ ...current, navigation: next }))
-    writeNavigation(next, replace, overlay || (replace && Boolean(window.history.state?.wardenOverlay)))
+    writeNavigation(next, replace, overlay || (replace && Boolean(window.history.state?.wardenOverlay)), returnToIssue)
   }
   function chooseDestination(view: Destination, epicId = "") {
     const scope: Scope = view === "project" && epics(demo).find(item => item.id === epicId)?.status === "done" ? "completed" : "open"
@@ -137,20 +136,25 @@ export function WardenWorkspace({ mark }: { mark: ReactNode }) {
     setOutcome(null); setFormError("")
   }
   function openTask(id: string, source?: HTMLElement) {
+    if (id === returnIssueId && nav.selected !== id) { window.history.back(); return }
     if (demo.issues.some(item => item.id === id && isEpic(item))) { chooseDestination("project", id); return }
     if (!nav.selected) captureOrigin(source)
     navigate({ selected: id, composer: "" }, Boolean(nav.selected), true)
     setOutcome(null)
   }
-  function openComposer(kind: "task" | "project" | "idea", source: HTMLElement, resume = false) {
-    if (kind === "project" && nav.view !== "project") kind = "idea"
+  function openComposer(kind: "task" | "project" | "recovery", source: HTMLElement, resume = false) {
     captureOrigin(source)
-    setPendingIssueDraft(null)
     setDraftConflict(kind === "task" && Boolean(demo.draft) && !resume)
     if (kind === "task" && !demo.draft) setDemo(current => ({ ...current, draft: emptyDraft(nav.view === "project" ? nav.epicId : "") }))
-    if (kind === "idea" && !demo.ideaDraft) setDemo(current => ({ ...current, ideaDraft: emptyIdeaDraft() }))
     setFormError("")
     navigate({ composer: kind }, false, true)
+  }
+  function openFollowUp(source: HTMLElement) {
+    if (!task) return
+    captureOrigin(source)
+    setDemo(current => ({ ...current, followUpDrafts: { ...current.followUpDrafts, [task.id]: followUpDraft(current, task) } }))
+    setFormError("")
+    navigate({ composer: "followup" }, false, true)
   }
   function updateTask(id: string, change: Partial<Task>) {
     setDemo(current => ({ ...current, issues: current.issues.map(item => item.id === id && !isEpic(item) ? { ...item, ...change, updated: "Just now · edited in this demo" } : item) }))
@@ -195,23 +199,20 @@ export function WardenWorkspace({ mark }: { mark: ReactNode }) {
   }
   function createTask(event: FormEvent) {
     event.preventDefault()
-    const draft = demo.draft ?? emptyDraft()
-    if (!draft.title.trim()) return
-    if (epics(demo).find(item => item.id === draft.epicId)?.status === "done") { setFormError("This Epic is completed. Reopen it or choose an open Epic."); return }
-    const id = `W-${nextIssueNumber(demo.issues)}`
-    const base = makeWorkIssue(id, "", "todo", draft.epicId, Math.max(-1, ...workIssues(demo).filter(item => item.epicId === draft.epicId).map(item => item.order)) + 1)
-    const created = editedTask(base, draft)
-    if (created.dependsOn.includes(id)) { setFormError("A issue cannot depend on itself."); return }
-    setDemo(current => ({ ...current, issues: [...current.issues, created], draft: null }))
-    navigate({ view: draft.epicId ? "project" : "all", epicId: draft.epicId, composer: "", selected: id, scope: "open", query: "", stage: "todo" }, true, true)
-    setOutcome({ kind: "success", message: `${id} created in Todo${draft.epicId ? ` in ${epics(demo).find(item => item.id === draft.epicId)?.title}` : " as standalone work"}.` })
+    const draft = nav.composer === "followup" ? demo.followUpDrafts[nav.selected] : demo.draft
+    if (!draft) return
+    const created = createIssue(demo, draft)
+    if (created.error) { setFormError(created.error); return }
+    setDemo(created.demo)
+    navigate({ view: draft.epicId ? "project" : "all", epicId: draft.epicId, composer: "", selected: created.issueId, scope: "open", focus: "all", query: "", stage: "todo" }, true, true, nav.selected || undefined)
+    setOutcome({ kind: "success", message: `${created.issueId} created in Todo${draft.epicId ? ` in ${epics(demo).find(item => item.id === draft.epicId)?.title}` : " as standalone work"}.${draft.sourceIssueId ? ` Linked to ${draft.sourceIssueId}; the source issue is unchanged.` : ""}` })
   }
   function saveEdit(): boolean {
     if (!task) return false
     const draft = demo.edits[task.id]
     if (!draft?.title.trim()) return false
     const changed = editedTask(task, draft)
-    if (changed.dependsOn.includes(task.id)) { setOutcome({ kind: "refusal", message: "A issue cannot depend on itself. Your edit draft is kept." }); return false }
+    if (changed.dependsOn.includes(task.id)) { setOutcome({ kind: "refusal", message: "An issue cannot depend on itself. Your edit draft is kept." }); return false }
     setDemo(current => {
       const edits = { ...current.edits }; delete edits[task.id]
       return { ...current, issues: current.issues.map(item => item.id === task.id ? changed : item), edits }
@@ -219,29 +220,19 @@ export function WardenWorkspace({ mark }: { mark: ReactNode }) {
     setOutcome({ kind: "success", message: `${task.id} updated. Its stage and planning position are unchanged.` })
     return true
   }
-  function startStandaloneFromIdea() {
-    const idea = demo.ideaDraft ?? emptyIdeaDraft()
-    const proposal = idea.proposals.length === 1 ? idea.proposals[0] : null
-    const draft: TaskDraft = { ...emptyDraft(), type: proposal?.type ?? "task", title: proposal?.title || idea.title, intent: [idea.originalIdea, idea.outcome].filter(Boolean).join("\n\n"), criteria: proposal?.criteria || idea.finishLine }
-    setPendingIssueDraft(draft)
-    setDraftConflict(Boolean(demo.draft))
-    if (!demo.draft) setDemo(current => ({ ...current, draft }))
-    navigate({ composer: "task" }, true, true)
-  }
-  function createIdea() {
-    if (!demo.ideaDraft) return
-    const created = createIdeaProposal(demo, demo.ideaDraft)
-    if (created.error) { setFormError(created.error); return }
-    const navigation: Navigation = { ...navRef.current, view: "project", epicId: created.epicId, selected: "", composer: "", scope: "open", focus: "all", stage: "todo", query: "", layout: "list", expanded: false }
-    setDemo({ ...created.demo, navigation })
-    navRef.current = navigation
-    writeNavigation(navigation, true)
-    setNotice(`${created.epicId} and ${created.issueIds.length} issues created together in Todo. No execution started and no approval was recorded. Open the first issue to direct its next action.`)
-    requestAnimationFrame(() => { if (main.current) main.current.scrollTop = 0; heading.current?.focus({ preventScroll: true }) })
-  }
   function saveProject(event: FormEvent) {
     event.preventDefault()
-    if (!project || !projectDraft.title.trim()) return
+    if (!projectDraft.title.trim()) return
+    if (projectDraftKey === "new") {
+      const created = createEpic(demo, projectDraft)
+      if (created.error) { setFormError(created.error); return }
+      setDemo(created.demo)
+      navigate({ view: "project", epicId: created.epicId, selected: "", composer: "", scope: "open", focus: "all", query: "", expanded: false }, true)
+      setNotice(`${created.epicId} created in Todo. Refine the outcome and finish line as the work becomes clearer.`)
+      requestAnimationFrame(() => heading.current?.focus({ preventScroll: true }))
+      return
+    }
+    if (!project) return
     const next = { ...project, ...projectDraft, title: projectDraft.title.trim(), intent: projectDraft.originalIdea, updated: "Just now · Epic edited in this demo" }
     setDemo(current => {
       const epicDrafts = { ...current.epicDrafts }; delete epicDrafts[project.id]
@@ -356,7 +347,7 @@ export function WardenWorkspace({ mark }: { mark: ReactNode }) {
     <section className="ww-workspace" aria-label="Warden Epic workspace">
       <header className="ww-brandbar"><div className="ww-brand">{mark}<span>Warden<small>A PixelOven project</small></span></div><span className="ww-workspace-name">Issues &amp; outcomes · Local demo</span>
         {demo.draft && <Button onClick={event => openComposer("task", event.currentTarget, true)}>Resume issue draft</Button>}
-        <Button variant="primary" onClick={event => openComposer("idea", event.currentTarget)}>{demo.ideaDraft ? "Resume idea draft" : "Start with an idea"}</Button>
+        <Button variant="primary" disabled={project?.status === "done" && nav.view === "project"} onClick={event => openComposer("task", event.currentTarget)}><Icon name="plus" />New issue</Button>
       </header>
       {mobile && <nav className="ww-mobile-nav" aria-label="Workspace navigation"><Label>Workspace<Select value={nav.view === "project" ? `project:${nav.epicId}` : nav.view} onChange={event => {
         const value = event.target.value
@@ -369,8 +360,8 @@ export function WardenWorkspace({ mark }: { mark: ReactNode }) {
         </nav>}
         <main ref={main} className={`ww-main${nav.view === "project" ? " ww-main--project" : ""}`} aria-label={title}>
           <header className="ww-view-heading"><div><h2 ref={heading} tabIndex={-1}>{title}</h2>
-            {nav.view !== "project" && <p>{isProjects ? "An Epic is an outcome. Start with an idea, then shape the issues that help achieve it." : nav.view === "all" ? "Every Epic, Story, Task, and Bug, including standalone work." : "Required decisions and unresolved dependencies, with a reason for each."}</p>}
-          </div><Button disabled={project?.status === "done"} onClick={event => openComposer("task", event.currentTarget)}><Icon name="plus" />New issue</Button></header>
+            {nav.view !== "project" && <p>{isProjects ? "Bounded outcomes with their own finish lines. Capture issues and refine the work as you learn." : nav.view === "all" ? "Every Epic, Story, Task, Bug, and Spike, including standalone work." : "Required decisions and unresolved dependencies, with a reason for each."}</p>}
+          </div>{isProjects || nav.view === "all" ? <Button onClick={event => openComposer("project", event.currentTarget)}>{demo.epicDrafts.new ? "Resume Epic draft" : "New Epic"}</Button> : nav.view === "project" && <Button disabled={project?.status === "done"} onClick={event => openComposer("task", event.currentTarget)}><Icon name="plus" />Add issue</Button>}</header>
           {nav.view === "project" && project && <>
             <section className="ww-epic-outcome" aria-label="Epic outcome and finish line"><p className="ww-epic-record">Epic · {project.id} · {label(project.status)}</p><h3>Desired outcome</h3><p>{project.outcome || "Outcome not yet described. Edit this Epic to record it."}</p><h3>Finish line</h3><p>{project.finishLine || "Not recorded in this saved Epic. Edit the Epic to make its finish line observable."}</p>{project.status === "done" && <p><strong>Acceptance:</strong> {project.acceptanceNote || "Previously completed in v2; no explicit outcome acceptance note was recorded."}</p>}</section>
             <div className="ww-project-meta">
@@ -401,7 +392,7 @@ export function WardenWorkspace({ mark }: { mark: ReactNode }) {
           {(nav.query || nav.focus !== "all" || nav.scope !== "open") && <div className="ww-filter-context"><p>{nav.scope === "completed" ? "Completed work" : nav.scope === "all" ? "Open and completed work" : "Open work"}{nav.focus === "decisions" ? " · required decisions only" : nav.focus === "blocked" ? " · unresolved dependencies only" : ""}{nav.query ? ` · matching “${nav.query}”` : ""}</p><Button onClick={clearFilters}>Clear filters</Button></div>}
           {isProjects ? <>
             <p className="ww-view-count">{visibleProjects.length} {visibleProjects.length === 1 ? "Epic" : "Epics"}</p>
-            {visibleProjects.length ? <ul className="ww-project-list">{visibleProjects.map(projectRow)}</ul> : <div className="ww-empty"><h3>{nav.query ? "No matching Epics" : "No Epics here yet"}</h3><p>{nav.query ? "Try a different search or choose All to include completed Epics." : "Create an Epic to describe an outcome and start shaping its work."}</p><Button onClick={event => openComposer("project", event.currentTarget)}>Start with an idea</Button></div>}
+            {visibleProjects.length ? <ul className="ww-project-list">{visibleProjects.map(projectRow)}</ul> : <div className="ww-empty"><h3>{nav.query ? "No matching Epics" : "No Epics here yet"}</h3><p>{nav.query ? "Try a different search or choose All to include completed Epics." : "Create an Epic to describe an outcome and start shaping its work."}</p><Button onClick={event => openComposer("project", event.currentTarget)}>New Epic</Button></div>}
           </> : nav.view === "project" && !project ? <div className="ww-empty"><h3>This Epic is unavailable</h3><p>The link may belong to a different demo session. Your existing Epics are still available.</p><Button onClick={() => chooseDestination("projects")}>Open Epics</Button></div> : <>
             <div className="ww-view-context"><span>{shown.length} {shown.length === 1 ? "issue" : "issues"}{nav.query ? " matching search" : ""}</span><span>Planning order within each Epic</span></div>
             {mobile && nav.layout === "board" && <Label className="ww-phone-stage">Stage<Select value={nav.stage} onChange={event => navigate({ stage: event.target.value as Stage }, true)}>{STAGES.map(stage => <option key={stage} value={stage}>{label(stage)} · {shown.filter(item => item.status === stage).length}</option>)}</Select></Label>}
@@ -413,12 +404,12 @@ export function WardenWorkspace({ mark }: { mark: ReactNode }) {
               </section>)}</div>}
           </>}
           </div>
-          {nav.view === "project" && project && <details className="ww-epic-record-details"><summary>Idea, scope &amp; Epic activity</summary><div className="ww-fields"><section><h3>Original idea and context</h3><p>{project.originalIdea || "Not recorded in this Epic."}</p></section><section><h3>In scope</h3><p>{project.scope || "Not yet specified."}</p><h3>Out of scope</h3><p>{project.outOfScope || "Not yet specified."}</p></section><section><h3>Activity</h3><form className="ww-comment-form" onSubmit={appendEpicNote}><Label>Add an Epic comment<textarea rows={3} value={demo.notes[project.id] ?? ""} onChange={event => setDemo(current => ({ ...current, notes: { ...current.notes, [project.id]: event.target.value } }))} /></Label><div className="ww-comment-submit"><p className="ww-hint">Comment drafts stay with this Epic through reloads.</p><Button type="submit" disabled={!(demo.notes[project.id] ?? "").trim()}>Post comment</Button></div></form>{!project.log.length && !project.decisions.length && <p className="ww-secondary">No comments or decisions yet.</p>}{project.decisions.map((text, index) => <article className="ww-comment" key={`decision-${index}`}><p className="ww-comment-kind">Outcome decision</p><p className="ww-comment-text">{text}</p></article>)}{project.log.map((text, index) => <article className="ww-comment" key={`comment-${index}`}><p className="ww-comment-kind">Comment</p><p className="ww-comment-text">{text}</p></article>)}</section></div></details>}
+          {nav.view === "project" && project && <details className="ww-epic-record-details"><summary>Context, scope &amp; Epic activity</summary><div className="ww-fields"><section><h3>Context</h3><p>{project.originalIdea || "Not recorded in this Epic."}</p></section><section><h3>In scope</h3><p>{project.scope || "Not yet specified."}</p><h3>Out of scope</h3><p>{project.outOfScope || "Not yet specified."}</p></section><section><h3>Activity</h3><form className="ww-comment-form" onSubmit={appendEpicNote}><Label>Add an Epic comment<textarea rows={3} value={demo.notes[project.id] ?? ""} onChange={event => setDemo(current => ({ ...current, notes: { ...current.notes, [project.id]: event.target.value } }))} /></Label><div className="ww-comment-submit"><p className="ww-hint">Comment drafts stay with this Epic through reloads.</p><Button type="submit" disabled={!(demo.notes[project.id] ?? "").trim()}>Post comment</Button></div></form>{!project.log.length && !project.decisions.length && <p className="ww-secondary">No comments or decisions yet.</p>}{project.decisions.map((text, index) => <article className="ww-comment" key={`decision-${index}`}><p className="ww-comment-kind">Outcome decision</p><p className="ww-comment-text">{text}</p></article>)}{project.log.map((text, index) => <article className="ww-comment" key={`comment-${index}`}><p className="ww-comment-kind">Comment</p><p className="ww-comment-text">{text}</p></article>)}</section></div></details>}
           {nav.selected && !task && <div className="ww-read-error" role="alert"><p>Issue {nav.selected} is unavailable in this demo session. The surrounding workspace is still available.</p><Button onClick={closePanel}>Return to workspace</Button></div>}
         </main>
-        {task && <TaskDetail key={task.id} prefix={prefix} task={task} demo={demo} mobile={mobile} expanded={nav.expanded} returnLabel={title}
+        {task && <TaskDetail key={task.id} prefix={prefix} task={task} demo={demo} mobile={mobile} expanded={nav.expanded} returnLabel={returnIssueId && returnIssueId !== task.id ? returnIssueId : title}
           outcome={outcome} onClose={closePanel} onExpand={() => navigate({ expanded: !nav.expanded }, true)} onOpen={id => openTask(id)} onProject={id => chooseDestination("project", id)}
-          onUpdate={change => updateTask(task.id, change)} onMove={stage => moveTask(task.id, stage)}
+          onUpdate={change => updateTask(task.id, change)} onMove={stage => moveTask(task.id, stage)} onFollowUp={openFollowUp}
           onDecision={action => moveTask(task.id, action === "approve" ? task.status === "review" ? "build" : "done" : task.status === "review" ? "plan" : "build", action)}
           onRead={scenario === "gate-refusal" ? () => { setScenario("normal"); setOutcome({ kind: "info", message: `Re-read complete. ${task.id} remains in ${label(task.status)}. Your reason is kept; no decision was repeated.` }) } : undefined}
           onEdit={draft => setDemo(current => { const edits = { ...current.edits }; if (draft) edits[task.id] = draft; else delete edits[task.id]; return { ...current, edits } })}
@@ -427,16 +418,17 @@ export function WardenWorkspace({ mark }: { mark: ReactNode }) {
           onNote={value => setDemo(current => ({ ...current, notes: { ...current.notes, [task.id]: value } }))} onAppend={appendNote}
         />}
       </div>
-      {nav.composer === "idea" && <IdeaComposer prefix={prefix} draft={demo.ideaDraft ?? emptyIdeaDraft()} stored={stored} onChange={ideaDraft => setDemo(current => ({ ...current, ideaDraft }))} onClose={closePanel} onCreate={createIdea} onStandalone={startStandaloneFromIdea} onDiscard={() => { setDemo(current => ({ ...current, ideaDraft: null })); closePanel(); setNotice("Idea draft discarded. No issues were created.") }} />}
+      {nav.composer === "recovery" && <LegacyDraftRecovery prefix={prefix} draft={demo.ideaDraft} onClose={closePanel} />}
       {nav.composer === "task" && draftConflict && <Panel label={`${prefix}-draft-choice`} modal className="ww-composer" onClose={closePanel}>
         <header className="ww-panel-header"><Button onClick={closePanel}><Icon name="back" />Back to work</Button></header>
         <div className="ww-compose-form"><h2 id={`${prefix}-draft-choice`} tabIndex={-1} data-panel-focus>An issue draft is already saved</h2>
           <p><strong>{demo.draft?.title || "Untitled issue"}</strong> belongs to {epics(demo).find(item => item.id === demo.draft?.epicId)?.title ?? "standalone work"}. Resume it, or explicitly discard it before starting another issue.</p>
-          <p>The new issue will start in {pendingIssueDraft ? "standalone work, carrying your idea across" : nav.view === "project" ? project?.title : "standalone work"}.{pendingIssueDraft && " Your idea draft remains recoverable."}</p>
-          <div className="ww-actions"><Button onClick={() => { setDemo(current => ({ ...current, draft: pendingIssueDraft ?? emptyDraft(nav.view === "project" ? nav.epicId : "") })); setDraftConflict(false) }}>Discard draft and start here</Button><Button variant="primary" onClick={() => setDraftConflict(false)}>Resume saved draft</Button></div>
+          <p>The new issue will start in {nav.view === "project" ? project?.title : "standalone work"}.</p>
+          <div className="ww-actions"><Button onClick={() => { setDemo(current => ({ ...current, draft: emptyDraft(nav.view === "project" ? nav.epicId : "") })); setDraftConflict(false) }}>Discard draft and start here</Button><Button variant="primary" onClick={() => setDraftConflict(false)}>Resume saved draft</Button></div>
         </div>
       </Panel>}
       {nav.composer === "task" && !draftConflict && <TaskComposer prefix={prefix} demo={demo} draft={demo.draft ?? emptyDraft()} onChange={draft => setDemo(current => ({ ...current, draft }))} onClose={closePanel} onCreate={createTask} stored={stored} error={formError} onDiscard={() => { setDemo(current => ({ ...current, draft: null })); closePanel(); setNotice("Issue draft discarded.") }} />}
+      {nav.composer === "followup" && task && <TaskComposer prefix={`${prefix}-followup`} demo={demo} draft={demo.followUpDrafts[task.id] ?? followUpDraft(demo, task)} onChange={draft => setDemo(current => ({ ...current, followUpDrafts: { ...current.followUpDrafts, [task.id]: draft } }))} onClose={closePanel} onCreate={createTask} stored={stored} error={formError} onDiscard={() => { setDemo(current => { const followUpDrafts = { ...current.followUpDrafts }; delete followUpDrafts[task.id]; return { ...current, followUpDrafts } }); closePanel(); setNotice("Follow-up draft discarded. The source issue is unchanged.") }} />}
       {nav.composer === "project" && <ProjectComposer prefix={prefix} editing={projectDraftKey !== "new"} draft={projectDraft} onChange={draft => setDemo(current => ({ ...current, epicDrafts: { ...current.epicDrafts, [projectDraftKey]: draft } }))} onClose={closePanel} onSave={saveProject} onDiscard={() => { setDemo(current => { const epicDrafts = { ...current.epicDrafts }; delete epicDrafts[projectDraftKey]; return { ...current, epicDrafts } }); closePanel(); setNotice("Epic draft discarded.") }} />}
     </section>
     {moveResult && <aside className="ww-move-confirmation" aria-label="Move saved"><p role="status">{moveResult.message}</p><div className="ww-actions">
@@ -447,6 +439,7 @@ export function WardenWorkspace({ mark }: { mark: ReactNode }) {
     <aside className="ww-demo" aria-label="Prototype controls">
       <p><strong>Browser-local demo.</strong> {stored ? "No production API or agent is connected. Issues, drafts, and comments stay in this tab through reloads. Reset clears this demo’s session data." : "Browser storage is unavailable. Changes last only while this page is open."}</p>
       <Label>Demo state<Select value={scenario} onChange={event => { setScenario(event.target.value as Scenario); setOutcome(null) }}><option value="normal">Working normally</option><option value="read-failure">Workspace read fails</option><option value="gate-refusal">Gate action is refused</option></Select></Label>
+      {demo.ideaDraft && <Button onClick={event => openComposer("recovery", event.currentTarget)}>Recover earlier draft</Button>}
       <Button aria-expanded={resetting} onClick={() => setResetting(!resetting)}>Reset demo</Button>
       {resetting && <div className="ww-reset"><p>Restore the original Epics and issues? All demo changes, drafts, and reasons in this tab will be cleared.</p><div className="ww-actions"><Button onClick={() => setResetting(false)}>Keep my changes</Button><Button onClick={resetDemo}>Confirm reset</Button></div></div>}
     </aside>

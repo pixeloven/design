@@ -93,7 +93,9 @@
 .ww-task-context { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem; color: var(--pxo-text-secondary); }
 .ww-stage { display: inline-flex; gap: .5rem; align-items: center; font-size: var(--pxo-reading-control-size); }
 .ww-detail-intro h2 { margin-block: .75rem 1rem; overflow-wrap: anywhere; }
-.ww-project-link .pxo-button { text-align: left; padding: .5rem 0; border-color: transparent; background: transparent; color: var(--pxo-accent-text); text-decoration: underline; text-underline-offset: .2em; }
+.ww-project-link .pxo-button, .ww-source-link .pxo-button { text-align: left; padding: .5rem 0; border-color: transparent; background: transparent; color: var(--pxo-accent-text); text-decoration: underline; text-underline-offset: .2em; }
+.ww-source-link { display: flex; flex-wrap: wrap; align-items: baseline; gap: .25rem .5rem; color: var(--pxo-text-secondary); font-size: var(--pxo-reading-control-size); }
+.ww-source-link .pxo-button { min-width: 0; white-space: normal; overflow-wrap: anywhere; }
 .ww-secondary, .ww-hint { color: var(--pxo-text-secondary); }
 .ww-hint { font: var(--pxo-reading-control-weight) var(--pxo-reading-control-size)/var(--pxo-reading-control-line-height) var(--pxo-reading-control-font-family); letter-spacing: var(--pxo-reading-control-letter-spacing); }
 .ww-section { margin-top: 1.75rem; }
@@ -328,46 +330,15 @@
 .ww-drag-list-end { margin-top: .65rem; min-height: 2.75rem; }
 /* An Epic keeps its outcome and exact finish line readable at every viewport. */
 .ww-epic-outcome { margin-top: 1rem; padding-bottom: 1rem; max-width: 70ch; }
-.ww-epic-outcome h3, .ww-epic-record-details h3, .ww-proposal-section h3, .ww-idea-review h3 { margin-block: 1rem .35rem; font: var(--pxo-type-subtitle-weight) var(--pxo-reading-body-size)/var(--pxo-reading-body-line-height) var(--pxo-font-sans); }
+.ww-epic-outcome h3, .ww-epic-record-details h3 { margin-block: 1rem .35rem; font: var(--pxo-type-subtitle-weight) var(--pxo-reading-body-size)/var(--pxo-reading-body-line-height) var(--pxo-font-sans); }
 .ww-epic-outcome p, .ww-epic-record-details p { white-space: pre-wrap; overflow-wrap: anywhere; }
 .ww-epic-outcome .ww-epic-record { color: var(--pxo-text-secondary); font-size: var(--pxo-reading-control-size); }
 .ww-epic-record-details { margin-top: 1.5rem; border-top: 1px solid var(--pxo-border); }
-.ww-epic-record-details > summary, .ww-proposal-list summary, .ww-discovery-brief > summary { cursor: pointer; min-height: 2.75rem; padding-block: .75rem; }
+.ww-epic-record-details > summary { cursor: pointer; min-height: 2.75rem; padding-block: .75rem; }
 .ww-epic-record-details .ww-fields { max-width: 70ch; }
 .ww-project-completion .ww-accept-outcome { display: flex; align-items: start; gap: .75rem; }
 .ww-accept-outcome > input { flex: none; margin-top: .25rem; }
-.ww-idea-composer[open] { width: min(48rem,calc(100vw - 3rem)); }
-.ww-idea-form { gap: 1.5rem; }
-.ww-local-context, .ww-sample-note, .ww-creation-contract { padding-block: .75rem; border-block: 1px solid var(--pxo-border); font-size: var(--pxo-reading-control-size); color: var(--pxo-text-secondary); }
-.ww-sample-note { border: 0; padding-top: 0; }
-.ww-example-action { justify-self: start; }
-.ww-small-idea { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem 1rem; }
-.ww-small-idea > p:first-child { flex: 1 1 18rem; }
-.ww-small-idea > .ww-hint { flex-basis: 100%; }
-.ww-idea-scope { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 1rem; }
-.ww-idea-scope > .pxo-label, .ww-proposal-fields > .pxo-label { display: grid; gap: .45rem; }
-.ww-proposal-section > h3 { margin-top: 0; }
-.ww-proposal-section > p { margin-block: .5rem 1rem; max-width: 65ch; }
-.ww-proposal-list, .ww-proposal-review { list-style: none; padding: 0; margin: 0; }
-.ww-proposal-list > li { padding-block: 1.25rem; border-top: 1px solid var(--pxo-border); }
-.ww-proposal-fields { display: grid; grid-template-columns: 8rem minmax(0,1fr); gap: .75rem; }
-.ww-remove-proposal { margin-top: .5rem; }
-.ww-idea-review dl { margin: 0; }
-.ww-idea-review dl > div { margin-top: 1.25rem; }
-.ww-idea-review dt { font-weight: var(--pxo-type-subtitle-weight); }
-.ww-idea-review dd { margin: .35rem 0 0; white-space: pre-wrap; overflow-wrap: anywhere; }
-.ww-proposal-review > li { padding-block: 1rem; border-bottom: 1px solid var(--pxo-border); }
-.ww-proposal-review h4 { margin: .25rem 0 .5rem; font: var(--pxo-type-subtitle-weight) var(--pxo-reading-body-size)/var(--pxo-reading-body-line-height) var(--pxo-font-sans); }
-.ww-proposal-review p + p { margin-top: .5rem; }
-.ww-proposal-criteria { white-space: pre-wrap; }
-.ww-discovery-brief > p { margin-bottom: .75rem; color: var(--pxo-text-secondary); }
-.ww-discovery-brief > .pxo-label { display: grid; gap: .5rem; margin-top: 1rem; }
-.ww-discard-draft { padding-top: .25rem; color: var(--pxo-text-secondary); font-size: var(--pxo-reading-control-size); }
-.ww-discard-draft > div { padding-block: 1rem; }
-.ww-discard-draft .ww-actions { margin-top: .75rem; }
 @media (max-width: 760px) {
-  .ww-idea-composer[open] { width: 100%; }
-  .ww-idea-scope, .ww-proposal-fields { grid-template-columns: minmax(0,1fr); }
   .ww-epic-outcome { margin-top: .5rem; padding-bottom: .75rem; }
   .ww-epic-outcome h3 { margin-top: .75rem; }
   .ww-next-plan h3 { display: block; }

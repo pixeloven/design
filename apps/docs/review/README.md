@@ -6,8 +6,9 @@ vault writes occur. The identity candidates are unapproved sources.
 
 **Review status:** the revised build follows the
 [Epic/Issue brief](../../../docs/warden-design-brief.md). The operator accepted
-Epic as the project outcome, with Story, Task and Bug child issues. Start with an
-idea leads to a reviewable brief and work proposal. Epics, All issues and Needs
+Epic as the project outcome, with Story, Task, Bug and Spike child issues.
+Ordinary issue capture and refinement develop requirements through work,
+without an idea-intake wizard. Epics, All issues and Needs
 attention provide working destinations. The lead owns delivery through the real
 UI/MCP MVP before handoff; this local study is a design milestone. Warden's mark
 remains a separate review decision.
@@ -39,12 +40,14 @@ limitation. Appearance preferences are separate and do not submit a product
 preference or identity approval. URL fragments describe navigation; they do not
 carry locally created records to another browser.
 
-Choose **Start with an idea**. Write a brief or load the explicitly authored
-reading example. Revise the outcome, finish line, scope and typed proposed
-issues, then review before creating them. Creation starts the records in Todo;
-it does not approve a plan or start execution. Close/reload before creation to
-check draft recovery. Small standalone work remains available through issue
-creation without an Epic.
+Choose **New issue**, select **Spike** and capture a question such as
+**Explore focused note reading**. A title is enough to save. Add context,
+investigation Plan and completion conditions when useful, then record findings
+in Result and comments. Refine existing work or create a linked follow-up;
+retain the original investigation. Create an Epic directly when a shared outcome
+is useful and refine its finish line later. Creation starts records in Todo;
+it does not approve a plan or start execution. Close/reload before saving to
+check draft recovery. Standalone work requires no Epic or investigation step.
 
 Open **Improve note reading**: create a child issue, refine its intent, Plan,
 Result and criteria, change its planning order, and transfer it to **Release

@@ -23,13 +23,15 @@ for PixelOven or Lattice.
 ## Current review status
 
 The operator supports the visual direction and has now accepted the typed Issue
-model: Epic is a project outcome with a finish line; Story, Task and Bug describe
-its work, with standalone issues also valid. The primary journey starts with an
-idea that needs shaping. The [Warden brief](warden-design-brief.md) owns the
+model: Epic is a project outcome with a finish line; Story, Task, Bug and Spike
+describe its work, with standalone issues also valid. Ordinary issue creation
+and refinement let investigations mature into clearer requirements and plans.
+There is no separate idea intake. The [Warden brief](warden-design-brief.md) owns the
 current decision and phased MVP plan. The lead is authorized to drive through a
 working MVP before handoff, with Crew implementation and independent reviews.
 
-The next delivery is the complete idea → Epic/Issue → accepted outcome journey.
+The next delivery is issue capture → investigation/refinement → verified work,
+with Epic organization and explicit outcome acceptance when relevant.
 The editable local study establishes the experience; Warden service, MCP, skill
 and UI changes establish the product. A handoff requires shared authoritative
 records and the full journey on an owned test vault, including restart, conflict
@@ -46,7 +48,7 @@ the accepted model now directs production slices alongside the revised study.
 1. **Reconcile and prove Warden's design.** Carry the October live/source
    assessment and recovered September project goals into the current brief.
    Apply the accepted family and relevant Lattice interaction lessons. Build
-   the idea-to-Issue study while mapping contract gaps in parallel, then converge
+   the issue-refinement study while mapping contract gaps in parallel, then converge
    for independent product/UX, accessibility and engineering review. The lead
    advances the accepted plan; operator input is reserved for unresolved material
    product choices. Review Warden identity options separately. Studies use synthetic content;

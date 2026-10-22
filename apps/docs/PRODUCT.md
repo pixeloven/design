@@ -40,11 +40,13 @@ Its current source has six fixed workflow states and six browser mutations.
 Source capabilities and proposed interaction improvements are detailed in
 `../../docs/warden-design-brief.md`. The operator supported the October study's
 visual direction but rejected its queue-centered project/task model. The target
-is now an idea → Epic → typed child Issue journey. Everything is an Issue;
-Epic is a bounded project outcome with a finish line, alongside Story, Task and
-Bug types. Standalone work remains valid. Type is separate from workflow status.
-The study demonstrates editable discovery briefs, proposed work, explicit
-creation, refinement, direction and outcome acceptance using browser-local
+is now ordinary issue capture and progressive refinement. Everything is an
+Issue; Epic is a bounded project outcome with a finish line, alongside Story,
+Task, Bug and Spike types. Standalone work remains valid. Type is separate from
+workflow status. Spikes record learning that can refine existing requirements
+or yield linked follow-up work; there is no required idea intake or Epic.
+The study demonstrates creation, investigation, refinement, organization,
+direction and outcome acceptance using browser-local
 records. The lead owns implementation through a working UI/MCP MVP before
 handoff; production persistence and integration require separate proof.
 The subsequent operator review identified unclear attention requests, scattered
