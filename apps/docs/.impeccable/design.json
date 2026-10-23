@@ -1,0 +1,98 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-19T02:06:55.423Z",
+  "title": "Design System: PixelOven documentation",
+  "extensions": {
+    "shadows": [
+      {
+        "name": "shadow-strong",
+        "value": "var(--pxo-shadow-strong)",
+        "purpose": "Desktop Warden creation dialog; resting issue cards have no shadow."
+      }
+    ],
+    "motion": [
+      {
+        "name": "duration-out",
+        "value": "var(--pxo-duration-out)",
+        "purpose": "Warden issue-card background/border transitions; removed under reduced motion."
+      },
+      {
+        "name": "ease-out",
+        "value": "var(--pxo-ease-out)",
+        "purpose": "Easing for those issue-card transitions."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "Warden identity stack",
+        "value": "700px"
+      },
+      {
+        "name": "Warden phone workspace",
+        "value": "760px"
+      },
+      {
+        "name": "Warden horizontal saved views",
+        "value": "1100px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary button",
+      "kind": "button",
+      "description": "Shared primary action. Host must supply canonical --pxo-* variables and Plex fonts.",
+      "html": "<button class=\"ds-primary\" type=\"button\">New issue</button>",
+      "css": ".ds-primary { box-sizing: border-box; max-inline-size: 100%; min-block-size: max(44px, 2.75rem); padding: 0.65rem 0.85rem; border: 1px solid var(--pxo-border-control); border-radius: var(--pxo-radius-sm); background: var(--pxo-surface); color: var(--pxo-text); font: var(--pxo-reading-control-weight) var(--pxo-reading-control-size) / var(--pxo-reading-control-line-height) var(--pxo-reading-control-font-family); letter-spacing: var(--pxo-reading-control-letter-spacing); min-inline-size: max(44px, 2.75rem); cursor: pointer; text-align: center; overflow-wrap: anywhere; background: var(--pxo-action-primary); color: var(--pxo-action-on-primary); } .ds-primary:hover:not(:disabled) { background: var(--pxo-action-primary-hover); } .ds-primary:active:not(:disabled) { background: var(--pxo-action-primary-pressed); } .ds-primary[aria-pressed=\"true\"]:not(:disabled) { background: var(--pxo-interaction-selection-surface); color: var(--pxo-interaction-selection-text); border-color: var(--pxo-interaction-focus); } .ds-primary:focus-visible { outline: 2px solid var(--pxo-interaction-focus); outline-offset: 3px; } .ds-primary:disabled { cursor: not-allowed; border-style: dashed; background: var(--pxo-surface); color: var(--pxo-text-dim); opacity: 1; }"
+    },
+    {
+      "name": "Secondary button",
+      "kind": "button",
+      "description": "Shared secondary action with pressed-state support.",
+      "html": "<button class=\"ds-secondary\" type=\"button\">Back to work</button>",
+      "css": ".ds-secondary { box-sizing: border-box; max-inline-size: 100%; min-block-size: max(44px, 2.75rem); padding: 0.65rem 0.85rem; border: 1px solid var(--pxo-border-control); border-radius: var(--pxo-radius-sm); background: var(--pxo-surface); color: var(--pxo-text); font: var(--pxo-reading-control-weight) var(--pxo-reading-control-size) / var(--pxo-reading-control-line-height) var(--pxo-reading-control-font-family); letter-spacing: var(--pxo-reading-control-letter-spacing); min-inline-size: max(44px, 2.75rem); cursor: pointer; text-align: center; overflow-wrap: anywhere;  } .ds-secondary:hover:not(:disabled) { background: var(--pxo-surface-hover); } .ds-secondary:active:not(:disabled) { background: var(--pxo-surface-raised); } .ds-secondary[aria-pressed=\"true\"]:not(:disabled) { background: var(--pxo-interaction-selection-surface); color: var(--pxo-interaction-selection-text); border-color: var(--pxo-interaction-focus); } .ds-secondary:focus-visible { outline: 2px solid var(--pxo-interaction-focus); outline-offset: 3px; } .ds-secondary:disabled { cursor: not-allowed; border-style: dashed; background: var(--pxo-surface); color: var(--pxo-text-dim); opacity: 1; }"
+    },
+    {
+      "name": "Text input",
+      "kind": "input",
+      "description": "Shared native entry control; invalid and disabled boundaries remain visible.",
+      "html": "<label class=\"ds-label\" for=\"ds-title\">Title</label><input class=\"ds-input\" id=\"ds-title\" placeholder=\"What needs to happen?\">",
+      "css": ".ds-label { display: block; color: var(--pxo-text); font: var(--pxo-reading-control-weight) var(--pxo-reading-control-size) / var(--pxo-reading-control-line-height) var(--pxo-reading-control-font-family); letter-spacing: var(--pxo-reading-control-letter-spacing); } .ds-input { box-sizing: border-box; max-inline-size: 100%; min-block-size: max(44px, 2.75rem); padding: 0.65rem 0.85rem; border: 1px solid var(--pxo-border-control); border-radius: var(--pxo-radius-sm); background: var(--pxo-surface); color: var(--pxo-text); inline-size: 100%; min-inline-size: 0; font: var(--pxo-reading-input-weight) var(--pxo-reading-input-size) / var(--pxo-reading-input-line-height) var(--pxo-reading-input-font-family); letter-spacing: var(--pxo-reading-input-letter-spacing); caret-color: var(--pxo-interaction-focus); } .ds-input::placeholder { color: var(--pxo-text-secondary); opacity: 1; } .ds-input:focus-visible { outline: 2px solid var(--pxo-interaction-focus); outline-offset: 3px; } .ds-input:disabled { cursor: not-allowed; border-style: dashed; background: var(--pxo-surface); color: var(--pxo-text-dim); opacity: 1; } .ds-input[aria-invalid]:not([aria-invalid=\"false\"]) { border-color: var(--pxo-status-danger); border-style: dashed; } .ds-input::selection { background: var(--pxo-interaction-selection-surface); color: var(--pxo-interaction-selection-text); }"
+    },
+    {
+      "name": "Native select",
+      "kind": "input",
+      "description": "Shared native select; Warden uses it for phone saved views and stages.",
+      "html": "<label class=\"ds-select-label\" for=\"ds-view\">Saved view</label><select class=\"ds-select\" id=\"ds-view\"><option>Active · 7</option><option>Needs You · 3</option></select>",
+      "css": ".ds-select-label { display: block; color: var(--pxo-text); font: var(--pxo-reading-control-weight) var(--pxo-reading-control-size) / var(--pxo-reading-control-line-height) var(--pxo-reading-control-font-family); letter-spacing: var(--pxo-reading-control-letter-spacing); } .ds-select { box-sizing: border-box; max-inline-size: 100%; min-block-size: max(44px, 2.75rem); padding: 0.65rem 0.85rem; border: 1px solid var(--pxo-border-control); border-radius: var(--pxo-radius-sm); background: var(--pxo-surface); color: var(--pxo-text); inline-size: 100%; min-inline-size: 0; font: var(--pxo-reading-input-weight) var(--pxo-reading-input-size) / var(--pxo-reading-input-line-height) var(--pxo-reading-input-font-family); letter-spacing: var(--pxo-reading-input-letter-spacing); cursor: pointer; } .ds-select:focus-visible { outline: 2px solid var(--pxo-interaction-focus); outline-offset: 3px; } .ds-select:disabled { cursor: not-allowed; border-style: dashed; background: var(--pxo-surface); color: var(--pxo-text-dim); opacity: 1; } .ds-select[aria-invalid]:not([aria-invalid=\"false\"]) { border-color: var(--pxo-status-danger); border-style: dashed; }"
+    },
+    {
+      "name": "Warden saved view",
+      "kind": "nav",
+      "description": "Study-specific current desktop view, built on the shared secondary button.",
+      "html": "<nav aria-label=\"Saved views\"><button class=\"ds-navitem\" type=\"button\" aria-current=\"page\"><span>Active</span><span class=\"ds-count\">7</span></button></nav>",
+      "css": ".ds-navitem { box-sizing: border-box; max-inline-size: 100%; min-block-size: max(44px, 2.75rem); padding: 0.65rem 0.85rem; border: 1px solid var(--pxo-border-control); border-radius: var(--pxo-radius-sm); background: var(--pxo-surface); color: var(--pxo-text); font: var(--pxo-reading-control-weight) var(--pxo-reading-control-size) / var(--pxo-reading-control-line-height) var(--pxo-reading-control-font-family); letter-spacing: var(--pxo-reading-control-letter-spacing); min-inline-size: max(44px, 2.75rem); cursor: pointer; text-align: center; overflow-wrap: anywhere;  } .ds-navitem:hover:not(:disabled) { background: var(--pxo-surface-hover); } .ds-navitem:active:not(:disabled) { background: var(--pxo-surface-raised); } .ds-navitem[aria-pressed=\"true\"]:not(:disabled) { background: var(--pxo-interaction-selection-surface); color: var(--pxo-interaction-selection-text); border-color: var(--pxo-interaction-focus); } .ds-navitem:focus-visible { outline: 2px solid var(--pxo-interaction-focus); outline-offset: 3px; } .ds-navitem:disabled { cursor: not-allowed; border-style: dashed; background: var(--pxo-surface); color: var(--pxo-text-dim); opacity: 1; } .ds-navitem { display: flex; justify-content: space-between; text-align: left; gap: 1rem; border-color: transparent; background: transparent; padding-inline: .8rem; } .ds-navitem[aria-current=\"page\"] { color: var(--pxo-interaction-selection-text); background: var(--pxo-interaction-selection-surface); border-color: var(--pxo-border); } .ds-count { font: var(--pxo-reading-code-weight) var(--pxo-reading-code-size)/var(--pxo-reading-code-line-height) var(--pxo-font-mono); font-variant-numeric: tabular-nums; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "PixelOven family",
+    "overview": "The approved modern, minimalist cyberpunk direction combines neutral work surfaces, concentrated electric accents, readable Plex typography and precise Solid/Inset identity. Density serves the task; hierarchy and accessible controls carry the expression.\n This records shared visual guidance for the documentation application and the built Warden review study. Warden's composition is study-specific, not a template for every product. Its synthetic local state does not establish production capabilities or approve a Warden mark.",
+    "keyCharacteristics": [
+      "Cool/Warm neutrals and independent Acid/electric Violet accents.",
+      "Plex Sans task text and Plex Mono identifiers.",
+      "Tonal separation, modest corners and visible interaction states.",
+      "Solid primary identity and Inset companion identity."
+    ],
+    "rules": [],
+    "dos": [
+      "Do bind shared visual values to canonical token roles.",
+      "Do preserve readable text, visible focus and complete labels as text grows.",
+      "Do attribute Warden composition and local behavior to this synthetic study."
+    ],
+    "donts": [
+      "Don't create another palette or change status meaning with accent preferences.",
+      "Don't present Warden candidates as approved family assets.",
+      "Don't infer production integration or unperformed accessibility coverage from visual review."
+    ]
+  }
+}

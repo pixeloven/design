@@ -12,5 +12,5 @@
     "lib": ["ES2022", "DOM"],
     "types": ["vite/client"]
   },
-  "include": ["stories/Themes.stories.tsx", "stories/Marks.helpers.tsx", "typechecks/themes.ts"]
+  "include": ["stories/Themes.stories.tsx", "stories/Marks.helpers.tsx", "stories/Warden*.tsx", "review/main.tsx", "typechecks/themes.ts"]
 }

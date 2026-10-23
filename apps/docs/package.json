@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "dev": "storybook dev -p 6006",
-    "build": "storybook build -o storybook-static",
+    "build": "storybook build -o storybook-static && node review/build.mjs",
+    "build:review": "node review/build.mjs",
     "test": "node --test",
     "typecheck": "tsc -p tsconfig.foundations.json"
   },
@@ -16,6 +17,7 @@
     "@storybook/addon-themes": "^10.4.6",
     "@storybook/react-vite": "^10.4.6",
     "@types/react": "19.2.18",
+    "@types/react-dom": "19.2.3",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "storybook": "^10.4.6",
