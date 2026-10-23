@@ -87,7 +87,7 @@ export function WardenReview({ initialPage = "workspace" }: { initialPage?: Page
         <div>
           <h2>Develop clearer work through issues</h2>
           <ol>
-            <li>Choose <strong>New issue</strong>. Capture a Task, Bug, Story or Spike with whatever is known. A title is enough; an Epic is optional.</li>
+            <li>Choose <strong>New issue</strong> and select Epic, Story, Task, Bug or Spike. The optional fields adapt to the type; a title is enough. <strong>New Epic</strong> opens the same composer with Epic selected.</li>
             <li>Use a Spike to explore a design or implementation question. Record its findings in Result and comments, then refine existing requirements or create a linked follow-up. Keep the investigation available.</li>
             <li>Create an Epic when a shared outcome is useful. Refine its outcome and finish line as you learn. Organize related work, change planning order or transfer issues between Epics.</li>
             <li>Open <strong>Needs attention</strong>. Identify what is being asked, read the plan or result, and approve it or request changes. Add a comment, then return to the originating workspace.</li>

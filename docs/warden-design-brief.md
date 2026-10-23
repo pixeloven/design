@@ -1,6 +1,6 @@
 # Warden: develop clear work through issues
 
-2026-10-22 · Accepted product model and MVP execution plan. Part of
+2026-10-23 · Accepted product model and MVP execution plan. Part of
 [design #8](https://github.com/pixeloven/design/issues/8).
 
 ## Product decision and ownership
@@ -103,9 +103,12 @@ continues in its own session.
 
 ### Create an issue; refine it through work
 
-The primary entry is **New issue**. A title is enough to capture work. Type,
-context and an optional Epic can be chosen immediately; requirements, scope and
-Plan can develop as more becomes known. A known Bug or Task can go straight to
+The primary entry is **New issue**, with Epic, Story, Task, Bug and Spike in one
+type selector. A title is enough to capture any type. The same composer shows
+the relevant optional fields: outcome, finish line and scope for an Epic;
+requirements and optional Epic membership for other work. Context remains
+shared, while requirements, scope and Plan can develop as more becomes known.
+A known Bug or Task can go straight to
 refinement. An uncertain question can be captured as a Spike. Neither route
 requires an intake interview, an Epic, a complete plan or a batch of children.
 
@@ -139,6 +142,17 @@ before investigation starts. Its title is enough at capture; outcome, scope,
 finish line and child work mature alongside the issues. An observable finish
 line is required for explicit outcome acceptance, not for saving an early Epic.
 There is no compulsory issue → Spike → Epic sequence.
+
+**New Epic** is a contextual shortcut into that same composer with Epic selected.
+Changing the type of an unsaved issue keeps its title, context and type-specific
+draft text through switching back, closing and reloading. Epic creation never
+inherits another Epic as its parent. Existing drafts require explicit resume
+or discard rather than being overwritten by a shortcut. Editing a saved Epic
+can use an outcome-specific editor; changing the type of an existing record
+across the Epic boundary is a separate operation outside this creation change.
+If a type change leaves authored fields outside the selected type's form,
+creation discloses that their text will be retained in Activity. Such retained
+text does not establish a parent or dependency relationship.
 
 For example: capture **Explore focused note reading** as a Spike; compare reader
 layouts and record why one works better; refine **Give the focused reader room
@@ -246,7 +260,8 @@ including direct moves and approvals, and preserve acceptance history on reopen.
 
 ### Interaction, trust and accessibility
 
-- Contextual creation inherits the project; changing the project is visible.
+- Contextual child creation inherits the Epic; changing that membership is
+  visible. Selecting Epic creates a top-level outcome, not a nested Epic.
   Close/reopen and recoverable failures retain drafts, with explicit discard
   and a declared storage lifetime. No success message precedes a confirmed write.
 - Desktop supports an adjacent task and expanded reading. Phone uses one
@@ -473,6 +488,26 @@ October 22, Warden #59 is open/draft/conflicted and #60 is open. Reconcile both
 and deployed API/frontend/vault versions before cutover. Inventory existing
 parent/project relationships read-only; do not synthesize Epics from strings,
 merge by title or run the aggregate phase-2 migration as part of UI adoption.
+
+### October 23 validation: one issue composer
+
+New issue now offers Epic alongside Story, Task, Bug and Spike. New Epic
+preselects Epic in that same component; existing Epic editing stays separate.
+All twenty-five docs/model tests and strict typechecking pass, and the portable
+preview builds. Independent source review passed after confirming that child
+navigation clears a prior creation return target.
+
+Chromium at 1440px and 390px verifies all five choices, work/Epic type switching,
+shared context, retained type-specific fields, parent restoration when switching
+back to work, close/reload and top-level Epic creation. Additional browser checks
+cover the shortcut, title-only Epic capture, Epic follow-up provenance, both old
+draft channels together, explicit resume instead of overwrite, and 320px doubled
+text without page overflow. Global creation remains usable in a completed Epic
+and defaults to standalone work. Back returns to the actual source or Epic,
+including when reopening a child after creation and reload. Automated
+accessibility scans found no violations in the exercised Epic composer states.
+The Impeccable source scan reported no findings; no suppressions were added.
+These remain synthetic browser checks, not production or physical-device proof.
 
 ### October 22 validation: issue refinement
 

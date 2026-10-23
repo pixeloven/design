@@ -40,7 +40,13 @@ limitation. Appearance preferences are separate and do not submit a product
 preference or identity approval. URL fragments describe navigation; they do not
 carry locally created records to another browser.
 
-Choose **New issue**, select **Spike** and capture a question such as
+Choose **New issue** to create an Epic, Story, Task, Bug or Spike. **New Epic**
+opens the same composer with Epic selected. Switch between Epic and a work type
+and back; title, context and the optional fields should survive closing and
+reloading. Epic creation is always top-level, even when started inside another
+Epic. A title alone is sufficient for every type.
+
+Select **Spike** and capture a question such as
 **Explore focused note reading**. A title is enough to save. Add context,
 investigation Plan and completion conditions when useful, then record findings
 in Result and comments. Refine existing work or create a linked follow-up;

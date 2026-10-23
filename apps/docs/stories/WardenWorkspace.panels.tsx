@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState, type FormEvent, type ReactNode } from "react"
 import { Button, Input, Label, Select } from "@pixeloven/ui"
-import { epics, workIssues, legacyDraftText, taskDraft, WORK_TYPES, STAGES, blockers, label, ordered, type Demo, type EpicDraft, type IdeaDraft, type Stage, type Task, type TaskDraft } from "./WardenWorkspace.model"
+import { epics, workIssues, inactiveDraftText, legacyDraftText, taskDraft, ISSUE_TYPES, WORK_TYPES, STAGES, blockers, label, ordered, type CreationDraft, type Demo, type EpicDraft, type IdeaDraft, type Stage, type Task, type TaskDraft } from "./WardenWorkspace.model"
 import "./WardenWorkspace.panel-actions.css"
 
 export type Outcome = { kind: "success" | "refusal" | "info"; message: string }
@@ -45,43 +45,50 @@ function TaskFields({ prefix, draft, onChange, includeType = true }: { prefix: s
     <p className="ww-hint" id={`${prefix}-dependency-help`}>Issue IDs separated by commas. An unavailable reference stays visible as a blocker.</p>
   </>
 }
-export function TaskComposer({ prefix, demo, draft, onChange, onClose, onCreate, onDiscard, stored, error }: {
-  prefix: string; demo: Demo; draft: TaskDraft; onChange: (draft: TaskDraft) => void; onClose: () => void
+export function IssueComposer({ prefix, demo, draft, onChange, onClose, onCreate, onDiscard, stored, error, returnLabel }: {
+  prefix: string; demo: Demo; draft: CreationDraft; onChange: (draft: CreationDraft) => void; onClose: () => void; returnLabel: string
   onCreate: (event: FormEvent) => void; onDiscard: () => void; stored: boolean; error: string
 }) {
   const source = demo.issues.find(issue => issue.id === draft.sourceIssueId)
   return <Panel label={`${prefix}-compose-heading`} modal className="ww-composer" onClose={onClose}>
-    <header className="ww-panel-header"><Button onClick={onClose}><Icon name="back" />Back to work</Button><span>Draft kept on close</span></header>
+    <header className="ww-panel-header"><Button onClick={onClose}><Icon name="back" />Back to {returnLabel}</Button><span>Draft kept on close</span></header>
     <form className="ww-compose-form" onSubmit={onCreate}>
-      <div><h2 id={`${prefix}-compose-heading`}>{draft.sourceIssueId ? "New follow-up issue" : "New issue"}</h2><p className="ww-secondary">Start with a title. Refine context, requirements, and the plan as you learn.</p></div>
+      <div><h2 id={`${prefix}-compose-heading`}>{draft.sourceIssueId ? "New follow-up issue" : "New issue"}</h2><p className="ww-secondary">{draft.type === "epic" ? "Name a bounded outcome. Refine its context and finish line as the work becomes clearer." : "Start with a title. Refine context, requirements, and the plan as you learn."}</p></div>
       {draft.sourceIssueId && <p className="ww-hint">Follow-up to <strong>{draft.sourceIssueId} · {source?.title ?? "Source unavailable"}</strong>. The original issue remains in place. This link does not create a dependency.</p>}
       <Label htmlFor={`${prefix}-new-title`}>Title<Input data-panel-focus id={`${prefix}-new-title`} required value={draft.title} onChange={event => onChange({ ...draft, title: event.target.value })} placeholder="What needs to happen?" /></Label>
-      <Label>Issue type<Select value={draft.type} onChange={event => onChange({ ...draft, type: event.target.value as TaskDraft["type"] })}>{WORK_TYPES.map(type => <option key={type} value={type}>{label(type)}</option>)}</Select></Label>
+      <Label>Issue type<Select value={draft.type} onChange={event => onChange({ ...draft, type: event.target.value as CreationDraft["type"] })}>{ISSUE_TYPES.map(type => <option key={type} value={type}>{label(type)}</option>)}</Select></Label>
       {draft.type === "spike" && <p className="ww-hint">A Spike investigates a design or implementation question and records findings and a decision.</p>}
-      <Label>Epic<Select value={draft.epicId} onChange={event => onChange({ ...draft, epicId: event.target.value })}>
+      {draft.type === "epic" ? <p className="ww-hint">An Epic is a top-level outcome. It has no parent Epic.</p> : <Label>Epic<Select value={draft.epicId} onChange={event => onChange({ ...draft, epicId: event.target.value })}>
         <option value="">Standalone issue</option>{epics(demo).map(project => <option key={project.id} value={project.id} disabled={project.status === "done"}>{project.title}{project.status === "done" ? " · completed" : ""}</option>)}
-      </Select></Label>
+      </Select></Label>}
       <p className="ww-hint">Starts in Todo. You can add or revise details after capture.</p>
-      <details className="ww-form-details"><summary>Add context and requirements (optional)</summary><div className="ww-fields">
+      <details className="ww-form-details"><summary>{draft.type === "epic" ? "Add context, outcome and scope (optional)" : "Add context and requirements (optional)"}</summary><div className="ww-fields">
         <Label>Context<textarea rows={3} value={draft.intent} onChange={event => onChange({ ...draft, intent: event.target.value })} placeholder="What do you know so far?" /></Label>
-        <Label>Requirements &amp; done when<textarea rows={3} value={draft.criteria} onChange={event => onChange({ ...draft, criteria: event.target.value })} placeholder="One requirement or completion condition per line" /></Label>
+        {draft.type === "epic" ? <>
+          <Label>Desired outcome<textarea rows={3} value={draft.outcome ?? ""} onChange={event => onChange({ ...draft, outcome: event.target.value })} /></Label>
+          <Label>Observable finish line<textarea rows={3} value={draft.finishLine ?? ""} onChange={event => onChange({ ...draft, finishLine: event.target.value })} placeholder="What can someone observe or check to accept this outcome?" /></Label>
+          <Label>In scope<textarea rows={2} value={draft.scope ?? ""} onChange={event => onChange({ ...draft, scope: event.target.value })} /></Label>
+          <Label>Out of scope<textarea rows={2} value={draft.outOfScope ?? ""} onChange={event => onChange({ ...draft, outOfScope: event.target.value })} /></Label>
+          <p className="ww-hint">An observable finish line is required when you accept the outcome and complete the Epic.</p>
+        </> : <Label>Requirements &amp; done when<textarea rows={3} value={draft.criteria} onChange={event => onChange({ ...draft, criteria: event.target.value })} placeholder="One requirement or completion condition per line" /></Label>}
       </div></details>
-      {(draft.plan || draft.result || draft.responsibility || draft.nextActor || draft.dependsOn) && <p className="ww-hint">Additional details from your saved draft are kept. You can edit them after creating the issue.</p>}
+      {draft.type !== "epic" && (draft.plan || draft.result || draft.responsibility || draft.nextActor || draft.dependsOn) && <p className="ww-hint">Additional details from your saved draft are kept. You can edit them after creating the issue.</p>}
+      {inactiveDraftText(draft) && <details className="ww-form-details"><summary>Details from another type are kept</summary><p className="ww-hint">These details will be saved in an activity note when you create this {label(draft.type)}. They do not create dependencies. Changing type keeps this text in the draft.</p><Label>Retained draft details<textarea rows={5} readOnly value={inactiveDraftText(draft)} /></Label></details>}
       {error && <p className="ww-form-error" role="alert">{error}</p>}
       <p className="ww-hint">{stored ? "Draft and workspace stay in this tab through reloads, until Reset demo or the tab’s session ends." : "Storage is unavailable. Keep this page open to retain the draft and workspace."}</p>
-      <footer className="ww-compose-actions"><Button onClick={onDiscard}>Discard draft</Button><Button type="submit" variant="primary" disabled={!draft.title.trim()}>Create issue</Button></footer>
+      <footer className="ww-compose-actions"><Button onClick={onDiscard}>Discard draft</Button><Button type="submit" variant="primary" disabled={!draft.title.trim()}>{draft.type === "epic" ? "Create Epic" : "Create issue"}</Button></footer>
     </form>
   </Panel>
 }
-export function ProjectComposer({ prefix, editing, draft, onChange, onClose, onSave, onDiscard }: {
-  prefix: string; editing: boolean; draft: EpicDraft; onChange: (draft: EpicDraft) => void; onClose: () => void; onSave: (event: FormEvent) => void; onDiscard: () => void
+export function EpicEditor({ prefix, draft, onChange, onClose, onSave, onDiscard, returnLabel }: {
+  prefix: string; draft: EpicDraft; onChange: (draft: EpicDraft) => void; onClose: () => void; onSave: (event: FormEvent) => void; onDiscard: () => void; returnLabel: string
 }) {
   return <Panel label={`${prefix}-project-heading`} modal className="ww-composer" onClose={onClose}>
-    <header className="ww-panel-header"><Button onClick={onClose}><Icon name="back" />Back to work</Button><span>Draft kept on close</span></header>
+    <header className="ww-panel-header"><Button onClick={onClose}><Icon name="back" />Back to {returnLabel}</Button><span>Draft kept on close</span></header>
     <form className="ww-compose-form" onSubmit={onSave}>
-      <div><h2 id={`${prefix}-project-heading`}>{editing ? "Edit Epic" : "New Epic"}</h2>{!editing && <p className="ww-secondary">Name a bounded outcome. Refine its brief and finish line as the work becomes clearer.</p>}</div>
+      <div><h2 id={`${prefix}-project-heading`}>Edit Epic</h2></div>
       <Label>Epic title<Input data-panel-focus required value={draft.title} onChange={event => onChange({ ...draft, title: event.target.value })} /></Label>
-      <details className="ww-form-details" open={editing || undefined}><summary>Outcome and scope (optional at capture)</summary><div className="ww-fields">
+      <details className="ww-form-details" open><summary>Outcome and scope</summary><div className="ww-fields">
       <Label>Context<textarea rows={3} value={draft.originalIdea} onChange={event => onChange({ ...draft, originalIdea: event.target.value })} /></Label>
       <Label>Desired outcome<textarea rows={3} value={draft.outcome} onChange={event => onChange({ ...draft, outcome: event.target.value })} /></Label>
       <Label>Observable finish line<textarea rows={3} value={draft.finishLine} onChange={event => onChange({ ...draft, finishLine: event.target.value })} placeholder="What can someone observe or check to accept this outcome?" /></Label>
@@ -89,7 +96,7 @@ export function ProjectComposer({ prefix, editing, draft, onChange, onClose, onS
       <Label>Out of scope<textarea rows={2} value={draft.outOfScope} onChange={event => onChange({ ...draft, outOfScope: event.target.value })} /></Label>
       </div></details>
       <p className="ww-hint">An observable finish line is required when you accept the outcome and complete the Epic.</p>
-      <footer className="ww-compose-actions"><Button onClick={onDiscard}>{editing ? "Discard edits" : "Discard draft"}</Button><Button type="submit" variant="primary" disabled={!draft.title.trim()}>{editing ? "Save Epic" : "Create Epic"}</Button></footer>
+      <footer className="ww-compose-actions"><Button onClick={onDiscard}>Discard edits</Button><Button type="submit" variant="primary" disabled={!draft.title.trim()}>Save Epic</Button></footer>
     </form>
   </Panel>
 }

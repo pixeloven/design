@@ -45,6 +45,8 @@ Issue; Epic is a bounded project outcome with a finish line, alongside Story,
 Task, Bug and Spike types. Standalone work remains valid. Type is separate from
 workflow status. Spikes record learning that can refine existing requirements
 or yield linked follow-up work; there is no required idea intake or Epic.
+New issue offers all five types in one composer. New Epic preselects that type
+in the same flow; a title alone is sufficient and type-specific fields adapt.
 The study demonstrates creation, investigation, refinement, organization,
 direction and outcome acceptance using browser-local
 records. The lead owns implementation through a working UI/MCP MVP before

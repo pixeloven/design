@@ -1,8 +1,8 @@
 import { test } from "node:test"
 import assert from "node:assert/strict"
 import {
-  DEFAULT_NAV, WORK_TYPES, acceptEpicOutcome, createEpic, createIssue, editedTask, emptyDraft, emptyEpicDraft, emptyIdeaDraft,
-  followUpDraft, initialDemo, legacyDraftText, migrateDemo, navigationFromUrl, reopenEpic, reorder, scopedTasks, taskDraft,
+  DEFAULT_NAV, ISSUE_TYPES, acceptEpicOutcome, createIssue, creationDraftFromEpic, editedTask, emptyCreationDraft, emptyDraft, emptyEpicDraft, emptyIdeaDraft,
+  followUpDraft, inactiveDraftText, initialDemo, legacyDraftText, migrateDemo, navigationFromUrl, reopenEpic, reorder, scopedTasks, taskDraft, writeNavigation,
 } from "../stories/WardenWorkspace.model.ts"
 
 // The previous public preview persisted this shape. Keep the fixture independent
@@ -46,7 +46,10 @@ test("saved v2 work and all draft channels survive normalization to Issues", () 
   assert.equal(migrated.edits[child.id].plan, child.plan, "old edit drafts must not erase an existing plan")
   assert.equal(migrated.edits[child.id].result, child.result, "old edit drafts must not erase result evidence")
   assert.equal(migrated.epicDrafts[epic.id].outcome, "Preserve this edit")
-  assert.equal(migrated.epicDrafts.new.title, "New idea draft")
+  assert.equal(migrated.legacyEpicDraft.title, "New idea draft")
+  assert.equal(migrated.legacyEpicDraft.type, "epic")
+  assert.equal(migrated.legacyEpicDraft.outcome, "Preserve new work too")
+  assert.equal(migrated.epicDrafts.new, undefined)
   assert.deepEqual(migrated.notes, previous.notes)
   assert.deepEqual(migrated.reasons, previous.reasons)
   assert.equal(migrated.navigation.epicId, epic.id)
@@ -75,7 +78,8 @@ test("saved v3 idea text is recoverable without overwriting existing drafts or r
   const original = structuredClone(previous)
   const migrated = migrateDemo(previous)
   assert.ok(migrated)
-  for (const key of ["issues", "draft", "ideaDraft", "epicDrafts", "edits", "notes", "reasons"]) assert.deepEqual(migrated[key], previous[key])
+  for (const key of ["issues", "draft", "ideaDraft", "edits", "notes", "reasons"]) assert.deepEqual(migrated[key], previous[key])
+  assert.deepEqual(migrated.legacyEpicDraft, creationDraftFromEpic(previous.epicDrafts.new))
   assert.equal(migrated.navigation.composer, "recovery")
   const recovered = legacyDraftText(migrated.ideaDraft)
   for (const field of ["title", "originalIdea", "outcome", "finishLine", "scope", "outOfScope"]) assert.ok(recovered.includes(previous.ideaDraft[field]))
@@ -90,7 +94,9 @@ test("old idea bookmarks open text recovery while direct Epic and follow-up rout
     globalThis.window = { location: { hash: "#wardenView=projects&wardenComposer=idea" } }
     assert.equal(navigationFromUrl(DEFAULT_NAV).composer, "recovery")
     window.location.hash = "#wardenView=projects&wardenComposer=project"
-    assert.equal(navigationFromUrl(DEFAULT_NAV).composer, "project")
+    assert.equal(navigationFromUrl(DEFAULT_NAV).composer, "legacyEpic")
+    window.location.hash = "#wardenView=project&wardenProject=reading&wardenComposer=project"
+    assert.equal(navigationFromUrl(DEFAULT_NAV).composer, "project", "saved Epic editing remains separate from creation")
     window.location.hash = "#wardenView=all&wardenTask=W-111&wardenComposer=followup"
     const navigation = navigationFromUrl(DEFAULT_NAV)
     assert.equal(navigation.composer, "followup")
@@ -98,11 +104,11 @@ test("old idea bookmarks open text recovery while direct Epic and follow-up rout
   } finally { if (previousWindow === undefined) delete globalThis.window; else globalThis.window = previousWindow }
 })
 
-test("a title is enough to capture every work type as a standalone issue", () => {
+test("a title is enough to capture all five types through the unified creation path", () => {
   const before = initialDemo()
   const original = structuredClone(before)
-  for (const type of WORK_TYPES) {
-    const draft = { ...emptyDraft(), title: " A useful next step ", type }
+  for (const type of ISSUE_TYPES) {
+    const draft = { ...emptyCreationDraft("", type), title: " A useful next step " }
     const result = createIssue({ ...before, draft }, draft)
     assert.equal(result.error, "")
     assert.equal(result.demo.draft, null)
@@ -134,21 +140,127 @@ test("invalid capture preserves the issue and draft collections", () => {
   }
 })
 
-test("direct Epic capture needs only a title; the finish line is required at acceptance", () => {
+test("resumed legacy Epic creation consumes its own channel and preserves unrelated drafts", () => {
   const before = initialDemo()
-  const draft = { ...emptyEpicDraft(), title: "An outcome to refine" }
-  before.epicDrafts.new = draft
+  const draft = creationDraftFromEpic({ ...emptyEpicDraft(), title: "An outcome to refine", originalIdea: "Original context" })
+  before.legacyEpicDraft = draft
   before.draft = { ...emptyDraft(), title: "Unrelated draft" }
-  const created = createEpic(before, draft)
+  before.epicDrafts.reading = { ...emptyEpicDraft(), title: "Unrelated saved Epic edit" }
+  const created = createIssue(before, draft, "legacyEpic")
   assert.equal(created.error, "")
-  assert.equal(created.demo.epicDrafts.new, undefined)
+  assert.equal(created.demo.legacyEpicDraft, undefined)
   assert.deepEqual(created.demo.draft, before.draft)
+  assert.deepEqual(created.demo.epicDrafts, before.epicDrafts)
   const epic = created.demo.issues.at(-1)
   assert.equal(epic.type, "epic")
   assert.equal(epic.epicId, "")
   assert.equal(epic.finishLine, "")
+  assert.equal(epic.originalIdea, "Original context")
+  assert.equal(epic.intent, "Original context")
   assert.match(acceptEpicOutcome(created.demo, epic.id, "Accepted", true).error, /finish line/)
-  assert.equal(createEpic(before, { ...draft, title: " " }).demo, before)
+  assert.equal(createIssue(before, { ...draft, title: " " }, "legacyEpic").demo, before)
+})
+
+test("type switches, close and reload retain shared context, parent and inactive fields in every creation channel", () => {
+  const authored = {
+    ...emptyCreationDraft("reading", "story"), title: "Keep my capture", intent: "Shared context",
+    criteria: "Keep this requirement", plan: "An earlier plan", result: "Earlier findings", responsibility: "Author", nextActor: "Reviewer", dependsOn: "W-101",
+    outcome: "A bounded outcome", finishLine: "An observable finish", scope: "Included scope", outOfScope: "Excluded scope",
+  }
+  const before = initialDemo()
+  before.draft = authored
+  before.legacyEpicDraft = { ...authored, title: "Earlier independent Epic", type: "epic" }
+  before.followUpDrafts["W-111"] = { ...authored, title: "Independent follow-up", sourceIssueId: "W-111" }
+  before.edits["W-101"] = taskDraft(before.issues.find(issue => issue.id === "W-101"))
+  const original = structuredClone(before)
+  for (const type of ISSUE_TYPES) {
+    const closed = { ...before, draft: { ...before.draft, type }, navigation: { ...before.navigation, composer: "" } }
+    const reloaded = migrateDemo(JSON.parse(JSON.stringify(closed)))
+    assert.deepEqual(reloaded, closed)
+    assert.deepEqual({ ...reloaded.draft, type: "story" }, authored)
+    assert.equal(reloaded.draft.epicId, "reading", "Epic selection retains the work parent for switching back")
+    assert.deepEqual(reloaded.edits, before.edits, "creation does not widen saved-work editing")
+  }
+  assert.deepEqual(before, original)
+})
+
+test("Epic capture never nests or creates dependencies, and keeps inactive authored details readable", () => {
+  const before = initialDemo()
+  for (const epicId of ["reading", "foundation", "missing"]) {
+    const draft = { ...emptyCreationDraft(epicId, "epic"), title: "Independent outcome", intent: "Shared context", outcome: "Readable notes", finishLine: "Return to the same paragraph", scope: "Reader", outOfScope: "Editor", criteria: "Authored requirement", plan: "Authored plan", result: "Authored findings", responsibility: "You", nextActor: "Reviewer", dependsOn: "W-101, W-102" }
+    const result = createIssue({ ...before, draft }, draft)
+    assert.equal(result.error, "", "an inactive work parent must not block an Epic")
+    const epic = result.demo.issues.at(-1)
+    assert.equal(epic.type, "epic")
+    assert.equal(epic.epicId, "")
+    assert.deepEqual(epic.dependsOn, [])
+    for (const key of ["title", "intent", "outcome", "finishLine", "scope", "outOfScope"]) assert.equal(epic[key], draft[key])
+    assert.equal(epic.originalIdea, draft.intent)
+    assert.equal(epic.log.length, 1)
+    for (const key of ["criteria", "plan", "result", "responsibility", "nextActor", "dependsOn"]) assert.ok(epic.log[0].includes(draft[key]))
+    assert.match(epic.log[0], /Dependencies \(not linked\)/)
+    assert.deepEqual(migrateDemo(JSON.parse(JSON.stringify(result.demo))), result.demo)
+  }
+  const noAuthoredDetails = { ...emptyCreationDraft("reading", "epic"), title: "Simple outcome" }
+  assert.equal(inactiveDraftText(noAuthoredDetails), "", "an inherited parent alone should not produce an activity note")
+  assert.deepEqual(createIssue(before, noAuthoredDetails).demo.issues.at(-1).log, [])
+})
+
+test("work captured after an Epic switch keeps its parent and all Epic text in one activity note", () => {
+  const draft = { ...emptyCreationDraft("reading", "task"), title: "A concrete step", intent: "Shared context", criteria: "A work requirement", outcome: "Earlier outcome", finishLine: "Earlier finish", scope: "Earlier scope", outOfScope: "Earlier exclusions" }
+  const result = createIssue(initialDemo(), draft)
+  assert.equal(result.error, "")
+  const work = result.demo.issues.at(-1)
+  assert.equal(work.epicId, "reading")
+  assert.equal(work.intent, draft.intent)
+  assert.deepEqual(work.criteria, [{ text: draft.criteria, done: false }])
+  assert.equal(work.log.length, 1)
+  for (const key of ["outcome", "finishLine", "scope", "outOfScope"]) assert.ok(work.log[0].includes(draft[key]))
+})
+
+test("Epic follow-up preserves source provenance, original source and other draft channels", () => {
+  const before = initialDemo()
+  const source = before.issues.find(issue => issue.id === "W-111")
+  const draft = { ...followUpDraft(before, source), type: "epic", title: "Broader outcome", intent: "Use the findings", outcome: "Reliable return", criteria: "Earlier work condition", dependsOn: "W-101" }
+  before.draft = { ...emptyCreationDraft(), title: "Unrelated issue" }
+  before.legacyEpicDraft = creationDraftFromEpic({ ...emptyEpicDraft(), title: "Earlier Epic" })
+  before.followUpDrafts[source.id] = draft
+  before.followUpDrafts["W-101"] = { ...emptyCreationDraft(), title: "Unrelated follow-up", sourceIssueId: "W-101" }
+  const original = structuredClone(before)
+  const result = createIssue(before, draft)
+  assert.equal(result.error, "")
+  const epic = result.demo.issues.at(-1)
+  assert.equal(epic.type, "epic")
+  assert.equal(epic.epicId, "")
+  assert.deepEqual(epic.dependsOn, [])
+  assert.equal(epic.sourceIssueId, source.id)
+  assert.ok(epic.log[0].includes(`[[${source.id}]]`))
+  assert.ok(epic.log[1].includes(draft.criteria))
+  assert.ok(epic.log[1].includes(draft.dependsOn))
+  assert.deepEqual(result.demo.issues.slice(0, -1), before.issues)
+  assert.deepEqual(result.demo.draft, before.draft)
+  assert.deepEqual(result.demo.legacyEpicDraft, before.legacyEpicDraft)
+  assert.deepEqual(result.demo.followUpDrafts["W-101"], before.followUpDrafts["W-101"])
+  assert.equal(result.demo.followUpDrafts[source.id], undefined)
+  assert.deepEqual(before, original)
+})
+
+test("creation history carries the actual source or destination through replacement and reload", () => {
+  const previousWindow = globalThis.window
+  try {
+    const history = { state: {}, pushState(state, _, url) { this.state = state; window.location.hash = url.slice(url.indexOf("#")) }, replaceState(state, _, url) { this.state = state; window.location.hash = url.slice(url.indexOf("#")) } }
+    globalThis.window = { location: { hash: "", pathname: "/warden", search: "" }, history }
+    for (const [sourceId, returnLabel] of [["", "Epics"], ["W-111", "W-111"]]) {
+      writeNavigation({ ...DEFAULT_NAV, selected: sourceId, composer: sourceId ? "followup" : "task" }, false, true, sourceId, returnLabel)
+      writeNavigation({ ...DEFAULT_NAV, view: "project", epicId: "W-999" }, true, true)
+      assert.equal(history.state.wardenReturnIssueId, sourceId)
+      assert.equal(history.state.wardenReturnLabel, returnLabel)
+      assert.equal(navigationFromUrl(DEFAULT_NAV).epicId, "W-999")
+      writeNavigation(DEFAULT_NAV, false)
+      assert.equal(history.state.wardenReturnLabel, "")
+      assert.equal(history.state.wardenReturnIssueId, "")
+    }
+  } finally { if (previousWindow === undefined) delete globalThis.window; else globalThis.window = previousWindow }
 })
 
 test("follow-up creation preserves its Spike, ordinary draft and other follow-up drafts", () => {
@@ -182,8 +294,8 @@ test("follow-up creation preserves its Spike, ordinary draft and other follow-up
 })
 
 test("Epic acceptance requires the finish line, human confirmation and all child dispositions", () => {
-  const epic = createEpic(initialDemo(), { ...emptyEpicDraft(), title: "Continuous reading", finishLine: "Return to the same paragraph" })
-  const created = { ...createIssue(epic.demo, { ...emptyDraft(epic.epicId), title: "Preserve reading position" }), epicId: epic.epicId }
+  const epic = createIssue(initialDemo(), { ...emptyCreationDraft("", "epic"), title: "Continuous reading", finishLine: "Return to the same paragraph" })
+  const created = { ...createIssue(epic.demo, { ...emptyDraft(epic.issueId), title: "Preserve reading position" }), epicId: epic.issueId }
   assert.match(acceptEpicOutcome(created.demo, created.epicId, "Accepted", true).error, /open child/)
   const finished = { ...created.demo, issues: created.demo.issues.map(issue => issue.epicId === created.epicId ? { ...issue, status: "done" } : issue) }
   assert.equal(finished.issues.find(issue => issue.id === created.epicId).status, "todo")
@@ -219,8 +331,8 @@ test("old unchosen Board defaults to List while a new-project draft stays reacha
   previous.navigation = { ...previous.navigation, view: "projects", projectId: "", selected: "", composer: "project", layoutChosen: false }
   const migrated = migrateDemo(previous)
   assert.equal(migrated.navigation.layout, "list")
-  assert.equal(migrated.navigation.composer, "project")
-  assert.equal(migrated.epicDrafts.new.outcome, "Preserve new work too")
+  assert.equal(migrated.navigation.composer, "legacyEpic")
+  assert.equal(migrated.legacyEpicDraft.outcome, "Preserve new work too")
 })
 
 test("All issues includes Epics; Epic scope returns its own children only", () => {

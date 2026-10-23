@@ -1,6 +1,7 @@
 /** Authored browser-local demo. Issue records are proposed contracts, not production API types. */
 export const STAGES = ["todo", "plan", "review", "build", "verify", "done"] as const
 export const WORK_TYPES = ["story", "task", "bug", "spike"] as const
+export const ISSUE_TYPES = ["epic", ...WORK_TYPES] as const
 export type Stage = typeof STAGES[number]
 export type WorkType = typeof WORK_TYPES[number]
 export type IssueType = "epic" | WorkType
@@ -28,17 +29,21 @@ export type Issue = EpicIssue | WorkIssue
 export type Task = WorkIssue
 export type TaskDraft = { type: WorkType; title: string; intent: string; epicId: string; responsibility: string; nextActor: string; criteria: string; dependsOn: string; plan: string; result: string; sourceIssueId?: string }
 export type EpicDraft = { title: string; outcome: string; finishLine: string; originalIdea: string; scope: string; outOfScope: string }
+/** Creation keeps inactive fields so changing type never destroys authored text. */
+export type CreationDraft = Omit<TaskDraft, "type"> & { type: IssueType } & Partial<Pick<EpicDraft, "outcome" | "finishLine" | "scope" | "outOfScope">>
 export type ProposedIssue = { key: string; type: WorkType; title: string; intent: string; criteria: string }
 /** Read-only compatibility shape for drafts authored in the previous preview. */
 export type IdeaDraft = EpicDraft & { step: "shape" | "review"; proposals: ProposedIssue[]; sample: boolean }
 export type Navigation = {
   view: Destination; epicId: string; selected: string; layout: "board" | "list"; layoutChosen?: boolean
-  scope: Scope; focus: Focus; query: string; stage: Stage; expanded: boolean; composer: "" | "task" | "project" | "followup" | "recovery"
+  scope: Scope; focus: Focus; query: string; stage: Stage; expanded: boolean; composer: "" | "task" | "project" | "followup" | "legacyEpic" | "recovery"
 }
 export type Demo = {
-  version: 3; issues: Issue[]; ideaDraft: IdeaDraft | null; draft: TaskDraft | null
+  version: 3; issues: Issue[]; ideaDraft: IdeaDraft | null; draft: CreationDraft | null
   edits: Record<string, TaskDraft>; epicDrafts: Record<string, EpicDraft>
-  followUpDrafts: Record<string, TaskDraft>
+  followUpDrafts: Record<string, CreationDraft>
+  /** Earlier separate Epic capture stays independent of an existing issue draft. */
+  legacyEpicDraft?: CreationDraft
   reasons: Record<string, string>; notes: Record<string, string>; navigation: Navigation
 }
 export const STORAGE_KEY = "pixeloven.warden-review.workspace.v3"
@@ -50,6 +55,8 @@ export const epics = (demo: Demo): EpicIssue[] => demo.issues.filter(isEpic)
 export const workIssues = (demo: Demo): WorkIssue[] => demo.issues.filter((issue): issue is WorkIssue => !isEpic(issue))
 export const emptyDraft = (epicId = ""): TaskDraft => ({ type: "task", title: "", intent: "", epicId, responsibility: "", nextActor: "", criteria: "", dependsOn: "", plan: "", result: "" })
 export const emptyEpicDraft = (): EpicDraft => ({ title: "", outcome: "", finishLine: "", originalIdea: "", scope: "", outOfScope: "" })
+export const emptyCreationDraft = (epicId = "", type: IssueType = "task"): CreationDraft => ({ ...emptyDraft(epicId), type })
+export const creationDraftFromEpic = (draft: EpicDraft): CreationDraft => ({ ...emptyCreationDraft("", "epic"), title: draft.title, intent: draft.originalIdea, outcome: draft.outcome, finishLine: draft.finishLine, scope: draft.scope, outOfScope: draft.outOfScope })
 export const emptyIdeaDraft = (): IdeaDraft => ({ ...emptyEpicDraft(), step: "shape", proposals: [], sample: false })
 export function taskDraft(task: Task): TaskDraft {
   return { type: task.type, title: task.title, intent: task.intent, epicId: task.epicId, responsibility: task.responsibility, nextActor: task.nextActor, criteria: task.criteria.map(item => item.text).join("\n"), dependsOn: task.dependsOn.join(", "), plan: task.plan, result: task.result, ...(task.sourceIssueId ? { sourceIssueId: task.sourceIssueId } : {}) }
@@ -130,21 +137,25 @@ function validIssue(value: unknown): value is Issue {
 }
 function validEpicDraft(value: unknown): value is EpicDraft & Record<string, unknown> { return record(value) && strings(value, ["title", "outcome", "finishLine", "originalIdea", "scope", "outOfScope"]) }
 function validTaskDraft(value: unknown): value is TaskDraft { return record(value) && strings(value, ["title", "intent", "epicId", "responsibility", "nextActor", "criteria", "dependsOn", "plan", "result"]) && WORK_TYPES.some(type => type === value.type) && (value.sourceIssueId === undefined || typeof value.sourceIssueId === "string") }
+function validCreationDraft(value: unknown): value is CreationDraft { return record(value) && strings(value, ["title", "intent", "epicId", "responsibility", "nextActor", "criteria", "dependsOn", "plan", "result"]) && ISSUE_TYPES.some(type => type === value.type) && ["sourceIssueId", "outcome", "finishLine", "scope", "outOfScope"].every(key => value[key] === undefined || typeof value[key] === "string") }
 function validLegacyTaskDraft(value: unknown): value is LegacyTaskDraft { return record(value) && strings(value, ["title", "intent", "projectId", "responsibility", "nextActor", "criteria", "dependsOn"]) }
 function validIdeaDraft(value: unknown): value is IdeaDraft {
   return validEpicDraft(value) && record(value) && (value.step === "shape" || value.step === "review") && typeof value.sample === "boolean" && Array.isArray(value.proposals) && value.proposals.every(item => record(item) && strings(item, ["key", "title", "intent", "criteria"]) && WORK_TYPES.some(type => type === item.type))
 }
 function validNavigation(value: unknown, legacy = false): boolean {
-  return record(value) && strings(value, [legacy ? "projectId" : "epicId", "selected", "query"]) && ["projects", "project", "all", "attention"].includes(String(value.view)) && ["board", "list"].includes(String(value.layout)) && ["open", "completed", "all"].includes(String(value.scope)) && ["all", "decisions", "blocked"].includes(String(value.focus)) && STAGES.some(stage => stage === value.stage) && typeof value.expanded === "boolean" && ["", "task", "project", "idea", "recovery", "followup"].includes(String(value.composer))
+  return record(value) && strings(value, [legacy ? "projectId" : "epicId", "selected", "query"]) && ["projects", "project", "all", "attention"].includes(String(value.view)) && ["board", "list"].includes(String(value.layout)) && ["open", "completed", "all"].includes(String(value.scope)) && ["all", "decisions", "blocked"].includes(String(value.focus)) && STAGES.some(stage => stage === value.stage) && typeof value.expanded === "boolean" && ["", "task", "project", "idea", "recovery", "followup", "legacyEpic"].includes(String(value.composer))
 }
 /** No v2 record is discarded; the original v2 storage key is also left untouched. */
 export function migrateDemo(value: unknown): Demo | null {
   if (!record(value)) return null
   if (value.version === 3) {
-    if (!Array.isArray(value.issues) || !value.issues.every(validIssue) || !validNavigation(value.navigation) || !(value.ideaDraft === null || validIdeaDraft(value.ideaDraft)) || !(value.draft === null || validTaskDraft(value.draft)) || !dictionary(value.edits, validTaskDraft) || !dictionary(value.epicDrafts, validEpicDraft) || !dictionary(value.reasons, item => typeof item === "string") || !dictionary(value.notes, item => typeof item === "string")) return null
-    if (!(value.followUpDrafts === undefined || dictionary(value.followUpDrafts, validTaskDraft))) return null
+    if (!Array.isArray(value.issues) || !value.issues.every(validIssue) || !validNavigation(value.navigation) || !(value.ideaDraft === null || validIdeaDraft(value.ideaDraft)) || !(value.draft === null || validCreationDraft(value.draft)) || !dictionary(value.edits, validTaskDraft) || !dictionary(value.epicDrafts, validEpicDraft) || !dictionary(value.reasons, item => typeof item === "string") || !dictionary(value.notes, item => typeof item === "string")) return null
+    if (!(value.followUpDrafts === undefined || dictionary(value.followUpDrafts, validCreationDraft)) || !(value.legacyEpicDraft === undefined || validCreationDraft(value.legacyEpicDraft))) return null
     const saved = value as unknown as Demo
-    return { ...saved, followUpDrafts: saved.followUpDrafts ?? {}, navigation: { ...saved.navigation, composer: String(saved.navigation.composer) === "idea" ? "recovery" : saved.navigation.composer } }
+    const epicDrafts = { ...saved.epicDrafts }
+    const legacyEpicDraft = saved.legacyEpicDraft ?? (epicDrafts.new ? creationDraftFromEpic(epicDrafts.new) : undefined)
+    if (legacyEpicDraft) delete epicDrafts.new
+    return { ...saved, epicDrafts, ...(legacyEpicDraft ? { legacyEpicDraft } : {}), followUpDrafts: saved.followUpDrafts ?? {}, navigation: { ...saved.navigation, composer: String(saved.navigation.composer) === "idea" ? "recovery" : saved.navigation.composer === "project" && saved.navigation.view !== "project" ? "legacyEpic" : saved.navigation.composer } }
   }
   if (value.version !== 2 || !Array.isArray(value.tasks) || !value.tasks.every(item => validIssueBase(item) && record(item) && typeof item.projectId === "string") || !Array.isArray(value.projects) || !value.projects.every(item => record(item) && strings(item, ["id", "title", "outcome"]) && typeof item.completed === "boolean") || !validNavigation(value.navigation, true) || !(value.draft === null || validLegacyTaskDraft(value.draft)) || !dictionary(value.edits, validLegacyTaskDraft) || !dictionary(value.projectDrafts, item => record(item) && strings(item, ["title", "outcome"])) || !dictionary(value.reasons, item => typeof item === "string") || !dictionary(value.notes, item => typeof item === "string")) return null
   const saved = value as unknown as LegacyDemo
@@ -156,9 +167,9 @@ export function migrateDemo(value: unknown): Demo | null {
   const tasks: WorkIssue[] = saved.tasks.map(task => { const { projectId, ...fields } = task; return { ...fields, type: "task", epicId: projectId } })
   const epicDrafts = Object.fromEntries(Object.entries(saved.projectDrafts).map(([id, draft]) => [id, { ...emptyEpicDraft(), ...draft }]))
   const { projectId, ...navigation } = saved.navigation
-  return { version: 3, issues: [...projects, ...tasks], ideaDraft: null, followUpDrafts: {},
+  return migrateDemo({ version: 3, issues: [...projects, ...tasks], ideaDraft: null, followUpDrafts: {},
     draft: saved.draft ? migrateDraft(saved.draft) : null, edits: Object.fromEntries(Object.entries(saved.edits).map(([id, draft]) => [id, migrateDraft(draft, saved.tasks.find(item => item.id === id))])), epicDrafts,
-    reasons: saved.reasons, notes: saved.notes, navigation: { ...DEFAULT_NAV, ...navigation, epicId: projectId, layout: navigation.layoutChosen ? navigation.layout : "list" } }
+    reasons: saved.reasons, notes: saved.notes, navigation: { ...DEFAULT_NAV, ...navigation, epicId: projectId, layout: navigation.layoutChosen ? navigation.layout : "list" } })
 }
 export function readDemo(): Demo {
   try {
@@ -221,42 +232,50 @@ export function navigationFromUrl(fallback: Navigation): Navigation {
   const view = params.get("wardenView")
   const scope = params.get("wardenScope")
   const stage = params.get("wardenStage")
-  const composer = params.get("wardenComposer")
-  return { ...DEFAULT_NAV, view: ["projects", "project", "all", "attention"].includes(view ?? "") ? view as Destination : "projects", epicId: params.get("wardenProject") ?? "", selected: params.get("wardenTask") ?? "", layout: params.get("wardenLayout") === "board" ? "board" : "list", layoutChosen: params.get("wardenLayoutChosen") === "1", scope: scope === "all" || scope === "completed" ? scope : "open", focus: params.get("wardenFocus") === "decisions" ? "decisions" : params.get("wardenFocus") === "blocked" ? "blocked" : "all", query: params.get("wardenQuery") ?? "", stage: STAGES.includes(stage as Stage) ? stage as Stage : "todo", expanded: params.get("wardenExpanded") === "1", composer: composer === "idea" ? "recovery" : composer === "task" || composer === "project" || composer === "followup" || composer === "recovery" ? composer : "" }
+  const requestedComposer = params.get("wardenComposer")
+  const composer = requestedComposer === "project" && view !== "project" ? "legacyEpic" : requestedComposer
+  return { ...DEFAULT_NAV, view: ["projects", "project", "all", "attention"].includes(view ?? "") ? view as Destination : "projects", epicId: params.get("wardenProject") ?? "", selected: params.get("wardenTask") ?? "", layout: params.get("wardenLayout") === "board" ? "board" : "list", layoutChosen: params.get("wardenLayoutChosen") === "1", scope: scope === "all" || scope === "completed" ? scope : "open", focus: params.get("wardenFocus") === "decisions" ? "decisions" : params.get("wardenFocus") === "blocked" ? "blocked" : "all", query: params.get("wardenQuery") ?? "", stage: STAGES.includes(stage as Stage) ? stage as Stage : "todo", expanded: params.get("wardenExpanded") === "1", composer: composer === "idea" ? "recovery" : composer === "task" || composer === "project" || composer === "followup" || composer === "legacyEpic" || composer === "recovery" ? composer : "" }
 }
-export function writeNavigation(nav: Navigation, replace: boolean, overlay = false, returnIssueId?: string) {
+export function writeNavigation(nav: Navigation, replace: boolean, overlay = false, returnIssueId?: string, returnLabel?: string) {
   const params = new URLSearchParams(window.location.hash.slice(1))
   const fields = { wardenView: nav.view, wardenProject: nav.epicId, wardenTask: nav.selected, wardenLayout: nav.layout, wardenLayoutChosen: nav.layoutChosen ? "1" : "", wardenScope: nav.scope, wardenFocus: nav.focus, wardenQuery: nav.query, wardenStage: nav.stage, wardenExpanded: nav.expanded ? "1" : "", wardenComposer: nav.composer }
   Object.entries(fields).forEach(([key, value]) => { if (value) params.set(key, value); else params.delete(key) })
-  const state = { ...window.history.state, wardenOverlay: overlay, wardenReturnIssueId: overlay ? returnIssueId ?? window.history.state?.wardenReturnIssueId ?? "" : "" }
+  const state = { ...window.history.state, wardenOverlay: overlay, wardenReturnIssueId: overlay ? returnIssueId ?? window.history.state?.wardenReturnIssueId ?? "" : "", wardenReturnLabel: overlay ? returnLabel ?? window.history.state?.wardenReturnLabel ?? "" : "" }
   window.history[replace ? "replaceState" : "pushState"](state, "", `${window.location.pathname}${window.location.search}#${params}`)
 }
 
 export type DemoTransition = { demo: Demo; error: string }
-export function followUpDraft(demo: Demo, source: Task): TaskDraft {
+export function followUpDraft(demo: Demo, source: Task): CreationDraft {
   const epicId = epics(demo).some(epic => epic.id === source.epicId && epic.status !== "done") ? source.epicId : ""
   return demo.followUpDrafts[source.id] ?? { ...emptyDraft(epicId), sourceIssueId: source.id }
 }
 /** Capture consumes only its own draft channel. A follow-up never converts its source. */
-export function createIssue(demo: Demo, draft: TaskDraft): DemoTransition & { issueId: string } {
+export function createIssue(demo: Demo, draft: CreationDraft, channel: "ordinary" | "legacyEpic" = "ordinary"): DemoTransition & { issueId: string } {
   const source = draft.sourceIssueId ? workIssues(demo).find(issue => issue.id === draft.sourceIssueId) : undefined
   const epic = epics(demo).find(issue => issue.id === draft.epicId)
-  const error = !draft.title.trim() ? "Give this issue a title." : !WORK_TYPES.includes(draft.type) ? "Choose an issue type." : draft.epicId && !epic ? "Choose an available Epic or standalone work." : epic?.status === "done" ? "This Epic is completed. Reopen it or choose an open Epic." : draft.sourceIssueId && !source ? "The source issue is unavailable. Your follow-up draft is kept." : ""
+  const error = !draft.title.trim() ? "Give this issue a title." : !ISSUE_TYPES.includes(draft.type) ? "Choose an issue type." : draft.type !== "epic" && draft.epicId && !epic ? "Choose an available Epic or standalone work." : draft.type !== "epic" && epic?.status === "done" ? "This Epic is completed. Reopen it or choose an open Epic." : draft.sourceIssueId && !source ? "The source issue is unavailable. Your follow-up draft is kept." : ""
   if (error) return { demo, error, issueId: "" }
   const issueId = `W-${nextIssueNumber(demo.issues)}`
-  const base = makeWorkIssue(issueId, "", "todo", draft.epicId, Math.max(-1, ...workIssues(demo).filter(issue => issue.epicId === draft.epicId).map(issue => issue.order)) + 1,
-    source ? { sourceIssueId: source.id, log: [`Created as a follow-up to [[${source.id}]] · ${source.title}.`] } : {})
-  const created = editedTask(base, draft)
+  const provenance = source ? { sourceIssueId: source.id, log: [`Created as a follow-up to [[${source.id}]] · ${source.title}.`] } : {}
+  const base = makeWorkIssue(issueId, "", "todo", draft.epicId, Math.max(-1, ...workIssues(demo).filter(issue => issue.epicId === draft.epicId).map(issue => issue.order)) + 1, provenance)
+  const created: Issue = draft.type === "epic"
+    ? makeEpic(issueId, { title: draft.title.trim(), originalIdea: draft.intent, outcome: draft.outcome ?? "", finishLine: draft.finishLine ?? "", scope: draft.scope ?? "", outOfScope: draft.outOfScope ?? "" }, provenance)
+    : editedTask(base, { ...draft, type: draft.type })
+  const retained = inactiveDraftText(draft)
+  if (retained) created.log.push(`Details retained from the creation draft\n\n${retained}`)
   if (created.dependsOn.includes(issueId)) return { demo, error: "An issue cannot depend on itself.", issueId: "" }
   const followUpDrafts = { ...demo.followUpDrafts }
   if (source) delete followUpDrafts[source.id]
-  return { demo: { ...demo, issues: [...demo.issues, created], draft: source ? demo.draft : null, followUpDrafts }, error: "", issueId }
+  const next = { ...demo, issues: [...demo.issues, created], draft: source || channel === "legacyEpic" ? demo.draft : null, followUpDrafts }
+  if (channel === "legacyEpic") delete next.legacyEpicDraft
+  return { demo: next, error: "", issueId }
 }
-export function createEpic(demo: Demo, draft: EpicDraft): DemoTransition & { epicId: string } {
-  if (!draft.title.trim()) return { demo, error: "Give this Epic a title.", epicId: "" }
-  const epicId = `W-${nextIssueNumber(demo.issues)}`
-  const epicDrafts = { ...demo.epicDrafts }; delete epicDrafts.new
-  return { demo: { ...demo, issues: [...demo.issues, makeEpic(epicId, { ...draft, title: draft.title.trim() })], epicDrafts }, error: "", epicId }
+/** Inapplicable authored fields remain readable after capture; they create no relationships. */
+export function inactiveDraftText(draft: CreationDraft): string {
+  const fields = draft.type === "epic"
+    ? [["Requirements & done when", draft.criteria], ["Plan", draft.plan], ["Result", draft.result], ["Responsible for this work", draft.responsibility], ["Required next actor", draft.nextActor], ["Dependencies (not linked)", draft.dependsOn]]
+    : [["Desired outcome", draft.outcome], ["Observable finish line", draft.finishLine], ["In scope", draft.scope], ["Out of scope", draft.outOfScope]]
+  return fields.filter(([, value]) => value?.trim()).map(([name, value]) => `${name}\n${value}`).join("\n\n")
 }
 /** Recovery is text-only: all authored fields survive, without creating or replacing drafts. */
 export function legacyDraftText(draft: IdeaDraft): string {

@@ -48,6 +48,8 @@ The operator supports this visual direction but found the October study's
 queue-centered work model inadequate. The accepted model makes an Epic the
 project-level Issue, with direct Story/Task/Bug/Spike children. New issue captures
 work with what is known; findings refine requirements and produce related work.
+All five types share a creation composer with relevant optional fields. New Epic
+preselects Epic; switching types preserves authored draft text.
 An Epic is optional, and no intake wizard is required. Epics, All issues and Needs attention
 provide working destinations. List is the default, Board optional. The local
 study and production UI/MCP acceptance remain distinct delivery gates.
