@@ -483,7 +483,7 @@ editor a stable owner and adds retained/active-draft regressions. The complete
 rerun passed with zero page/hydration or GraphQL errors. Independent engineering
 reviews and a bounded Impeccable visual confirmation passed. Raw evidence remains
 outside Git; the runnable harness and
-[handoff](https://github.com/pixeloven/warden/blob/test/mvp-owned-journey/docs/mvp-handoff.md)
+[handoff](https://github.com/pixeloven/warden/blob/dc117aecf8fd8b158085c2fa032062d69d822556/docs/mvp-handoff.md)
 belong to Warden. The tested host is Lattice `4003e4c`; Warden's source baseline
 is merged #79 (`515cfba`) plus #80's navigation fix and harness. Source versions
 are separate from release tags.
