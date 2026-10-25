@@ -117,8 +117,9 @@ reduced motion. Shared native controls introduce no motion themselves.
 Canonical small corners serve controls, base corners serve cards and large
 corners serve the desktop composer. Compact markers/list rows/phone panels use
 extra-small corners. Solid/Inset geometry remains angular. PixelOven and Lattice
-figures come from `@pixeloven/brand`; Warden candidates remain unapproved studies
-outside its asset registry.
+figures come from `@pixeloven/brand`. The operator selected Warden's Waymark
+figure on October 25; its unchanged Solid/Inset masters join the same registry
+in brand 0.3.0. Threshold and Branch remain historical studies outside it.
 
 ## Components
 
@@ -144,8 +145,10 @@ outside its asset registry.
   Request changes and Move explain their different consequences. Focus enters the task and returns on
   close; browser-session state retains drafts and decision reasons. Desktop
   expansion and phone modal reading protect concentration and return context.
-- **Identity:** compare Solid/Inset and small-size specimens alongside the
-  approved family. Preview selection does not approve or publish a mark.
+- **Identity:** Waymark is selected. Its default preview uses canonical masters
+  and generated lockup/favicon/app assets. Compare Solid/Inset and small-size
+  specimens alongside the approved family; the two alternatives are explicitly
+  historical. Comparing one does not change the selection or publish a mark.
 
 ## Do's and Don'ts
 

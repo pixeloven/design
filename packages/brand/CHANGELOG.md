@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.3.0
+
+- Add Warden as a product identity using the approved Waymark angular W, with
+  unchanged Solid and Inset geometry from the selected study.
+- Provide the full canonical light/dark asset set: outlined name lockups,
+  SVG/PNG favicons, app icons and maskable exports. The legacy `file` export
+  uses the same Solid figure in canonical light ink on an opaque dark ground.
+- Extend approved-geometry fixtures and existing rendering, palette, safe-area
+  and offline package-consumer checks to Warden. PixelOven and Lattice artwork
+  and asset contracts remain unchanged.
+- Run test files serially so package preparation cannot rebuild assets while
+  the rendering checks read them.
+
 ## 0.2.0
 
 - Add the approved Solid and Inset figures under each existing identity, with

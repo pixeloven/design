@@ -2,7 +2,8 @@
 
 This is the standalone entry for the same typed workspace and identity study
 shown in Storybook under **Studies / Warden**. All work is synthetic; no API or
-vault writes occur. The identity candidates are unapproved sources.
+vault writes occur. Waymark was selected on October 25; the other identity
+figures are retained as unselected historical studies.
 
 **Review status:** the revised build follows the
 [Epic/Issue brief](../../../docs/warden-design-brief.md). The operator accepted
@@ -10,8 +11,9 @@ Epic as the project outcome, with Story, Task, Bug and Spike child issues.
 Ordinary issue capture and refinement develop requirements through work,
 without an idea-intake wizard. Epics, All issues and Needs
 attention provide working destinations. The lead owns delivery through the real
-UI/MCP MVP before handoff; this local study is a design milestone. Warden's mark
-remains a separate review decision.
+UI/MCP MVP before handoff; that gate passed in Warden #80. This local study is a
+design milestone. Warden's selected Waymark is registered in brand 0.3.0;
+package publication and consumer adoption remain separate steps.
 
 From the repository root:
 
@@ -27,6 +29,12 @@ Open `http://localhost:4179/warden/`. The server binds to loopback by default;
 set `PIXELOVEN_REVIEW_HOST` to a trusted interface when
 sharing a preview. Network/firewall reachability must be verified separately.
 Do not start a duplicate listener on an occupied port.
+
+For the selected mark and its historical alternatives, open
+`http://localhost:4179/warden/?review=identity`. Add `&concept=threshold` or
+`&concept=branch` to start with that alternative; Waymark is the selected default.
+Compare header, browser-tab and app-icon placements, then expand the minimum-size
+family comparison. Selecting a preview is not identity approval.
 
 The generated `dist/warden-review.html` contains its scripts, styles, artwork
 and licensed fonts, and can also open directly as a local file. Generated

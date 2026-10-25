@@ -1,6 +1,6 @@
 # Brand review closeout
 
-Updated 2026-10-22. The operator approved completing the remaining brand/design work,
+Updated 2026-10-25. The operator approved completing the remaining brand/design work,
 then updating Harmony's Homepage links to the verified current design system.
 Harmony is the final closeout phase. Lattice's knowledge-lifecycle discovery
 has moved to a separate session.
@@ -30,18 +30,78 @@ There is no separate idea intake. The [Warden brief](warden-design-brief.md) own
 current decision and phased MVP plan. The lead is authorized to drive through a
 working MVP before handoff, with Crew implementation and independent reviews.
 
-The next delivery is issue capture → investigation/refinement → verified work,
-with Epic organization and explicit outcome acceptance when relevant.
-The editable local study establishes the experience; Warden service, MCP, skill
-and UI changes establish the product. A handoff requires shared authoritative
-records and the full journey on an owned test vault, including restart, conflict
-and refusal recovery. Browser-local state and visual polish cannot satisfy it.
+The issue-workflow MVP is implemented. [Warden #80](https://github.com/pixeloven/warden/pull/80)
+and [design #10](https://github.com/pixeloven/design/pull/10) merged October 25.
+The complete owned-stack journey passed 15 checks across five browser stages,
+including real ingestion, refusal/conflict recovery, restart and index rebuild.
+The [versioned implementation handoff](https://github.com/pixeloven/warden/blob/4be0b8675fcf6f0ecb1c12f2957a656dbe02fe2e/docs/mvp-handoff.md)
+owns reproduction and customer cutover requirements. The local study remains a
+synthetic review surface. Warden identity publication, package adoption and final
+documentation/consumer closeout remain; new MVP features are not the next phase.
 
 The recovered September prototype already demonstrated the project-first model.
 The brief now reconciles those original goals with Lattice's later visual and
 interaction decisions. It is the current Warden direction; the historical demos
 and audits remain dated references. The revised prototype is the review artifact;
 the accepted model now directs production slices alongside the revised study.
+
+## Remaining closeout
+
+1. **Publish Warden's selected figure.** The operator selected **Waymark — the
+   angular W** on October 25. Solid is primary; Inset serves favicons and app
+   icons. Brand 0.3.0 registers the unchanged geometry, outlined name lockups
+   and appearance-specific icon exports. The
+   [identity study](studies/warden-identity/README.md) retains the decision and
+   unselected alternatives. Merge and verify package publication before pinning
+   that version in Warden; selection does not establish a deployed asset.
+2. **Finish shared foundation adoption.** The Warden MVP consumes tokens but
+   still owns its controls, primitive scales and legacy mark. Map these to the
+   existing package contracts in a bounded consumer change after publication.
+   Preserve the accepted workflow; do not extract new generalized components
+   without a demonstrated need in both products. Its owned acceptance remains
+   valid for the reviewed source, not a claim of complete package adoption.
+3. **Repair and publish the documentation.** Correct stale adoption claims and
+   verify rendered stories, including Scales. A successful static build or an
+   HTTP 200 does not prove its components rendered. Keep the experimental
+   historical identity alternatives and synthetic workspace separate from
+   published references.
+4. **Refresh Harmony last.** Read-only inspection on October 25 found that
+   Homepage already links to `https://design.lab.pixeloven.com`, but the running
+   documentation image predates the current foundations. Its Marks page throws
+   `React is not defined`. Use a verified new documentation digest in Harmony's
+   deployment and verify Introduction, Marks, Themes, Scales and representative
+   controls in a browser. Homepage's stylesheet still owns literal palette
+   values; its token adoption must not be claimed as complete. Recheck the live
+   state after the operator's separate cluster-hardening work before preparing
+   any deployment change. No cluster changes were made during this review.
+
+## Warden foundation adoption
+
+The bounded consumer pass starts from Warden's merged MVP (`4be0b867`), after
+rechecking current main. Lattice `839794d9` provides a working package-integration
+reference. Preserve Warden's accepted issues, workflows, navigation and draft
+storage. Its controls are local native implementations, not vendored shared
+controls; its primitive scales also still have local definitions.
+
+| Slice | Implementation boundary | Acceptance |
+| --- | --- | --- |
+| Published Waymark and packaging | Pin brand 0.3.0 and UI 0.1.0 alongside tokens 0.6.0 in Warden's frontend manifest/lockfile. Add registry-driven asset copying before dev/build, declared icon/manifest URLs, and the missing Docker runtime `public/` copy. Replace the local TopBar shield with the registered Solid lockup; use Inset for icons. | Verify the published tarball and consumer registry access before final dependency resolution. Generated public files match package bytes, packaged runtime serves them, and GraphQL URL substitution still works. Preserve any deployed icon aliases discovered during preflight. |
+| Themes and scales | Add the existing theme resolver, preference/bootstrap and native Display control; map `globals.css`/`workspace.css` aliases to shared radius, typography, motion, shadow and layer tokens. Keep layout dimensions product-owned. | Preserve Warden's System appearance default, with Cool + Acid as visual defaults. All eight resolved theme/accent/appearance combinations work; explicit appearance overrides and System changes are correct; storage failure and reload retain usable behavior without touching drafts. |
+| Shared native controls | Keep `components/ui/controls.tsx` as a compatibility layer over published Button/Input/Select/Label. Preserve tone, pending/spinner, refs, native props, submit behavior and Field hints. Keep TextArea native and token-styled. | Focused wrapper tests prove pending/disabled behavior, native form validation, labelled values and refs. Real controls retain 44px targets and visible focus. Preserve links, dialogs, drag handles and the accepted refinement/order/outcome behavior. |
+| Converged product gate | Build the real frontend against the exact published packages, then run the existing owned-stack MVP journey once after the preceding slices converge. Add bounded visual checks to its read-only phase. | Confirm UI/MCP workflow, draft/conflict/restart recovery, registered assets, themes, desktop/phone, enlarged text and keyboard return. Preserve zero-mutation assertions for visual checks. CI owns broad suites; raw screenshots/logs remain outside Git. |
+
+Brand and theme preparation may proceed independently; shared-control adoption
+depends on the semantic theme roles. Final frozen-lockfile resolution and asset
+acceptance require actual brand 0.3.0 publication. Use Warden's existing BuildKit
+secret and CI package-access paths; do not add credentials to source. Its
+Next-hosted fonts must also be bound to the shared controls' font-family roles.
+
+Do not copy Lattice's Dark default into Warden or mechanically shrink human task
+text to the legacy compact type ramp. Use reading roles for prose and controls,
+compact roles for actual metadata, and paired action/selection/focus tokens.
+No new general Table/dialog abstraction, workflow API, customer migration or
+cluster rollout belongs to this adoption pass. Update the Warden handoff and
+this plan to the milestone actually verified.
 
 ## Delivery sequence
 

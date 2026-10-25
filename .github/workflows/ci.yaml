@@ -47,16 +47,14 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
-      - name: Build production assets
-        working-directory: packages/brand
-        run: pnpm build
-
       # Asserts every mark against packages/tokens: a logo that invents a colour
       # fails here. That is precisely the rule the parent brand broke — running
       # #ff5722 while every product ran #7c3cff — with nothing watching.
-      - name: Marks
+      # The package command builds assets and serializes test files: packing
+      # can run prepare and must not rebuild dist during the rendering checks.
+      - name: Build and test brand assets
         working-directory: packages/brand
-        run: node --test
+        run: pnpm test
 
   ui:
     name: ui — native behavior, strict types and package exports

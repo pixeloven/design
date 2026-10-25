@@ -9,4 +9,9 @@ import { WardenReview } from "../stories/WardenReview"
 
 const root = document.getElementById("root")
 if (!root) throw new Error("Review root is missing")
-createRoot(root).render(<WardenReview />)
+const params = new URLSearchParams(location.search)
+const concept = params.get("concept")
+createRoot(root).render(<WardenReview
+  initialPage={params.get("review") === "identity" ? "identity" : "workspace"}
+  initialConcept={concept === "threshold" || concept === "branch" ? concept : "waymark"}
+/>)

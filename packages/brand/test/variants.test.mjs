@@ -28,6 +28,9 @@ const approved = {
   "lattice/solid": [
     '<path fill="currentColor" fill-rule="evenodd" d="M32 5L59 32L32 59L5 32ZM32 14L39 21L32 28L25 21ZM50 32L43 39L36 32L43 25ZM32 50L25 43L32 36L39 43ZM14 32L21 25L28 32L21 39Z"/>',
   ],
+  "warden/solid": [
+    '<path fill="currentColor" fill-rule="evenodd" d="M6 10H18V34L25 41V22H39V41L46 34V10H58V39L39 58L32 51L25 58L6 39Z"/>',
+  ],
   "pixeloven/inset": [
     '<path fill="currentColor" fill-rule="evenodd" d="M16 6H48L58 16V48L48 58H16L6 48V16ZM19 16H35L46 27V34L38 42H28V50H19ZM28 25V33H34L38 29L34 25Z"/>',
   ],
@@ -35,7 +38,19 @@ const approved = {
     '<path fill="currentColor" fill-rule="evenodd" d="M16 6H48L58 16V48L48 58H16L6 48V16ZM32 13L13 32L32 51L51 32Z"/>',
     '<path fill="none" stroke="currentColor" stroke-width="5" d="M22.5 22.5L41.5 41.5M22.5 41.5L41.5 22.5"/>',
   ],
+  "warden/inset": [
+    '<path fill="currentColor" fill-rule="evenodd" d="M16 6H48L58 16V48L48 58H16L6 48V16ZM12.5 14H21.5V32L26.75 37.25V23H37.25V37.25L42.5 32V14H51.5V35.75L37.25 50L32 44.75L26.75 50L12.5 35.75Z"/>',
+  ],
 };
+
+test("Warden's legacy export is the approved Solid figure on an opaque canonical dark ground", () => {
+  const mark = registry.marks.find(({ id }) => id === "warden");
+  assert.equal(mark.tier, "product");
+  const svg = read(mark.file);
+  assert.deepEqual(paths(svg), approved["warden/solid"].map((path) => path.replaceAll("currentColor", tokens.text.base.dark)));
+  assert.ok(svg.includes(`<rect width="64" height="64" fill="${tokens.surface.bg.dark}"/>`));
+  assert.ok(render(svg).pixels.every((channel, index) => index % 4 !== 3 || channel === 255));
+});
 
 test("variant source and generated directories agree with the registry in both directions", () => {
   const variants = registry.marks.flatMap((mark) => Object.values(mark.variants));

@@ -1,6 +1,6 @@
 {
   "name": "@pixeloven/brand",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "PixelOven brand marks — logos and the rules that keep them one family.",
   "license": "UNLICENSED",
   "type": "module",
@@ -22,7 +22,7 @@
   ],
   "scripts": {
     "build": "node src/build.mjs",
-    "test": "node src/build.mjs && node --test",
+    "test": "node src/build.mjs && node --test --test-concurrency=1",
     "prepare": "node src/build.mjs",
     "prepublishOnly": "npm test"
   },

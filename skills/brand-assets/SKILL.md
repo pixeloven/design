@@ -58,7 +58,8 @@ For a new legacy-style mark, the existing procedure is:
    sentence saying what the shape *is*. The description is required: a mark whose
    idea is not written down gets redrawn subtly differently the next time
    somebody needs it bigger.
-4. `node --test` in `packages/brand`.
+4. `pnpm test` in `packages/brand`. Use the package command: it builds assets
+   and serializes test files so packing cannot rebuild them during render checks.
 
 ## What the tests enforce
 

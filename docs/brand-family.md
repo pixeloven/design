@@ -11,7 +11,8 @@ govern the application; brand expression supports the work.
   accent choices. Dark, Light and System appearance remain independent of both.
 - Solid is the primary identity form. Inset is the companion form for favicons,
   installed applications and avatars. Approved PixelOven and Lattice geometry
-  lives in `@pixeloven/brand`; Warden's figure is under review.
+  lives in `@pixeloven/brand`. Warden's angular W, **Waymark**, was selected
+  on October 25 and joins that registry in brand 0.3.0.
 - Plex Sans carries human task text. Plex Mono distinguishes identifiers, code
   and measured data. Readable roles take priority over compact metadata styling.
 - Colour, typography and other primitive scales come from `@pixeloven/tokens`.

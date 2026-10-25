@@ -1,6 +1,6 @@
 # Warden: develop clear work through issues
 
-2026-10-24 · Accepted product model and MVP execution plan. Part of
+2026-10-25 · Accepted product model and MVP execution plan. Part of
 [design #8](https://github.com/pixeloven/design/issues/8).
 
 ## Product decision and ownership
@@ -54,7 +54,8 @@ project by browsing global queues.
 The visual authority is the approved [PixelOven family](brand-family.md):
 Cool/Warm, Acid/electric Violet, Plex Sans/Mono and Solid/Inset. Lattice is the
 production reference for craft and continuity. Warden's composition follows
-project context, ordered work and clear decisions. Its mark remains unselected.
+project context, ordered work and clear decisions. The operator selected Waymark,
+the angular W, on October 25: Solid for primary identity and Inset for icons.
 
 ## Reconciliation: September intent and Lattice's design evolution
 
@@ -76,7 +77,7 @@ settle, rather than adding competing plans.
 | Source to carry forward | Reconciled Warden decision | Disposition |
 | --- | --- | --- |
 | September's project → task → decision → return journey | Projects have an outcome and an actionable board/list. Capture, refinement, organization and completion belong to the core experience. Attention supports that lifecycle. | Keep the product intent; replace the October navigation. |
-| Approved Lattice/PixelOven identity and theme choices | Use canonical Cool/Warm, Acid/electric Violet, independent appearance, Plex roles and Solid/Inset assets. Give Warden its own selected figure and work-oriented composition. | Reuse published foundations; Warden figure selection remains open. |
+| Approved Lattice/PixelOven identity and theme choices | Use canonical Cool/Warm, Acid/electric Violet, independent appearance, Plex roles and Solid/Inset assets. Give Warden its selected Waymark figure and work-oriented composition. | Reuse published foundations; publish and adopt the October 25 Waymark selection through the shared brand package. |
 | Lattice's exploration continuity | Retain project, filters, selected task, useful scroll and focus through detail, search, layout changes and return. Direct links and Browser Back are part of the interaction contract. | Adapt the behavior to project/task navigation. |
 | Lattice's focused and expanded reading direction | Let people read substantial intent, plans and results comfortably, with expanded desktop reading and full-screen phone tasks. Keep the originating project recoverable. | Adapt reading patterns; do not copy the graph or require Obsidian-specific syntax. |
 | Lattice's mobile corrections | Keep navigation compact and the active task usable. Use a readable list or chosen stage, accessible controls and reachable actions with a phone keyboard. | Carry forward the working-space principle; verify Warden's actual layouts. |
@@ -442,7 +443,9 @@ minimal persisted contract, ordering scope, concurrent edits, query completeness
 and evidence links belong in the Warden implementation specification. A missing
 current API is delivery work, not permission to display an invented fact.
 
-Keep Warden's mark selection as a separate review within the approved family.
+Warden's separate identity review selected Waymark on October 25. Promote its
+unchanged Solid/Inset geometry through the shared brand package and verify
+publication before consumer adoption.
 New team permissions, scheduling, agent dispatch, configurable workflow builders,
 a third organizational tier and a fabricated activity feed are not part of this
 proposal. Lattice lifecycle work remains in its own session. Harmony Homepage
@@ -462,7 +465,7 @@ results reconverge before review. A PR is a review boundary, not a handoff.
 | 3. Authoritative issue refinement | Shared revision-aware content authoring, Story policy, existing Spike support, validated Epic parents and persisted Epic content. Retain source evidence as ordinary body links. Evolve refinement skills to investigate, record findings, revise requirements and create useful follow-ups through actual Warden tools. Browser edits the same issue; MCP reads it back. Begins after read contract and reviewed interaction converge. | Merged [#68](https://github.com/pixeloven/warden/pull/68), [#69](https://github.com/pixeloven/warden/pull/69) and [#70](https://github.com/pixeloven/warden/pull/70). |
 | 4. Durable workspace and direction | Epic/child/standalone queries, open/completed/all scope, truthful counts, ordered work, explicit transfer and responsibility. Real comments, decisions, result editing and recovery; no fabricated activity. Port the accepted UI against these contracts. | Merged [#71](https://github.com/pixeloven/warden/pull/71), [#72](https://github.com/pixeloven/warden/pull/72), [#73](https://github.com/pixeloven/warden/pull/73), [#75](https://github.com/pixeloven/warden/pull/75), [#76](https://github.com/pixeloven/warden/pull/76), [#77](https://github.com/pixeloven/warden/pull/77) and [#78](https://github.com/pixeloven/warden/pull/78). |
 | 5. Accepted outcome | Central explicit Epic acceptance/reopen rules cover all transition paths and concurrent child changes. Children remain unchanged; remaining work has an explicit disposition. Completed outcomes stay searchable. | Merged [#79](https://github.com/pixeloven/warden/pull/79), with compatible source guards in [Lattice #444](https://github.com/pixeloven/lattice/pull/444). |
-| 6. Working MVP and handoff | Real production frontend, API and MCP exercise the journey on an owned Lattice fixture. Fresh browser and process restart retain work; conflicts/refusals/index delay recover without false success or duplicate writes. Independent engineering/design reviews pass, artifacts are versioned, and remaining limitations are named. | Owned acceptance passed; runnable harness, one navigation correction and handoff in [Warden #80](https://github.com/pixeloven/warden/pull/80), awaiting merge. Not deployed. |
+| 6. Working MVP and handoff | Real production frontend, API and MCP exercise the journey on an owned Lattice fixture. Fresh browser and process restart retain work; conflicts/refusals/index delay recover without false success or duplicate writes. Independent engineering/design reviews pass, artifacts are versioned, and remaining limitations are named. | Owned acceptance passed; runnable harness, one navigation correction and handoff in [Warden #80](https://github.com/pixeloven/warden/pull/80), merged October 25. Ready for implementation handoff; customer cutover remains separate. |
 
 ### October 24: owned MVP acceptance and implementation handoff
 
@@ -488,7 +491,8 @@ belong to Warden. The tested host is Lattice `4003e4c`; Warden's source baseline
 is merged #79 (`515cfba`) plus #80's navigation fix and harness. Source versions
 are separate from release tags.
 
-Implementation ownership can transfer after #80 merges. This is not customer
+Warden #80 and design #10 merged October 25. Implementation ownership can now
+transfer using the versioned handoff. This is not customer
 cutover acceptance: read-only inspection still found the deployed card contract,
 an older Lattice without source guards, and an authoring policy that lacks the
 issue kind. Old Warden #59/#60 remain conflicting proposals requiring deliberate
@@ -498,8 +502,9 @@ apply aggregate phase-2 migration as UI adoption. Physical phone keyboards,
 named assistive technology and production identity/deployment checks remain
 explicit follow-ups.
 
-The remaining design-session work is Warden mark selection within the approved
-family and the final Harmony Homepage/Storybook link cleanup. Lattice lifecycle
+The remaining design-session work is publication and adoption of Warden's
+selected Waymark and shared foundations, then final Harmony Homepage/Storybook
+closeout. Lattice lifecycle
 work remains handed off to its own session. Warden release, source inventory and
 customer migration proceed through a separate implementation/cutover plan.
 

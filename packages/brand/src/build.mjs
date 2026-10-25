@@ -36,7 +36,7 @@ function lockup(name, body, ink) {
   const { fontSize, letterSpacingEm, gap } = registry.assetContract.lockup;
   const scale = fontSize / font.unitsPerEm;
   // Retain kerning. Disable optional ligatures so the specified tracking is
-  // applied between each letter of these two approved names.
+  // applied between each letter of an approved name.
   const run = font.layout(name, { liga: false });
   let x = 0;
   const glyphs = [];
