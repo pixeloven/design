@@ -10,10 +10,12 @@ figures are retained as unselected historical studies.
 Epic as the project outcome, with Story, Task, Bug and Spike child issues.
 Ordinary issue capture and refinement develop requirements through work,
 without an idea-intake wizard. Epics, All issues and Needs
-attention provide working destinations. The lead owns delivery through the real
-UI/MCP MVP before handoff; that gate passed in Warden #80. This local study is a
-design milestone. Warden's selected Waymark is registered in brand 0.3.0;
-package publication and consumer adoption remain separate steps.
+attention provide working destinations. The real UI/MCP MVP gate passed in
+[Warden #80](https://github.com/pixeloven/warden/pull/80). Brand 0.3.0 is published,
+and [Warden #81](https://github.com/pixeloven/warden/pull/81) adopts Waymark,
+shared native controls and the eight themes. This local study remains a
+synthetic design reference; it does not establish customer deployment or
+migration.
 
 From the repository root:
 
@@ -79,5 +81,7 @@ against its finish line. Child completion alone never accepts the Epic.
 Use **Library maintenance** for the 50-issue case and **Reading foundation** for
 a completed Epic. Compare Board/List, expanded reading, phone return and
 enlarged text. Demo scenarios exercise incomplete reads and refusal without
-changing any real records. The on-page review guide identifies the production
-contract gaps. Identity comparisons remain a separate review.
+changing any real records. The on-page review guide describes the study's
+behavior and limits; the [Warden handoff](https://github.com/pixeloven/warden/blob/fa4e3369081cc90490e31805547658f0b928925b/docs/mvp-handoff.md)
+records delivered product contracts and remaining cutover work. Identity
+comparisons preserve the selection history.

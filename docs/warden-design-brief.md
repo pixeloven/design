@@ -1,15 +1,16 @@
 # Warden: develop clear work through issues
 
-2026-10-25 · Accepted product model and MVP execution plan. Part of
+2026-10-25 · Accepted product model, delivered MVP and foundation adoption. Part of
 [design #8](https://github.com/pixeloven/design/issues/8).
 
 ## Product decision and ownership
 
-The operator accepted the issue model below and asked the lead to drive the
-work through a working MVP, then prepare the implementation handoff. Crew
-provides bounded implementation, research and independent review; the lead owns
-scope, convergence and acceptance. Further discovery is needed only when a
-material product choice cannot be resolved from this direction.
+The operator accepted the issue model below. The working MVP and implementation
+handoff merged in [Warden #80](https://github.com/pixeloven/warden/pull/80);
+published brand, theme and control adoption followed in
+[#81](https://github.com/pixeloven/warden/pull/81). Crew implementation, research
+and independent review converged under the lead's acceptance. Customer release
+and migration remain separate from these delivered source milestones.
 
 **Capture what is known, investigate what is uncertain, and refine the work as
 you learn. Follow it through to an explicitly accepted result.** The human UI
@@ -41,10 +42,10 @@ children does not accept the Epic's outcome; accepting an Epic never silently
 changes its children.
 
 The design repository's interactive study uses synthetic browser-local records.
-It proves an experience, not production persistence or MCP integration. MVP
-acceptance requires the real Warden journey and an owned test vault; the lead
-retains ownership until that gate passes. Harmony rollout and the Homepage
-update follow separately.
+It proves an experience, not production persistence or MCP integration. The real
+Warden journey passed against an owned test vault; the versioned handoff below
+records its evidence and limits. Documentation publication and Harmony's
+Storybook refresh follow separately.
 
 One operator works at a desk and makes shorter visits on a phone. Success means
 they can answer: What are we trying to achieve? What should happen next? What
@@ -56,6 +57,8 @@ Cool/Warm, Acid/electric Violet, Plex Sans/Mono and Solid/Inset. Lattice is the
 production reference for craft and continuity. Warden's composition follows
 project context, ordered work and clear decisions. The operator selected Waymark,
 the angular W, on October 25: Solid for primary identity and Inset for icons.
+Brand 0.3.0 is published and Warden #81 consumes it with tokens 0.6.0 and UI 0.1.0.
+Warden preserves System appearance by default, with Cool + Acid.
 
 ## Reconciliation: September intent and Lattice's design evolution
 
@@ -77,7 +80,7 @@ settle, rather than adding competing plans.
 | Source to carry forward | Reconciled Warden decision | Disposition |
 | --- | --- | --- |
 | September's project → task → decision → return journey | Projects have an outcome and an actionable board/list. Capture, refinement, organization and completion belong to the core experience. Attention supports that lifecycle. | Keep the product intent; replace the October navigation. |
-| Approved Lattice/PixelOven identity and theme choices | Use canonical Cool/Warm, Acid/electric Violet, independent appearance, Plex roles and Solid/Inset assets. Give Warden its selected Waymark figure and work-oriented composition. | Reuse published foundations; publish and adopt the October 25 Waymark selection through the shared brand package. |
+| Approved Lattice/PixelOven identity and theme choices | Use canonical Cool/Warm, Acid/electric Violet, independent appearance, Plex roles and Solid/Inset assets. Give Warden its selected Waymark figure and work-oriented composition. | Published in brand 0.3.0 and adopted with shared themes and controls in Warden #81. |
 | Lattice's exploration continuity | Retain project, filters, selected task, useful scroll and focus through detail, search, layout changes and return. Direct links and Browser Back are part of the interaction contract. | Adapt the behavior to project/task navigation. |
 | Lattice's focused and expanded reading direction | Let people read substantial intent, plans and results comfortably, with expanded desktop reading and full-screen phone tasks. Keep the originating project recoverable. | Adapt reading patterns; do not copy the graph or require Obsidian-specific syntax. |
 | Lattice's mobile corrections | Keep navigation compact and the active task usable. Use a readable list or chosen stage, accessible controls and reachable actions with a phone keyboard. | Carry forward the working-space principle; verify Warden's actual layouts. |
@@ -100,7 +103,7 @@ decisions. Warden already uses Lattice as its storage substrate; that does not
 move Warden's workflow rules into an agent skill. Lattice lifecycle work
 continues in its own session.
 
-## Proposed experience
+## Accepted experience
 
 ### Create an issue; refine it through work
 
@@ -248,16 +251,17 @@ content, not a claim about unfinished Lattice delivery.
 
 The study's fixture families include Improve note reading, Release preparation,
 a 50-issue Library maintenance Epic, a completed Reading foundation Epic and
-standalone work. They exercise the interaction; the real UI/MCP journey remains
-an explicit implementation gate below.
+standalone work. They exercise the interaction; the real UI/MCP journey passed
+the owned-fixture acceptance recorded below in Warden #80 and again in #81.
 
 For this study, completing a project requires its unfinished tasks to be finished
 or transferred first. The action never changes child stages. Reopening a child
-in a completed project requires explicitly reopening that project. This is a
-proposed service policy to implement, not a claim about current Warden policy.
+in a completed project requires explicitly reopening that project. This central
+service policy is implemented in [Warden #79](https://github.com/pixeloven/warden/pull/79);
+customer deployment remains separate.
 Acceptance requires a recorded outcome note against the finish line. The
-production service must apply that rule to every path that can close an Epic,
-including direct moves and approvals, and preserve acceptance history on reopen.
+service applies that rule to every path that can close an Epic, including direct
+moves and approvals, and preserves acceptance history on reopen.
 
 ### Interaction, trust and accessibility
 
@@ -337,15 +341,17 @@ configuration systems or a human-assignee model to deliver those benefits.
 [GitHub table layout](https://docs.github.com/en/issues/planning-and-tracking-with-projects/customizing-views-in-your-project/customizing-the-table-layout),
 [Linear My issues](https://linear.app/docs/my-issues).
 
-## Current evidence
+## Historical live/source baseline — October 19–22
 
 The fresh live assessment inspected desktop 1440×1000 and phone 390×844 on
 October 19. It was read-only; no creation, movement or decisions were submitted.
 The deployed source revision was not established by the visual review. The
 separate capability review used current main
 [`1bdb4b0`](https://github.com/pixeloven/warden/tree/1bdb4b0280d887134a5a0f0be3e028fd8368c085).
-Main's issue contract and the live UI's card vocabulary must be reconciled for
-release. The September audit is historical evidence, not a current defect count.
+That main revision's issue contract and the live UI's card vocabulary required
+release reconciliation. These findings describe the dated baseline; the delivery
+record below describes the later merged implementation. Neither audit is a
+current defect count or evidence of customer cutover.
 
 | Finding | Observation | Design requirement |
 | --- | --- | --- |
@@ -361,18 +367,16 @@ with its state. The source review independently confirmed component-local draft
 state, constrained phone panels, missing read Retry, and technical detail order.
 
 Review/verify data, actual write outcomes and alternate-theme contrast were not
-verified in the live pass; owned fixtures must cover these before MVP acceptance.
-Physical phone keyboards and named screen readers were also not verified.
-Browser/automated accessibility checks are required for this MVP; the handoff
-must name the outstanding device and assistive-technology checks as follow-ups
-without claiming them. Private live captures remain outside this repository.
+verified in the live pass; the later owned acceptance covered these behaviors
+and themes. Physical phone keyboards and named screen readers remain unverified
+follow-ups in the handoff. Private live captures remain outside this repository.
 
-## Implementation evidence and required changes
+## Historical implementation baseline and recorded gaps
 
-The following describes the pinned source, not a ceiling on the design. A
-production delivery must implement and version new contracts before relying on
-them. Synthetic demonstrations can explore the target behavior but must label
-the capability gaps; they perform no network writes.
+The following describes pinned source `1bdb4b0` and the gaps recorded before the
+MVP implementation. The delivery table below records their merged resolution;
+these are not claims about current main. Synthetic demonstrations remain
+separate from the product contracts and perform no network writes.
 
 Current states are `todo`, `plan`, `review`, `build`, `verify`, `done`. Humans may
 move directly to any known state. Approve and Send back are distinct policy
@@ -443,9 +447,8 @@ minimal persisted contract, ordering scope, concurrent edits, query completeness
 and evidence links belong in the Warden implementation specification. A missing
 current API is delivery work, not permission to display an invented fact.
 
-Warden's separate identity review selected Waymark on October 25. Promote its
-unchanged Solid/Inset geometry through the shared brand package and verify
-publication before consumer adoption.
+Warden's separate identity review selected Waymark on October 25. Its unchanged
+Solid/Inset geometry is published in brand 0.3.0 and adopted in Warden #81.
 New team permissions, scheduling, agent dispatch, configurable workflow builders,
 a third organizational tier and a fabricated activity feed are not part of this
 proposal. Lattice lifecycle work remains in its own session. Harmony Homepage
@@ -453,10 +456,9 @@ remains the last closeout step.
 
 ## Delivery and acceptance
 
-The lead continues through these bounded slices. Design work stays in this
-repository; production service, skill, UI and fixture changes belong in Warden.
-Independent writers use separate worktrees or exclusive file ownership. Parallel
-results reconverge before review. A PR is a review boundary, not a handoff.
+These bounded slices are delivered. Design records stay in this repository;
+production service, skill, UI and fixture changes belong in Warden. The versioned
+handoff owns reproduction, recovery and the separate customer cutover.
 
 | Slice | Acceptance and dependency | State |
 | --- | --- | --- |
@@ -466,6 +468,30 @@ results reconverge before review. A PR is a review boundary, not a handoff.
 | 4. Durable workspace and direction | Epic/child/standalone queries, open/completed/all scope, truthful counts, ordered work, explicit transfer and responsibility. Real comments, decisions, result editing and recovery; no fabricated activity. Port the accepted UI against these contracts. | Merged [#71](https://github.com/pixeloven/warden/pull/71), [#72](https://github.com/pixeloven/warden/pull/72), [#73](https://github.com/pixeloven/warden/pull/73), [#75](https://github.com/pixeloven/warden/pull/75), [#76](https://github.com/pixeloven/warden/pull/76), [#77](https://github.com/pixeloven/warden/pull/77) and [#78](https://github.com/pixeloven/warden/pull/78). |
 | 5. Accepted outcome | Central explicit Epic acceptance/reopen rules cover all transition paths and concurrent child changes. Children remain unchanged; remaining work has an explicit disposition. Completed outcomes stay searchable. | Merged [#79](https://github.com/pixeloven/warden/pull/79), with compatible source guards in [Lattice #444](https://github.com/pixeloven/lattice/pull/444). |
 | 6. Working MVP and handoff | Real production frontend, API and MCP exercise the journey on an owned Lattice fixture. Fresh browser and process restart retain work; conflicts/refusals/index delay recover without false success or duplicate writes. Independent engineering/design reviews pass, artifacts are versioned, and remaining limitations are named. | Owned acceptance passed; runnable harness, one navigation correction and handoff in [Warden #80](https://github.com/pixeloven/warden/pull/80), merged October 25. Ready for implementation handoff; customer cutover remains separate. |
+| 7. Published design foundations | Consume the selected registered mark, shared themes, scales and native controls while preserving the accepted workflows and System default. Verify real package/container assets and rerun the owned workflow with read-only visual acceptance. | Merged [Warden #81](https://github.com/pixeloven/warden/pull/81) on October 25 as `fa4e336`. Exact brand 0.3.0, tokens 0.6.0 and UI 0.1.0 pins; all 15 owned checks and six CI checks passed. |
+
+### October 25: shared-foundation adoption
+
+[Warden #81](https://github.com/pixeloven/warden/pull/81) merged at 20:07:45 UTC
+as `fa4e3369081cc90490e31805547658f0b928925b`. Published-package and container
+checks verified Waymark Solid header lockups, Inset favicon/app/maskable assets,
+stable URLs and GraphQL URL substitution. Native controls preserve Warden's
+public wrapper props, form behavior, refs, pending and disabled states. Shared
+primitive scales and reading roles replace the migrated local definitions.
+
+The real owned journey passed all 15 checks with the existing workflow intact.
+Its visual gate covered all eight theme combinations on desktop, two
+representative combinations at phone viewports, and 320px enlarged text.
+Focus/return, saved preferences and System changes passed with zero mutations.
+System remains the default appearance with Cool + Acid. All six
+CI checks passed. No customer deployment or migration occurred; physical phone
+keyboards and named assistive technology remain follow-ups.
+
+The [updated implementation handoff](https://github.com/pixeloven/warden/blob/fa4e3369081cc90490e31805547658f0b928925b/docs/mvp-handoff.md)
+records reproduction and customer cutover limits. The remaining design-session
+work is documentation publication, then Harmony's Homepage/Storybook refresh.
+Homepage already links to `https://design.lab.pixeloven.com`. Lattice lifecycle
+work remains in its separate session.
 
 ### October 24: owned MVP acceptance and implementation handoff
 
@@ -502,11 +528,9 @@ apply aggregate phase-2 migration as UI adoption. Physical phone keyboards,
 named assistive technology and production identity/deployment checks remain
 explicit follow-ups.
 
-The remaining design-session work is publication and adoption of Warden's
-selected Waymark and shared foundations, then final Harmony Homepage/Storybook
-closeout. Lattice lifecycle
-work remains handed off to its own session. Warden release, source inventory and
-customer migration proceed through a separate implementation/cutover plan.
+The October 25 foundation adoption above completes the later design integration.
+Warden release, source inventory and customer migration still proceed through
+the separate implementation/cutover plan.
 
 The MVP handoff includes runnable setup, exact revisions, paired API/MCP type
 configuration, migration inventory/preview, the accepted journey, focused test
@@ -641,9 +665,10 @@ screen-reader acceptance. Navigation URLs carry context, not locally authored
 records to another browser. Same-session close restores useful scroll/focus;
 scroll offsets do not persist across reloads. At that review, operator journey
 acceptance, Warden identity selection and the production contracts remained
-open. The October 22 product decisions above now authorize the lead to advance
-implementation with independent reviews. The mark and production acceptance
-remain separate outstanding decisions/gates.
+open. The October 22 product decisions authorized implementation with independent
+reviews; the later delivery entries above record identity selection, publication,
+consumer adoption and owned production-stack acceptance. Customer deployment
+remains separate from those milestones.
 
 ## Source anchors
 
@@ -653,7 +678,8 @@ remain separate outstanding decisions/gates.
   historical references; the current decisions are consolidated above.
 - [Lattice reading and return contract](https://github.com/pixeloven/lattice/blob/cff7de3d8fd438462f37cb9237d239e1bd5f221f/docs/markdown-reader.md)
 - [Lattice delivered-roadmap status](https://github.com/pixeloven/lattice/blob/cff7de3d8fd438462f37cb9237d239e1bd5f221f/docs/roadmap.md)
-- [Schema and current fields](https://github.com/pixeloven/warden/blob/1bdb4b0280d887134a5a0f0be3e028fd8368c085/frontend/schema.graphql)
+- [Merged foundation and cutover handoff](https://github.com/pixeloven/warden/blob/fa4e3369081cc90490e31805547658f0b928925b/docs/mvp-handoff.md)
+- [October baseline schema and fields](https://github.com/pixeloven/warden/blob/1bdb4b0280d887134a5a0f0be3e028fd8368c085/frontend/schema.graphql)
 - [Existing Spike policy](https://github.com/pixeloven/warden/blob/1bdb4b0280d887134a5a0f0be3e028fd8368c085/src/warden/policy.py)
 - [Issue content and relationship semantics](https://github.com/pixeloven/warden/blob/1bdb4b0280d887134a5a0f0be3e028fd8368c085/SPEC.md)
 - [Existing refinement skill](https://github.com/pixeloven/warden/blob/1bdb4b0280d887134a5a0f0be3e028fd8368c085/skills/task-refine/SKILL.md)

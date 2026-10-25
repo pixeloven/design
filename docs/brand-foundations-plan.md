@@ -1,15 +1,15 @@
 # Approved brand foundations
 
-2026-09-29 foundations · Status reconciled 2026-10-19: brand/token foundations
-and native shared controls are published; Lattice adoption and its accepted
-redesign are complete. Warden adoption follows the
-[brand-review closeout](brand-review-closeout.md).
+2026-09-29 foundations · Status reconciled 2026-10-25: brand/token foundations
+and native shared controls are published. Lattice's accepted redesign and
+Warden's foundation adoption are merged. Documentation publication and Harmony's
+Storybook refresh follow the [brand-review closeout](brand-review-closeout.md).
 
 PixelOven is the parent; Lattice is a product. The operator approved Solid as
 the primary figure, Inset for icons, Cool/Warm themes, and Acid/electric Violet
 accents. Preserve the four selected SVG geometries and use one component family.
 
-## Delivery sequence
+## Original delivery sequence — completed
 
 1. **Parallel package preparation.** Brand worker prepares additive Solid/Inset
    masters, explicit ink variants, outlined wordmark lockups and icon exports.
@@ -42,16 +42,16 @@ accents. Preserve the four selected SVG geometries and use one component family.
   included in the package. Lockups do not depend on a viewer's installed fonts.
 - Local validation is targeted. CI owns the wider regression gates.
 
-This tranche delivers shared packages and examples. Product adoption follows
+This tranche delivered shared packages and examples. Consumer adoption followed
 publication, retaining existing saved appearance and stable icon URLs.
 
 ## Delivery status
 
-- **Published:** tokens 0.6 with typed opt-in themes and eight validated color
+- **Initial publication:** tokens 0.6 with typed opt-in themes and eight validated color
   combinations; brand 0.2 with four masters and 52 generated exports. Original
   token artifacts and marks remain compatible. Both packages validate packed
   consumer imports; brand also checks every registry export.
-- **Prepared:** Storybook theme/control examples with Lattice note traversal and
+- **Implemented:** Storybook theme/control examples with Lattice note traversal and
   a Warden task, production-asset specimens, usage guides and strict consumer
   typechecks. CI and the docs container build generate assets before use.
 - **Reviewed:** independent package/API compatibility review found no required
@@ -67,10 +67,12 @@ publication, retaining existing saved appearance and stable icon URLs.
   of owning duplicate control styles. Lattice adopted it in the workspace
   rebuild, preserving saved appearance and exploration.
 - **Consumer delivery:** Lattice's accepted redesign is complete under
-  [#383](https://github.com/pixeloven/lattice/issues/383). Warden remains the next
-  adoption; its current main still uses tokens 0.3. The review study prepares its
-  experience and identity, without publishing a new canonical mark or deploying
-  a product change.
+  [#383](https://github.com/pixeloven/lattice/issues/383). Brand 0.3.0 subsequently
+  published Warden's selected Waymark. [Warden #81](https://github.com/pixeloven/warden/pull/81)
+  merged October 25 with brand 0.3.0, tokens 0.6.0 and UI 0.1.0 pinned, native
+  controls, shared scales and all eight themes. Its 15-check owned journey,
+  visual gate at desktop and phone viewports with enlarged text, package/container
+  checks and six CI checks passed. Customer deployment and migration remain separate.
 
 The new opt-in danger callout ground was adjusted to pass 4.5:1 with its existing
 status foreground. Legacy palette values are unchanged. The surrounding example

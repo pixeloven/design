@@ -3,8 +3,9 @@
 **Waymark selected · October 25, 2026.** The operator selected the angular W
 after reviewing these three options. Solid is the primary form; Inset is the
 companion for favicons, app icons and avatars. The production masters now live
-in `packages/brand/sources`, registered as Warden in brand 0.3.0. Publication and
-consumer deployment remain separate milestones.
+in `packages/brand/sources`, published as Warden in brand 0.3.0 and adopted in
+[Warden #81](https://github.com/pixeloven/warden/pull/81). That merged consumer
+change passed owned-fixture acceptance; customer deployment remains separate.
 
 This directory preserves the original study sources and their dated unapproved
 metadata. Threshold and Branch were not selected. Production consumers use the
@@ -44,9 +45,9 @@ as a stress check: the existing family minimum remains 24px for Solid and
 | Branch | Inset preserves the arrow and fork; the two tail tips are secondary. | Arrowhead, trunk and fork separate clearly. | The branched construction is explicit, while direction remains dominant. |
 
 These observations describe the concept review. The October 25 selection
-promotes Waymark through the existing brand build, including explicit-ink
-exports, outlined name lockups and maskable padding. Inspect generated favicon
-pixels and the real name lockup before consumer adoption. Preserve the family's
+was published through the existing brand build, including explicit-ink
+exports, outlined name lockups and maskable padding. Warden's adoption verified
+the generated icon and lockup assets in the package and container. Preserve the family's
 8-grid-unit external clear space and current minimum sizes.
 
 ## October 25 selection review

@@ -102,22 +102,29 @@ dropping a scheme from a token. A check that has never failed is not a check.
 
 ## Status
 
-Shared brand foundations are published in tokens 0.6 and brand 0.2: approved
+Shared brand foundations are published in tokens 0.6.0 and brand 0.3.0: approved
 themes, explicit action/selection roles, Solid/Inset assets and interactive
 Lattice/Warden examples. See the [delivery plan](docs/brand-foundations-plan.md).
-The initial UI package adds Button, Input, Select and Label with strict public
+UI 0.1.0 adds Button, Input, Select and Label with strict public
 types and native form behavior. See the [control contract](packages/ui/README.md).
 Lattice has adopted these foundations and shared controls; its accepted redesign
 is complete under [Lattice #383](https://github.com/pixeloven/lattice/issues/383).
-Warden's issue-workflow MVP and owned-stack acceptance are merged. Its selected
-Waymark identity is registered for brand 0.3.0. Package publication, consumer
-adoption, shared controls and full theme adoption remain design closeout work;
-customer release and migration follow the separate implementation handoff.
+Warden's issue-workflow MVP and shared-foundation adoption are merged in
+[#80](https://github.com/pixeloven/warden/pull/80) and
+[#81](https://github.com/pixeloven/warden/pull/81). It pins brand 0.3.0,
+tokens 0.6.0 and UI 0.1.0, uses Waymark Solid in the header and Inset for icons,
+and preserves System appearance with Cool + Acid defaults. All eight theme
+combinations, shared native controls, the owned workflow and desktop/phone
+viewport checks passed acceptance. No customer deployment or migration occurred;
+release and cutover follow the [versioned implementation handoff](https://github.com/pixeloven/warden/blob/fa4e3369081cc90490e31805547658f0b928925b/docs/mvp-handoff.md).
 Consumers use explicit package pins and opt into themes and mark variants.
 
 The [brand-family guide](docs/brand-family.md) records the established visual and
 interaction direction. The [closeout plan](docs/brand-review-closeout.md) and
-[Warden design brief](docs/warden-design-brief.md) track the remaining work.
+[Warden design brief](docs/warden-design-brief.md) record delivery and its limits.
+Documentation publication and Harmony's Storybook refresh remain. Homepage
+already links to `https://design.lab.pixeloven.com`; its destination needs the
+current documentation image and rendered-story verification.
 Storybook's **Studies / Warden** presents the selected Waymark, unselected
 historical alternatives and a synthetic workspace. These studies do not change
 deployed products.
