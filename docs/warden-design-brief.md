@@ -1,6 +1,6 @@
 # Warden: develop clear work through issues
 
-2026-10-24 · Accepted product model and MVP execution plan. Part of
+2026-10-25 · Accepted product model and MVP execution plan. Part of
 [design #8](https://github.com/pixeloven/design/issues/8).
 
 ## Product decision and ownership
@@ -462,7 +462,7 @@ results reconverge before review. A PR is a review boundary, not a handoff.
 | 3. Authoritative issue refinement | Shared revision-aware content authoring, Story policy, existing Spike support, validated Epic parents and persisted Epic content. Retain source evidence as ordinary body links. Evolve refinement skills to investigate, record findings, revise requirements and create useful follow-ups through actual Warden tools. Browser edits the same issue; MCP reads it back. Begins after read contract and reviewed interaction converge. | Merged [#68](https://github.com/pixeloven/warden/pull/68), [#69](https://github.com/pixeloven/warden/pull/69) and [#70](https://github.com/pixeloven/warden/pull/70). |
 | 4. Durable workspace and direction | Epic/child/standalone queries, open/completed/all scope, truthful counts, ordered work, explicit transfer and responsibility. Real comments, decisions, result editing and recovery; no fabricated activity. Port the accepted UI against these contracts. | Merged [#71](https://github.com/pixeloven/warden/pull/71), [#72](https://github.com/pixeloven/warden/pull/72), [#73](https://github.com/pixeloven/warden/pull/73), [#75](https://github.com/pixeloven/warden/pull/75), [#76](https://github.com/pixeloven/warden/pull/76), [#77](https://github.com/pixeloven/warden/pull/77) and [#78](https://github.com/pixeloven/warden/pull/78). |
 | 5. Accepted outcome | Central explicit Epic acceptance/reopen rules cover all transition paths and concurrent child changes. Children remain unchanged; remaining work has an explicit disposition. Completed outcomes stay searchable. | Merged [#79](https://github.com/pixeloven/warden/pull/79), with compatible source guards in [Lattice #444](https://github.com/pixeloven/lattice/pull/444). |
-| 6. Working MVP and handoff | Real production frontend, API and MCP exercise the journey on an owned Lattice fixture. Fresh browser and process restart retain work; conflicts/refusals/index delay recover without false success or duplicate writes. Independent engineering/design reviews pass, artifacts are versioned, and remaining limitations are named. | Owned acceptance passed; runnable harness, one navigation correction and handoff in [Warden #80](https://github.com/pixeloven/warden/pull/80), awaiting merge. Not deployed. |
+| 6. Working MVP and handoff | Real production frontend, API and MCP exercise the journey on an owned Lattice fixture. Fresh browser and process restart retain work; conflicts/refusals/index delay recover without false success or duplicate writes. Independent engineering/design reviews pass, artifacts are versioned, and remaining limitations are named. | Owned acceptance passed; runnable harness, one navigation correction and handoff in [Warden #80](https://github.com/pixeloven/warden/pull/80), merged October 25. Ready for implementation handoff; customer cutover remains separate. |
 
 ### October 24: owned MVP acceptance and implementation handoff
 
@@ -488,7 +488,8 @@ belong to Warden. The tested host is Lattice `4003e4c`; Warden's source baseline
 is merged #79 (`515cfba`) plus #80's navigation fix and harness. Source versions
 are separate from release tags.
 
-Implementation ownership can transfer after #80 merges. This is not customer
+Warden #80 and design #10 merged October 25. Implementation ownership can now
+transfer using the versioned handoff. This is not customer
 cutover acceptance: read-only inspection still found the deployed card contract,
 an older Lattice without source guards, and an authoring policy that lacks the
 issue kind. Old Warden #59/#60 remain conflicting proposals requiring deliberate

@@ -1,6 +1,6 @@
 # Brand review closeout
 
-Updated 2026-10-22. The operator approved completing the remaining brand/design work,
+Updated 2026-10-25. The operator approved completing the remaining brand/design work,
 then updating Harmony's Homepage links to the verified current design system.
 Harmony is the final closeout phase. Lattice's knowledge-lifecycle discovery
 has moved to a separate session.
@@ -30,18 +30,47 @@ There is no separate idea intake. The [Warden brief](warden-design-brief.md) own
 current decision and phased MVP plan. The lead is authorized to drive through a
 working MVP before handoff, with Crew implementation and independent reviews.
 
-The next delivery is issue capture → investigation/refinement → verified work,
-with Epic organization and explicit outcome acceptance when relevant.
-The editable local study establishes the experience; Warden service, MCP, skill
-and UI changes establish the product. A handoff requires shared authoritative
-records and the full journey on an owned test vault, including restart, conflict
-and refusal recovery. Browser-local state and visual polish cannot satisfy it.
+The issue-workflow MVP is implemented. [Warden #80](https://github.com/pixeloven/warden/pull/80)
+and [design #10](https://github.com/pixeloven/design/pull/10) merged October 25.
+The complete owned-stack journey passed 15 checks across five browser stages,
+including real ingestion, refusal/conflict recovery, restart and index rebuild.
+The [versioned implementation handoff](https://github.com/pixeloven/warden/blob/4be0b8675fcf6f0ecb1c12f2957a656dbe02fe2e/docs/mvp-handoff.md)
+owns reproduction and customer cutover requirements. The local study remains a
+synthetic review surface. Warden identity selection, package adoption and final
+documentation/consumer closeout remain; new MVP features are not the next phase.
 
 The recovered September prototype already demonstrated the project-first model.
 The brief now reconciles those original goals with Lattice's later visual and
 interaction decisions. It is the current Warden direction; the historical demos
 and audits remain dated references. The revised prototype is the review artifact;
 the accepted model now directs production slices alongside the revised study.
+
+## Remaining closeout
+
+1. **Choose Warden's figure.** The October 25 independent review recommends
+   Waymark. Its Solid and Inset geometry survives the family's minimum sizes;
+   the [identity study](studies/warden-identity/README.md) records alternatives
+   and tradeoffs. Header/tab/icon previews make the decision concrete. The
+   operator has not selected a mark; do not publish a candidate as approved.
+2. **Finish shared foundation adoption.** The Warden MVP consumes tokens but
+   still owns its controls, primitive scales and legacy mark. Map these to the
+   existing package contracts in a bounded consumer change after mark selection.
+   Preserve the accepted workflow; do not extract new generalized components
+   without a demonstrated need in both products. Its owned acceptance remains
+   valid for the reviewed source, not a claim of complete package adoption.
+3. **Repair and publish the documentation.** Correct stale adoption claims and
+   verify rendered stories, including Scales. A successful static build or an
+   HTTP 200 does not prove its components rendered. Keep the experimental
+   Warden identity and workspace separate from published references.
+4. **Refresh Harmony last.** Read-only inspection on October 25 found that
+   Homepage already links to `https://design.lab.pixeloven.com`, but the running
+   documentation image predates the current foundations. Its Marks page throws
+   `React is not defined`. Use a verified new documentation digest in Harmony's
+   deployment and verify Introduction, Marks, Themes, Scales and representative
+   controls in a browser. Homepage's stylesheet still owns literal palette
+   values; its token adoption must not be claimed as complete. Recheck the live
+   state after the operator's separate cluster-hardening work before preparing
+   any deployment change. No cluster changes were made during this review.
 
 ## Delivery sequence
 

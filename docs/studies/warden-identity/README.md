@@ -34,7 +34,7 @@ as a stress check: the existing family minimum remains 24px for Solid and
 
 | Concept | 16px | 24px | 32px |
 | --- | --- | --- | --- |
-| Waymark | Inset preserves a readable W; the inner channels soften but stay open. The center notch is small. | Both figures read clearly; the open channels become reliable shape cues. | The paired lower points and central spine are distinct without added detail. |
+| Waymark | Inset preserves the three-stem silhouette and open channels; the small lower notch softens. The W association is stronger beside the name. | Both figures read clearly; the open channels become reliable shape cues. | The paired lower points and central spine are distinct without added detail. |
 | Threshold | Inset preserves the diagonal passage; its two narrow returns soften. The structure reads before its metaphor. | The opposing gateposts separate clearly. | The directional offset is explicit, with generous center space. |
 | Branch | Inset preserves the arrow and fork; the two tail tips are secondary. | Arrowhead, trunk and fork separate clearly. | The branched construction is explicit, while direction remains dominant. |
 
@@ -43,6 +43,22 @@ favicon. Before promotion, inspect browser favicon pixels and a real name
 lockup, confirm the figure with the operator, then use the existing brand
 build for explicit-ink assets and maskable padding. Preserve the family's
 8-grid-unit external clear space and current minimum sizes.
+
+## October 25 selection review
+
+The independent review retains **Waymark** as the recommendation after comparing
+all three candidates with the approved PixelOven and Lattice masters at actual
+16px Inset and 24px Solid sizes on canonical light and dark grounds. No geometry
+change is required for selection. Threshold's gate emphasizes only one part of
+Warden's capture, investigation, refinement and outcome workflow. Branch reads
+as upload or launch before coordinated work.
+
+The portable review opens directly with `?review=identity`; add
+`&concept=threshold` or `&concept=branch` to start with another figure. It includes
+header, browser-tab and app-icon placement previews plus an equal-size family
+comparison. These use study sources; they are not production lockup or favicon
+exports. Preview controls change the sample only. The operator's figure choice
+remains open; publication and product adoption follow that decision.
 
 ## Source files
 

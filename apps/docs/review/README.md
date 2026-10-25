@@ -28,6 +28,12 @@ set `PIXELOVEN_REVIEW_HOST` to a trusted interface when
 sharing a preview. Network/firewall reachability must be verified separately.
 Do not start a duplicate listener on an occupied port.
 
+For the separate mark decision, open
+`http://localhost:4179/warden/?review=identity`. Add `&concept=threshold` or
+`&concept=branch` to start with that concept; Waymark is the default recommendation.
+Compare header, browser-tab and app-icon placements, then expand the minimum-size
+family comparison. Selecting a preview is not identity approval.
+
 The generated `dist/warden-review.html` contains its scripts, styles, artwork
 and licensed fonts, and can also open directly as a local file. Generated
 artifacts and screenshots stay outside Git. The editable `index.html` is a

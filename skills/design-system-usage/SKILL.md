@@ -121,7 +121,9 @@ default to `type="button"`; form submission requires `type="submit"`. Keep
 labels and error explanations in the consumer, associate them with `htmlFor`,
 `id` and `aria-describedby`, and pass native `disabled` / `aria-invalid` states.
 Do not copy the package's control CSS into a product. The
-[package guide](../../packages/ui/README.md) defines the complete API and limits.
+[package guide](https://github.com/pixeloven/design/blob/main/packages/ui/README.md)
+defines the complete API and limits. This canonical link also works when the
+skill is loaded through `.agents/skills` or an installed plugin.
 
 ### Opt-in brand themes
 
@@ -145,8 +147,10 @@ carries **dark** (the default, so a page with no theme wiring is already right),
 a `prefers-color-scheme` block follows the OS, and `[data-theme]` lets an
 explicit toggle win in both directions.
 
-A dark-only surface (Harmony, Lattice) just uses the variables and ignores the
-rest. A surface with a toggle (pixeloven.com) sets `data-theme` on the root.
+An intentionally dark-only surface uses the pinned `tokens-dark.css` build.
+A surface with an appearance toggle sets `data-theme` on the root and removes
+the override to follow the OS. Lattice supports Dark/Light/System independently
+of its Cool/Warm theme and Acid/Violet accent; it is not a dark-only consumer.
 
 The light values were **derived, not picked**: each was solved for the same
 contrast against its own ground that the dark step has against its ground, at

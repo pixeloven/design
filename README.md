@@ -109,7 +109,9 @@ The initial UI package adds Button, Input, Select and Label with strict public
 types and native form behavior. See the [control contract](packages/ui/README.md).
 Lattice has adopted these foundations and shared controls; its accepted redesign
 is complete under [Lattice #383](https://github.com/pixeloven/lattice/issues/383).
-Warden's adoption and product redesign are the next application of the system.
+Warden's issue-workflow MVP and owned-stack acceptance are merged. Its registered
+identity, shared controls and full theme adoption remain design closeout work;
+customer release and migration follow the separate implementation handoff.
 Consumers use explicit package pins and opt into themes and mark variants.
 
 The [brand-family guide](docs/brand-family.md) records the established visual and

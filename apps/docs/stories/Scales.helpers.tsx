@@ -12,7 +12,7 @@
  * rendered. A component the test cannot see is a group that can go undocumented.
  */
 
-import type { JSX, ReactNode } from "react"
+import React, { type JSX, type ReactNode } from "react"
 
 import raw from "@pixeloven/tokens/source"
 
