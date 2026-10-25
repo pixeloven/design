@@ -52,7 +52,7 @@ direction and outcome acceptance using browser-local
 records. The production UI/MCP MVP and full owned-stack ingestion/restart
 acceptance merged in Warden #80 on October 25. The versioned handoff names the
 validated source and separate customer cutover work; this synthetic study does
-not establish a deployed capability. Mark selection and shared-control adoption
+not establish a deployed capability. Mark publication and shared-control adoption
 remain part of design closeout.
 The subsequent operator review identified unclear attention requests, scattered
 task actions and missing drag feedback. The revised interaction puts the exact
@@ -68,8 +68,10 @@ established capabilities.
 PixelOven is the parent; Lattice and Warden are products. Carry forward the
 operator-approved modern, minimalist cyberpunk direction, Cool/Warm themes,
 Acid/electric Violet accents, readable Plex typography, and Solid/Inset identity
-roles. PixelOven and Lattice figures are approved; Warden's figure remains a
-review decision. These commitments constrain the study rather than initiating
+roles. PixelOven and Lattice figures are approved; the operator selected
+Warden's Waymark figure on October 25. Its Solid/Inset exports join brand 0.3.0;
+Threshold and Branch remain unselected historical studies. These commitments
+constrain the study rather than initiating
 a new visual-world selection.
 
 ## Evidence on Hand

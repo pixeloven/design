@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" role="img" aria-label="Warden — Solid">
+  <title>Warden — Solid</title>
+  <desc>Waymark: an angular W with two open channels and a shared central spine. Canonical light ink on an opaque dark ground.</desc>
+  <rect width="64" height="64" fill="#0d101e"/>
+  <path fill="#f7f4ff" fill-rule="evenodd" d="M6 10H18V34L25 41V22H39V41L46 34V10H58V39L39 58L32 51L25 58L6 39Z"/>
+</svg>

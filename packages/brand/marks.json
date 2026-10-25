@@ -182,6 +182,92 @@
           }
         }
       }
+    },
+    {
+      "id": "warden",
+      "name": "Warden",
+      "tier": "product",
+      "file": "marks/warden.svg",
+      "figure": "an angular W with two open channels and a shared central spine — Waymark",
+      "note": "the file fallback uses the approved Solid geometry with canonical light ink on an opaque dark ground; new consumers should use appearance-specific variants",
+      "variants": {
+        "solid": {
+          "source": "sources/solid/warden.svg",
+          "figure": "an angular W with two open channels and a shared central spine — Waymark",
+          "usage": "primary headers and name lockups",
+          "clearSpace": {
+            "viewBoxUnits": 8,
+            "relativeTo": "outside the visible artwork; packaged SVG padding does not replace clear space"
+          },
+          "minimumSize": {
+            "markCssPx": 24,
+            "lockupHeightCssPx": 32
+          },
+          "assets": {
+            "light": {
+              "mark": "dist/assets/warden/solid/light/mark.svg",
+              "lockup": "dist/assets/warden/solid/light/lockup.svg"
+            },
+            "dark": {
+              "mark": "dist/assets/warden/solid/dark/mark.svg",
+              "lockup": "dist/assets/warden/solid/dark/lockup.svg"
+            }
+          }
+        },
+        "inset": {
+          "source": "sources/inset/warden.svg",
+          "figure": "the Waymark W cut out of the faceted family container",
+          "usage": "favicons, app icons and avatars",
+          "clearSpace": {
+            "viewBoxUnits": 8,
+            "relativeTo": "outside the visible artwork; packaged SVG padding does not replace clear space"
+          },
+          "minimumSize": {
+            "markCssPx": 16,
+            "maskableCssPx": 48
+          },
+          "assets": {
+            "light": {
+              "mark": "dist/assets/warden/inset/light/mark.svg",
+              "favicon": {
+                "svg": "dist/assets/warden/inset/light/favicon.svg",
+                "png16": "dist/assets/warden/inset/light/favicon-16.png",
+                "png32": "dist/assets/warden/inset/light/favicon-32.png"
+              },
+              "app": {
+                "svg": "dist/assets/warden/inset/light/app.svg",
+                "png180": "dist/assets/warden/inset/light/app-180.png",
+                "png192": "dist/assets/warden/inset/light/app-192.png",
+                "png512": "dist/assets/warden/inset/light/app-512.png"
+              },
+              "maskable": {
+                "svg": "dist/assets/warden/inset/light/maskable.svg",
+                "png192": "dist/assets/warden/inset/light/maskable-192.png",
+                "png512": "dist/assets/warden/inset/light/maskable-512.png"
+              }
+            },
+            "dark": {
+              "mark": "dist/assets/warden/inset/dark/mark.svg",
+              "favicon": {
+                "svg": "dist/assets/warden/inset/dark/favicon.svg",
+                "png16": "dist/assets/warden/inset/dark/favicon-16.png",
+                "png32": "dist/assets/warden/inset/dark/favicon-32.png"
+              },
+              "app": {
+                "svg": "dist/assets/warden/inset/dark/app.svg",
+                "png180": "dist/assets/warden/inset/dark/app-180.png",
+                "png192": "dist/assets/warden/inset/dark/app-192.png",
+                "png512": "dist/assets/warden/inset/dark/app-512.png"
+              },
+              "maskable": {
+                "svg": "dist/assets/warden/inset/dark/maskable.svg",
+                "png192": "dist/assets/warden/inset/dark/maskable-192.png",
+                "png512": "dist/assets/warden/inset/dark/maskable-512.png"
+              }
+            }
+          }
+        }
+      }
     }
   ],
   "assetContract": {

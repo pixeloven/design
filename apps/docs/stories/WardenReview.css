@@ -31,6 +31,7 @@
 .wr-placement-grid { margin-block: 1.5rem; }
 .wr-header-specimen, .wr-tab-specimen { display: flex; align-items: center; gap: .75rem; margin-top: 1rem; padding: 1rem; background: var(--pxo-surface); }
 .wr-header-specimen strong { font: var(--pxo-type-title-weight) var(--pxo-type-title-size)/var(--pxo-type-title-line-height) var(--pxo-font-sans); }
+.wr-production-lockup { display: block; width: auto; height: 32px; max-width: 100%; margin-bottom: .4rem; }
 .wr-header-specimen small { display: block; color: var(--pxo-text-secondary); font-size: var(--pxo-reading-control-size); }
 .wr-tab-specimen { border: 1px solid var(--pxo-border); }
 .wr-app-specimen { display: flex; align-items: center; gap: 1rem; margin-top: 1rem; }

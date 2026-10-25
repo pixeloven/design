@@ -1,9 +1,14 @@
 # Warden identity study
 
-**UNAPPROVED concepts · October 2026.** These are review sources, outside the
-canonical brand registry and published package. PixelOven and Lattice remain
-the approved references. Choosing a concept is a separate decision from
-publishing production assets.
+**Waymark selected · October 25, 2026.** The operator selected the angular W
+after reviewing these three options. Solid is the primary form; Inset is the
+companion for favicons, app icons and avatars. The production masters now live
+in `packages/brand/sources`, registered as Warden in brand 0.3.0. Publication and
+consumer deployment remain separate milestones.
+
+This directory preserves the original study sources and their dated unapproved
+metadata. Threshold and Branch were not selected. Production consumers use the
+[brand package](../../../packages/brand/README.md), not these historical files.
 
 Warden directs work and preserves human decision points. Each proposal uses
 solid angular geometry and open negative space to express that role. All three
@@ -15,7 +20,7 @@ Acid/electric Violet accents remain independent of identity.
 
 | Concept | Figure and rationale | Tradeoff |
 | --- | --- | --- |
-| **Waymark — recommended** | An angular W has two open channels around a central spine. The initials identify Warden; the connected structure suggests several work paths with shared direction. Wide vertical stems and 45° joins relate to PixelOven's P without repeating it. | Its W is the strongest name association and the clearest small mark. The two lower points can suggest a crest; keep it upright and preserve the open top. |
+| **Waymark — selected** | An angular W has two open channels around a central spine. The initials identify Warden; the connected structure suggests several work paths with shared direction. Wide vertical stems and 45° joins relate to PixelOven's P without repeating it. | Its W is the strongest name association; at favicon size the name helps establish the compact emblem. The two lower points can suggest a crest; keep it upright and preserve the open top. |
 | **Threshold** | Two opposing gateposts leave a continuous passage through the center. The displaced ends imply entry and release. This puts Warden's human gates in the figure without using a shield, lock, or approval tick. | The most abstract option. It offers a distinctive silhouette but needs a name lockup during introduction; the offset halves may also read as a link. |
 | **Branch** | Two lower paths converge into one upward bearing. The large arrowhead makes direction legible immediately; the split tail retains the idea of coordinated work. | The strongest directional reading, with less dependence on a letter. It can resemble a launch or upload symbol, so its product distinctiveness is weaker than Waymark's. |
 
@@ -38,10 +43,10 @@ as a stress check: the existing family minimum remains 24px for Solid and
 | Threshold | Inset preserves the diagonal passage; its two narrow returns soften. The structure reads before its metaphor. | The opposing gateposts separate clearly. | The directional offset is explicit, with generous center space. |
 | Branch | Inset preserves the arrow and fork; the two tail tips are secondary. | Arrowhead, trunk and fork separate clearly. | The branched construction is explicit, while direction remains dominant. |
 
-These observations are a concept review, not approval for a production
-favicon. Before promotion, inspect browser favicon pixels and a real name
-lockup, confirm the figure with the operator, then use the existing brand
-build for explicit-ink assets and maskable padding. Preserve the family's
+These observations describe the concept review. The October 25 selection
+promotes Waymark through the existing brand build, including explicit-ink
+exports, outlined name lockups and maskable padding. Inspect generated favicon
+pixels and the real name lockup before consumer adoption. Preserve the family's
 8-grid-unit external clear space and current minimum sizes.
 
 ## October 25 selection review
@@ -57,8 +62,9 @@ The portable review opens directly with `?review=identity`; add
 `&concept=threshold` or `&concept=branch` to start with another figure. It includes
 header, browser-tab and app-icon placement previews plus an equal-size family
 comparison. These use study sources; they are not production lockup or favicon
-exports. Preview controls change the sample only. The operator's figure choice
-remains open; publication and product adoption follow that decision.
+exports for the unselected alternatives. Waymark previews use the canonical
+production masters and generated assets. Preview controls change the sample
+only; they do not undo the operator's selection or publish another figure.
 
 ## Source files
 

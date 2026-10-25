@@ -1,8 +1,8 @@
 # @pixeloven/brand
 
-PixelOven is the parent identity; Lattice is a product. Solid is the primary
+PixelOven is the parent identity; Lattice and Warden are products. Solid is the primary
 figure for headers and name lockups. Inset is the companion figure for browser
-tabs, installed apps and avatars. Both identities use the same canonical ink
+tabs, installed apps and avatars. All three identities use the same canonical ink
 and ground tokens. Product identity comes from the figure.
 
 ## Use an asset
@@ -23,11 +23,15 @@ bundler that supports asset URLs, the shorter export is also available:
 import lockupUrl from "@pixeloven/brand/assets/lattice/solid/light/lockup.svg?url";
 ```
 
-`marks.json` is the registry. Each identity retains its original `file` and
-adds `variants.solid` and `variants.inset`. Every `source` and asset path resolves
+`marks.json` is the registry. Each identity has a `file` fallback and
+`variants.solid` and `variants.inset`. Every `source` and asset path resolves
 as `@pixeloven/brand/<path>`. `./assets/*` is an alias for `./dist/assets/*`.
 The registry's `assetContract` records color roles, typography and mask padding.
 No consumer needs to reconstruct a mark or typeset a wordmark.
+
+Warden uses the approved **Waymark** figure: an angular W with two open channels
+and a shared central spine. Its Solid and Inset assets follow the same contract
+as PixelOven and Lattice; use `warden` in the asset paths above to resolve them.
 
 | Variant | Asset keys in each `assets.light` / `assets.dark` | Use |
 | --- | --- | --- |
@@ -42,7 +46,7 @@ No consumer needs to reconstruct a mark or typeset a wordmark.
 `light` means dark ink for a light ground. `dark` means light ink for a dark
 ground. Every generated SVG carries explicit `text.base` ink; favicon, app and
 maskable assets also carry an opaque `surface.bg` ground. The neutral roles are
-shared by both identities and independent of accent choice. Exported assets do
+shared by all identities and independent of accent choice. Exported assets do
 not inherit a page's CSS or require a font.
 
 Transparent marks and lockups should use the matching appearance on a known
@@ -54,10 +58,10 @@ declare both explicitly; an external SVG cannot inherit the surrounding page's
 text color.
 
 All SVGs carry a title, `role="img"` and an accessible name. With HTML `<img>`,
-provide `alt="Lattice"` or `alt="PixelOven"`; use empty alt when adjacent text
+provide the identity name, such as `alt="Warden"`; use empty alt when adjacent text
 already supplies the same name. The SVG title does not replace HTML alt text.
 
-`sources/<variant>/<identity>.svg` are the four approved 64-unit masters with
+`sources/<variant>/<identity>.svg` are the six approved 64-unit masters with
 `currentColor`. They are for controlled inline use and asset generation. They
 are deliberately distinct from the standalone explicit-ink exports. Preserve
 the selected paths, cutouts, stroke width and proportions when embedding them.
@@ -123,10 +127,20 @@ in the published package, and rebuilt and tested by `prepublishOnly`.
 Tests preserve the selected geometry, enforce directory/registry parity and
 explicit canonical colors, render SVGs, check PNG size/content and safe-area
 pixels, and resolve every reference from a package tarball installed offline.
+Test files run serially because package preparation can rebuild the generated
+assets that the rendering checks inspect.
 
 ## Compatibility
 
-The original `marks/pixeloven.svg`, `marks/lattice.svg`, `./marks/*` exports and
-`marks[].file` values remain unchanged in 0.2.0. Existing consumers keep their
-current figures until they explicitly adopt a variant. Pin the published package
-version and preserve consumer icon URLs when adopting the new artwork.
+The original `marks/pixeloven.svg`, `marks/lattice.svg`, their `marks[].file`
+values and the public export paths remain unchanged. Existing consumers keep
+their current figures until they explicitly adopt a variant.
+
+Version 0.3.0 adds `marks/warden.svg` as Warden's `file` fallback. It is the
+approved Solid figure with explicit `text.base.dark` light ink on an opaque
+`surface.bg.dark` ground. New consumers should use Warden's appearance-specific
+variants, and its Inset exports for favicons and app icons. This fallback does
+not introduce another Warden figure or depend on the surrounding page's theme.
+
+Pin the published package version and preserve consumer icon URLs when adopting
+the new artwork.
