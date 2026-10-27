@@ -2,7 +2,7 @@
   "name": "@pixeloven/brand",
   "version": "0.3.0",
   "description": "PixelOven brand marks — logos and the rules that keep them one family.",
-  "license": "UNLICENSED",
+  "license": "MIT",
   "type": "module",
   "exports": {
     "./marks.json": "./marks.json",

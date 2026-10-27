@@ -2,7 +2,7 @@
   "name": "@pixeloven/tokens",
   "version": "0.6.0",
   "description": "PixelOven design tokens — the source of truth for every surface colour, and for the scales a surface is built out of.",
-  "license": "UNLICENSED",
+  "license": "MIT",
   "type": "module",
   "main": "./dist/tokens.js",
   "types": "./dist/tokens.d.ts",
