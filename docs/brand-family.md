@@ -63,7 +63,7 @@ semantics, focus, disabled, invalid and selected states are shared. Font loading
 theme persistence, validation messages and product state remain with consumers.
 
 Lattice and Warden both consume these controls and the published theme roles.
-[Warden #81](https://github.com/pixeloven/warden/pull/81) adopts brand 0.3.0,
+[Warden #81](https://github.com/pixeloven/warden/pull/81) (private) adopts brand 0.3.0,
 tokens 0.6.0 and UI 0.1.0 while keeping its System appearance default and local
 form compatibility API. Its merged adoption and owned-fixture acceptance do
 not establish customer deployment or migration.

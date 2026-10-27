@@ -118,7 +118,7 @@ export function WardenReview({ initialPage = "workspace", initialConcept = "waym
           </ol>
           <h3>What this proposal demonstrates</h3>
           <p>This is a local interaction study with synthetic issues. Epics, Stories, Tasks, Bugs and Spikes are types of the same work record. The study does not connect to Warden, generate plans with AI, dispatch agents or change a vault. Responsibility identifies accountability, not current execution.</p>
-          <p>The production MVP now implements shared UI/MCP authoring, refinement, durable relationships and order, and explicit Epic acceptance. Its owned-vault journey passed ingestion and restart validation in <a href="https://github.com/pixeloven/warden/pull/80">Warden #80</a>. This local study still uses sample work; it does not certify a customer deployment.</p>
+          <p>The production MVP now implements shared UI/MCP authoring, refinement, durable relationships and order, and explicit Epic acceptance. Its owned-vault journey passed ingestion and restart validation in <a href="https://github.com/pixeloven/warden/pull/80">Warden #80</a> (private). This local study still uses sample work; it does not certify a customer deployment.</p>
           <p>Approval, Request changes (the existing Send back operation) and direct Move have distinct consequences. Creating work in Todo does not approve a plan or start execution. Waymark is Warden’s selected identity; publication and adoption are separate from this sample workspace.</p>
         </div>
       </details>

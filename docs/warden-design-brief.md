@@ -6,9 +6,9 @@
 ## Product decision and ownership
 
 The operator accepted the issue model below. The working MVP and implementation
-handoff merged in [Warden #80](https://github.com/pixeloven/warden/pull/80);
+handoff merged in [Warden #80](https://github.com/pixeloven/warden/pull/80) (private);
 published brand, theme and control adoption followed in
-[#81](https://github.com/pixeloven/warden/pull/81). Crew implementation, research
+[#81](https://github.com/pixeloven/warden/pull/81) (private). Crew implementation, research
 and independent review converged under the lead's acceptance. Customer release
 and migration remain separate from these delivered source milestones.
 
@@ -89,7 +89,7 @@ settle, rather than adding competing plans.
 | Shared component ambitions | Reuse published controls now. Compare navigation, task surfaces, reading, feedback and return behavior before extracting additional shared components. | Share proven behavior; keep board and graph domain logic with their products. |
 
 The Lattice comparison used source
-[`cff7de3`](https://github.com/pixeloven/lattice/tree/cff7de3d8fd438462f37cb9237d239e1bd5f221f).
+[`cff7de3`](https://github.com/pixeloven/lattice/tree/cff7de3d8fd438462f37cb9237d239e1bd5f221f) (private).
 Its roadmap records the approved application shipped in v0.21.1; later reader
 refinements provide implemented interaction evidence. This comparison does not
 claim a new deployment or physical-device/assistive-technology acceptance pass.
@@ -257,7 +257,7 @@ the owned-fixture acceptance recorded below in Warden #80 and again in #81.
 For this study, completing a project requires its unfinished tasks to be finished
 or transferred first. The action never changes child stages. Reopening a child
 in a completed project requires explicitly reopening that project. This central
-service policy is implemented in [Warden #79](https://github.com/pixeloven/warden/pull/79);
+service policy is implemented in [Warden #79](https://github.com/pixeloven/warden/pull/79) (private);
 customer deployment remains separate.
 Acceptance requires a recorded outcome note against the finish line. The
 service applies that rule to every path that can close an Epic, including direct
@@ -347,7 +347,7 @@ The fresh live assessment inspected desktop 1440×1000 and phone 390×844 on
 October 19. It was read-only; no creation, movement or decisions were submitted.
 The deployed source revision was not established by the visual review. The
 separate capability review used current main
-[`1bdb4b0`](https://github.com/pixeloven/warden/tree/1bdb4b0280d887134a5a0f0be3e028fd8368c085).
+[`1bdb4b0`](https://github.com/pixeloven/warden/tree/1bdb4b0280d887134a5a0f0be3e028fd8368c085) (private).
 That main revision's issue contract and the live UI's card vocabulary required
 release reconciliation. These findings describe the dated baseline; the delivery
 record below describes the later merged implementation. Neither audit is a
@@ -390,7 +390,7 @@ an issue reference. There is no assignee, dispatch, project entity, general
 issue-edit or structured history-event API. Story is not in the default type
 vocabulary; Spike is already configured. At the pinned main revision, the MCP's
 `task_show` omits title, body and parent context and `task_create` drops node
-identity. [Warden #66](https://github.com/pixeloven/warden/pull/66) implements
+identity. [Warden #66](https://github.com/pixeloven/warden/pull/66) (private) implements
 those additive reads; they are not yet established as deployed capabilities.
 Current source does not automatically add Log or Decisions entries for ordinary
 transitions.
@@ -463,16 +463,16 @@ handoff owns reproduction, recovery and the separate customer cutover.
 | Slice | Acceptance and dependency | State |
 | --- | --- | --- |
 | 1. Issue creation and refinement experience | Ordinary title-only capture, Spike investigations, useful Plan/Result authoring and linked follow-ups. Epic organization and explicit outcome acceptance when relevant; recovery preserves older drafts. Default List; preserve optional Board and working drag behavior. Independent product/source reviews converge with a desktop/phone interaction pass. | Study merged in [design #9](https://github.com/pixeloven/design/pull/9); production experience implemented across the Warden slices below. |
-| 2. Complete Warden reads | Additive MCP responses expose the full issue and stable identity already available to the service. Missing, malformed and unavailable records remain distinct. Focused cross-surface tests; no unrelated policy or migration change. Can run in parallel with slice 1. | Merged [Warden #66](https://github.com/pixeloven/warden/pull/66). |
-| 3. Authoritative issue refinement | Shared revision-aware content authoring, Story policy, existing Spike support, validated Epic parents and persisted Epic content. Retain source evidence as ordinary body links. Evolve refinement skills to investigate, record findings, revise requirements and create useful follow-ups through actual Warden tools. Browser edits the same issue; MCP reads it back. Begins after read contract and reviewed interaction converge. | Merged [#68](https://github.com/pixeloven/warden/pull/68), [#69](https://github.com/pixeloven/warden/pull/69) and [#70](https://github.com/pixeloven/warden/pull/70). |
-| 4. Durable workspace and direction | Epic/child/standalone queries, open/completed/all scope, truthful counts, ordered work, explicit transfer and responsibility. Real comments, decisions, result editing and recovery; no fabricated activity. Port the accepted UI against these contracts. | Merged [#71](https://github.com/pixeloven/warden/pull/71), [#72](https://github.com/pixeloven/warden/pull/72), [#73](https://github.com/pixeloven/warden/pull/73), [#75](https://github.com/pixeloven/warden/pull/75), [#76](https://github.com/pixeloven/warden/pull/76), [#77](https://github.com/pixeloven/warden/pull/77) and [#78](https://github.com/pixeloven/warden/pull/78). |
-| 5. Accepted outcome | Central explicit Epic acceptance/reopen rules cover all transition paths and concurrent child changes. Children remain unchanged; remaining work has an explicit disposition. Completed outcomes stay searchable. | Merged [#79](https://github.com/pixeloven/warden/pull/79), with compatible source guards in [Lattice #444](https://github.com/pixeloven/lattice/pull/444). |
-| 6. Working MVP and handoff | Real production frontend, API and MCP exercise the journey on an owned Lattice fixture. Fresh browser and process restart retain work; conflicts/refusals/index delay recover without false success or duplicate writes. Independent engineering/design reviews pass, artifacts are versioned, and remaining limitations are named. | Owned acceptance passed; runnable harness, one navigation correction and handoff in [Warden #80](https://github.com/pixeloven/warden/pull/80), merged October 25. Ready for implementation handoff; customer cutover remains separate. |
-| 7. Published design foundations | Consume the selected registered mark, shared themes, scales and native controls while preserving the accepted workflows and System default. Verify real package/container assets and rerun the owned workflow with read-only visual acceptance. | Merged [Warden #81](https://github.com/pixeloven/warden/pull/81) on October 25 as `fa4e336`. Exact brand 0.3.0, tokens 0.6.0 and UI 0.1.0 pins; all 15 owned checks and six CI checks passed. |
+| 2. Complete Warden reads | Additive MCP responses expose the full issue and stable identity already available to the service. Missing, malformed and unavailable records remain distinct. Focused cross-surface tests; no unrelated policy or migration change. Can run in parallel with slice 1. | Merged [Warden #66](https://github.com/pixeloven/warden/pull/66) (private). |
+| 3. Authoritative issue refinement | Shared revision-aware content authoring, Story policy, existing Spike support, validated Epic parents and persisted Epic content. Retain source evidence as ordinary body links. Evolve refinement skills to investigate, record findings, revise requirements and create useful follow-ups through actual Warden tools. Browser edits the same issue; MCP reads it back. Begins after read contract and reviewed interaction converge. | Merged [#68](https://github.com/pixeloven/warden/pull/68) (private), [#69](https://github.com/pixeloven/warden/pull/69) (private) and [#70](https://github.com/pixeloven/warden/pull/70) (private). |
+| 4. Durable workspace and direction | Epic/child/standalone queries, open/completed/all scope, truthful counts, ordered work, explicit transfer and responsibility. Real comments, decisions, result editing and recovery; no fabricated activity. Port the accepted UI against these contracts. | Merged [#71](https://github.com/pixeloven/warden/pull/71) (private), [#72](https://github.com/pixeloven/warden/pull/72) (private), [#73](https://github.com/pixeloven/warden/pull/73) (private), [#75](https://github.com/pixeloven/warden/pull/75) (private), [#76](https://github.com/pixeloven/warden/pull/76) (private), [#77](https://github.com/pixeloven/warden/pull/77) (private) and [#78](https://github.com/pixeloven/warden/pull/78) (private). |
+| 5. Accepted outcome | Central explicit Epic acceptance/reopen rules cover all transition paths and concurrent child changes. Children remain unchanged; remaining work has an explicit disposition. Completed outcomes stay searchable. | Merged [#79](https://github.com/pixeloven/warden/pull/79) (private), with compatible source guards in [Lattice #444](https://github.com/pixeloven/lattice/pull/444) (private). |
+| 6. Working MVP and handoff | Real production frontend, API and MCP exercise the journey on an owned Lattice fixture. Fresh browser and process restart retain work; conflicts/refusals/index delay recover without false success or duplicate writes. Independent engineering/design reviews pass, artifacts are versioned, and remaining limitations are named. | Owned acceptance passed; runnable harness, one navigation correction and handoff in [Warden #80](https://github.com/pixeloven/warden/pull/80) (private), merged October 25. Ready for implementation handoff; customer cutover remains separate. |
+| 7. Published design foundations | Consume the selected registered mark, shared themes, scales and native controls while preserving the accepted workflows and System default. Verify real package/container assets and rerun the owned workflow with read-only visual acceptance. | Merged [Warden #81](https://github.com/pixeloven/warden/pull/81) (private) on October 25 as `fa4e336`. Exact brand 0.3.0, tokens 0.6.0 and UI 0.1.0 pins; all 15 owned checks and six CI checks passed. |
 
 ### October 25: shared-foundation adoption
 
-[Warden #81](https://github.com/pixeloven/warden/pull/81) merged at 20:07:45 UTC
+[Warden #81](https://github.com/pixeloven/warden/pull/81) (private) merged at 20:07:45 UTC
 as `fa4e3369081cc90490e31805547658f0b928925b`. Published-package and container
 checks verified Waymark Solid header lockups, Inset favicon/app/maskable assets,
 stable URLs and GraphQL URL substitution. Native controls preserve Warden's
@@ -487,7 +487,7 @@ System remains the default appearance with Cool + Acid. All six
 CI checks passed. No customer deployment or migration occurred; physical phone
 keyboards and named assistive technology remain follow-ups.
 
-The [updated implementation handoff](https://github.com/pixeloven/warden/blob/fa4e3369081cc90490e31805547658f0b928925b/docs/mvp-handoff.md)
+The [updated implementation handoff](https://github.com/pixeloven/warden/blob/fa4e3369081cc90490e31805547658f0b928925b/docs/mvp-handoff.md) (private)
 records reproduction and customer cutover limits. The remaining design-session
 work is documentation publication, then Harmony's Homepage/Storybook refresh.
 Homepage already links to `https://design.lab.pixeloven.com`. Lattice lifecycle
@@ -512,7 +512,7 @@ editor a stable owner and adds retained/active-draft regressions. The complete
 rerun passed with zero page/hydration or GraphQL errors. Independent engineering
 reviews and a bounded Impeccable visual confirmation passed. Raw evidence remains
 outside Git; the runnable harness and
-[handoff](https://github.com/pixeloven/warden/blob/dc117aecf8fd8b158085c2fa032062d69d822556/docs/mvp-handoff.md)
+[handoff](https://github.com/pixeloven/warden/blob/dc117aecf8fd8b158085c2fa032062d69d822556/docs/mvp-handoff.md) (private)
 belong to Warden. The tested host is Lattice `4003e4c`; Warden's source baseline
 is merged #79 (`515cfba`) plus #80's navigation fix and harness. Source versions
 are separate from release tags.
@@ -676,12 +676,12 @@ remains separate from those milestones.
   `customers-and-journeys.md` (WJ-4), `review-pack.md` (D-02 and walkthrough),
   and `prototype/` in the retained local brand-review archive. These are
   historical references; the current decisions are consolidated above.
-- [Lattice reading and return contract](https://github.com/pixeloven/lattice/blob/cff7de3d8fd438462f37cb9237d239e1bd5f221f/docs/markdown-reader.md)
-- [Lattice delivered-roadmap status](https://github.com/pixeloven/lattice/blob/cff7de3d8fd438462f37cb9237d239e1bd5f221f/docs/roadmap.md)
-- [Merged foundation and cutover handoff](https://github.com/pixeloven/warden/blob/fa4e3369081cc90490e31805547658f0b928925b/docs/mvp-handoff.md)
-- [October baseline schema and fields](https://github.com/pixeloven/warden/blob/1bdb4b0280d887134a5a0f0be3e028fd8368c085/frontend/schema.graphql)
-- [Existing Spike policy](https://github.com/pixeloven/warden/blob/1bdb4b0280d887134a5a0f0be3e028fd8368c085/src/warden/policy.py)
-- [Issue content and relationship semantics](https://github.com/pixeloven/warden/blob/1bdb4b0280d887134a5a0f0be3e028fd8368c085/SPEC.md)
-- [Existing refinement skill](https://github.com/pixeloven/warden/blob/1bdb4b0280d887134a5a0f0be3e028fd8368c085/skills/task-refine/SKILL.md)
-- [Saved views](https://github.com/pixeloven/warden/blob/1bdb4b0280d887134a5a0f0be3e028fd8368c085/src/warden/views.py)
-- [Product context](https://github.com/pixeloven/warden/blob/1bdb4b0280d887134a5a0f0be3e028fd8368c085/PRODUCT.md) — usage/version and mutation-count statements need reconciliation with later source.
+- [Lattice reading and return contract](https://github.com/pixeloven/lattice/blob/cff7de3d8fd438462f37cb9237d239e1bd5f221f/docs/markdown-reader.md) (private)
+- [Lattice delivered-roadmap status](https://github.com/pixeloven/lattice/blob/cff7de3d8fd438462f37cb9237d239e1bd5f221f/docs/roadmap.md) (private)
+- [Merged foundation and cutover handoff](https://github.com/pixeloven/warden/blob/fa4e3369081cc90490e31805547658f0b928925b/docs/mvp-handoff.md) (private)
+- [October baseline schema and fields](https://github.com/pixeloven/warden/blob/1bdb4b0280d887134a5a0f0be3e028fd8368c085/frontend/schema.graphql) (private)
+- [Existing Spike policy](https://github.com/pixeloven/warden/blob/1bdb4b0280d887134a5a0f0be3e028fd8368c085/src/warden/policy.py) (private)
+- [Issue content and relationship semantics](https://github.com/pixeloven/warden/blob/1bdb4b0280d887134a5a0f0be3e028fd8368c085/SPEC.md) (private)
+- [Existing refinement skill](https://github.com/pixeloven/warden/blob/1bdb4b0280d887134a5a0f0be3e028fd8368c085/skills/task-refine/SKILL.md) (private)
+- [Saved views](https://github.com/pixeloven/warden/blob/1bdb4b0280d887134a5a0f0be3e028fd8368c085/src/warden/views.py) (private)
+- [Product context](https://github.com/pixeloven/warden/blob/1bdb4b0280d887134a5a0f0be3e028fd8368c085/PRODUCT.md) (private) — usage/version and mutation-count statements need reconciliation with later source.

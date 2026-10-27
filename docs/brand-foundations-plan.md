@@ -67,8 +67,8 @@ publication, retaining existing saved appearance and stable icon URLs.
   of owning duplicate control styles. Lattice adopted it in the workspace
   rebuild, preserving saved appearance and exploration.
 - **Consumer delivery:** Lattice's accepted redesign is complete under
-  [#383](https://github.com/pixeloven/lattice/issues/383). Brand 0.3.0 subsequently
-  published Warden's selected Waymark. [Warden #81](https://github.com/pixeloven/warden/pull/81)
+  [#383](https://github.com/pixeloven/lattice/issues/383) (private). Brand 0.3.0 subsequently
+  published Warden's selected Waymark. [Warden #81](https://github.com/pixeloven/warden/pull/81) (private)
   merged October 25 with brand 0.3.0, tokens 0.6.0 and UI 0.1.0 pinned, native
   controls, shared scales and all eight themes. Its 15-check owned journey,
   visual gate at desktop and phone viewports with enlarged text, package/container

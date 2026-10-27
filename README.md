@@ -108,15 +108,15 @@ Lattice/Warden examples. See the [delivery plan](docs/brand-foundations-plan.md)
 UI 0.1.0 adds Button, Input, Select and Label with strict public
 types and native form behavior. See the [control contract](packages/ui/README.md).
 Lattice has adopted these foundations and shared controls; its accepted redesign
-is complete under [Lattice #383](https://github.com/pixeloven/lattice/issues/383).
+is complete under [Lattice #383](https://github.com/pixeloven/lattice/issues/383) (private).
 Warden's issue-workflow MVP and shared-foundation adoption are merged in
-[#80](https://github.com/pixeloven/warden/pull/80) and
-[#81](https://github.com/pixeloven/warden/pull/81). It pins brand 0.3.0,
+[#80](https://github.com/pixeloven/warden/pull/80) (private) and
+[#81](https://github.com/pixeloven/warden/pull/81) (private). It pins brand 0.3.0,
 tokens 0.6.0 and UI 0.1.0, uses Waymark Solid in the header and Inset for icons,
 and preserves System appearance with Cool + Acid defaults. All eight theme
 combinations, shared native controls, the owned workflow and desktop/phone
 viewport checks passed acceptance. No customer deployment or migration occurred;
-release and cutover follow the [versioned implementation handoff](https://github.com/pixeloven/warden/blob/fa4e3369081cc90490e31805547658f0b928925b/docs/mvp-handoff.md).
+release and cutover follow the [versioned implementation handoff](https://github.com/pixeloven/warden/blob/fa4e3369081cc90490e31805547658f0b928925b/docs/mvp-handoff.md) (private).
 Consumers use explicit package pins and opt into themes and mark variants.
 
 The [brand-family guide](docs/brand-family.md) records the established visual and

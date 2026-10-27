@@ -12,9 +12,9 @@ Violet accents, readable typography and native shared controls have shipped.
 Design PRs [#6](https://github.com/pixeloven/design/pull/6) and
 [#7](https://github.com/pixeloven/design/pull/7) provide the package baseline.
 Lattice's accepted redesign is complete under
-[#383](https://github.com/pixeloven/lattice/issues/383). Its device and
+[#383](https://github.com/pixeloven/lattice/issues/383) (private). Its device and
 assistive-technology follow-ups remain with Lattice
-[#407](https://github.com/pixeloven/lattice/issues/407).
+[#407](https://github.com/pixeloven/lattice/issues/407) (private).
 
 The [brand-family guide](brand-family.md) consolidates the decisions that carry
 forward. Neither new identity exploration nor a new palette selection is needed
@@ -30,15 +30,15 @@ There is no separate idea intake. The [Warden brief](warden-design-brief.md) own
 accepted decision and delivery record. Crew implementation and independent
 reviews converged on the working MVP and its implementation handoff.
 
-The issue-workflow MVP is implemented. [Warden #80](https://github.com/pixeloven/warden/pull/80)
+The issue-workflow MVP is implemented. [Warden #80](https://github.com/pixeloven/warden/pull/80) (private)
 and [design #10](https://github.com/pixeloven/design/pull/10) merged October 25.
 The complete owned-stack journey passed 15 checks across five browser stages,
 including real ingestion, refusal/conflict recovery, restart and index rebuild.
-The [versioned implementation handoff](https://github.com/pixeloven/warden/blob/4be0b8675fcf6f0ecb1c12f2957a656dbe02fe2e/docs/mvp-handoff.md)
+The [versioned implementation handoff](https://github.com/pixeloven/warden/blob/4be0b8675fcf6f0ecb1c12f2957a656dbe02fe2e/docs/mvp-handoff.md) (private)
 records the original MVP reproduction and customer cutover requirements.
-[Warden #81](https://github.com/pixeloven/warden/pull/81) then merged on October 25
+[Warden #81](https://github.com/pixeloven/warden/pull/81) (private) then merged on October 25
 at 20:07:45 UTC as `fa4e3369081cc90490e31805547658f0b928925b`, completing Waymark
-and shared-foundation adoption. Its [updated handoff](https://github.com/pixeloven/warden/blob/fa4e3369081cc90490e31805547658f0b928925b/docs/mvp-handoff.md)
+and shared-foundation adoption. Its [updated handoff](https://github.com/pixeloven/warden/blob/fa4e3369081cc90490e31805547658f0b928925b/docs/mvp-handoff.md) (private)
 owns current reproduction and cutover guidance. The local study remains a
 synthetic review surface. Documentation publication and Harmony's refresh are
 the remaining design-session work; new MVP features are not the next phase.
