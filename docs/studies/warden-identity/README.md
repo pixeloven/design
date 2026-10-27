@@ -4,7 +4,7 @@
 after reviewing these three options. Solid is the primary form; Inset is the
 companion for favicons, app icons and avatars. The production masters now live
 in `packages/brand/sources`, published as Warden in brand 0.3.0 and adopted in
-[Warden #81](https://github.com/pixeloven/warden/pull/81). That merged consumer
+[Warden #81](https://github.com/pixeloven/warden/pull/81) (private). That merged consumer
 change passed owned-fixture acceptance; customer deployment remains separate.
 
 This directory preserves the original study sources and their dated unapproved
