@@ -1,0 +1,36 @@
+{
+  "$comment": [
+    "FROZEN SPECIMEN of pxo:archive/pi-web-dark. Do not use in production; every",
+    "live colour comes from @pixeloven/tokens.",
+    "",
+    "The palette exactly as the Original proposal declared it on 2026-09-02 (its",
+    ":root custom properties, names unchanged): \"this document is *about*",
+    "piWebDark, so it is drawn in it\". It was not read from pi-web itself.",
+    "",
+    "`nowToken` names the dark-scheme token that carries the same value today.",
+    "null means the value did not survive reconciliation."
+  ],
+  "frozen": "2026-09-02",
+  "source": "Original proposal, \"PixelOven Design System\" (2026-09-02), :root",
+  "scheme": "dark only",
+  "colours": {
+    "void":       { "value": "#070912", "nowToken": null },
+    "terminal":   { "value": "#080d18", "nowToken": null },
+    "surface":    { "value": "#141d33", "nowToken": null },
+    "raised":     { "value": "#1b2543", "nowToken": null },
+    "border":     { "value": "#2c3760", "nowToken": null },
+    "border-mut": { "value": "#1c2440", "nowToken": null },
+    "text":       { "value": "#f7f4ff", "nowToken": "text.base" },
+    "secondary":  { "value": "#aaa4bd", "nowToken": "text.secondary" },
+    "dim":        { "value": "#817a99", "nowToken": null },
+    "accent":     { "value": "#7c3cff", "nowToken": "accent.base" },
+    "success":    { "value": "#00f0d8", "nowToken": "status.success" },
+    "warning":    { "value": "#ffb000", "nowToken": "status.warning" },
+    "danger":     { "value": "#ff4f7b", "nowToken": "status.danger" },
+    "purple":     { "value": "#b7a2ff", "nowToken": "accent.soft" }
+  },
+  "fonts": {
+    "mono": "IBM Plex Mono",
+    "sans": "IBM Plex Sans"
+  }
+}

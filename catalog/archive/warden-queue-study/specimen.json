@@ -1,0 +1,39 @@
+{
+  "$comment": [
+    "FROZEN SPECIMEN of pxo:archive/warden-queue-study. Do not build on it; the",
+    "current Warden direction is docs/warden-design-brief.md.",
+    "",
+    "The queue-centred work model as the dated October baseline recorded it:",
+    "the live assessment of 2026-10-19 (desktop 1440x1000, phone 390x844) and",
+    "Warden source 1bdb4b0 (private). It is a model and a set of measurements,",
+    "not a palette: the study's visual direction was kept."
+  ],
+  "baseline": "2026-10-19",
+  "source": "docs/warden-design-brief.md, Historical live/source baseline and Historical implementation baseline",
+  "entry": "an empty Needs You queue; active work was elsewhere",
+  "projectContext": "buried in metadata; project was a free string beside Epic issues",
+  "states": ["todo", "plan", "review", "build", "verify", "done"],
+  "savedViews": {
+    "Active": "excludes done and epics",
+    "Needs You": "includes review and verify, whether or not a gate holds",
+    "Blocked": "excludes done",
+    "Recurring": "selects audit",
+    "Epics": "includes completed epics"
+  },
+  "browserMutations": ["create", "approve", "send back", "move", "append to Log", "tick Done when"],
+  "measured": {
+    "phone": {
+      "viewport": "390x844",
+      "detailStartsAtPx": 321,
+      "spaceLeftForTaskPx": 523,
+      "closeControlPx": "22x22",
+      "newCardControlPx": "35x27",
+      "navigationAndInputHeightPx": 34
+    },
+    "desktop": {
+      "viewport": "1440x1000",
+      "populatedColumnWidthPx": 189,
+      "emptyColumns": 5
+    }
+  }
+}

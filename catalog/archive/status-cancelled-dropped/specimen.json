@@ -1,0 +1,36 @@
+{
+  "$comment": [
+    "FROZEN SPECIMEN of pxo:archive/status-cancelled-dropped. Do not use these",
+    "words: Won't do replaces both.",
+    "",
+    "The vocabulary as the Bridge plan's decision log records it (rows 100, 122,",
+    "124 and 125). The rules under `replacedBy` are the replacement's, recorded so",
+    "the retirement reads whole; the system's own status pattern is not written yet."
+  ],
+  "product": "bridge",
+  "retired": "2026-11-21",
+  "words": {
+    "Cancelled": {
+      "appliedTo": "items",
+      "adopted": { "row": 100, "date": "2026-11-20", "as": "one of blocked, paused, failed and cancelled, beside the four spine states" },
+      "retired": { "row": 122, "date": "2026-11-21" }
+    },
+    "Dropped": {
+      "appliedTo": "goals",
+      "adopted": null,
+      "retired": { "row": 125, "date": "2026-11-21" }
+    }
+  },
+  "replacedBy": {
+    "word": "Won't do",
+    "appliesTo": ["items", "goals"],
+    "requires": ["a one-line reason", "who decided", "when"],
+    "keptAs": "a filterable decision log",
+    "reopenable": true,
+    "whoMayMark": "the operator, and a goal's coordinator, each with a reason; a coordinator's Won't do shows in 'Since you left' (row 124)",
+    "goalCascade": "a goal's open items follow it to Won't do citing the goal's reason; reopening the goal offers to reopen them (row 125)"
+  },
+  "notAReplacement": {
+    "Not now": "a snooze date on a Queued item, not a status (row 123)"
+  }
+}

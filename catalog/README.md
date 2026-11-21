@@ -39,9 +39,10 @@ Each entry sits in exactly one tier, and the tier says how binding it is.
 | `archive` | `catalog/archive/` | Retired design languages, e.g. `pxo:archive/pi-web-dark` |
 | `ddr` | `decisions/` | Design decision records, e.g. `pxo:ddr/0007` |
 
-A folder exists once it has an entry. Today the catalogue holds one entry,
-[`pxo:study/warden-identity`](studies/warden-identity/README.md); the decision
-records are in [`decisions/`](../decisions/README.md).
+A folder exists once it has an entry. Today the catalogue holds one study,
+[`pxo:study/warden-identity`](studies/warden-identity/README.md), and seven
+entries in [`archive/`](archive/), listed in [`index.json`](index.json); the
+decision records are in [`decisions/`](../decisions/README.md).
 
 `catalog/scene/` and studio-authored entries under `catalog/art/` are owned by
 the studio ([DDR-0012](../decisions/0012-studio-code-ownership.md), [`CODEOWNERS`](../CODEOWNERS)).

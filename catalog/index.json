@@ -2,6 +2,161 @@
   "$comment": "Generated from catalogue and decision frontmatter by tools/catalog/build-index.mjs. Do not edit by hand; run `pnpm catalog:index`.",
   "entries": [
     {
+      "id": "pxo:archive/parent-orange-identity",
+      "title": "Parent orange identity",
+      "tier": "archive",
+      "status": "retired",
+      "since": "brand-v0.1.0",
+      "path": "catalog/archive/parent-orange-identity/README.md",
+      "owners": [
+        "design"
+      ],
+      "consumers": [],
+      "supersedes": [],
+      "superseded_by": [],
+      "decisions": [
+        "pxo:ddr/0001",
+        "pxo:ddr/0006"
+      ],
+      "sources": [
+        "skills/brand-assets/SKILL.md",
+        "packages/brand/test/marks.test.mjs",
+        "commit 46d7d84, feat(brand): the mark registry, with the family rule enforced (2026-09-02)",
+        "commit 7368221, feat(brand): keep the established P emblem as the parent mark (2026-09-02)"
+      ]
+    },
+    {
+      "id": "pxo:archive/pi-web-dark",
+      "title": "piWebDark",
+      "tier": "archive",
+      "status": "retired",
+      "since": "tokens-v0.1.0",
+      "path": "catalog/archive/pi-web-dark/README.md",
+      "owners": [
+        "design"
+      ],
+      "consumers": [],
+      "supersedes": [],
+      "superseded_by": [],
+      "decisions": [
+        "pxo:ddr/0006"
+      ],
+      "sources": [
+        "README.md",
+        "packages/brand/marks/lattice.svg",
+        "commit 46d7d84, feat(brand): the mark registry, with the family rule enforced (2026-09-02)",
+        "Original proposal, \"PixelOven Design System\" (2026-09-02)"
+      ]
+    },
+    {
+      "id": "pxo:archive/pre-system-palettes",
+      "title": "Pre-system palettes",
+      "tier": "archive",
+      "status": "retired",
+      "since": "tokens-v0.1.0",
+      "path": "catalog/archive/pre-system-palettes/README.md",
+      "owners": [
+        "design"
+      ],
+      "consumers": [],
+      "supersedes": [],
+      "superseded_by": [],
+      "decisions": [
+        "pxo:ddr/0006"
+      ],
+      "sources": [
+        "README.md",
+        "packages/tokens/src/tokens.json",
+        "commit b27bdc2, feat(tokens): reconcile the palette into one source of truth (2026-09-02)",
+        "Original proposal, \"PixelOven Design System\" (2026-09-02)"
+      ]
+    },
+    {
+      "id": "pxo:archive/status-cancelled-dropped",
+      "title": "Status words Cancelled and Dropped",
+      "tier": "archive",
+      "status": "retired",
+      "since": "catalog-2026.11",
+      "path": "catalog/archive/status-cancelled-dropped/README.md",
+      "owners": [
+        "design"
+      ],
+      "consumers": [],
+      "supersedes": [],
+      "superseded_by": [],
+      "decisions": [
+        "Bridge plan decision log, row 122 (2026-11-21)",
+        "Bridge plan decision log, row 125 (2026-11-21)"
+      ],
+      "sources": [
+        "Bridge plan, Decision log, rows 100 and 122-125"
+      ]
+    },
+    {
+      "id": "pxo:archive/warden-branch",
+      "title": "Warden Branch mark",
+      "tier": "archive",
+      "status": "retired",
+      "since": "brand-v0.3.0",
+      "path": "catalog/archive/warden-branch.md",
+      "owners": [
+        "design"
+      ],
+      "consumers": [],
+      "supersedes": [],
+      "superseded_by": [],
+      "decisions": [
+        "pxo:ddr/0004"
+      ],
+      "sources": [
+        "catalog/studies/warden-identity/README.md",
+        "docs/brand-family.md"
+      ],
+      "ip": "original"
+    },
+    {
+      "id": "pxo:archive/warden-queue-study",
+      "title": "Warden queue-centred study",
+      "tier": "archive",
+      "status": "retired",
+      "since": "catalog-2026.11",
+      "path": "catalog/archive/warden-queue-study/README.md",
+      "owners": [
+        "design"
+      ],
+      "consumers": [],
+      "supersedes": [],
+      "superseded_by": [],
+      "decisions": [],
+      "sources": [
+        "docs/warden-design-brief.md",
+        "apps/docs/PRODUCT.md",
+        "apps/docs/DESIGN.md"
+      ]
+    },
+    {
+      "id": "pxo:archive/warden-threshold",
+      "title": "Warden Threshold mark",
+      "tier": "archive",
+      "status": "retired",
+      "since": "brand-v0.3.0",
+      "path": "catalog/archive/warden-threshold.md",
+      "owners": [
+        "design"
+      ],
+      "consumers": [],
+      "supersedes": [],
+      "superseded_by": [],
+      "decisions": [
+        "pxo:ddr/0004"
+      ],
+      "sources": [
+        "catalog/studies/warden-identity/README.md",
+        "docs/brand-family.md"
+      ],
+      "ip": "original"
+    },
+    {
       "id": "pxo:study/warden-identity",
       "title": "Warden identity study",
       "tier": "study",
