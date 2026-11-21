@@ -5,7 +5,9 @@
   "type": "module",
   "scripts": {
     "build": "pnpm -r build",
-    "test": "pnpm -r test"
+    "test": "pnpm -r test && pnpm test:catalog",
+    "catalog:index": "node tools/catalog/build-index.mjs",
+    "test:catalog": "node tools/catalog/build-index.mjs --check && node --test tools/catalog/test/catalog.test.mjs"
   },
   "packageManager": "pnpm@9.12.0"
 }

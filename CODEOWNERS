@@ -1,0 +1,28 @@
+# Code owners for pixeloven/design.
+#
+# The studio — PixelOven's art pipeline — is code owner for the sections it
+# authors: the 3D standard and its art direction (DDR-0012,
+# decisions/0012-studio-code-ownership.md). It lands changes there on its own
+# PR path, with an independent reviewer. A change that loosens a check needs a
+# second reviewer and is shown to the operator for approval; CODEOWNERS cannot
+# express that rule, so process.md states it.
+#
+# Every other path keeps the repository's normal owners, so there is no
+# catch-all `*` rule here.
+#
+# ------------------------------------------------------------------------
+# PLACEHOLDER — the studio's GitHub identity (a user or a pixeloven/<team>)
+# is not yet known. The rules below stay commented out until it is, because
+# an owner that does not resolve is reported as an error and owns nothing.
+# Replace STUDIO_GITHUB_OWNER and uncomment.
+# ------------------------------------------------------------------------
+#
+# The 3D standard.
+# /catalog/scene/                          STUDIO_GITHUB_OWNER
+#
+# Studio-authored art direction under catalog/art/. CODEOWNERS is path-based,
+# so add one line per studio-authored entry as it lands, and list `studio` in
+# that entry's `owners` frontmatter. Entries the design repo authors under
+# catalog/art/ are not listed here.
+# /catalog/art/<slug>.md                   STUDIO_GITHUB_OWNER
+# /catalog/art/<slug>/                     STUDIO_GITHUB_OWNER

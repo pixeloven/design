@@ -5,7 +5,7 @@ on:
     branches: [main]
     paths:
       - "apps/docs/**"
-      - "docs/studies/warden-identity/**"
+      - "catalog/studies/warden-identity/**"
       - "packages/tokens/**"
       - "packages/brand/**"
       - "packages/ui/**"

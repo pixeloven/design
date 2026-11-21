@@ -70,7 +70,7 @@ review; the accepted model is implemented in Warden's merged product slices.
 
 The operator selected **Waymark — the angular W**. Brand 0.3.0 publication was
 verified from the registry before Warden pinned it. The
-[identity study](studies/warden-identity/README.md) preserves the selection and
+[identity study](../catalog/studies/warden-identity/README.md) preserves the selection and
 unselected alternatives. The bounded consumer pass built on Warden's merged MVP
 (`4be0b867`), using Lattice `839794d9` as its package-integration reference.
 It preserved the accepted issues, workflows, navigation and draft storage.
