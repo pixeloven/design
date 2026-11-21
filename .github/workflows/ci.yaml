@@ -37,6 +37,26 @@ jobs:
       # pass while checking nothing. Reproducibility comes from building from
       # tokens.json in this job rather than trusting a committed artifact.
 
+  catalog:
+    name: catalog — index matches entries, ids resolve
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      # catalog/index.json is generated from entry and decision frontmatter but
+      # committed, so it can be read without running anything. That makes a
+      # stale or hand-edited index possible; this fails on both, and on any id
+      # that disagrees with its path or a superseded_by that resolves to
+      # nothing. No dependencies: the tooling is plain Node.
+      - name: Index is current
+        run: node tools/catalog/build-index.mjs --check
+
+      - name: Parity and resolution
+        run: node --test tools/catalog/test/catalog.test.mjs
+
   brand:
     name: brand — marks match the palette
     runs-on: ubuntu-latest

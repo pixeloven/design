@@ -1,6 +1,11 @@
 # PixelOven Design
 
 One source of truth for the brand: tokens, components, brand assets, docs.
+It is the single home of record for PixelOven's design knowledge — packages for
+what is enforced in code, and a [catalogue](catalog/README.md) of stable `pxo:`
+ids for patterns, accessibility, voice, art and 3D direction, studies and retired
+languages, with [decision records](decisions/README.md) and one
+[design process](process.md) for every project.
 
 ## Why this exists
 
@@ -50,6 +55,11 @@ packages/
   ui/         Native React controls with typed APIs and shared states
 apps/
   docs/       Storybook reference and interactive product specimens
+catalog/      every non-code entry, one Markdown file per pxo: id; index.json is generated
+decisions/    design decision records, DDR-0001 onward
+process.md    the cross-project design process
+skills/       design-system-usage, brand-assets, design-process, contributing
+tools/        catalogue index generator and its parity tests
 ```
 
 ## Installing the skills
@@ -87,6 +97,8 @@ See the `design-system-usage` skill for the vocabulary and the rules.
 pnpm install
 pnpm build          # tokens.json -> dist/
 pnpm test           # the invariants below
+pnpm catalog:index  # regenerate catalog/index.json after changing an entry or DDR
+pnpm test:catalog   # catalogue parity and id resolution
 ```
 
 The token tests are the point of the package, not scaffolding, and **every one

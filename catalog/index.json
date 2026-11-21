@@ -1,0 +1,239 @@
+{
+  "$comment": "Generated from catalogue and decision frontmatter by tools/catalog/build-index.mjs. Do not edit by hand; run `pnpm catalog:index`.",
+  "entries": [
+    {
+      "id": "pxo:study/warden-identity",
+      "title": "Warden identity study",
+      "tier": "study",
+      "status": "study",
+      "since": "brand-v0.3.0",
+      "path": "catalog/studies/warden-identity/README.md",
+      "owners": [
+        "design"
+      ],
+      "consumers": [
+        "warden"
+      ],
+      "supersedes": [],
+      "superseded_by": [],
+      "decisions": [
+        "pxo:ddr/0004"
+      ],
+      "sources": [
+        "docs/brand-family.md",
+        "packages/brand/README.md"
+      ],
+      "outcome": "Waymark selected on 2026-10-25 and published in brand 0.3.0; Threshold and Branch not selected."
+    }
+  ],
+  "decisions": [
+    {
+      "id": "pxo:ddr/0001",
+      "title": "PixelOven is the parent; Lattice and Warden are products",
+      "status": "accepted",
+      "date": "2026-09-29",
+      "path": "decisions/0001-pixeloven-parent-family.md",
+      "supersedes": [],
+      "superseded_by": [],
+      "affects": [
+        "packages/brand"
+      ],
+      "sources": [
+        "docs/brand-foundations-plan.md#approved-brand-foundations",
+        "docs/brand-family.md#established-decisions"
+      ]
+    },
+    {
+      "id": "pxo:ddr/0002",
+      "title": "Cool/Warm themes, Acid/Violet accents and appearance are independent choices",
+      "status": "accepted",
+      "date": "2026-09-29",
+      "path": "decisions/0002-themes-accents-appearance-independent.md",
+      "supersedes": [],
+      "superseded_by": [],
+      "affects": [
+        "packages/tokens"
+      ],
+      "sources": [
+        "docs/brand-foundations-plan.md#approved-brand-foundations",
+        "docs/brand-family.md#established-decisions"
+      ]
+    },
+    {
+      "id": "pxo:ddr/0003",
+      "title": "Solid is the primary identity form; Inset is its companion",
+      "status": "accepted",
+      "date": "2026-09-29",
+      "path": "decisions/0003-solid-primary-inset-companion.md",
+      "supersedes": [],
+      "superseded_by": [],
+      "affects": [
+        "packages/brand"
+      ],
+      "sources": [
+        "docs/brand-foundations-plan.md#approved-brand-foundations",
+        "docs/brand-family.md#established-decisions"
+      ]
+    },
+    {
+      "id": "pxo:ddr/0004",
+      "title": "Warden's identity is Waymark",
+      "status": "accepted",
+      "date": "2026-10-25",
+      "path": "decisions/0004-warden-waymark.md",
+      "supersedes": [],
+      "superseded_by": [],
+      "affects": [
+        "packages/brand",
+        "pxo:study/warden-identity"
+      ],
+      "sources": [
+        "docs/brand-family.md#established-decisions",
+        "catalog/studies/warden-identity/README.md"
+      ]
+    },
+    {
+      "id": "pxo:ddr/0005",
+      "title": "Plex Sans for task text, Plex Mono for identifiers and data",
+      "status": "accepted",
+      "date": "2026-10-23",
+      "path": "decisions/0005-plex-type-roles.md",
+      "supersedes": [],
+      "superseded_by": [],
+      "affects": [
+        "packages/tokens"
+      ],
+      "sources": [
+        "docs/brand-family.md#established-decisions"
+      ]
+    },
+    {
+      "id": "pxo:ddr/0006",
+      "title": "Primitive scales come from tokens; products differ by figure, language and composition",
+      "status": "accepted",
+      "date": "2026-10-23",
+      "path": "decisions/0006-primitives-from-tokens.md",
+      "supersedes": [],
+      "superseded_by": [],
+      "affects": [
+        "packages/tokens"
+      ],
+      "sources": [
+        "docs/brand-family.md#established-decisions"
+      ]
+    },
+    {
+      "id": "pxo:ddr/0007",
+      "title": "Status colours keep their meaning under any accent",
+      "status": "accepted",
+      "date": "2026-09-29",
+      "path": "decisions/0007-status-meaning-independent-of-accent.md",
+      "supersedes": [],
+      "superseded_by": [],
+      "affects": [
+        "packages/tokens"
+      ],
+      "sources": [
+        "docs/brand-foundations-plan.md#acceptance",
+        "docs/brand-family.md#established-decisions"
+      ]
+    },
+    {
+      "id": "pxo:ddr/0008",
+      "title": "Shared controls are published only on shared evidence",
+      "status": "accepted",
+      "date": "2026-10-23",
+      "path": "decisions/0008-shared-controls-on-evidence.md",
+      "supersedes": [],
+      "superseded_by": [],
+      "affects": [
+        "packages/ui"
+      ],
+      "sources": [
+        "docs/brand-family.md#shared-implementation-boundary",
+        "docs/brand-foundations-plan.md#shared-controls-acceptance"
+      ]
+    },
+    {
+      "id": "pxo:ddr/0009",
+      "title": "pixeloven/design is the single home of record for design knowledge",
+      "status": "accepted",
+      "date": "2026-11-21",
+      "path": "decisions/0009-single-home-of-record.md",
+      "supersedes": [],
+      "superseded_by": [],
+      "affects": [
+        "catalog/README.md",
+        "process.md"
+      ],
+      "sources": [
+        "Operator decision, 2026-11-21, on the design-system-as-source-of-truth proposal"
+      ]
+    },
+    {
+      "id": "pxo:ddr/0010",
+      "title": "The repository stays public under a loose licence",
+      "status": "accepted",
+      "date": "2026-11-21",
+      "path": "decisions/0010-public-loose-licence.md",
+      "supersedes": [],
+      "superseded_by": [],
+      "affects": [
+        "catalog/README.md"
+      ],
+      "sources": [
+        "Operator decision, 2026-11-21, on the design-system-as-source-of-truth proposal",
+        "LICENSE"
+      ]
+    },
+    {
+      "id": "pxo:ddr/0011",
+      "title": "Knowledge is promoted into the system on evidence",
+      "status": "accepted",
+      "date": "2026-11-21",
+      "path": "decisions/0011-promote-on-evidence.md",
+      "supersedes": [],
+      "superseded_by": [],
+      "affects": [
+        "catalog/README.md",
+        "process.md"
+      ],
+      "sources": [
+        "Operator decision, 2026-11-21, on who owns art bibles (design-system proposal call 3, option a)"
+      ]
+    },
+    {
+      "id": "pxo:ddr/0012",
+      "title": "The studio is code owner for the 3D standard and its art direction",
+      "status": "accepted",
+      "date": "2026-11-21",
+      "path": "decisions/0012-studio-code-ownership.md",
+      "supersedes": [],
+      "superseded_by": [],
+      "affects": [
+        "CODEOWNERS"
+      ],
+      "sources": [
+        "Operator decision, 2026-11-21, on who writes the studio's sections (studio boundary call 2)",
+        "CODEOWNERS"
+      ]
+    },
+    {
+      "id": "pxo:ddr/0013",
+      "title": "Decisions cite the system by pxo id and DDR",
+      "status": "proposed",
+      "date": "2026-11-21",
+      "path": "decisions/0013-decisions-cite-the-system-by-id.md",
+      "supersedes": [],
+      "superseded_by": [],
+      "affects": [
+        "catalog/README.md",
+        "decisions/README.md",
+        "process.md"
+      ],
+      "sources": [
+        "Design-system proposal, call 4, recommended option (a); awaiting a decision"
+      ]
+    }
+  ]
+}

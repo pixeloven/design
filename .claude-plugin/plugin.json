@@ -1,7 +1,7 @@
 {
   "name": "design",
   "description": "The PixelOven design system \u2014 brand assets and how to apply the tokens, typography and components in a consuming project.",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "author": {
     "name": "PixelOven"
   },

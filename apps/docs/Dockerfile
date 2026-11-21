@@ -33,7 +33,7 @@ RUN pnpm install --frozen-lockfile --ignore-scripts
 
 COPY packages ./packages
 COPY apps/docs ./apps/docs
-COPY docs/studies/warden-identity ./docs/studies/warden-identity
+COPY catalog/studies/warden-identity ./catalog/studies/warden-identity
 
 # Packages produce ignored assets that the documentation imports.
 RUN node packages/tokens/src/build.mjs \
