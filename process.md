@@ -82,18 +82,9 @@ and Codify); the `contributing` skill covers changing this repository.
   whoever authors it.
 - Every other path keeps the repository's normal owners.
 
-## Principles (seed, provisional)
-
-> **Placeholder.** This section will hold the seed of the process's principles
-> layer: the qualified tests moved out of the PixelOven design thesis
-> (2026-11-21), which is a working document not yet in this repository. Until
-> the seed lands, the thesis is the reference; nothing here is a rule yet.
-
 ## Provisional, awaiting decision
 
 These parts are drafted on the recommended option and may change:
-
-- **Principles.** The section above is a placeholder for the principles seed.
 
 - **Citing the system.** Product decisions cite `pxo:` ids and the catalogue
   version; decisions that change the system are DDRs

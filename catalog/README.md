@@ -165,7 +165,9 @@ The tests assert that the index and the files agree in both directions, that
 every id matches its path and is unique, that every `superseded_by` and cited
 decision resolves, and that decisions are numbered without gaps. Each check is
 also run against a deliberately broken catalogue, so it is known to fail on the
-mistake it exists for.
+mistake it exists for. The checks never compare against history: renaming an id
+or deleting the highest-numbered decision passes them, so never doing either is
+a rule, not a check.
 
 ## What does not belong here
 

@@ -54,10 +54,16 @@ test("every index row is a file that carries that id", () => {
   }
 });
 
-test("every superseded_by resolves to an indexed id", () => {
+test("every superseded_by resolves to an indexed id or a token", () => {
   const ids = new Set([...committed.entries, ...committed.decisions].map((e) => e.id));
+  const isToken = (ref) => {
+    const [group, name] = ref.startsWith("pxo:token/") ? ref.slice("pxo:token/".length).split(".") : [];
+    return Boolean(group && name && tokens?.[group]?.[name] !== undefined);
+  };
   for (const row of [...committed.entries, ...committed.decisions]) {
-    for (const ref of row.superseded_by) assert.ok(ids.has(ref), `${row.id}: superseded_by ${ref} does not resolve`);
+    for (const ref of row.superseded_by) {
+      assert.ok(ids.has(ref) || isToken(ref), `${row.id}: superseded_by ${ref} does not resolve`);
+    }
   }
 });
 

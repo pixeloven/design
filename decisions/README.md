@@ -21,8 +21,9 @@ they follow.
 - **Status:** `proposed` (drafted, awaiting a decision), `accepted`, or
   `superseded` (which must name `superseded_by`).
 - **Never delete or rewrite a decision.** Change one by writing a new DDR that
-  `supersedes` it, then mark the old one `superseded`. The numbering test
-  fails on a gap.
+  `supersedes` it, then mark the old one `superseded`. This is a rule, not a
+  check: the numbering test fails on a gap, but deleting the highest-numbered
+  record leaves none.
 - **Quote the decider.** When the operator made the call, the record carries
   their words exactly and the date they said them.
 - **Backfilled records add nothing.** DDR-0001 to DDR-0008 restate decisions

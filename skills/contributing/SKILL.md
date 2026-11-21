@@ -1,6 +1,6 @@
 ---
 name: contributing
-description: "How to change pixeloven/design itself: which tier a change belongs in, how to add or retire a catalogue entry or decision record, regenerating catalog/index.json, the package and plugin version rules, and which checks must fail before they are trusted. Load before editing anything in pixeloven/design. Landmine: catalog/index.json is generated — editing it by hand, renaming an id, or deleting a decision fails CI, and should."
+description: "How to change pixeloven/design itself: which tier a change belongs in, how to add or retire a catalogue entry or decision record, regenerating catalog/index.json, the package and plugin version rules, and which checks must fail before they are trusted. Load before editing anything in pixeloven/design. Landmine: catalog/index.json is generated — a hand edit, an id that disagrees with its path, a duplicate id, a gap in decision numbering, or a reference that does not resolve fails CI. Renaming an id or deleting a decision is not caught by any check; never do either."
 ---
 
 # Contributing to pixeloven/design
@@ -43,7 +43,8 @@ an approval or a second consumer, not a draft. A pattern becomes a component in
 
 - Move along `proposed → study → adopted → deprecated → retired`, and update
   `since` to the tag or version at which it changed.
-- **Never rename or reuse an id.** Others cite it.
+- **Never rename or reuse an id.** Others cite it. No check catches a rename
+  whose old id nothing in this repository cites, so this is a rule to follow.
 - Superseding: set `superseded_by` (it must resolve) and status `deprecated`
   while a consumer still pins it.
 - Retiring: move the file to `catalog/archive/<folder>/<slug>.md`, set tier
@@ -94,6 +95,8 @@ an approval or a second consumer, not a draft. A pattern becomes a component in
   `pxo:ddr/` id resolves; tiers and statuses are on the line and consistent
   with the folder; decisions are numbered without gaps; unknown frontmatter
   fields are rejected.
+- Not checked: the checks never compare against history, so renaming an id or
+  deleting the highest-numbered decision passes. Those are rules, not checks.
 
 **A check that has never failed is not a check.** When adding one, make it fail
 against the real mistake it guards before trusting it; the catalogue tests do
