@@ -7,6 +7,10 @@ ids for patterns, accessibility, voice, art and 3D direction, studies and retire
 languages, with [decision records](decisions/README.md) and one
 [design process](process.md) for every project.
 
+**Mission.** We give every PixelOven project one design language and the tools
+to use it, so everything we make is accessible to everyone. The core values
+are in the [design process](process.md#mission-and-core-values).
+
 ## Why this exists
 
 The palette used to live in two independently maintained copies —

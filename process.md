@@ -9,6 +9,41 @@ decisions, product logs and delivery tasks — and adds only one place of record
 The `design-process` skill carries the parts every worker needs (Ask, Decide
 and Codify); the `contributing` skill covers changing this repository.
 
+## Mission and core values
+
+Decided by the operator on 2026-11-21
+([DDR-0015](decisions/0015-mission-and-core-values.md)).
+
+**Mission.** We give every PixelOven project one design language and the tools
+to use it, so everything we make is accessible to everyone.
+
+**Core values.**
+
+1. **Make it ours.** Original worlds, original work.
+2. **Clear for everyone.** If someone can't take it in, it isn't done.
+3. **Build for real use.** Made for something we need, not a someday.
+4. **Write it down once.** One source of truth, reused everywhere.
+5. **Give back.** Our design language and tools are open.
+6. **Agent first.** Built so agents can find it, use it and check it.
+
+## Principles (seed, provisional)
+
+The layer under the values: granular, testable principles. Nothing here is
+adopted yet. These five tests were taken out of the design thesis on
+2026-11-21 as the seed of this layer; each is a question to ask of a design
+decision, with the value it serves and where it already shows.
+
+| Test | The question | Value | Already written in |
+| --- | --- | --- | --- |
+| **Earned by use** | Which real use needs this now? Share it when a second one does. | Build for real use | [DDR-0008](decisions/0008-shared-controls-on-evidence.md), [DDR-0011](decisions/0011-promote-on-evidence.md) |
+| **Reads as intended** | Can the people it is for take in what matters, by eye, by keyboard or by screen reader? | Clear for everyone | The accessibility standard, whose reach is still open ([DDR-0016](decisions/0016-accessibility-standard-reach.md)) |
+| **Written once** | Is this value, rule or decision already written somewhere? Then link to it. | Write it down once | [DDR-0009](decisions/0009-single-home-of-record.md); the [README](README.md#why-this-exists)'s two drifted palettes |
+| **Checked, tried or judged** | Is this a rule (it gets a check), a question about the audience (it gets a trial with a person, or is marked untested), or taste (the operator's eye)? | — | The [README](README.md#working-here)'s "a check that has never failed is not a check"; [checklist](catalog/a11y/checklist.md) line 32 |
+| **Ours** | Is it original, with its references as links and a reason, never copies? | Make it ours | [DDR-0010](decisions/0010-public-loose-licence.md); the catalogue's [What does not belong here](catalog/README.md#what-does-not-belong-here) |
+
+"Give back" and "Agent first" have no test yet. A principle written from this
+seed shows its source and says one thing; adopting one is a DDR.
+
 ## Who's who
 
 | Role | Who |
@@ -91,6 +126,13 @@ These parts are drafted on the recommended option and may change:
   ([DDR-0013](decisions/0013-decisions-cite-the-system-by-id.md), `proposed`).
 - **Catalogue tags.** `catalog-YYYY.MM` is part of that proposal; no automation
   creates these tags yet.
+- **Accessibility reach.** The AA and keyboard floor for every product, and the
+  full settings for products with motion or a live scene
+  ([DDR-0016](decisions/0016-accessibility-standard-reach.md), `proposed`).
+- **One work-status meaning.** One set of states with fixed colour, shape and
+  word across products; persona themes change only the words
+  ([DDR-0017](decisions/0017-one-work-status-meaning.md), `proposed`).
+- **Principles.** The seed above is not adopted.
 - **The published reference.** The repository's Markdown is the reference:
   GitHub renders it and agents read it with no deployment. Where Storybook is
   published is not yet decided.

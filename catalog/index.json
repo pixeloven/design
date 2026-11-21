@@ -2,6 +2,75 @@
   "$comment": "Generated from catalogue and decision frontmatter by tools/catalog/build-index.mjs. Do not edit by hand; run `pnpm catalog:index`.",
   "entries": [
     {
+      "id": "pxo:a11y/behaviours",
+      "title": "Accessibility behaviours",
+      "tier": "pattern",
+      "status": "adopted",
+      "since": "catalog-2026.11",
+      "path": "catalog/a11y/behaviours.md",
+      "owners": [
+        "design"
+      ],
+      "consumers": [
+        "bridge"
+      ],
+      "supersedes": [],
+      "superseded_by": [],
+      "decisions": [
+        "pxo:ddr/0016",
+        "pxo:ddr/0007"
+      ],
+      "sources": [
+        "Bridge accessibility brief, 2026-11-21, sections 1.3 and 3, with its advisor answers (section 8)"
+      ]
+    },
+    {
+      "id": "pxo:a11y/checklist",
+      "title": "Accessibility acceptance checklist",
+      "tier": "pattern",
+      "status": "adopted",
+      "since": "catalog-2026.11",
+      "path": "catalog/a11y/checklist.md",
+      "owners": [
+        "design"
+      ],
+      "consumers": [
+        "bridge"
+      ],
+      "supersedes": [],
+      "superseded_by": [],
+      "decisions": [
+        "pxo:ddr/0016"
+      ],
+      "sources": [
+        "Bridge accessibility brief, 2026-11-21, sections 3.5 and 4, with its advisor answers (section 8)",
+        "Bridge candidates 3 and 5, reviewed against this checklist in two rounds each"
+      ]
+    },
+    {
+      "id": "pxo:a11y/settings",
+      "title": "Accessibility settings",
+      "tier": "pattern",
+      "status": "adopted",
+      "since": "catalog-2026.11",
+      "path": "catalog/a11y/settings.md",
+      "owners": [
+        "design"
+      ],
+      "consumers": [
+        "bridge"
+      ],
+      "supersedes": [],
+      "superseded_by": [],
+      "decisions": [
+        "pxo:ddr/0016"
+      ],
+      "sources": [
+        "Bridge accessibility brief, 2026-11-21, sections 1 and 2, with its advisor answers (section 8)",
+        "Bridge candidates 3 (readable-first) and 5 (keyboard and command-first), which each built all ten settings"
+      ]
+    },
+    {
       "id": "pxo:archive/parent-orange-identity",
       "title": "Parent orange identity",
       "tier": "archive",
@@ -156,6 +225,99 @@
         "docs/brand-family.md"
       ],
       "ip": "original"
+    },
+    {
+      "id": "pxo:pattern/command-bar",
+      "title": "Command bar",
+      "tier": "pattern",
+      "status": "adopted",
+      "since": "catalog-2026.11",
+      "path": "catalog/patterns/command-bar.md",
+      "owners": [
+        "design"
+      ],
+      "consumers": [
+        "bridge"
+      ],
+      "supersedes": [],
+      "superseded_by": [],
+      "decisions": [
+        "Bridge plan decision log, rows 126 and 127 (2026-11-21)"
+      ],
+      "sources": [
+        "Bridge candidate 5 (keyboard and command-first), 2026-11-21",
+        "Bridge accessibility brief, 2026-11-21, advisor answers to candidate 5"
+      ]
+    },
+    {
+      "id": "pxo:pattern/confirm-with-effects",
+      "title": "Confirm with effects",
+      "tier": "pattern",
+      "status": "adopted",
+      "since": "catalog-2026.11",
+      "path": "catalog/patterns/confirm-with-effects.md",
+      "owners": [
+        "design"
+      ],
+      "consumers": [
+        "bridge"
+      ],
+      "supersedes": [],
+      "superseded_by": [],
+      "decisions": [
+        "Bridge plan decision log, rows 126 and 127 (2026-11-21)"
+      ],
+      "sources": [
+        "Bridge candidate 5 (keyboard and command-first), 2026-11-21"
+      ]
+    },
+    {
+      "id": "pxo:pattern/panel-over-scene",
+      "title": "Panels over a live scene",
+      "tier": "study",
+      "status": "study",
+      "since": "catalog-2026.11",
+      "path": "catalog/patterns/panel-over-scene.md",
+      "owners": [
+        "design"
+      ],
+      "consumers": [
+        "bridge"
+      ],
+      "supersedes": [],
+      "superseded_by": [],
+      "decisions": [],
+      "sources": [
+        "Bridge candidate 3 (readable-first), 2026-11-21",
+        "https://claude.ai/artifact/NyTUh2y24K5MZb1GcoKSnJ"
+      ],
+      "outcome": "Open. Bridge's panel layout decision (D6) is being re-framed; candidate 3's reading column is the study on record, and the separation rules it meets are adopted in pxo:a11y/behaviours."
+    },
+    {
+      "id": "pxo:pattern/work-status",
+      "title": "Work status",
+      "tier": "pattern",
+      "status": "adopted",
+      "since": "catalog-2026.11",
+      "path": "catalog/patterns/work-status.md",
+      "owners": [
+        "design"
+      ],
+      "consumers": [
+        "bridge"
+      ],
+      "supersedes": [],
+      "superseded_by": [],
+      "decisions": [
+        "pxo:ddr/0017",
+        "pxo:ddr/0007",
+        "Bridge plan decision log, rows 122 to 125 (2026-11-21)"
+      ],
+      "sources": [
+        "Bridge candidate 5 (keyboard and command-first), the Won't do lane and snooze, 2026-11-21",
+        "Bridge plan decision log, rows 122 to 125",
+        "Design-system proposal, 2026-11-21, section 6 item 3 and call 6"
+      ]
     },
     {
       "id": "pxo:study/warden-identity",
@@ -405,6 +567,55 @@
       "sources": [
         "Bridge plan, Decision log, row 122 (2026-11-21)",
         "Bridge plan, Decision log, row 125 (2026-11-21)"
+      ]
+    },
+    {
+      "id": "pxo:ddr/0015",
+      "title": "The design system's mission and core values",
+      "status": "accepted",
+      "date": "2026-11-21",
+      "path": "decisions/0015-mission-and-core-values.md",
+      "supersedes": [],
+      "superseded_by": [],
+      "affects": [
+        "process.md",
+        "README.md"
+      ],
+      "sources": [
+        "Operator decision, 2026-11-21, on the PixelOven design thesis, call 2 (mission option B with the operator's own edit; core values set 1)"
+      ]
+    },
+    {
+      "id": "pxo:ddr/0016",
+      "title": "The accessibility floor applies to every product, the full settings to motion and live scenes",
+      "status": "proposed",
+      "date": "2026-11-21",
+      "path": "decisions/0016-accessibility-standard-reach.md",
+      "supersedes": [],
+      "superseded_by": [],
+      "affects": [
+        "pxo:a11y/settings",
+        "pxo:a11y/behaviours",
+        "pxo:a11y/checklist"
+      ],
+      "sources": [
+        "Design-system proposal, call 5, recommended option (a); awaiting a decision"
+      ]
+    },
+    {
+      "id": "pxo:ddr/0017",
+      "title": "One work-status meaning across products, with fixed colour, shape and word",
+      "status": "proposed",
+      "date": "2026-11-21",
+      "path": "decisions/0017-one-work-status-meaning.md",
+      "supersedes": [],
+      "superseded_by": [],
+      "affects": [
+        "pxo:pattern/work-status",
+        "pxo:ddr/0007"
+      ],
+      "sources": [
+        "Design-system proposal, call 6, recommended option (a); awaiting a decision"
       ]
     }
   ]
