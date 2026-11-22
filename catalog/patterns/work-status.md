@@ -35,7 +35,9 @@ shown and said.
 > **Decided.** For Bridge (its decision-log rows 122 to 125, 2026-11-21): Won't
 > do replaces Cancelled and Dropped, with a required reason, who decided and
 > when, and it can be reopened; Not now is a snooze date on a Queued item, not a
-> status. A coordinator may mark Won't do, and a goal's open items follow it.
+> status. A goal's coordinator may mark an item Won't do, shown in "Since you
+> left" so it can be reopened; a dropped goal becomes Won't do and its open
+> items follow it. Won't do items are kept as a filterable decision log.
 > **Not decided:** the colour, shape and word for each state in the table below,
 > drafted from Bridge's candidate 5. That is why this entry is proposed.
 
