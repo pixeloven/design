@@ -133,6 +133,3 @@ These parts are drafted on the recommended option and may change:
   word across products; persona themes change only the words
   ([DDR-0017](decisions/0017-one-work-status-meaning.md), `proposed`).
 - **Principles.** The seed above is not adopted.
-- **The published reference.** The repository's Markdown is the reference:
-  GitHub renders it and agents read it with no deployment. Where Storybook is
-  published is not yet decided.

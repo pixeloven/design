@@ -58,7 +58,7 @@ packages/
   brand/      marks, and the rules that keep them one family
   ui/         Native React controls with typed APIs and shared states
 apps/
-  docs/       Storybook reference and interactive product specimens
+  docs/       rendered Storybook companion and interactive product specimens
 catalog/      every non-code entry, one Markdown file per pxo: id; index.json is generated
 decisions/    design decision records, DDR-0001 onward
 process.md    the cross-project design process
@@ -163,10 +163,9 @@ Consumers use explicit package pins and opt into themes and mark variants.
 The [brand-family guide](docs/brand-family.md) records the established visual and
 interaction direction. The [closeout plan](docs/brand-review-closeout.md) and
 [Warden design brief](docs/warden-design-brief.md) record delivery and its limits.
-Documentation publication and Harmony's Storybook refresh remain. The
-published reference is now the GitHub Pages Storybook at
-<https://pixeloven.github.io/design/>; `design.lab.pixeloven.com` is not the
-publication target.
+Documentation publication and Harmony's Storybook refresh remain. Storybook's
+publication target is GitHub Pages (see [Documentation](#documentation));
+`design.lab.pixeloven.com` is not the publication target.
 Storybook's **Studies / Warden** presents the selected Waymark, unselected
 historical alternatives and a synthetic workspace. These studies do not change
 deployed products.
