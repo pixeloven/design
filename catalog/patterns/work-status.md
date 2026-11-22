@@ -2,7 +2,7 @@
 id: pxo:pattern/work-status
 title: Work status
 tier: pattern
-status: adopted
+status: proposed
 since: catalog-2026.11
 owners: [design]
 consumers: [bridge]
@@ -29,14 +29,15 @@ shown and said.
 > (operator pages, Bridge and the token status roles), with persona themes
 > changing only the words, is an open decision drafted on its recommended
 > option ([DDR-0017](../../decisions/0017-one-work-status-meaning.md),
-> `proposed`). It is adopted for Bridge now. If the decision goes the other way,
+> `proposed`). This entry is proposed too. If the decision goes the other way,
 > each product keeps its own set and this entry becomes Bridge's.
 
-> **What is decided.** For Bridge, the states and their meanings are decided:
-> Won't do with its reason, who and when, reopening, snooze in place of Not
-> now, and goals following the same rules (Bridge plan rows 122 to 125). The
-> particular colour, shape and word for each state in the table below are
-> drafted from Bridge's candidate 5 and have not been decided on their own.
+> **Decided.** For Bridge (its decision-log rows 122 to 125, 2026-11-21): Won't
+> do replaces Cancelled and Dropped, with a required reason, who decided and
+> when, and it can be reopened; Not now is a snooze date on a Queued item, not a
+> status. A coordinator may mark Won't do, and a goal's open items follow it.
+> **Not decided:** the colour, shape and word for each state in the table below,
+> drafted from Bridge's candidate 5. That is why this entry is proposed.
 
 ## Rules
 

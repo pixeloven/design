@@ -297,7 +297,7 @@
       "id": "pxo:pattern/work-status",
       "title": "Work status",
       "tier": "pattern",
-      "status": "adopted",
+      "status": "proposed",
       "since": "catalog-2026.11",
       "path": "catalog/patterns/work-status.md",
       "owners": [

@@ -14,7 +14,7 @@ affects:
 
 **Status:** proposed — **provisional, awaiting a decision.**
 [`pxo:pattern/work-status`](../catalog/patterns/work-status.md) is drafted on
-this option and adopted for Bridge now; if the decision goes another way, this
+this option and is itself proposed; if the decision goes another way, this
 record is superseded and the entry becomes Bridge's alone.
 
 ## Context
