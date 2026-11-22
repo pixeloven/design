@@ -22,10 +22,8 @@ test is [`pxo:a11y/checklist`](checklist.md).
 > Bridge's MVP is an open decision. This entry is drafted from Bridge's
 > candidates 3 and 5 and waits on that decision before it can be adopted.
 
-> **Provisional: reach.** Under the recommended option of an open decision
-> on how far the standard reaches (design-system proposal call 5)
-> ([DDR-0016](../../decisions/0016-accessibility-standard-reach.md), `proposed`),
-> every product meets WCAG 2.2 AA and the behaviours below where they apply. The
+> **Reach.** Under [DDR-0016](../../decisions/0016-accessibility-standard-reach.md)
+> (`accepted`), every product meets WCAG 2.2 AA and the behaviours below where they apply. The
 > [live scene profile](#live-scene-profile) applies only to a product with a
 > live scene.
 

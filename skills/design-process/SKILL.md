@@ -43,9 +43,8 @@ Ids look like `pxo:<area>/<slug>` (`pxo:study/warden-identity`) or
   a retirement), it also becomes a DDR in `pixeloven/design/decisions/`, and the
   product log row cites `pxo:ddr/NNNN`. One record, one owner.
 
-> **Provisional.** The citation scheme above (`pxo:` ids plus DDRs) is drafted
-> on the recommended option and awaits a decision —
-> [DDR-0013](../../decisions/0013-decisions-cite-the-system-by-id.md) is `proposed`.
+The citation scheme above (`pxo:` ids plus DDRs) is
+[DDR-0013](../../decisions/0013-decisions-cite-the-system-by-id.md), `accepted`.
 
 ## 3. Codify: land it in pixeloven/design
 

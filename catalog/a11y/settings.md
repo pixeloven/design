@@ -26,12 +26,10 @@ acceptance test is [`pxo:a11y/checklist`](checklist.md).
 > Bridge's MVP is an open decision. This entry is drafted from Bridge's
 > candidates 3 and 5 and waits on that decision before it can be adopted.
 
-> **Provisional: reach.** Which products must ship these settings is an open
-> decision (design-system proposal call 5), drafted here on its recommended option
-> ([DDR-0016](../../decisions/0016-accessibility-standard-reach.md), `proposed`).
-> If it is decided otherwise, the table below changes; the settings do not.
+> **Reach.** Which products must ship these settings is set by
+> [DDR-0016](../../decisions/0016-accessibility-standard-reach.md) (`accepted`).
 
-## Who ships what (provisional)
+## Who ships what
 
 | A product with… | Must | Recommended |
 | --- | --- | --- |

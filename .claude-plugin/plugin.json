@@ -1,7 +1,7 @@
 {
   "name": "design",
   "description": "The PixelOven design system \u2014 brand assets, how to apply the tokens, typography and components in a consuming project, the cross-project design process, and how to contribute to the design catalogue.",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "author": {
     "name": "PixelOven"
   },

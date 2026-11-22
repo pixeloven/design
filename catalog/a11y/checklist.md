@@ -23,10 +23,9 @@ were not tested.
 > Bridge's MVP is an open decision. This entry is drafted from Bridge's
 > candidates 3 and 5 and waits on that decision before it can be adopted.
 
-> **Provisional: reach.** Which lines a product must pass follows an open
-> decision on how far the standard reaches (design-system proposal call 5,
-> [DDR-0016](../../decisions/0016-accessibility-standard-reach.md),
-> `proposed`). Under its recommended option, every product passes the keyboard,
+> **Reach.** Which lines a product must pass follows
+> [DDR-0016](../../decisions/0016-accessibility-standard-reach.md) (`accepted`):
+> every product passes the keyboard,
 > semantics and honesty lines, lines 28 and 29 without their **(scene)** parts,
 > and the AA floor; a product with motion or a live scene passes them all. Lines
 > marked **(scene)** apply only to a live scene. B8 (lists do not jump) has no

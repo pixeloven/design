@@ -25,12 +25,10 @@ where it stands: a chip, a row, a board lane, a mark in a scene. The data model
 behind the states stays with each product; this entry holds how a state is
 shown and said.
 
-> **Provisional: shared meaning.** One meaning set shared by every product
-> (operator pages, Bridge and the token status roles), with persona themes
-> changing only the words, is an open decision drafted on its recommended
-> option ([DDR-0017](../../decisions/0017-one-work-status-meaning.md),
-> `proposed`). This entry is proposed too. If the decision goes the other way,
-> each product keeps its own set and this entry becomes Bridge's.
+> **Shared meaning.** One meaning set shared by every product (operator pages,
+> Bridge and the token status roles), with persona themes changing only the
+> words, is set by [DDR-0017](../../decisions/0017-one-work-status-meaning.md)
+> (`accepted`).
 
 > **Decided.** For Bridge (its decision-log rows 122 to 125, 2026-11-21): Won't
 > do replaces Cancelled and Dropped, with a required reason, who decided and
@@ -63,7 +61,7 @@ shown and said.
   Violet is for links, selection and focus, never for a state.
 - **Only the word may vary.** A persona theme may rename a state ("Waiting on
   you" for Needs you); it never changes the colour, the shape or what the state
-  means (provisional, DDR-0017).
+  means ([DDR-0017](../../decisions/0017-one-work-status-meaning.md)).
 - **Chips** use the status colour as text or mark on its matching
   `statusSurface` ground (`pxo:token/statusSurface.warning`,
   `pxo:token/statusSurface.success`, `pxo:token/statusSurface.danger`), or a
