@@ -163,9 +163,10 @@ Consumers use explicit package pins and opt into themes and mark variants.
 The [brand-family guide](docs/brand-family.md) records the established visual and
 interaction direction. The [closeout plan](docs/brand-review-closeout.md) and
 [Warden design brief](docs/warden-design-brief.md) record delivery and its limits.
-Documentation publication and Harmony's Storybook refresh remain. Homepage
-already links to `https://design.lab.pixeloven.com`; its destination needs the
-current documentation image and rendered-story verification.
+Documentation publication and Harmony's Storybook refresh remain. The
+published reference is now the GitHub Pages Storybook at
+<https://pixeloven.github.io/design/>; `design.lab.pixeloven.com` is not the
+publication target.
 Storybook's **Studies / Warden** presents the selected Waymark, unselected
 historical alternatives and a synthetic workspace. These studies do not change
 deployed products.
