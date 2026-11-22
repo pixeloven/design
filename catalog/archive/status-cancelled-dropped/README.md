@@ -6,6 +6,7 @@ status: retired
 since: catalog-2026.11
 owners: [design]
 decisions:
+  - pxo:ddr/0014
   - "Bridge plan decision log, row 122 (2026-11-21)"
   - "Bridge plan decision log, row 125 (2026-11-21)"
 sources:
@@ -45,7 +46,8 @@ operator's words on row 122, 2026-11-21:
 > it, you lose visibility.
 
 Row 125 then put goals under the same rule as items, to give Bridge one status
-model for both.
+model for both. Both rows are recorded as
+[DDR-0014](../../../decisions/0014-retire-status-words-cancelled-dropped.md).
 
 ## What replaced it
 

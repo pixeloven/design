@@ -10,7 +10,11 @@
     "In each near-miss pair the second value is the one that is now in tokens.json",
     "(lattice's ramp won the reconciliation). The harmony/lattice labels follow from",
     "that and from commit b27bdc2; the Original proposal lists each pair without",
-    "naming the side."
+    "naming the side.",
+    "",
+    "`pairedValueToken` names the token that carries the paired Lattice value today.",
+    "It is not the role the Harmony value had: two Harmony values pair with the",
+    "same Lattice value, and defects.rampInversion records their Harmony roles."
   ],
   "measured": "2026-09-02",
   "sources": [
@@ -28,21 +32,21 @@
   "toReconcile": 27,
   "agreedValues": ["#7c3cff", "#00f0d8", "#b7a2ff", "#ffb000", "#ff4f7b", "#f7f4ff", "#aaa4bd", "#817a99"],
   "nearMissPairs": [
-    { "harmony": "#101527", "lattice": "#111526", "deltaRGB": 1.4, "nowToken": "surface.base" },
-    { "harmony": "#141d33", "lattice": "#151b32", "deltaRGB": 2.4, "nowToken": "surface.hover" },
-    { "harmony": "#080d18", "lattice": "#090b15", "deltaRGB": 3.7, "nowToken": "surface.canvas" },
-    { "harmony": "#0c1122", "lattice": "#0d101e", "deltaRGB": 4.2, "nowToken": "surface.bg" },
-    { "harmony": "#1c2440", "lattice": "#1a213d", "deltaRGB": 4.7, "nowToken": "surface.raised" },
-    { "harmony": "#050710", "lattice": "#04060a", "deltaRGB": 6.2, "nowToken": "surface.void" },
-    { "harmony": "#1b2543", "lattice": "#1a213d", "deltaRGB": 7.3, "nowToken": "surface.raised" },
-    { "harmony": "#2c3760", "lattice": "#263158", "deltaRGB": 11.7, "nowToken": "border.base" },
-    { "harmony": "#3d4a78", "lattice": "#384983", "deltaRGB": 12.1, "nowToken": "border.accent" }
+    { "harmony": "#101527", "lattice": "#111526", "deltaRGB": 1.4, "pairedValueToken": "surface.base" },
+    { "harmony": "#141d33", "lattice": "#151b32", "deltaRGB": 2.4, "pairedValueToken": "surface.hover" },
+    { "harmony": "#080d18", "lattice": "#090b15", "deltaRGB": 3.7, "pairedValueToken": "surface.canvas" },
+    { "harmony": "#0c1122", "lattice": "#0d101e", "deltaRGB": 4.2, "pairedValueToken": "surface.bg" },
+    { "harmony": "#1c2440", "lattice": "#1a213d", "deltaRGB": 4.7, "pairedValueToken": "surface.raised" },
+    { "harmony": "#050710", "lattice": "#04060a", "deltaRGB": 6.2, "pairedValueToken": "surface.void" },
+    { "harmony": "#1b2543", "lattice": "#1a213d", "deltaRGB": 7.3, "pairedValueToken": "surface.raised" },
+    { "harmony": "#2c3760", "lattice": "#263158", "deltaRGB": 11.7, "pairedValueToken": "border.base" },
+    { "harmony": "#3d4a78", "lattice": "#384983", "deltaRGB": 12.1, "pairedValueToken": "border.accent" }
   ],
   "defects": {
     "rampInversion": {
       "copy": "harmony",
-      "border-muted": { "relativeLuminance": 0.01879 },
-      "surface-hover": { "relativeLuminance": 0.01961 },
+      "border-muted": { "value": "#1c2440", "relativeLuminance": 0.01879 },
+      "surface-hover": { "value": "#1b2543", "relativeLuminance": 0.01961 },
       "why": "a stronger border was darker than the surface it bordered"
     },
     "dim": {

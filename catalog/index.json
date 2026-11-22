@@ -85,6 +85,7 @@
       "supersedes": [],
       "superseded_by": [],
       "decisions": [
+        "pxo:ddr/0014",
         "Bridge plan decision log, row 122 (2026-11-21)",
         "Bridge plan decision log, row 125 (2026-11-21)"
       ],
@@ -388,6 +389,22 @@
       ],
       "sources": [
         "Design-system proposal, call 4, recommended option (a); awaiting a decision"
+      ]
+    },
+    {
+      "id": "pxo:ddr/0014",
+      "title": "Won't do replaces the status words Cancelled and Dropped",
+      "status": "accepted",
+      "date": "2026-11-21",
+      "path": "decisions/0014-retire-status-words-cancelled-dropped.md",
+      "supersedes": [],
+      "superseded_by": [],
+      "affects": [
+        "pxo:archive/status-cancelled-dropped"
+      ],
+      "sources": [
+        "Bridge plan, Decision log, row 122 (2026-11-21)",
+        "Bridge plan, Decision log, row 125 (2026-11-21)"
       ]
     }
   ]

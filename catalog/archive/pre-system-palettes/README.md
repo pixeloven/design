@@ -73,8 +73,10 @@ palette, not these copies. It is deprecated but still live, so it is not archive
 ## Specimen
 
 [`specimen.json`](specimen.json) freezes the 2026-09-02 measurement: the counts,
-the eight agreed values, the nine near-miss pairs with the token each became,
-and the two defects.
+the eight agreed values, the nine near-miss pairs with the token that carries
+each pair's Lattice value today, and the two defects. Harmony's `border-muted`
+(`#1c2440`) and `surface-hover` (`#1b2543`) both pair with Lattice's `#1a213d`,
+so that token is not the role either Harmony value had.
 
 ## Not verified
 
