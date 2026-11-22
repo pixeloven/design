@@ -39,10 +39,20 @@ Each entry sits in exactly one tier, and the tier says how binding it is.
 | `archive` | `catalog/archive/` | Retired design languages, e.g. `pxo:archive/pi-web-dark` |
 | `ddr` | `decisions/` | Design decision records, e.g. `pxo:ddr/0007` |
 
-A folder exists once it has an entry. Today the catalogue holds one study,
-[`pxo:study/warden-identity`](studies/warden-identity/README.md), and seven
-entries in [`archive/`](archive/), listed in [`index.json`](index.json); the
-decision records are in [`decisions/`](../decisions/README.md).
+A folder exists once it has an entry. Today the catalogue holds:
+
+- the accessibility standard, `proposed`: [`pxo:a11y/settings`](a11y/settings.md),
+  [`pxo:a11y/behaviours`](a11y/behaviours.md) and
+  [`pxo:a11y/checklist`](a11y/checklist.md);
+- the patterns [`pxo:pattern/work-status`](patterns/work-status.md),
+  [`pxo:pattern/command-bar`](patterns/command-bar.md) and
+  [`pxo:pattern/confirm-with-effects`](patterns/confirm-with-effects.md), `proposed`, and
+  [`pxo:pattern/panel-over-scene`](patterns/panel-over-scene.md), a `study`;
+- the study [`pxo:study/warden-identity`](studies/warden-identity/README.md);
+- seven retired entries in [`archive/`](archive/).
+
+The decision records are in [`decisions/`](../decisions/README.md).
+[`index.json`](index.json) is the full list.
 
 `catalog/scene/` and studio-authored entries under `catalog/art/` are owned by
 the studio ([DDR-0012](../decisions/0012-studio-code-ownership.md), [`CODEOWNERS`](../CODEOWNERS)).
