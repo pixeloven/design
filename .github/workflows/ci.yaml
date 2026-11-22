@@ -17,6 +17,8 @@ jobs:
       - uses: actions/setup-node@v5.0.0
         with:
           node-version: "22"
+          # No pnpm in this job; v5 would otherwise auto-enable a pnpm cache from packageManager.
+          package-manager-cache: false
 
       - name: Build
         working-directory: packages/tokens
@@ -45,6 +47,8 @@ jobs:
       - uses: actions/setup-node@v5.0.0
         with:
           node-version: "22"
+          # No pnpm in this job; v5 would otherwise auto-enable a pnpm cache from packageManager.
+          package-manager-cache: false
 
       # catalog/index.json is generated from entry and decision frontmatter but
       # committed, so it can be read without running anything. That makes a
