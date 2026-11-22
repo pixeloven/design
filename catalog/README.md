@@ -41,13 +41,13 @@ Each entry sits in exactly one tier, and the tier says how binding it is.
 
 A folder exists once it has an entry. Today the catalogue holds:
 
-- the accessibility standard, [`pxo:a11y/settings`](a11y/settings.md),
+- the accessibility standard, `proposed`: [`pxo:a11y/settings`](a11y/settings.md),
   [`pxo:a11y/behaviours`](a11y/behaviours.md) and
   [`pxo:a11y/checklist`](a11y/checklist.md);
-- the patterns [`pxo:pattern/work-status`](patterns/work-status.md),
-  [`pxo:pattern/command-bar`](patterns/command-bar.md) and
-  [`pxo:pattern/confirm-with-effects`](patterns/confirm-with-effects.md), with
-  [`pxo:pattern/panel-over-scene`](patterns/panel-over-scene.md) still a study;
+- the pattern [`pxo:pattern/work-status`](patterns/work-status.md), `adopted` for Bridge;
+- the patterns [`pxo:pattern/command-bar`](patterns/command-bar.md) and
+  [`pxo:pattern/confirm-with-effects`](patterns/confirm-with-effects.md), `proposed`, and
+  [`pxo:pattern/panel-over-scene`](patterns/panel-over-scene.md), a `study`;
 - the study [`pxo:study/warden-identity`](studies/warden-identity/README.md);
 - seven retired entries in [`archive/`](archive/).
 

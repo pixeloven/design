@@ -2,7 +2,7 @@
 id: pxo:a11y/checklist
 title: Accessibility acceptance checklist
 tier: pattern
-status: adopted
+status: proposed
 since: catalog-2026.11
 owners: [design]
 consumers: [bridge]
@@ -19,8 +19,13 @@ The acceptance test for [`pxo:a11y/settings`](settings.md) and
 test kit that runs them. A review reports every line, including the ones that
 were not tested.
 
+> **Proposed: not adopted.** Which of Bridge's candidate pieces go into
+> Bridge's MVP is an open decision. This entry is drafted from Bridge's
+> candidates 3 and 5 and waits on that decision before it can be adopted.
+
 > **Provisional: reach.** Which lines a product must pass follows an open
-> decision ([DDR-0016](../../decisions/0016-accessibility-standard-reach.md),
+> decision on how far the standard reaches (design-system proposal call 5,
+> [DDR-0016](../../decisions/0016-accessibility-standard-reach.md),
 > `proposed`). Under its recommended option, every product passes the keyboard,
 > semantics and honesty lines, lines 28 and 29 without their **(scene)** parts,
 > and the AA floor; a product with motion or a live scene passes them all. Lines

@@ -2,7 +2,7 @@
 id: pxo:pattern/confirm-with-effects
 title: Confirm with effects
 tier: pattern
-status: adopted
+status: proposed
 since: catalog-2026.11
 owners: [design]
 consumers: [bridge]
@@ -19,6 +19,10 @@ happen, and the person confirms it with a button named for the action. Use it
 for anything that sends, that changes someone else's work, that queues, or that
 cannot be undone — from the [command bar](command-bar.md) or from any button.
 Navigation and settings do not need it.
+
+> **Proposed: not adopted.** Which of Bridge's candidate pieces go into
+> Bridge's MVP is an open decision. This entry is drafted from Bridge's
+> candidate 5 and waits on that decision before it can be adopted.
 
 ## Rules
 

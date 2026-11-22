@@ -2,7 +2,7 @@
 id: pxo:a11y/behaviours
 title: Accessibility behaviours
 tier: pattern
-status: adopted
+status: proposed
 since: catalog-2026.11
 owners: [design]
 consumers: [bridge]
@@ -18,7 +18,12 @@ settings, and the contrast, type, motion and keyboard rules they rest on. The
 settings people choose are [`pxo:a11y/settings`](settings.md); the acceptance
 test is [`pxo:a11y/checklist`](checklist.md).
 
+> **Proposed: not adopted.** Which of Bridge's candidate pieces go into
+> Bridge's MVP is an open decision. This entry is drafted from Bridge's
+> candidates 3 and 5 and waits on that decision before it can be adopted.
+
 > **Provisional: reach.** Under the recommended option of an open decision
+> on how far the standard reaches (design-system proposal call 5)
 > ([DDR-0016](../../decisions/0016-accessibility-standard-reach.md), `proposed`),
 > every product meets WCAG 2.2 AA and the behaviours below where they apply. The
 > [live scene profile](#live-scene-profile) applies only to a product with a

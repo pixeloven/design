@@ -5,7 +5,7 @@
       "id": "pxo:a11y/behaviours",
       "title": "Accessibility behaviours",
       "tier": "pattern",
-      "status": "adopted",
+      "status": "proposed",
       "since": "catalog-2026.11",
       "path": "catalog/a11y/behaviours.md",
       "owners": [
@@ -28,7 +28,7 @@
       "id": "pxo:a11y/checklist",
       "title": "Accessibility acceptance checklist",
       "tier": "pattern",
-      "status": "adopted",
+      "status": "proposed",
       "since": "catalog-2026.11",
       "path": "catalog/a11y/checklist.md",
       "owners": [
@@ -51,7 +51,7 @@
       "id": "pxo:a11y/settings",
       "title": "Accessibility settings",
       "tier": "pattern",
-      "status": "adopted",
+      "status": "proposed",
       "since": "catalog-2026.11",
       "path": "catalog/a11y/settings.md",
       "owners": [
@@ -230,7 +230,7 @@
       "id": "pxo:pattern/command-bar",
       "title": "Command bar",
       "tier": "pattern",
-      "status": "adopted",
+      "status": "proposed",
       "since": "catalog-2026.11",
       "path": "catalog/patterns/command-bar.md",
       "owners": [
@@ -253,7 +253,7 @@
       "id": "pxo:pattern/confirm-with-effects",
       "title": "Confirm with effects",
       "tier": "pattern",
-      "status": "adopted",
+      "status": "proposed",
       "since": "catalog-2026.11",
       "path": "catalog/patterns/confirm-with-effects.md",
       "owners": [
@@ -291,7 +291,7 @@
         "Bridge candidate 3 (readable-first), 2026-11-21",
         "Bridge candidate 3's write-up and review, 2026-11-21"
       ],
-      "outcome": "Open. Bridge's panel layout decision (D6) is being re-framed; candidate 3's reading column is the study on record, and the separation rules it meets are adopted in pxo:a11y/behaviours."
+      "outcome": "Open. Bridge's panel layout decision (D6) is being re-framed; candidate 3's reading column is the study on record, and the separation rules it meets are drafted, as proposed, in pxo:a11y/behaviours."
     },
     {
       "id": "pxo:pattern/work-status",

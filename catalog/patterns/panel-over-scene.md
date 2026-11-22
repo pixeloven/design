@@ -9,7 +9,7 @@ consumers: [bridge]
 sources:
   - "Bridge candidate 3 (readable-first), 2026-11-21"
   - "Bridge candidate 3's write-up and review, 2026-11-21"
-outcome: "Open. Bridge's panel layout decision (D6) is being re-framed; candidate 3's reading column is the study on record, and the separation rules it meets are adopted in pxo:a11y/behaviours."
+outcome: "Open. Bridge's panel layout decision (D6) is being re-framed; candidate 3's reading column is the study on record, and the separation rules it meets are drafted, as proposed, in pxo:a11y/behaviours."
 ---
 
 # Panels over a live scene
@@ -17,8 +17,8 @@ outcome: "Open. Bridge's panel layout decision (D6) is being re-framed; candidat
 **Study · not adopted.** How work panels sit over a live scene, so that reading
 and deciding come first while the scene stays in view. The layout is not
 decided: Bridge's panel layout decision (D6) is being re-framed, and this entry
-is informative until it is answered. The rules that hold whichever layout wins
-are already adopted, in the live scene profile of
+is informative until it is answered. The rules that would hold whichever layout wins
+are drafted, still proposed, in the live scene profile of
 [`pxo:a11y/behaviours`](../a11y/behaviours.md#live-scene-profile): text never on
 the scene, opaque surfaces by default, a two-tone keyline on every edge that
 meets the scene, and a scene that yields while you read.

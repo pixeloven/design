@@ -2,7 +2,7 @@
 id: pxo:pattern/command-bar
 title: Command bar
 tier: pattern
-status: adopted
+status: proposed
 since: catalog-2026.11
 owners: [design]
 consumers: [bridge]
@@ -19,6 +19,12 @@ One place to type what you want done. Every action in the product is a
 command, so the whole product can be driven from the keyboard, by voice or with
 one switch, and the visible chrome can stay small. Use it in any product with
 more actions than its chrome can show at once.
+
+> **Proposed: not adopted.** Which of Bridge's candidate pieces go into
+> Bridge's MVP is an open decision. This entry is drafted from Bridge's
+> candidate 5 and waits on that decision before it can be adopted.
+> Bridge's own decisions on the coordinator row (its plan rows 126 and 127)
+> are made; whether this pattern is adopted is not.
 
 ## Rules
 

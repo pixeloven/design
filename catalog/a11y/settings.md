@@ -2,7 +2,7 @@
 id: pxo:a11y/settings
 title: Accessibility settings
 tier: pattern
-status: adopted
+status: proposed
 since: catalog-2026.11
 owners: [design]
 consumers: [bridge]
@@ -22,8 +22,12 @@ another product. The behaviours that are always on, and the contrast, type,
 motion and keyboard rules, are [`pxo:a11y/behaviours`](behaviours.md). The
 acceptance test is [`pxo:a11y/checklist`](checklist.md).
 
+> **Proposed: not adopted.** Which of Bridge's candidate pieces go into
+> Bridge's MVP is an open decision. This entry is drafted from Bridge's
+> candidates 3 and 5 and waits on that decision before it can be adopted.
+
 > **Provisional: reach.** Which products must ship these settings is an open
-> decision, drafted here on its recommended option
+> decision (design-system proposal call 5), drafted here on its recommended option
 > ([DDR-0016](../../decisions/0016-accessibility-standard-reach.md), `proposed`).
 > If it is decided otherwise, the table below changes; the settings do not.
 

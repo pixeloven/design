@@ -32,6 +32,12 @@ shown and said.
 > `proposed`). It is adopted for Bridge now. If the decision goes the other way,
 > each product keeps its own set and this entry becomes Bridge's.
 
+> **What is decided.** For Bridge, the states and their meanings are decided:
+> Won't do with its reason, who and when, reopening, snooze in place of Not
+> now, and goals following the same rules (Bridge plan rows 122 to 125). The
+> particular colour, shape and word for each state in the table below are
+> drafted from Bridge's candidate 5 and have not been decided on their own.
+
 ## Rules
 
 ### The states
