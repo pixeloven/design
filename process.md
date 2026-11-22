@@ -123,6 +123,3 @@ seed shows its source and says one thing; adopting one is a DDR.
 These parts are drafted on the recommended option and may change:
 
 - **Principles.** The seed above is not adopted.
-- **The published reference.** The repository's Markdown is the reference:
-  GitHub renders it and agents read it with no deployment. Where Storybook is
-  published is not yet decided.

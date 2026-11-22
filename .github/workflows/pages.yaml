@@ -1,0 +1,84 @@
+name: pages
+
+# Publishes the Storybook in apps/docs to GitHub Pages, at
+# https://pixeloven.github.io/design/. The repository's Markdown stays the
+# reference; this is its rendered companion.
+#
+# Requires the repository's Pages source to be set to "GitHub Actions". This
+# workflow never enables Pages itself (configure-pages runs without
+# `enablement`), so until that setting is made a run fails at "Configure Pages"
+# rather than publishing anywhere.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# One deployment at a time. An in-progress deployment is allowed to finish
+# rather than being cancelled halfway; a newer push queues behind it.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: build and verify rendered stories
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4.4.0
+      # No `version:` — the root package.json's packageManager declares pnpm.
+      - uses: pnpm/action-setup@v4.4.0
+      - uses: actions/setup-node@v4.4.0
+        with:
+          node-version: "22"
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Build package assets
+        run: pnpm --filter @pixeloven/tokens --filter @pixeloven/brand --filter @pixeloven/ui build
+
+      - id: pages
+        name: Configure Pages
+        uses: actions/configure-pages@v6.0.0
+
+      # Storybook writes relative asset paths, so the same output serves from
+      # the site root locally and from the /design/ project path on Pages.
+      - name: Build Storybook
+        working-directory: apps/docs
+        run: pnpm exec storybook build -o storybook-static
+
+      # A successful build, or an HTTP 200, does not prove a component rendered.
+      # This serves the output under the path Pages reported and fails on any
+      # console or page error, failed request, or empty story root — before
+      # anything is uploaded.
+      - name: Install headless Chromium
+        working-directory: apps/docs
+        run: pnpm exec playwright install --with-deps --only-shell chromium
+
+      - name: Verify rendered stories
+        working-directory: apps/docs
+        env:
+          STORYBOOK_BASE_PATH: ${{ steps.pages.outputs.base_path }}/
+        run: pnpm verify:rendered
+
+      - uses: actions/upload-pages-artifact@v5.0.0
+        with:
+          path: apps/docs/storybook-static
+
+  deploy:
+    name: deploy
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v5.0.1

@@ -8,6 +8,7 @@
     "dev": "storybook dev -p 6006",
     "build": "storybook build -o storybook-static && node review/build.mjs",
     "build:review": "node review/build.mjs",
+    "verify:rendered": "node scripts/verify-rendered.mjs storybook-static",
     "test": "node --test",
     "typecheck": "tsc -p tsconfig.foundations.json"
   },
@@ -18,6 +19,7 @@
     "@storybook/react-vite": "^10.4.6",
     "@types/react": "19.2.18",
     "@types/react-dom": "19.2.3",
+    "playwright": "1.65.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "storybook": "^10.4.6",
