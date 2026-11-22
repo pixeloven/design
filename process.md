@@ -90,7 +90,8 @@ seed shows its source and says one thing; adopting one is a DDR.
 6. **Release.**
    - A package change bumps the version in its `package.json`; CI tags and
      publishes it. Nothing is tagged by hand.
-   - A catalogue change is tagged `catalog-YYYY.MM` (provisional, see below).
+   - A catalogue change is tagged `catalog-YYYY.MM`; no automation creates
+     these tags yet ([DDR-0013](decisions/0013-decisions-cite-the-system-by-id.md)).
 7. **Adopt.** Each consumer pins the release in its own PR and cites the ids it
    follows in its `DESIGN.md`. No consumer floats to latest.
 8. **Retire.** A superseded entry becomes `deprecated`, and moves to
@@ -121,11 +122,6 @@ seed shows its source and says one thing; adopting one is a DDR.
 
 These parts are drafted on the recommended option and may change:
 
-- **Citing the system.** Product decisions cite `pxo:` ids and the catalogue
-  version; decisions that change the system are DDRs
-  ([DDR-0013](decisions/0013-decisions-cite-the-system-by-id.md), `proposed`).
-- **Catalogue tags.** `catalog-YYYY.MM` is part of that proposal; no automation
-  creates these tags yet.
 - **Accessibility reach.** The AA and keyboard floor for every product, and the
   full settings for products with motion or a live scene
   ([DDR-0016](decisions/0016-accessibility-standard-reach.md), `proposed`).

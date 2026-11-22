@@ -1,10 +1,10 @@
 ---
 id: pxo:ddr/0013
 title: Decisions cite the system by pxo id and DDR
-status: proposed
+status: accepted
 date: 2026-11-21
 sources:
-  - "Design-system proposal, call 4, recommended option (a); awaiting a decision"
+  - "Operator decision, 2026-11-22, design-system call 4 (verbatim pick: 'Adopt DDR-0013 (Recommended)')"
 affects:
   - catalog/README.md
   - decisions/README.md
@@ -13,9 +13,7 @@ affects:
 
 # DDR-0013: Decisions cite the system by `pxo:` id and DDR
 
-**Status:** proposed — **provisional, awaiting a decision.** The catalogue
-skeleton is drafted on this option so that it can be used now; if the decision
-goes another way, this record is superseded and the citation rules change with it.
+**Status:** accepted · **Date:** 2026-11-22
 
 ## Context
 
@@ -24,7 +22,7 @@ document). Nothing in those logs can point at a design-system entry by a stable
 name, and nothing here records a decision that a product made which changed
 the system.
 
-## Decision (proposed)
+## Decision
 
 - Every catalogue entry has a stable id, `pxo:<area>/<slug>`, and every design
   decision record has `pxo:ddr/NNNN`.
@@ -35,7 +33,7 @@ the system.
   carrying the operator's words, and the product log row links that DDR. One
   record, one owner; the product log stays the narrative.
 
-## Alternatives not taken in this draft
+## Alternatives not taken
 
 - Product decision logs only, with the system linking back to log rows.
 - GitHub issues in this repository as the records.
@@ -45,8 +43,10 @@ the system.
 - `catalog/index.json` lists decisions beside entries, and the parity test checks
   that every cited `pxo:ddr/` id resolves.
 - Catalogue tags `catalog-YYYY.MM` name a catalogue version. They are part of this
-  proposal and are not yet created by automation.
+  decision and are not yet created by automation.
 
 ## Sources
 
+- Operator decision of 2026-11-22 on design-system call 4, verbatim pick:
+  'Adopt DDR-0013 (Recommended)'.
 - The design-system proposal of 2026-11-21, call 4, recommended option (a).

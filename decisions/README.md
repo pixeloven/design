@@ -6,10 +6,9 @@ a retirement, or a rule about how the system itself works. Product decisions
 that only *use* the system stay in that product's own log and cite the entry
 they follow.
 
-> **Provisional.** How decisions cite the system — `pxo:` ids plus DDRs here,
-> with product logs citing `pxo:ddr/NNNN` — is drafted on the recommended
-> option and is still awaiting a decision. See
-> [DDR-0013](0013-decisions-cite-the-system-by-id.md), which is `proposed`.
+How decisions cite the system — `pxo:` ids plus DDRs here, with product logs
+citing `pxo:ddr/NNNN` — is set by
+[DDR-0013](0013-decisions-cite-the-system-by-id.md), `accepted`.
 
 ## Rules
 
@@ -51,7 +50,7 @@ catalogue entries, so a cited `pxo:ddr/` id is checked to resolve.
 | [DDR-0010](0010-public-loose-licence.md) | The repository stays public under a loose licence | accepted |
 | [DDR-0011](0011-promote-on-evidence.md) | Knowledge is promoted into the system on evidence | accepted |
 | [DDR-0012](0012-studio-code-ownership.md) | The studio is code owner for the 3D standard and its art direction | accepted |
-| [DDR-0013](0013-decisions-cite-the-system-by-id.md) | Decisions cite the system by `pxo:` id and DDR | proposed |
+| [DDR-0013](0013-decisions-cite-the-system-by-id.md) | Decisions cite the system by `pxo:` id and DDR | accepted |
 | [DDR-0014](0014-retire-status-words-cancelled-dropped.md) | Won't do replaces the status words Cancelled and Dropped | accepted |
 | [DDR-0015](0015-mission-and-core-values.md) | The design system's mission and core values | accepted |
 | [DDR-0016](0016-accessibility-standard-reach.md) | The accessibility floor applies to every product, the full settings to motion and live scenes | proposed |

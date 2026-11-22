@@ -79,13 +79,12 @@ reused.** A retired entry moves to the archive and keeps its id:
 that was only ever archived, such as a pre-system palette, is
 `catalog/archive/<slug>.md` → `pxo:archive/<slug>`.
 
-> **Provisional.** Citing the system by these ids, with DDRs for decisions that
-> change it, is drafted on the recommended option and awaits a decision
-> ([DDR-0013](../decisions/0013-decisions-cite-the-system-by-id.md), `proposed`).
-> A product decision that follows an entry names the id and the catalogue
-> version, for example "panels follow `pxo:pattern/panel-over-scene` (design
-> `catalog-2026.11`)". Catalogue tags `catalog-YYYY.MM` are part of that
-> proposal and are not yet created by automation.
+Citing the system by these ids, with DDRs for decisions that change it, is
+set by [DDR-0013](../decisions/0013-decisions-cite-the-system-by-id.md)
+(`accepted`). A product decision that follows an entry names the id and the
+catalogue version, for example "panels follow `pxo:pattern/panel-over-scene`
+(design `catalog-2026.11`)". Catalogue tags `catalog-YYYY.MM` are part of that
+decision and are not yet created by automation.
 
 For links a decision depends on, use a GitHub permalink at a tag; for reading,
 the branch link is fine.
