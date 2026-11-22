@@ -23,7 +23,8 @@ for a live application.
 
 ## Operating Context
 
-Storybook is the design-system reference. Portable previews support direct-file
+Storybook is the rendered companion to the repository's Markdown reference
+and is published to GitHub Pages. Portable previews support direct-file
 and trusted-network review when a session link cannot render an HTML file.
 Harmony Homepage should link to the verified current documentation after the
 brand/design closeout; that consumer update is the final phase, not part of
