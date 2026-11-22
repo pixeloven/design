@@ -2,13 +2,14 @@
 id: pxo:ddr/0013
 title: Decisions cite the system by pxo id and DDR
 status: accepted
-date: 2026-11-21
+date: 2026-11-22
 sources:
   - "Operator decision, 2026-11-22, design-system call 4 (verbatim pick: 'Adopt DDR-0013 (Recommended)')"
 affects:
   - catalog/README.md
   - decisions/README.md
   - process.md
+  - skills/design-process/SKILL.md
 ---
 
 # DDR-0013: Decisions cite the system by `pxo:` id and DDR
