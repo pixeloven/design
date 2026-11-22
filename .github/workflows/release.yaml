@@ -35,7 +35,7 @@ jobs:
       matrix: ${{ steps.detect.outputs.matrix }}
       any: ${{ steps.detect.outputs.any }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5.0.0
         with:
           fetch-depth: 2 # need the previous commit to diff versions
 
@@ -97,11 +97,11 @@ jobs:
       matrix:
         package: ${{ fromJson(needs.changed.outputs.matrix) }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5.0.0
 
-      - uses: pnpm/action-setup@v4
+      - uses: pnpm/action-setup@v4.4.0
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5.0.0
         with:
           node-version: "22"
           # Points the npm client at GitHub Packages and wires NODE_AUTH_TOKEN.

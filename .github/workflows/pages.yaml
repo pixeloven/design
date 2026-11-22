@@ -28,10 +28,10 @@ jobs:
     name: build and verify rendered stories
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4.4.0
+      - uses: actions/checkout@v5.0.0
       # No `version:` — the root package.json's packageManager declares pnpm.
       - uses: pnpm/action-setup@v4.4.0
-      - uses: actions/setup-node@v4.4.0
+      - uses: actions/setup-node@v5.0.0
         with:
           node-version: "22"
           cache: pnpm
