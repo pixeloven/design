@@ -23,7 +23,10 @@ in `packages/brand/sources`, published as Warden in brand 0.3.0 and adopted in
 change passed owned-fixture acceptance; customer deployment remains separate.
 
 This directory preserves the original study sources and their dated unapproved
-metadata. Threshold and Branch were not selected. Production consumers use the
+metadata. Threshold and Branch were not selected; they are archived as
+[`pxo:archive/warden-threshold`](../../archive/warden-threshold.md) and
+[`pxo:archive/warden-branch`](../../archive/warden-branch.md), whose specimens
+are the files here. Production consumers use the
 [brand package](../../../packages/brand/README.md), not these historical files.
 
 Warden directs work and preserves human decision points. Each proposal uses

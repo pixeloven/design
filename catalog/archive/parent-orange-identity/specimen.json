@@ -1,0 +1,25 @@
+{
+  "$comment": [
+    "FROZEN SPECIMEN of pxo:archive/parent-orange-identity. Do not use in",
+    "production: the brand tests fail any mark that renders these colours.",
+    "",
+    "Only what the sources record. The role of #127769 was never written down."
+  ],
+  "retired": "2026-09-02",
+  "sources": [
+    "skills/brand-assets/SKILL.md",
+    "commit 46d7d84, feat(brand): the mark registry, with the family rule enforced (2026-09-02)",
+    "commit 7368221, feat(brand): keep the established P emblem as the parent mark (2026-09-02)"
+  ],
+  "colours": {
+    "#ff5722": { "name": "oven orange", "role": "warmth; the parent site and the tile behind its P favicon" },
+    "#127769": { "role": null, "note": "used by the parent site; its role is not recorded" }
+  },
+  "productsAtTheTime": ["#7c3cff", "#00f0d8"],
+  "sharedWithProducts": [],
+  "favicon": {
+    "letter": "P, set as live text with font-family: system-ui",
+    "ground": "an orange tile",
+    "defect": "the letterform depended on the viewer's operating system"
+  }
+}

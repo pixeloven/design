@@ -52,3 +52,4 @@ catalogue entries, so a cited `pxo:ddr/` id is checked to resolve.
 | [DDR-0011](0011-promote-on-evidence.md) | Knowledge is promoted into the system on evidence | accepted |
 | [DDR-0012](0012-studio-code-ownership.md) | The studio is code owner for the 3D standard and its art direction | accepted |
 | [DDR-0013](0013-decisions-cite-the-system-by-id.md) | Decisions cite the system by `pxo:` id and DDR | proposed |
+| [DDR-0014](0014-retire-status-words-cancelled-dropped.md) | Won't do replaces the status words Cancelled and Dropped | accepted |

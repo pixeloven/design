@@ -1,0 +1,63 @@
+{
+  "$comment": [
+    "FROZEN SPECIMEN of pxo:archive/pre-system-palettes. Do not use in production;",
+    "every live colour comes from @pixeloven/tokens.",
+    "",
+    "This is the measurement taken on 2026-09-02, before tokens 0.1.0, not the two",
+    "stylesheets themselves: their full value lists were not kept in this repository.",
+    "Only values recorded in the sources below are listed.",
+    "",
+    "In each near-miss pair the second value is the one that is now in tokens.json",
+    "(lattice's ramp won the reconciliation). The harmony/lattice labels follow from",
+    "that and from commit b27bdc2; the Original proposal lists each pair without",
+    "naming the side.",
+    "",
+    "`pairedValueToken` names the token that carries the paired Lattice value today.",
+    "It is not the role the Harmony value had: two Harmony values pair with the",
+    "same Lattice value, and defects.rampInversion records their Harmony roles."
+  ],
+  "measured": "2026-09-02",
+  "sources": [
+    "README.md#why-this-exists",
+    "packages/tokens/src/tokens.json ($comment)",
+    "commit b27bdc2, feat(tokens): reconcile the palette into one source of truth (2026-09-02)",
+    "Original proposal, \"PixelOven Design System\" (2026-09-02), section 01"
+  ],
+  "copies": {
+    "lattice": { "file": "frontend/app/globals.css", "distinctColours": 26 },
+    "harmony": { "file": "apps/homepage/configs/custom.css", "distinctColours": 17 }
+  },
+  "distinctInUse": 35,
+  "agreed": 8,
+  "toReconcile": 27,
+  "agreedValues": ["#7c3cff", "#00f0d8", "#b7a2ff", "#ffb000", "#ff4f7b", "#f7f4ff", "#aaa4bd", "#817a99"],
+  "nearMissPairs": [
+    { "harmony": "#101527", "lattice": "#111526", "deltaRGB": 1.4, "pairedValueToken": "surface.base" },
+    { "harmony": "#141d33", "lattice": "#151b32", "deltaRGB": 2.4, "pairedValueToken": "surface.hover" },
+    { "harmony": "#080d18", "lattice": "#090b15", "deltaRGB": 3.7, "pairedValueToken": "surface.canvas" },
+    { "harmony": "#0c1122", "lattice": "#0d101e", "deltaRGB": 4.2, "pairedValueToken": "surface.bg" },
+    { "harmony": "#1c2440", "lattice": "#1a213d", "deltaRGB": 4.7, "pairedValueToken": "surface.raised" },
+    { "harmony": "#050710", "lattice": "#04060a", "deltaRGB": 6.2, "pairedValueToken": "surface.void" },
+    { "harmony": "#1b2543", "lattice": "#1a213d", "deltaRGB": 7.3, "pairedValueToken": "surface.raised" },
+    { "harmony": "#2c3760", "lattice": "#263158", "deltaRGB": 11.7, "pairedValueToken": "border.base" },
+    { "harmony": "#3d4a78", "lattice": "#384983", "deltaRGB": 12.1, "pairedValueToken": "border.accent" }
+  ],
+  "defects": {
+    "rampInversion": {
+      "copy": "harmony",
+      "border-muted": { "value": "#1c2440", "relativeLuminance": 0.01879 },
+      "surface-hover": { "value": "#1b2543", "relativeLuminance": 0.01961 },
+      "why": "a stronger border was darker than the surface it bordered"
+    },
+    "dim": {
+      "harmony": { "value": "#817a99", "contrastOnSurface": 4.47, "wcagAABody": "fail by 0.03" },
+      "lattice": { "value": "#9089ab", "contrastOnSurface": 5.48, "wcagAABody": "pass" }
+    },
+    "sharedAccentBorderLuminance": 0.0724
+  },
+  "piWeb": {
+    "role": "upstream fork kept as inspiration, not a consumer",
+    "valuesInUseFoundInPiWeb": 16,
+    "of": 35
+  }
+}
