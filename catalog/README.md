@@ -48,6 +48,10 @@ A folder exists once it has an entry. Today the catalogue holds:
   [`pxo:pattern/command-bar`](patterns/command-bar.md) and
   [`pxo:pattern/confirm-with-effects`](patterns/confirm-with-effects.md), `proposed`, and
   [`pxo:pattern/panel-over-scene`](patterns/panel-over-scene.md), a `study`;
+- the Bridge art target [`pxo:art/bridge-voxel`](art/bridge-voxel/README.md),
+  `adopted`, and the low-poly reference kept beside it,
+  [`pxo:art/bridge-low-poly`](art/bridge-low-poly/README.md), a `study`
+  (neither is an art bible);
 - the study [`pxo:study/warden-identity`](studies/warden-identity/README.md);
 - seven retired entries in [`archive/`](archive/).
 
