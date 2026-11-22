@@ -129,3 +129,14 @@ jobs:
       - name: Build
         working-directory: apps/docs
         run: pnpm build
+
+      # The same check the Pages workflow runs before it uploads: the build
+      # passing does not prove a story rendered. Served under /design/, the
+      # path Pages publishes to.
+      - name: Install headless Chromium
+        working-directory: apps/docs
+        run: pnpm exec playwright install --with-deps --only-shell chromium
+
+      - name: Verify rendered stories
+        working-directory: apps/docs
+        run: pnpm verify:rendered

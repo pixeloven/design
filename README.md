@@ -66,6 +66,31 @@ skills/       design-system-usage, brand-assets, design-process, contributing
 tools/        catalogue index generator and its parity tests
 ```
 
+## Documentation
+
+The Markdown in this repository is the reference: the catalogue, decision
+records, process and package READMEs. Where Storybook and the Markdown
+disagree, the Markdown wins.
+
+Storybook from `apps/docs` is its rendered companion. The palette, marks,
+themes, scales and shared controls are read from the packages themselves, and
+it is published to GitHub Pages from `main` at
+**<https://pixeloven.github.io/design/>** by the
+[`pages` workflow](.github/workflows/pages.yaml).
+
+A successful build or an HTTP 200 does not prove a story rendered. Before each
+upload, and on every pull request, `pnpm --filter @pixeloven/docs verify:rendered`
+opens the built output under `/design/` in headless Chromium. It checks the
+manager, Introduction, Marks, Brand themes, Scales and the shared-controls
+specimen. It fails on any console or page error, failed request, Storybook error
+screen, or story with missing content. To run it locally after a build:
+
+```bash
+pnpm --filter @pixeloven/docs exec playwright install --only-shell chromium
+pnpm build          # packages, then the Storybook in apps/docs
+pnpm --filter @pixeloven/docs verify:rendered
+```
+
 ## Installing the skills
 
 The skills ship as a Claude Code / Codex plugin, from the shared PixelOven
