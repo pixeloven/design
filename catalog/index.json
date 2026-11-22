@@ -227,6 +227,55 @@
       "ip": "original"
     },
     {
+      "id": "pxo:art/bridge-low-poly",
+      "title": "Bridge low-poly reference",
+      "tier": "study",
+      "status": "study",
+      "since": "catalog-2026.11",
+      "path": "catalog/art/bridge-low-poly/README.md",
+      "owners": [
+        "design"
+      ],
+      "consumers": [
+        "bridge"
+      ],
+      "supersedes": [],
+      "superseded_by": [],
+      "decisions": [
+        "pxo:ddr/0018"
+      ],
+      "sources": [
+        "Operator decision, 2026-11-22 (DDR-0018)",
+        "Bridge Style Study, style S2 (low-poly), harbour and Low Vesper scenes, GPT-6.2-Astra renders, 2026-11-21"
+      ],
+      "ip": "original",
+      "outcome": "Kept as a reference on 2026-11-22, not adopted; the Bridge art target is voxel (pxo:art/bridge-voxel)."
+    },
+    {
+      "id": "pxo:art/bridge-voxel",
+      "title": "Bridge art target, voxel (Astra rendition)",
+      "tier": "direction",
+      "status": "adopted",
+      "since": "catalog-2026.11",
+      "path": "catalog/art/bridge-voxel/README.md",
+      "owners": [
+        "design"
+      ],
+      "consumers": [
+        "bridge"
+      ],
+      "supersedes": [],
+      "superseded_by": [],
+      "decisions": [
+        "pxo:ddr/0018"
+      ],
+      "sources": [
+        "Operator decision, 2026-11-22 (DDR-0018)",
+        "Bridge art references, prompts P1 (voxel harbour, clear day) and P4 (Low Vesper, night with rain), GPT-6.2-Astra renders, 2026-11-21"
+      ],
+      "ip": "original"
+    },
+    {
       "id": "pxo:pattern/command-bar",
       "title": "Command bar",
       "tier": "pattern",
@@ -616,6 +665,22 @@
       ],
       "sources": [
         "Design-system proposal, call 6, recommended option (a); awaiting a decision"
+      ]
+    },
+    {
+      "id": "pxo:ddr/0018",
+      "title": "Bridge art target: voxel (Astra rendition)",
+      "status": "accepted",
+      "date": "2026-11-22",
+      "path": "decisions/0018-bridge-art-target-voxel.md",
+      "supersedes": [],
+      "superseded_by": [],
+      "affects": [
+        "pxo:art/bridge-voxel",
+        "pxo:art/bridge-low-poly"
+      ],
+      "sources": [
+        "Operator decision, 2026-11-22, on the Bridge art target, from a side-by-side review of the harbour and Low Vesper scenes in voxel (S1) and low-poly (S2)"
       ]
     }
   ]

@@ -56,3 +56,4 @@ catalogue entries, so a cited `pxo:ddr/` id is checked to resolve.
 | [DDR-0015](0015-mission-and-core-values.md) | The design system's mission and core values | accepted |
 | [DDR-0016](0016-accessibility-standard-reach.md) | The accessibility floor applies to every product, the full settings to motion and live scenes | proposed |
 | [DDR-0017](0017-one-work-status-meaning.md) | One work-status meaning across products, with fixed colour, shape and word | proposed |
+| [DDR-0018](0018-bridge-art-target-voxel.md) | Bridge art target: voxel (Astra rendition); low-poly kept as a reference | accepted |
