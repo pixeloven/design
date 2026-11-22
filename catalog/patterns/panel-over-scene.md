@@ -8,7 +8,7 @@ owners: [design]
 consumers: [bridge]
 sources:
   - "Bridge candidate 3 (readable-first), 2026-11-21"
-  - https://claude.ai/artifact/NyTUh2y24K5MZb1GcoKSnJ
+  - "Bridge candidate 3's write-up and review, 2026-11-21"
 outcome: "Open. Bridge's panel layout decision (D6) is being re-framed; candidate 3's reading column is the study on record, and the separation rules it meets are adopted in pxo:a11y/behaviours."
 ---
 
@@ -77,5 +77,4 @@ contract) and the Options and Pan menus are its parts worth borrowing.
 
 ## Sources
 
-- Bridge candidate 3's write-up, 2026-11-21, and its review page (private):
-  https://claude.ai/artifact/NyTUh2y24K5MZb1GcoKSnJ
+- Bridge candidate 3's write-up and review, 2026-11-21
