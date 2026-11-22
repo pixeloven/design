@@ -1,10 +1,10 @@
 ---
 id: pxo:ddr/0016
 title: The accessibility floor applies to every product, the full settings to motion and live scenes
-status: proposed
-date: 2026-11-21
+status: accepted
+date: 2026-11-22
 sources:
-  - "Design-system proposal, call 5, recommended option (a); awaiting a decision"
+  - "Operator decision, 2026-11-22, design-system call 5 (verbatim pick: 'Adopt DDR-0016 (Recommended)')"
 affects:
   - pxo:a11y/settings
   - pxo:a11y/behaviours
@@ -13,10 +13,7 @@ affects:
 
 # DDR-0016: The accessibility floor applies to every product, the full settings to motion and live scenes
 
-**Status:** proposed — **provisional, awaiting a decision.** The accessibility
-entries are drafted on this option so that they can be used now; if the
-decision goes another way, this record is superseded and their "who ships what"
-sections change with it.
+**Status:** accepted · **Date:** 2026-11-22
 
 ## Context
 
@@ -26,7 +23,7 @@ The accessibility standard ([`pxo:a11y/settings`](../catalog/a11y/settings.md),
 whose live scene moves on its own beside other content. Lattice's 3D graph also
 moves; a static form page does not. The question is how far the standard reaches.
 
-## Decision (proposed)
+## Decision
 
 - **Every product** meets WCAG 2.2 AA and the keyboard floor: behaviours B1–B8
   where they apply.
@@ -34,7 +31,7 @@ moves; a static form page does not. The question is how far the standard reaches
   ten settings, S1–S10, and a live scene adds the live scene profile.
 - **Elsewhere** the settings are recommended, not required.
 
-## Alternatives not taken in this draft
+## Alternatives not taken
 
 - Every product ships all ten settings. This adds cost where it buys little.
 - Bridge only, for now. This keeps the standard out of the system.
@@ -48,4 +45,6 @@ moves; a static form page does not. The question is how far the standard reaches
 
 ## Sources
 
+- Operator decision of 2026-11-22 on design-system call 5, verbatim pick:
+  'Adopt DDR-0016 (Recommended)'.
 - The design-system proposal of 2026-11-21, call 5, recommended option (a).
